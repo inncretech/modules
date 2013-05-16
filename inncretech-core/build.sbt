@@ -1,6 +1,10 @@
+organization := "inncretech"
+
 name := "inncretech-core"
 
 version := "1.0"
+
+crossPaths := false
 
 EclipseKeys.withSource := true
 

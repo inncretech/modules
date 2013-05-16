@@ -1,10 +1,15 @@
+organization := "inncretech"
+
 name := "inncretech-user"
 
 version := "1.0"
 
+crossPaths := false
+
 EclipseKeys.withSource := true
 
 libraryDependencies ++= Seq(
+   "inncretech" % "inncretech-core" % "1.0",
    "org.hibernate" % "hibernate-entitymanager" % "4.2.1.Final",
    "joda-time" % "joda-time" % "2.0",
    "org.jadira.usertype" % "usertype.core" % "3.0.0.CR1",
