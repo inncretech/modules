@@ -1,6 +1,6 @@
 package com.inncretech.core.service;
 
-public interface IdGenerateService {
+public interface IdGenerator {
   
   Long get();
   Integer getShardId(Long id);

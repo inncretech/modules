@@ -1,9 +1,13 @@
-name := "inncretech-core"
+name := "inncretech-user"
 
 version := "1.0"
 
+EclipseKeys.withSource := true
+
 libraryDependencies ++= Seq(
-   "org.hibernate" % "hibernate-entitymanager" % "3.6.9.Final",
+   "org.hibernate" % "hibernate-entitymanager" % "4.2.1.Final",
+   "joda-time" % "joda-time" % "2.0",
+   "org.jadira.usertype" % "usertype.core" % "3.0.0.CR1",
    "mysql" % "mysql-connector-java" % "5.1.18",
    "org.springframework" % "spring-context" % "3.2.0.RELEASE",
    "org.springframework.data"  % "spring-data-jpa" % "1.1.0.RELEASE",

@@ -4,23 +4,28 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 
+import com.inncretech.core.dao.IdEntryDao;
 import com.inncretech.core.model.ShardConfig;
-import com.inncretech.core.service.IdGenerateService;
+import com.inncretech.core.service.IdGenerator;
 
 @Service
-public class IdGenerateServiceImpl implements IdGenerateService{
+public class IdGeneratorImpl implements IdGenerator{
   
   private List<ShardConfig> shardConfigs = new ArrayList<ShardConfig>();
   private Random random = new Random();
   private static final int TIME_BITS = 41;
   private static final int SHARD_BITS = 13;
   
-  public IdGenerateServiceImpl(){
-    shardConfigs.add(new ShardConfig(1L, "", true));
-    shardConfigs.add(new ShardConfig(2L, "", true));
+  @Autowired
+  private IdEntryDao idEntryDao;
+  
+  public IdGeneratorImpl(){
+    shardConfigs.add(new ShardConfig(1, "", true));
+    shardConfigs.add(new ShardConfig(2, "", true));
   }
 
   @Override
@@ -43,9 +48,8 @@ public class IdGenerateServiceImpl implements IdGenerateService{
     return activeShards.get(random.nextInt(activeShards.size()));
   }
   
-  private int nextSequence(ShardConfig config){
-    //Fetch from a specific table(ID_GENERATOR)
-    return 100;
+  private Long nextSequence(ShardConfig config){
+    return idEntryDao.getNextId(config.getId());
   }
 
   @Override
@@ -56,7 +60,7 @@ public class IdGenerateServiceImpl implements IdGenerateService{
   }
   
   public static void main(String[] args){
-    IdGenerateService service = new IdGenerateServiceImpl();
+    IdGenerator service = new IdGeneratorImpl();
     for(int i=0;i<10;i++){
       System.out.println(service.getShardId(service.get()));
     }

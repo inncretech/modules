@@ -2,21 +2,21 @@ package com.inncretech.core.model;
 
 public class ShardConfig {
 
-  private Long id;
+  private Integer id;
   private String jdbcUrl;
   private boolean allowNew;
   
-  public ShardConfig(Long id, String jdbcUrl , boolean allowNew){
+  public ShardConfig(Integer id, String jdbcUrl , boolean allowNew){
     this.id = id;
     this.jdbcUrl = jdbcUrl;
     this.allowNew = allowNew;
   }
 
-  public Long getId() {
+  public Integer getId() {
     return id;
   }
 
-  public void setId(Long id) {
+  public void setId(Integer id) {
     this.id = id;
   }
 
