@@ -1,17 +1,39 @@
 package com.inncretech.core.model;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+
+@Entity
 public class ShardConfig {
 
   private Integer id;
   private String jdbcUrl;
   private boolean allowNew;
+  private Integer shardType;
   
+  public Integer getShardType() {
+    return shardType;
+  }
+
+  public void setShardType(Integer shardType) {
+    this.shardType = shardType;
+  }
+
+  public ShardConfig(){
+    
+  }
   public ShardConfig(Integer id, String jdbcUrl , boolean allowNew){
     this.id = id;
     this.jdbcUrl = jdbcUrl;
     this.allowNew = allowNew;
   }
 
+  @Id
+  @GeneratedValue(strategy = GenerationType.AUTO)
+  @Column
   public Integer getId() {
     return id;
   }
@@ -20,6 +42,7 @@ public class ShardConfig {
     this.id = id;
   }
 
+  @Column
   public String getJdbcUrl() {
     return jdbcUrl;
   }
@@ -28,6 +51,7 @@ public class ShardConfig {
     this.jdbcUrl = jdbcUrl;
   }
 
+  @Column
   public boolean isAllowNew() {
     return allowNew;
   }

@@ -7,15 +7,19 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 @Entity
-public class IdEntry {
+public class IdEntry extends AbstractEntity {
   
-  private Long id;
-  
+private Long id;
+
   @Id
   @GeneratedValue(strategy = GenerationType.AUTO)
   @Column
-  public Long getId(){
+  public Long getId() {
     return id;
+  }
+  
+  public void setId(Long id){
+    this.id = id;
   }
 
 }

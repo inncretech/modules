@@ -2,12 +2,28 @@ package com.inncretech.user.model;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 
 import com.inncretech.core.model.AbstractBaseEntity;
+import com.inncretech.core.model.AbstractEntity;
 
 @Entity
-public class UserLogin extends AbstractBaseEntity {
+public class UserLogin extends AbstractEntity {
 
+  private Long id;
+
+  @Id
+  @Column
+  public Long getId() {
+    return id;
+  }
+  
+  public void setId(Long id){
+    this.id = id;
+  }
+  
   private Long userId;
   private String password;
   private String facebookId;

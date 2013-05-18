@@ -1,26 +1,16 @@
 package com.inncretech.core.model;
 
-import java.io.Serializable;
-
 import javax.persistence.Column;
-import javax.persistence.Id;
+import javax.persistence.Embeddable;
 
 import org.joda.time.DateTime;
 
-public class AbstractBaseEntity implements Serializable{
+@Embeddable
+public class AbstractBaseEntity {
   
-  private Long id;
+  
   private DateTime createdAt;
   private DateTime updatedAt;
-  
-  @Id
-  @Column
-  public Long getId() {
-    return id;
-  }
-  public void setId(Long id) {
-    this.id = id;
-  }
   
   @Column
   public DateTime getCreatedAt() {
