@@ -13,7 +13,7 @@ public class ShardConfig {
   private String jdbcUrl;
   private boolean allowNew;
   private Integer shardType;
-  
+
   public Integer getShardType() {
     return shardType;
   }
@@ -22,10 +22,11 @@ public class ShardConfig {
     this.shardType = shardType;
   }
 
-  public ShardConfig(){
-    
+  public ShardConfig() {
+
   }
-  public ShardConfig(Integer id, String jdbcUrl , boolean allowNew){
+
+  public ShardConfig(Integer id, String jdbcUrl, boolean allowNew) {
     this.id = id;
     this.jdbcUrl = jdbcUrl;
     this.allowNew = allowNew;

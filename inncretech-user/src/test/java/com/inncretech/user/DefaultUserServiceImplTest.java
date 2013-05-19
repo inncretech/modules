@@ -12,12 +12,12 @@ import com.inncretech.user.service.UserService;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "/applicationContext-user.xml" })
 public class DefaultUserServiceImplTest {
-  
+
   @Autowired
   private UserService userService;
-  
+
   @Test
-  public void createUser(){
+  public void createUser() {
     userService.createUser("username", new AccessContext());
   }
 

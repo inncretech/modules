@@ -7,17 +7,17 @@ import com.inncretech.core.model.IdEntry;
 import com.inncretech.core.sharding.ShardAware;
 
 @Component
-public class IdEntryDao extends AbstractShardAwareHibernateDao<IdEntry>{
-  
-  public IdEntryDao(){
+public class IdEntryDao extends AbstractShardAwareHibernateDao<IdEntry> {
+
+  public IdEntryDao() {
     super(IdEntry.class);
   }
-  
-  @ShardAware(shardStrategy="shardid")
-  public Long getNextId(Integer shardId){
+
+  @ShardAware(shardStrategy = "shardid")
+  public Long getNextId(Integer shardId) {
     IdEntry idEntry = new IdEntry();
-    return (Long)getCurrentSessionByShard(shardId).save(idEntry);
-    
+    return (Long) getCurrentSessionByShard(shardId).save(idEntry);
+
   }
 
 }

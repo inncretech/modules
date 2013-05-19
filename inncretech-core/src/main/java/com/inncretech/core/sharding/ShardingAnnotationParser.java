@@ -17,8 +17,7 @@ public class ShardingAnnotationParser implements TransactionAnnotationParser, Se
     ShardAware ann = AnnotationUtils.getAnnotation(ae, ShardAware.class);
     if (ann != null) {
       return parseTransactionAnnotation(ann);
-    }
-    else {
+    } else {
       return null;
     }
   }
@@ -66,4 +65,3 @@ public class ShardingAnnotationParser implements TransactionAnnotationParser, Se
   }
 
 }
-

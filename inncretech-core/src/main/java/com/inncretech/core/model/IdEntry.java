@@ -8,8 +8,8 @@ import javax.persistence.Id;
 
 @Entity
 public class IdEntry extends AbstractEntity {
-  
-private Long id;
+
+  private Long id;
 
   @Id
   @GeneratedValue(strategy = GenerationType.AUTO)
@@ -17,8 +17,8 @@ private Long id;
   public Long getId() {
     return id;
   }
-  
-  public void setId(Long id){
+
+  public void setId(Long id) {
     this.id = id;
   }
 

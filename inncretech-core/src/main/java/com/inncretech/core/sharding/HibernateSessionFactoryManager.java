@@ -15,18 +15,16 @@ import org.springframework.orm.hibernate4.HibernateTransactionManager;
 import org.springframework.orm.hibernate4.LocalSessionFactoryBean;
 import org.springframework.stereotype.Component;
 
-
 import com.inncretech.core.dao.ShardConfigDao;
 import com.mchange.v2.c3p0.ComboPooledDataSource;
 
 @Component
 public class HibernateSessionFactoryManager {
-  
+
   private Map<String, SessionFactory> sessionFactoryMap = new HashMap<String, SessionFactory>();
 
-  private Map<String, HibernateTransactionManager> transactionManagerMap =
-      new HashMap<String, HibernateTransactionManager>();
-  
+  private Map<String, HibernateTransactionManager> transactionManagerMap = new HashMap<String, HibernateTransactionManager>();
+
   @Autowired
   private ShardConfigDao shardConfigDao;
 
@@ -45,14 +43,13 @@ public class HibernateSessionFactoryManager {
       throw new RuntimeException(e);
     }
 
-    
   }
 
   public SessionFactory getSessionFactory(int shardId) {
     String jdbcUrl = shardConfigDao.getJdbcUrlById(shardId);
     return sessionFactoryMap.get(jdbcUrl);
   }
-  
+
   public HibernateTransactionManager getTransactionManager(int shardId) {
     String jdbcUrl = shardConfigDao.getJdbcUrlById(shardId);
     return transactionManagerMap.get(jdbcUrl);
@@ -85,10 +82,9 @@ public class HibernateSessionFactoryManager {
     targetSource.setJdbcUrl(jdbcUrl);
     targetSource.setDriverClass("com.mysql.jdbc.Driver");
     targetSource.setUser("root");
-    targetSource.setPassword("root");
+    targetSource.setPassword("password");
     source.setTargetDataSource(targetSource);
     return source;
   }
-
 
 }

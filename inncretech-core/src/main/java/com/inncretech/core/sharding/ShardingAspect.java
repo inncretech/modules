@@ -23,7 +23,7 @@ public class ShardingAspect extends TransactionAspectSupport {
 
   @Autowired
   private HibernateSessionFactoryManager sessionFactoryService;
-  
+
   @Autowired
   private IdGenerator idGenService;
 
@@ -37,7 +37,7 @@ public class ShardingAspect extends TransactionAspectSupport {
 
   @Around("@annotation(txObject)")
   public Object beforeStartTx(ProceedingJoinPoint jointPoint, ShardAware txObject) {
-    try{
+    try {
       MethodSignature methodSignature = (MethodSignature) jointPoint.getSignature();
       Method method = methodSignature.getMethod();
       TransactionInfo txInfo = createTransactionIfNecessary(method, txObject, jointPoint);
@@ -45,10 +45,10 @@ public class ShardingAspect extends TransactionAspectSupport {
       Object result = jointPoint.proceed();
       commitTransactionAfterReturning(TransactionAspectSupport.currentTransactionInfo());
       return result;
-    }catch(Throwable ex){
+    } catch (Throwable ex) {
       completeTransactionAfterThrowing(TransactionAspectSupport.currentTransactionInfo(), ex);
       throw new RuntimeException(ex);
-    }finally{
+    } finally {
       cleanupTransactionInfo(TransactionAspectSupport.currentTransactionInfo());
     }
   }
@@ -57,11 +57,11 @@ public class ShardingAspect extends TransactionAspectSupport {
     // If the transaction attribute is null, the method is non-transactional.
     TransactionAttribute txAttr = getTransactionAttributeSource().getTransactionAttribute(method, txObject.getClass());
     PlatformTransactionManager tm = null;
-    if(txObject.shardStrategy().equals("entityid"))
+    if (txObject.shardStrategy().equals("entityid"))
       tm = sessionFactoryService.getTransactionManager(idGenService.getShardId((Long) jointPoint.getArgs()[0]));
     else
       tm = sessionFactoryService.getTransactionManager((Integer) jointPoint.getArgs()[0]);
-    
+
     return createTransactionIfNecessary(tm, txAttr, methodIdentification(method, txObject.getClass()));
   }
 
