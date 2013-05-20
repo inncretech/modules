@@ -6,7 +6,8 @@ import java.util.List;
 import org.hibernate.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.inncretech.core.dao.AbstractShardAwareHibernateDao;
+import com.inncretech.core.sharding.ShardType;
+import com.inncretech.core.sharding.dao.AbstractShardAwareHibernateDao;
 import com.inncretech.like.model.Like;
 import com.inncretech.like.model.UserLike;
 
@@ -16,7 +17,7 @@ public class UserLikeDao extends AbstractShardAwareHibernateDao<Like>{
   private ObjectLikeDao objectLikeDao;
   
   public UserLikeDao(){
-    super(Like.class);
+    super(Like.class, ShardType.SOURCE);
   }
   
   public List<Like> getAllLikes(Long userId){

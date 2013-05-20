@@ -1,29 +1,25 @@
-package com.inncretech.core.dao;
+package com.inncretech.core.sharding.dao;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
-import com.inncretech.core.model.AbstractBaseEntity;
 import com.inncretech.core.model.AbstractEntity;
-import com.inncretech.core.service.IdGenerator;
 import com.inncretech.core.sharding.HibernateSessionFactoryManager;
-import com.inncretech.core.sharding.ShardAware;
+import com.inncretech.core.sharding.IdGenerator;
+import com.inncretech.core.sharding.ShardType;
 
-@Component
 public class AbstractShardAwareHibernateDao<T extends AbstractEntity> {
 
   private Class clazz;
+  private ShardType shardType;
 
-  public AbstractShardAwareHibernateDao(Class clazz) {
+  public AbstractShardAwareHibernateDao(Class clazz, ShardType shardType) {
     this.clazz = clazz;
+    this.shardType = shardType;
   }
   
   public AbstractShardAwareHibernateDao(){
@@ -46,7 +42,7 @@ public class AbstractShardAwareHibernateDao<T extends AbstractEntity> {
 
   
   public Session getCurrentSession(Long entityId) {
-    SessionFactory sessionFactory = sessionFactoryManager.getSessionFactory(idGenService.getShardId(entityId));
+    SessionFactory sessionFactory = sessionFactoryManager.getSessionFactory(idGenService.getShardId(entityId, shardType));
     return sessionFactory.getCurrentSession();
   }
 
@@ -56,7 +52,7 @@ public class AbstractShardAwareHibernateDao<T extends AbstractEntity> {
   }
 
   public Map<Integer, List<Long>> bucketizeEntites(List<Long> entityIds) {
-    return idGenService.bucketizeEntites(entityIds);
+    return idGenService.bucketizeEntites(entityIds, shardType);
   }
-
+  
 }

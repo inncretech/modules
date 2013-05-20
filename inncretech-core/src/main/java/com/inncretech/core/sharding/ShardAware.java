@@ -13,6 +13,8 @@ import org.springframework.transaction.annotation.Propagation;
 @Target(ElementType.METHOD)
 public @interface ShardAware {
   
+  ShardType shardType() default ShardType.NOT_KNOWN;
+  
   String shardStrategy() default "entityid";
   
   /**

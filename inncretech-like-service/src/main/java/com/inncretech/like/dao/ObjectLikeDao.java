@@ -7,14 +7,15 @@ import java.util.Map;
 import org.hibernate.Query;
 import org.springframework.stereotype.Component;
 
-import com.inncretech.core.dao.AbstractShardAwareHibernateDao;
+import com.inncretech.core.sharding.ShardType;
+import com.inncretech.core.sharding.dao.AbstractShardAwareHibernateDao;
 import com.inncretech.like.model.Like;
 
 @Component
 public class ObjectLikeDao extends AbstractShardAwareHibernateDao<Like> {
 
   public ObjectLikeDao() {
-    super(Like.class);
+    super(Like.class, ShardType.SOURCE);
   }
 
   public List<Like> getAllLikes(Long objectId) {

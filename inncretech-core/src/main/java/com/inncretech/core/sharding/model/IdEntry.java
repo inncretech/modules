@@ -1,10 +1,12 @@
-package com.inncretech.core.model;
+package com.inncretech.core.sharding.model;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+
+import com.inncretech.core.model.AbstractEntity;
 
 @Entity
 public class IdEntry extends AbstractEntity {

@@ -16,7 +16,7 @@ import org.springframework.orm.hibernate4.LocalSessionFactoryBean;
 import org.springframework.stereotype.Component;
 
 
-import com.inncretech.core.dao.ShardConfigDao;
+import com.inncretech.core.sharding.dao.ShardConfigDao;
 import com.mchange.v2.c3p0.ComboPooledDataSource;
 
 @Component

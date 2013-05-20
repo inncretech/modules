@@ -1,4 +1,4 @@
-package com.inncretech.core.dao;
+package com.inncretech.core.sharding.dao;
 
 
 import org.hibernate.Query;
@@ -9,7 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
-import com.inncretech.core.model.ShardConfig;
+import com.inncretech.core.sharding.model.ShardConfig;
 
 @Component
 public class ShardConfigDao {

@@ -1,4 +1,4 @@
-package com.inncretech.core.model;
+package com.inncretech.core.sharding.model;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -32,7 +32,6 @@ public class ShardConfig {
   }
 
   @Id
-  @GeneratedValue(strategy = GenerationType.AUTO)
   @Column
   public Integer getId() {
     return id;

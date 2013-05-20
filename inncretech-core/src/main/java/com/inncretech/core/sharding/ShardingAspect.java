@@ -15,7 +15,6 @@ import org.springframework.transaction.annotation.AnnotationTransactionAttribute
 import org.springframework.transaction.interceptor.TransactionAspectSupport;
 import org.springframework.transaction.interceptor.TransactionAttribute;
 
-import com.inncretech.core.service.IdGenerator;
 
 @Aspect
 @Component
@@ -58,7 +57,7 @@ public class ShardingAspect extends TransactionAspectSupport {
     TransactionAttribute txAttr = getTransactionAttributeSource().getTransactionAttribute(method, txObject.getClass());
     PlatformTransactionManager tm = null;
     if(txObject.shardStrategy().equals("entityid"))
-      tm = sessionFactoryService.getTransactionManager(idGenService.getShardId((Long) jointPoint.getArgs()[0]));
+      tm = sessionFactoryService.getTransactionManager(idGenService.getShardId((Long) jointPoint.getArgs()[0], txObject.shardType()));
     else
       tm = sessionFactoryService.getTransactionManager((Integer) jointPoint.getArgs()[0]);
     
