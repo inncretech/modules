@@ -22,7 +22,7 @@ public class ShardingAspect extends TransactionAspectSupport {
 
   @Autowired
   private HibernateSessionFactoryManager sessionFactoryService;
-  
+
   @Autowired
   private IdGenerator idGenService;
 
@@ -36,7 +36,7 @@ public class ShardingAspect extends TransactionAspectSupport {
 
   @Around("@annotation(txObject)")
   public Object beforeStartTx(ProceedingJoinPoint jointPoint, ShardAware txObject) {
-    try{
+    try {
       MethodSignature methodSignature = (MethodSignature) jointPoint.getSignature();
       Method method = methodSignature.getMethod();
       TransactionInfo txInfo = createTransactionIfNecessary(method, txObject, jointPoint);
@@ -44,10 +44,10 @@ public class ShardingAspect extends TransactionAspectSupport {
       Object result = jointPoint.proceed();
       commitTransactionAfterReturning(TransactionAspectSupport.currentTransactionInfo());
       return result;
-    }catch(Throwable ex){
+    } catch (Throwable ex) {
       completeTransactionAfterThrowing(TransactionAspectSupport.currentTransactionInfo(), ex);
       throw new RuntimeException(ex);
-    }finally{
+    } finally {
       cleanupTransactionInfo(TransactionAspectSupport.currentTransactionInfo());
     }
   }
@@ -60,7 +60,7 @@ public class ShardingAspect extends TransactionAspectSupport {
       tm = sessionFactoryService.getTransactionManager(idGenService.getShardId((Long) jointPoint.getArgs()[0], txObject.shardType()));
     else
       tm = sessionFactoryService.getTransactionManager((Integer) jointPoint.getArgs()[0]);
-    
+
     return createTransactionIfNecessary(tm, txAttr, methodIdentification(method, txObject.getClass()));
   }
 

@@ -10,13 +10,13 @@ import com.inncretech.user.model.UserProfile;
 import com.inncretech.user.service.UserService;
 
 @Service
-public class DefaultUserServiceImpl implements UserService{
-  
+public class DefaultUserServiceImpl implements UserService {
+
   @Override
   public User getUserById(Long userId, AccessContext accessContext) {
     return userDao.get(userId);
   }
-  
+
   public User createUser(String userName, AccessContext accessContext) {
     User user = new User();
     user.setUserName(userName);
@@ -25,17 +25,16 @@ public class DefaultUserServiceImpl implements UserService{
     return user;
   }
 
-
   @Override
   public void updateProfile(UserProfile profile, AccessContext accessContext) {
     // TODO Auto-generated method stub
-    
+
   }
 
   @Override
   public void updateFacebookInfo(String facebookId, AccessContext accessContext) {
     // TODO Auto-generated method stub
-    
+
   }
 
   @Autowired

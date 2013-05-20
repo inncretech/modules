@@ -21,9 +21,9 @@ public class AbstractShardAwareHibernateDao<T extends AbstractEntity> {
     this.clazz = clazz;
     this.shardType = shardType;
   }
-  
-  public AbstractShardAwareHibernateDao(){
-    
+
+  public AbstractShardAwareHibernateDao() {
+
   }
 
   @Autowired
@@ -31,8 +31,8 @@ public class AbstractShardAwareHibernateDao<T extends AbstractEntity> {
 
   @Autowired
   private IdGenerator idGenService;
-  
-  public IdGenerator getIdGenService(){
+
+  public IdGenerator getIdGenService() {
     return idGenService;
   }
 
@@ -40,7 +40,6 @@ public class AbstractShardAwareHibernateDao<T extends AbstractEntity> {
     return (T) getCurrentSession(entityId).get(clazz, entityId);
   }
 
-  
   public Session getCurrentSession(Long entityId) {
     SessionFactory sessionFactory = sessionFactoryManager.getSessionFactory(idGenService.getShardId(entityId, shardType));
     return sessionFactory.getCurrentSession();

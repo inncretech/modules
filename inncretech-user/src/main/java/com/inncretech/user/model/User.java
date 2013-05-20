@@ -1,15 +1,14 @@
 package com.inncretech.user.model;
 
+import java.io.Serializable;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 import com.inncretech.core.model.AbstractEntity;
 
-
-@Entity
+@Entity(name = "user")
 public class User extends AbstractEntity {
 
   private String email;
@@ -17,7 +16,6 @@ public class User extends AbstractEntity {
   private String firstName;
   private String lastName;
   private String middleName;
-  
   private Long id;
 
   @Id
@@ -25,10 +23,10 @@ public class User extends AbstractEntity {
   public Long getId() {
     return id;
   }
-  
-  public void setId(Long id){
+
+  public void setId(Long id) {
     this.id = id;
-  } 
+  }
 
   @Column
   public String getEmail() {
@@ -47,5 +45,4 @@ public class User extends AbstractEntity {
   public void setUserName(String userName) {
     this.userName = userName;
   }
-
 }
