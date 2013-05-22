@@ -32,6 +32,14 @@ public class IdGeneratorImpl implements IdGenerator {
   public Long getNewSourceId() {
     return get(2);
   }
+  
+  public Long getSourceRelationId(Long sourceId){
+    return null;
+  }
+  
+  public Long getUserRelationId(Long userId){
+    return null;
+  }
 
   private Long get(int shardType) {
     Long id = System.currentTimeMillis() << (64 - TIME_BITS);
