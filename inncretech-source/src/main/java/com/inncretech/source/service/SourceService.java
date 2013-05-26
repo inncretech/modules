@@ -6,9 +6,6 @@ public interface SourceService {
   
   Source create(Source source);
   
-  //update only title and description
-  void update(Source source);
-  
   void delete(Long sourceId);
   
   Source get(Long sourceId);

@@ -1,7 +1,10 @@
 package com.inncretech.core.event;
 
+import org.springframework.stereotype.Service;
+
 import com.inncretech.core.event.model.Event;
 
+@Service
 public class LocalEventServiceImpl implements EventServiceImpl{
 
   @Override

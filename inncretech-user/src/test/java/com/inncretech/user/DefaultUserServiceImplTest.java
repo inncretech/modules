@@ -10,7 +10,7 @@ import com.inncretech.core.model.AccessContext;
 import com.inncretech.user.service.UserService;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = { "/applicationContext-user.xml" })
+@ContextConfiguration(locations = { "/applicationcontext-user.xml" })
 public class DefaultUserServiceImplTest {
 
   @Autowired

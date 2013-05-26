@@ -83,7 +83,7 @@ public class HibernateSessionFactoryManager {
     targetSource.setJdbcUrl(jdbcUrl);
     targetSource.setDriverClass("com.mysql.jdbc.Driver");
     targetSource.setUser("root");
-    targetSource.setPassword("password");
+    targetSource.setPassword("root");
     source.setTargetDataSource(targetSource);
     return source;
   }
