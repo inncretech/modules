@@ -1,9 +1,14 @@
 import sbt._
 import Keys._
+import com.typesafe.sbteclipse.plugin.EclipsePlugin.EclipseKeys
+import com.typesafe.sbteclipse.plugin.EclipsePlugin.EclipseCreateSrc
 
 object AllBuild extends Build {
+  
+    EclipseKeys.createSrc := EclipseCreateSrc.Default + EclipseCreateSrc.Resource
+   
     lazy val all = Project(id = "all",
-                            base = file(".")).dependsOn(user, follow, tag, comment, notification, source).
+                            base = file(".")).dependsOn(core, user, follow, tag, comment, notification, source).
                             aggregate(core,user, follow, tag, comment, notification, source)
 
     lazy val core = RootProject(file("../inncretech-core"))
