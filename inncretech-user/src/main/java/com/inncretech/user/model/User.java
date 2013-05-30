@@ -45,4 +45,14 @@ public class User extends AbstractEntity {
   public void setUserName(String userName) {
     this.userName = userName;
   }
+  public void setFName(String FName) {
+	    this.firstName = FName;
+	  }
+  public void setLName(String LName) {
+	    this.lastName = LName;
+	  }
+  public void setMName(String MName) {
+	    this.middleName = MName;
+	  }
+
 }

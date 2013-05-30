@@ -17,20 +17,28 @@ public class DefaultUserServiceImpl implements UserService {
     return userDao.get(userId);
   }
 
-  public User createUser(String userName, AccessContext accessContext) {
+  public User createUser(String userName,String FName,String LName,String MName, String email, AccessContext accessContext) {
     User user = new User();
     user.setUserName(userName);
+    user.setFName(FName);
+    user.setLName(LName);
+    user.setFName(MName);
+    user.setEmail(email);
     user.setId(userDao.getIdGenService().getNewUserId());
     userDao.createUser(user.getId(), user);
     return user;
   }
 
   @Override
-  public void updateProfile(UserProfile profile, AccessContext accessContext) {
-    // TODO Auto-generated method stub
+  public UserProfile updateProfile(UserProfile profile, AccessContext accessContext) {
+	  
+	  UserProfile up = new UserProfile();
+	  up.setCurrentAddress(profile.getCurrentAddress());
+	  up.setLongBio(profile.getLongBio());
+	  up.setShortBio(profile.getShortBio());
+	  return up;
 
   }
-
   @Override
   public void updateFacebookInfo(String facebookId, AccessContext accessContext) {
     // TODO Auto-generated method stub

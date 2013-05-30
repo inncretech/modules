@@ -8,9 +8,9 @@ public interface UserService {
 
   User getUserById(Long userId, AccessContext accessContext);
 
-  public User createUser(String userName, AccessContext accessContext);
+  public User createUser(String userName, String FName,String LName,String MName, String email, AccessContext accessContext);
 
-  void updateProfile(UserProfile profile, AccessContext accessContext);
+  public UserProfile updateProfile(UserProfile profile, AccessContext accessContext);
 
   void updateFacebookInfo(String facebookId, AccessContext accessContext);
 
