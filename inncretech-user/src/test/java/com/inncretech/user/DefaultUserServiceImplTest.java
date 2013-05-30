@@ -20,9 +20,5 @@ public class DefaultUserServiceImplTest {
   public void createUser() {
     userService.createUser("username", new AccessContext());
   }
-  
-  public static void main(String[] args) {
-    
-  }
 
 }

@@ -39,6 +39,10 @@ public class AbstractShardAwareHibernateDao<T extends AbstractEntity> {
   public T get(Long entityId) {
     return (T) getCurrentSession(entityId).get(clazz, entityId);
   }
+  
+  public void save(Long entityId, Object obj) {
+    getCurrentSession(entityId).saveOrUpdate(obj);
+  }
 
   public Session getCurrentSession(Long entityId) {
     SessionFactory sessionFactory = sessionFactoryManager.getSessionFactory(idGenService.getShardId(entityId, shardType));

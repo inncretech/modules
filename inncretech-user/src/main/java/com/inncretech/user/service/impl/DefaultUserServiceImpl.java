@@ -4,7 +4,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.inncretech.core.model.AccessContext;
+import com.inncretech.core.sharding.ShardAware;
 import com.inncretech.user.dao.UserDao;
+import com.inncretech.user.dao.UserProfileDao;
 import com.inncretech.user.model.User;
 import com.inncretech.user.model.UserProfile;
 import com.inncretech.user.service.UserService;
@@ -17,6 +19,7 @@ public class DefaultUserServiceImpl implements UserService {
     return userDao.get(userId);
   }
 
+  @ShardAware(shardStrategy = "entityid")
   public User createUser(String userName,String FName,String LName,String MName, String email, AccessContext accessContext) {
     User user = new User();
     user.setUserName(userName);
@@ -30,13 +33,15 @@ public class DefaultUserServiceImpl implements UserService {
   }
 
   @Override
+  @ShardAware(shardStrategy = "entityid")
   public UserProfile updateProfile(UserProfile profile, AccessContext accessContext) {
 	  
-	  UserProfile up = new UserProfile();
-	  up.setCurrentAddress(profile.getCurrentAddress());
-	  up.setLongBio(profile.getLongBio());
-	  up.setShortBio(profile.getShortBio());
-	  return up;
+	  UserProfile readProfile = userProfileDao.getProfileForUser(profile.getUserId());
+	  readProfile.setLongBio(profile.getLongBio());
+	  readProfile.setCurrentAddress(profile.getCurrentAddress());
+	  
+	  userProfileDao.save(profile.getUserId(), readProfile);
+	  return readProfile;
 
   }
   @Override
@@ -47,5 +52,8 @@ public class DefaultUserServiceImpl implements UserService {
 
   @Autowired
   private UserDao userDao;
+  
+  @Autowired
+  private UserProfileDao userProfileDao;
 
 }
