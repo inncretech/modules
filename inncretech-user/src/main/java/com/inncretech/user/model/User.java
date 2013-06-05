@@ -9,7 +9,7 @@ import javax.persistence.Id;
 import com.inncretech.core.model.AbstractEntity;
 
 @Entity(name = "user")
-public class User extends AbstractEntity {
+public class User {
 
   private String email;
   private String userName;
@@ -17,9 +17,14 @@ public class User extends AbstractEntity {
   private String lastName;
   private String middleName;
   private Long id;
+  public User(String FirstName,String LastName,String Email ,String un)
+  {
+	  this.firstName =FirstName;
+	  this.lastName = LastName;
+	  this.email = Email;
+	  this.userName = un;
+  }
 
-  @Id
-  @Column
   public Long getId() {
     return id;
   }
@@ -28,7 +33,7 @@ public class User extends AbstractEntity {
     this.id = id;
   }
 
-  @Column
+  
   public String getEmail() {
     return email;
   }
@@ -37,11 +42,20 @@ public class User extends AbstractEntity {
     this.email = email;
   }
 
-  @Column
+  
   public String getUserName() {
     return userName;
   }
-
+  
+  public String getFName() {
+    return firstName;
+  }
+  public String getLName() {
+	    return lastName;
+	  }
+  public String getMName() {
+	    return middleName;
+	  }
   public void setUserName(String userName) {
     this.userName = userName;
   }

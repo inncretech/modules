@@ -7,6 +7,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.inncretech.core.model.AccessContext;
+import com.inncretech.user.model.User;
 import com.inncretech.user.model.UserProfile;
 import com.inncretech.user.service.UserService;
 
@@ -18,9 +19,10 @@ public class DefaultUserServiceImplTest {
   private UserService userService;
 
   @Test
-  public void createUser() {
-    userService.createUser("username","Mahesh","Kumar","M","mmmk@gmail.com", new AccessContext());
+  public void CreateUser() {
+    userService.createUser(new User("MMK","MMK1","MMK@yahoo.com","mmk123"), new AccessContext());
   }
+
  @Test
  public void updateProfile()
  {
@@ -28,4 +30,5 @@ public class DefaultUserServiceImplTest {
 	 
  }
  
+
 }
