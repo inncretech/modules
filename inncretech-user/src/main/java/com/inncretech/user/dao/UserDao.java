@@ -5,11 +5,10 @@ import org.springframework.stereotype.Component;
 import com.inncretech.core.sharding.ShardAware;
 import com.inncretech.core.sharding.ShardType;
 import com.inncretech.core.sharding.dao.AbstractShardAwareHibernateDao;
-import com.inncretech.user.db.model.UserDBEntity;
 import com.inncretech.user.model.User;
 
 @Component
-public class UserDao extends AbstractShardAwareHibernateDao<UserDBEntity>{
+public class UserDao extends AbstractShardAwareHibernateDao<User>{
   
   public UserDao(){
     super(User.class, ShardType.USER);
@@ -18,13 +17,13 @@ public class UserDao extends AbstractShardAwareHibernateDao<UserDBEntity>{
 
  
   @ShardAware(shardStrategy = "entityid")
-  public void UpdateUserDetails(UserDBEntity obj) {
+  public void UpdateUserDetails(User obj) {
     getCurrentSession(obj.getId()).save(obj);
   }
   
   
   @ShardAware(shardStrategy = "entityid")
-  public UserDBEntity createUser(Long UserID,UserDBEntity userDB) {
+  public User createUser(Long UserID,User userDB) {
 	 getCurrentSession(userDB.getId()).save(userDB);
 	    return   userDB;
   }

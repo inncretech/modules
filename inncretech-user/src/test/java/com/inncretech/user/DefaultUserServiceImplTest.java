@@ -20,13 +20,13 @@ public class DefaultUserServiceImplTest {
 
   @Test
   public void CreateUser() {
-    userService.createUser(new User("MMK","MMK1","MMK@yahoo.com","mmk123"), new AccessContext());
+    userService.createUser(new User(), new AccessContext());
   }
 
  @Test
  public void updateProfile()
  {
-	 userService.updateProfile(new UserProfile(), new AccessContext());
+	 userService.updateProfile((long) 3,new UserProfile(), new AccessContext());
 	 
  }
  

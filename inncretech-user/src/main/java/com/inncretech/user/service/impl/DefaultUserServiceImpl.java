@@ -8,8 +8,6 @@ import com.inncretech.core.sharding.ShardAware;
 import com.inncretech.user.dao.UserDao;
 import com.inncretech.user.dao.UserLoginDao;
 import com.inncretech.user.dao.UserProfileDao;
-import com.inncretech.user.db.model.UserDBEntity;
-import com.inncretech.user.db.model.UserLoginDBEntity;
 import com.inncretech.user.model.User;
 import com.inncretech.user.model.UserLogin;
 import com.inncretech.user.model.UserProfile;
@@ -19,54 +17,33 @@ import com.inncretech.user.service.UserService;
 public class DefaultUserServiceImpl implements UserService {
 
   @Override
-  public UserDBEntity getUserById(Long userId, AccessContext accessContext) {
+  public User getUserById(Long userId, AccessContext accessContext) {
     return userDao.get(userId);
   }
 
   
   public User createUser(User user, AccessContext accessContext) { 
     
-    UserDBEntity userDB= new UserDBEntity();
-    userDB.setId(userDao.getIdGenService().getNewUserId());
-    userDB.setLName(user.getLName());
-    userDB.setMName(user.getMName());
-    userDB.setFName(user.getLName());
-    userDB.setUserName(user.getUserName());
-    userDB.setEmail(user.getEmail());
-    userDB = userDao.createUser(userDB.getId(),userDB);
-    user.setId(user.getId());
+    
+	  user.setId(userDao.getIdGenService().getNewUserId());
     return user;
     
   }
   @ShardAware(shardStrategy = "entityid")
   public User UpdateUserDet(Long UserID,User user, AccessContext accessContext) {
-	  UserDBEntity userDB= new UserDBEntity();
-	  userDB.setId(user.getId());
-	    userDB.setLName(user.getLName());
-	    userDB.setMName(user.getMName());
-	    userDB.setFName(user.getLName());
-	    userDB.setUserName(user.getUserName());
-	    userDB.setEmail(user.getEmail());
-    userDao.UpdateUserDetails(userDB);
+    userDao.UpdateUserDetails(user);
     return user;
   }
   
   @ShardAware(shardStrategy = "entityid")
   public void updateUserLogin(Long UserID,UserLogin ul)
   {
-	  UserLoginDBEntity uldb= new UserLoginDBEntity();
-	  uldb.setPassword(ul.getPassword());
-	  uldb.setGoogleId(ul.getGoogleId());
-	  uldb.setIsFacebookLoginEnabled(ul.getIsFacebookLoginEnabled());
-	  uldb.setIsGoogleLoginEnabled(ul.getIsGoogleLoginEnabled());
-	  uldb.setIsPasswordloginEnabled(ul.getIsPasswordloginEnabled());
-	  uldb.setIsTwitterLoginEnabled(ul.getIsTwitterLoginEnabled());
-	  userLoginDao.UpdateUserLoginDetails(uldb);
+	   userLoginDao.UpdateUserLoginDetails(ul);
 	  
   }
   @Override
   @ShardAware(shardStrategy = "entityid")
-  public UserProfile updateProfile(UserProfile profile, AccessContext accessContext) {
+  public UserProfile updateProfile(Long UserID,UserProfile profile, AccessContext accessContext) {
 	  
 	  UserProfile readProfile = userProfileDao.getProfileForUser(profile.getUserId());
 	  readProfile.setLongBio(profile.getLongBio());

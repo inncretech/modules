@@ -2,18 +2,19 @@ package com.inncretech.user.model;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
+
 import javax.persistence.Id;
 
-import com.inncretech.core.model.AbstractBaseEntity;
+
 import com.inncretech.core.model.AbstractEntity;
 
+@Entity
 public class UserLogin extends AbstractEntity {
 
   private Long id;
 
-  
+  @Id
+  @Column
   public Long getId() {
     return id;
   }
@@ -32,7 +33,7 @@ public class UserLogin extends AbstractEntity {
   private Boolean isTwitterLoginEnabled;
   private Boolean isGoogleLoginEnabled;
 
-  
+  @Column
   public Long getUserId() {
     return userId;
   }
@@ -41,7 +42,7 @@ public class UserLogin extends AbstractEntity {
     this.userId = userId;
   }
 
-  
+  @Column
   public String getPassword() {
     return password;
   }
@@ -50,7 +51,7 @@ public class UserLogin extends AbstractEntity {
     this.password = password;
   }
 
-  
+  @Column
   public String getFacebookId() {
     return facebookId;
   }
@@ -59,7 +60,7 @@ public class UserLogin extends AbstractEntity {
     this.facebookId = facebookId;
   }
 
-  
+  @Column
   public String getTwitterId() {
     return twitterId;
   }
@@ -68,7 +69,7 @@ public class UserLogin extends AbstractEntity {
     this.twitterId = twitterId;
   }
 
-  
+  @Column
   public String getGoogleId() {
     return googleId;
   }
@@ -77,7 +78,7 @@ public class UserLogin extends AbstractEntity {
     this.googleId = googleId;
   }
 
-  
+  @Column
   public Boolean getIsPasswordloginEnabled() {
     return isPasswordloginEnabled;
   }
@@ -86,7 +87,7 @@ public class UserLogin extends AbstractEntity {
     this.isPasswordloginEnabled = isPasswordloginEnabled;
   }
 
-  
+  @Column
   public Boolean getIsFacebookLoginEnabled() {
     return isFacebookLoginEnabled;
   }
@@ -95,7 +96,7 @@ public class UserLogin extends AbstractEntity {
     this.isFacebookLoginEnabled = isFacebookLoginEnabled;
   }
 
-  
+  @Column
   public Boolean getIsTwitterLoginEnabled() {
     return isTwitterLoginEnabled;
   }
@@ -104,7 +105,7 @@ public class UserLogin extends AbstractEntity {
     this.isTwitterLoginEnabled = isTwitterLoginEnabled;
   }
 
-  
+  @Column
   public Boolean getIsGoogleLoginEnabled() {
     return isGoogleLoginEnabled;
   }
