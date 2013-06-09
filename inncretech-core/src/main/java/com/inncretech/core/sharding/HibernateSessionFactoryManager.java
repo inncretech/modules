@@ -9,6 +9,7 @@ import javax.annotation.PostConstruct;
 import javax.sql.DataSource;
 
 import org.hibernate.SessionFactory;
+import org.hibernate.cfg.ImprovedNamingStrategy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.datasource.LazyConnectionDataSourceProxy;
 import org.springframework.orm.hibernate4.HibernateTransactionManager;
@@ -68,10 +69,12 @@ public class HibernateSessionFactoryManager {
     LocalSessionFactoryBean a = new LocalSessionFactoryBean();
     a.setPackagesToScan(new String[] { "com.inncretech" });
     a.setDataSource(createDataSource(jdbcUrl));
+    a.setNamingStrategy(new ImprovedNamingStrategy());
     Properties props = new Properties();
     props.setProperty("hibernate.dialect", "org.hibernate.dialect.MySQLDialect");
     props.setProperty("hibernate.hbm2ddl.auto", "update");
     props.setProperty("hibernate.show_sql", "true");
+    props.setProperty("hibernate.hibernate.naming_strategy", "org.hibernate.cfg.ImprovedNamingStrategy");
     a.setHibernateProperties(props);
     a.afterPropertiesSet();
     return a;

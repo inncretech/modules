@@ -18,7 +18,7 @@ public class DBUtil {
 
     Session sess = hibernateSessionFactoryManager.getSessionFactory(shardID).getCurrentSession();
     sess.createSQLQuery("delete from user").executeUpdate();
-    sess.createSQLQuery("delete from userlogin").executeUpdate();
+    sess.createSQLQuery("delete from user_login").executeUpdate();
 
   }
 

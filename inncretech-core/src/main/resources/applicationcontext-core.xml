@@ -33,7 +33,7 @@
 			<ref local="core.datasource" />
 		</property>
 	</bean>
-
+	<bean id="namingStrategy" class="org.hibernate.cfg.ImprovedNamingStrategy"/>
 	<bean id="sessionFactory" name="sessionFactory" class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
 		<property name="dataSource" ref="dataSource" />
 		<property name="packagesToScan">
@@ -41,7 +41,7 @@
 				<value>com.inncretech.core</value>
 			</list>
 		</property>
-
+		<property name="namingStrategy" ref="namingStrategy"/>
 		<property name="hibernateProperties">
 			<props>
 				<prop key="hibernate.dialect">org.hibernate.dialect.MySQLDialect</prop>
