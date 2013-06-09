@@ -87,5 +87,9 @@ public class HibernateSessionFactoryManager {
     source.setTargetDataSource(targetSource);
     return source;
   }
+  
+  public Map<String, SessionFactory> getAllSessionFactory(){
+    return sessionFactoryMap;
+  }
 
 }

@@ -21,38 +21,40 @@ public class DefaultUserServiceImpl implements UserService {
     return userDao.get(userId);
   }
 
-  
-  public User createUser(User user, AccessContext accessContext) { 
-    
-    
-	  user.setId(userDao.getIdGenService().getNewUserId());
+  public User createUser(User user, AccessContext accessContext) {
+
+    user.setId(userDao.getIdGenService().getNewUserId());
+    userDao.createUser(user);
+
     return user;
-    
-  }
-  @ShardAware(shardStrategy = "entityid")
-  public User UpdateUserDet(Long UserID,User user, AccessContext accessContext) {
-    userDao.UpdateUserDetails(user);
-    return user;
-  }
-  
-  @ShardAware(shardStrategy = "entityid")
-  public void updateUserLogin(Long UserID,UserLogin ul)
-  {
-	   userLoginDao.UpdateUserLoginDetails(ul);
-	  
-  }
-  @Override
-  @ShardAware(shardStrategy = "entityid")
-  public UserProfile updateProfile(Long UserID,UserProfile profile, AccessContext accessContext) {
-	  
-	  UserProfile readProfile = userProfileDao.getProfileForUser(profile.getUserId());
-	  readProfile.setLongBio(profile.getLongBio());
-	  readProfile.setCurrentAddress(profile.getCurrentAddress());
-	  
-	  userProfileDao.save(profile.getUserId(), readProfile);
-	  return readProfile;
 
   }
+
+  @ShardAware(shardStrategy = "entityid")
+  public void UpdateUserDet(User user, AccessContext accessContext) {
+    userDao.UpdateUserDetails(user);
+    
+  }
+
+  @ShardAware(shardStrategy = "entityid")
+  public void updateUserLogin(Long UserID, UserLogin ul) {
+    userLoginDao.UpdateUserLoginDetails(ul);
+
+  }
+
+  @Override
+  @ShardAware(shardStrategy = "entityid")
+  public UserProfile updateProfile(Long UserID, UserProfile profile, AccessContext accessContext) {
+
+    UserProfile readProfile = userProfileDao.getProfileForUser(profile.getUserId());
+    readProfile.setLongBio(profile.getLongBio());
+    readProfile.setCurrentAddress(profile.getCurrentAddress());
+
+    userProfileDao.save(profile.getUserId(), readProfile);
+    return readProfile;
+
+  }
+
   @Override
   public void updateFacebookInfo(String facebookId, AccessContext accessContext) {
     // TODO Auto-generated method stub
@@ -61,7 +63,7 @@ public class DefaultUserServiceImpl implements UserService {
 
   @Autowired
   private UserDao userDao;
-  
+
   @Autowired
   private UserProfileDao userProfileDao;
   @Autowired

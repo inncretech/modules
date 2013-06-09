@@ -9,8 +9,10 @@ public interface UserService {
 
   User getUserById(Long userId, AccessContext accessContext);
 
-  public User createUser(User user, AccessContext accessContext);
-
+   User createUser(User user, AccessContext accessContext);
+  
+   void UpdateUserDet(User user, AccessContext accessContext);
+   
   public UserProfile updateProfile(Long UserID,UserProfile profile, AccessContext accessContext);
 
   void updateFacebookInfo(String facebookId, AccessContext accessContext);

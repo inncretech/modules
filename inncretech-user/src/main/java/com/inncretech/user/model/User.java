@@ -8,9 +8,7 @@ import com.inncretech.core.model.AbstractEntity;
 
 
 @Entity
-
 public class User  extends AbstractEntity{
-
 
 	private String email;
 	  private String userName;
@@ -46,7 +44,7 @@ public class User  extends AbstractEntity{
 	  public void setUserName(String userName) {
 	    this.userName = userName;
 	  }
-
+	  @Column
 	public String getMiddleName() {
 		return middleName;
 	}
@@ -54,7 +52,7 @@ public class User  extends AbstractEntity{
 	public void setMiddleName(String middleName) {
 		this.middleName = middleName;
 	}
-
+	 @Column
 	public String getFirstName() {
 		return firstName;
 	}
@@ -62,7 +60,7 @@ public class User  extends AbstractEntity{
 	public void setFirstName(String firstName) {
 		this.firstName = firstName;
 	}
-
+	 @Column
 	public String getLastName() {
 		return lastName;
 	}
