@@ -1,6 +1,13 @@
 package com.inncretech.source.model;
 
-public class Source {
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+
+import com.inncretech.core.model.AbstractEntity;
+
+@Entity
+public class Source extends AbstractEntity {
 
   private Long id;
 
@@ -9,6 +16,8 @@ public class Source {
 
   private int sourceType = 0;
 
+  @Id
+  @Column
   public Long getId() {
     return id;
   }
@@ -17,6 +26,7 @@ public class Source {
     this.id = id;
   }
 
+  @Column
   public String getSourceUri() {
     return sourceUri;
   }
@@ -25,6 +35,7 @@ public class Source {
     this.sourceUri = sourceUri;
   }
 
+  @Column
   public int getSourceType() {
     return sourceType;
   }

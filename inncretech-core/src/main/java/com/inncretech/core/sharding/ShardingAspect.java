@@ -6,7 +6,6 @@ import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
-import org.aspectj.lang.annotation.Pointcut;
 import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -26,9 +25,6 @@ public class ShardingAspect extends TransactionAspectSupport {
 
   @Autowired
   private IdGenerator idGenService;
-
-  @Pointcut("execution(public * ((@ShardAware *)+).*(..)) && within(@ShardAware *)")
-  public void anyPublicMethod() {}
 
   public ShardingAspect() {
     setTransactionAttributeSource(new AnnotationTransactionAttributeSource(new ShardingAnnotationParser()));

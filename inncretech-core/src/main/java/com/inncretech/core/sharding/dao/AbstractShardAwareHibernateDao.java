@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.inncretech.core.model.AbstractEntity;
 import com.inncretech.core.sharding.HibernateSessionFactoryManager;
 import com.inncretech.core.sharding.IdGenerator;
+import com.inncretech.core.sharding.ShardAware;
 import com.inncretech.core.sharding.ShardType;
 
 public class AbstractShardAwareHibernateDao<T extends AbstractEntity> {
