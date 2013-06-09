@@ -18,7 +18,7 @@ public class UserDao extends AbstractShardAwareHibernateDao<User> {
     getCurrentSession(obj.getId()).save(obj);
   }
 
-  @ShardAware(shardStrategy = "entityid")
+  @ShardAware(shardStrategy = "entityid", shardType=ShardType.USER)
   public User createUser(User userDB) {
     getCurrentSession(userDB.getId()).save(userDB);
     return userDB;

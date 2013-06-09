@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 
 import com.inncretech.core.model.AccessContext;
 import com.inncretech.core.sharding.ShardAware;
+import com.inncretech.core.sharding.ShardType;
 import com.inncretech.user.dao.UserDao;
 import com.inncretech.user.dao.UserLoginDao;
 import com.inncretech.user.dao.UserProfileDao;
@@ -30,20 +31,20 @@ public class DefaultUserServiceImpl implements UserService {
 
   }
 
-  @ShardAware(shardStrategy = "entityid")
+  @ShardAware(shardStrategy = "entityid",  shardType=ShardType.USER)
   public void UpdateUserDet(User user, AccessContext accessContext) {
     userDao.UpdateUserDetails(user);
     
   }
 
-  @ShardAware(shardStrategy = "entityid")
+  @ShardAware(shardStrategy = "entityid", shardType=ShardType.USER)
   public void updateUserLogin(Long UserID, UserLogin ul) {
     userLoginDao.UpdateUserLoginDetails(ul);
 
   }
 
   @Override
-  @ShardAware(shardStrategy = "entityid")
+  @ShardAware(shardStrategy = "entityid", shardType=ShardType.USER)
   public UserProfile updateProfile(Long UserID, UserProfile profile, AccessContext accessContext) {
 
     UserProfile readProfile = userProfileDao.getProfileForUser(profile.getUserId());
