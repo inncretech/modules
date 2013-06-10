@@ -25,6 +25,12 @@ public class UserLoginDao extends AbstractShardAwareHibernateDao<UserLogin> {
   public void UpdateUserLoginDetails(UserLogin obj) {
 	    getCurrentSession(obj.getId()).save(obj);
 	  }
-	  
+  
+  @ShardAware(shardStrategy = "entityid")
+  public UserLogin CreateUserLogin(UserLogin obj) {
+      getCurrentSession(obj.getId()).save(obj);
+      return obj;
+    }
+    	  
 
 }

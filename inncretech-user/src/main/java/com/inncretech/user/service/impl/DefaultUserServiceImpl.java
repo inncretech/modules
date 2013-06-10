@@ -22,29 +22,47 @@ public class DefaultUserServiceImpl implements UserService {
     return userDao.get(userId);
   }
 
-  public User createUser(User user, AccessContext accessContext) {
+  public User createUser(User user,UserLogin userLogin,UserProfile userProfile, AccessContext accessContext) {
 
     user.setId(userDao.getIdGenService().getNewUserId());
     userDao.createUser(user);
-
+    userLogin.setId(user.getId());
+    userProfile.setId(user.getId());
+    createUserLogin(userLogin);
+    createUserProfile(userProfile);
     return user;
 
   }
 
-  @ShardAware(shardStrategy = "entityid",  shardType=ShardType.USER)
+  public UserLogin createUserLogin(UserLogin userLogin) {
+    userLogin.getId(); 
+    userLoginDao.CreateUserLogin(userLogin);    
+    return userLogin;
+
+  }
+  
+  public UserProfile createUserProfile(UserProfile userProfile) {
+    userProfile.getId(); 
+    userProfileDao.CreateUserProfile(userProfile);    
+    return userProfile;
+
+  }
+  
+
+  @ShardAware(shardStrategy = "entityid", shardType = ShardType.USER)
   public void UpdateUserDet(User user, AccessContext accessContext) {
     userDao.UpdateUserDetails(user);
-    
+
   }
 
-  @ShardAware(shardStrategy = "entityid", shardType=ShardType.USER)
+  @ShardAware(shardStrategy = "entityid", shardType = ShardType.USER)
   public void updateUserLogin(Long UserID, UserLogin ul) {
     userLoginDao.UpdateUserLoginDetails(ul);
 
   }
 
   @Override
-  @ShardAware(shardStrategy = "entityid", shardType=ShardType.USER)
+  @ShardAware(shardStrategy = "entityid", shardType = ShardType.USER)
   public UserProfile updateProfile(Long UserID, UserProfile profile, AccessContext accessContext) {
 
     UserProfile readProfile = userProfileDao.getProfileForUser(profile.getUserId());

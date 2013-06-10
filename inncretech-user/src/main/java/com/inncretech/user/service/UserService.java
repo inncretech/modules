@@ -9,7 +9,7 @@ public interface UserService {
 
   User getUserById(Long userId, AccessContext accessContext);
 
-   User createUser(User user, AccessContext accessContext);
+   User createUser(User user,UserLogin userLogin,UserProfile userProfile, AccessContext accessContext);
   
    void UpdateUserDet(User user, AccessContext accessContext);
    
