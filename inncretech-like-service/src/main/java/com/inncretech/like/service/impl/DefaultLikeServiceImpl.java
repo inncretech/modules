@@ -3,13 +3,14 @@ package com.inncretech.like.service.impl;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.inncretech.core.model.AccessContext;
 import com.inncretech.like.dao.ObjectLikeDao;
 import com.inncretech.like.model.Like;
 import com.inncretech.like.service.LikeService;
 
-
+@Service
 public class DefaultLikeServiceImpl implements LikeService{
 
   @Override

@@ -13,7 +13,7 @@ import com.inncretech.like.service.LikeService;
 
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = { "/applicationcontext-user.xml" })
+@ContextConfiguration(locations = { "/applicationcontext-like.xml" })
 public class DefaultLikeServiceImplTest {
 
   @Autowired
