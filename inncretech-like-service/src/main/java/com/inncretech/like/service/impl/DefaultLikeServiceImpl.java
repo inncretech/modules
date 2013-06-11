@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.inncretech.core.model.AccessContext;
+import com.inncretech.core.sharding.ShardAware;
+import com.inncretech.core.sharding.ShardType;
 import com.inncretech.like.dao.ObjectLikeDao;
 import com.inncretech.like.model.Like;
 import com.inncretech.like.service.LikeService;
@@ -25,9 +27,10 @@ public class DefaultLikeServiceImpl implements LikeService{
     return null;
   }
   @Override
-  public void likeSource(Long userId,Long objectID , AccessContext accessContext) {
+  @ShardAware(shardStrategy="entityid", shardType=ShardType.SOURCE)
+  public void likeSource(Long objectID, Long userId,AccessContext accessContext) {
     Like likeObj = new Like();
-    likeObj.setId(objLikeDao.getIdGenService().getNewSourceId());
+    likeObj.setId(objLikeDao.getIdGenService().getIdOnShard(objLikeDao.getIdGenService().getShardId(objectID, ShardType.SOURCE)));
     likeObj.setObjectId(objectID);
     likeObj.setUserId(userId);
     objLikeDao.likeObject(likeObj);
