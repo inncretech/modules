@@ -42,12 +42,7 @@ public class IdGeneratorImpl implements IdGenerator {
   }
 
   private Long get(int shardType) {
-    Long id = System.currentTimeMillis() << (64 - TIME_BITS);
-    ShardConfig shard = selectShardId(shardType);
-    id |= shard.getId() << (64 - TIME_BITS - SHARD_BITS);
-    id |= (nextSequence(shard) % (int) Math.pow(2.0, (double) (64.0 - SHARD_BITS - TIME_BITS)));
-    id &= 0X3FFFFFFFFFFFFFFFL;
-    return id;
+    return getIdOnShard(selectShardId(shardType).getId());
   }
 
   private ShardConfig selectShardId(int shardType) {
@@ -56,8 +51,8 @@ public class IdGeneratorImpl implements IdGenerator {
 
   }
 
-  private Long nextSequence(ShardConfig config) {
-    return idEntryDao.getNextId(config.getId());
+  private Long nextSequence(Integer shardId) {
+    return idEntryDao.getNextId(shardId);
   }
 
   @Override
@@ -65,6 +60,14 @@ public class IdGeneratorImpl implements IdGenerator {
     id = id >> 10;
     id = id & 0X3FFL;
     return id.intValue();
+  }
+  
+  public Long getIdOnShard(Integer shardId){
+    Long id = System.currentTimeMillis() << (64 - TIME_BITS);
+    id |= shardId << (64 - TIME_BITS - SHARD_BITS);
+    id |= (nextSequence(shardId) % (int) Math.pow(2.0, (double) (64.0 - SHARD_BITS - TIME_BITS)));
+    id &= 0X3FFFFFFFFFFFFFFFL;
+    return id;
   }
 
   public Map<Integer, List<Long>> bucketizeEntites(List<Long> entityIds, ShardType shardType) {
