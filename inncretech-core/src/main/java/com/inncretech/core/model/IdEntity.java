@@ -2,7 +2,7 @@ package com.inncretech.core.model;
 
 import java.io.Serializable;
 
-public abstract class AbstractEntity implements Serializable {
+public interface  IdEntity extends Serializable {
 
   public abstract Long getId();
 

@@ -4,10 +4,11 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
-import com.inncretech.core.model.AbstractEntity;
+import com.inncretech.core.model.IdEntity;
+
 
 @Entity
-public class Source extends AbstractEntity {
+public class Source implements IdEntity {
 
   private Long id;
 
