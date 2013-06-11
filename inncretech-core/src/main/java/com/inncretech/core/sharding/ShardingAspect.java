@@ -14,7 +14,7 @@ import org.springframework.transaction.annotation.AnnotationTransactionAttribute
 import org.springframework.transaction.interceptor.TransactionAspectSupport;
 import org.springframework.transaction.interceptor.TransactionAttribute;
 
-import com.inncretech.core.model.AbstractEntity;
+import com.inncretech.core.model.IdEntity;
 
 @Aspect
 @Component
@@ -59,8 +59,8 @@ public class ShardingAspect extends TransactionAspectSupport {
     if (txObject.shardStrategy().equals("entityid")) {
       if (fParam instanceof Long) {
         entityID = (Long) fParam;
-      } else if (fParam instanceof AbstractEntity) {
-        entityID = ((AbstractEntity) fParam).getId();
+      } else if (fParam instanceof IdEntity) {
+        entityID = ((IdEntity) fParam).getId();
       }
 
       tm = sessionFactoryService.getTransactionManager(idGenService.getShardId(entityID, txObject.shardType()));
