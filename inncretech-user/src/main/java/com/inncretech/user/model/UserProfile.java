@@ -2,15 +2,12 @@ package com.inncretech.user.model;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
-import com.inncretech.core.model.AbstractBaseEntity;
-import com.inncretech.core.model.AbstractEntity;
+import com.inncretech.core.model.IdEntity;
 
 @Entity
-public class UserProfile extends AbstractEntity {
+public class UserProfile implements IdEntity {
 
   private Long userId;
   private String shortBio;

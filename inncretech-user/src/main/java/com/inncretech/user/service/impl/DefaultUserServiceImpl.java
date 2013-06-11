@@ -22,14 +22,12 @@ public class DefaultUserServiceImpl implements UserService {
     return userDao.get(userId);
   }
 
-  public User createUser(User user,UserLogin userLogin,UserProfile userProfile, AccessContext accessContext) {
+  public User createUser(User user,UserLogin userLogin,AccessContext accessContext) {
 
     user.setId(userDao.getIdGenService().getNewUserId());
     userDao.createUser(user);
     userLogin.setId(user.getId());
-    userProfile.setId(user.getId());
     createUserLogin(userLogin);
-    createUserProfile(userProfile);
     return user;
 
   }
@@ -42,7 +40,6 @@ public class DefaultUserServiceImpl implements UserService {
   }
   
   public UserProfile createUserProfile(UserProfile userProfile) {
-    userProfile.getId(); 
     userProfileDao.CreateUserProfile(userProfile);    
     return userProfile;
 

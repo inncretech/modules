@@ -6,10 +6,10 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 
 
-import com.inncretech.core.model.AbstractEntity;
+import com.inncretech.core.model.IdEntity;
 
 @Entity
-public class UserLogin extends AbstractEntity {
+public class UserLogin implements IdEntity {
 
   private Long id;
 

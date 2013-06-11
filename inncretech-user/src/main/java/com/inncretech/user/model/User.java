@@ -3,12 +3,12 @@ package com.inncretech.user.model;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import com.inncretech.core.model.AbstractEntity;
+import com.inncretech.core.model.IdEntity;
 
 
 
 @Entity
-public class User  extends AbstractEntity{
+public class User  implements IdEntity{
 
 	private String email;
 	  private String userName;
