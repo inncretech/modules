@@ -23,7 +23,7 @@ public class Like extends AbstractEntity {
   public void setId(Long id){
     this.id= id;
   }
-
+  @Column
   public Long getObjectId() {
     return objectId;
   }
@@ -31,7 +31,7 @@ public class Like extends AbstractEntity {
   public void setObjectId(Long objectId) {
     this.objectId = objectId;
   }
-
+  @Column
   public Long getUserId() {
     return userId;
   }
@@ -39,7 +39,7 @@ public class Like extends AbstractEntity {
   public void setUserId(Long userId) {
     this.userId = userId;
   }
-
+  @Column
   public Byte getLikeValue() {
     return likeValue;
   }

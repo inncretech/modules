@@ -10,7 +10,6 @@ import com.inncretech.core.sharding.ShardType;
 import com.inncretech.core.sharding.dao.AbstractShardAwareHibernateDao;
 
 import com.inncretech.user.model.User;
-import com.inncretech.user.model.UserLogin;
 import com.inncretech.user.model.UserProfile;
 
 @Component

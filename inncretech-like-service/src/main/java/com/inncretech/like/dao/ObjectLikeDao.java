@@ -34,5 +34,10 @@ public class ObjectLikeDao extends AbstractShardAwareHibernateDao<Like> {
     }
     return result;
   }
+  public Like likeObject(Like obj)
+  {
+    getCurrentSession(obj.getId()).save(obj);
+    return obj;
+  }
 
 }
