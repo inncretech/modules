@@ -28,15 +28,13 @@ public class DefaultUserServiceImplTest {
   public void CreateUser() {
     User usr =CreateTestUser("Mahesh", "Kumar", "mmk@gmail.com", "mmk123");
     UserLogin usrlgn = CreateTestUserLogin("mmk123", "mmk@facebook", "mmk@twitter", "mmk@gooogle");
-    UserProfile usrprf = CreateTestProfile("mmkShortBio", "mmkLongBio");
-    userService.createUser(usr,usrlgn,usrprf, new AccessContext());
+    userService.createUser(usr,usrlgn, new AccessContext());
   }
   @Test
   public void UpdateUser() {
     User usr =CreateTestUser("Mahesh", "Kumar", "mmk@gmail.com", "mmk123");
     UserLogin usrlgn = CreateTestUserLogin("mmk123", "mmk@facebook", "mmk@twitter", "mmk@gooogle");
-    UserProfile usrprf = CreateTestProfile("mmkShortBio", "mmkLongBio");
-    userService.createUser(usr,usrlgn,usrprf, new AccessContext());
+    userService.createUser(usr,usrlgn, new AccessContext());
     usr.setFirstName("MMK");
     userService.UpdateUserDet(usr, new AccessContext());
   }
