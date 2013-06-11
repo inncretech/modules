@@ -5,10 +5,10 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 
 import com.inncretech.core.model.AbstractBaseEntity;
-import com.inncretech.core.model.AbstractEntity;
+import com.inncretech.core.model.IdEntity;;
 
 @Entity
-public class Like extends AbstractEntity {
+public class Like implements IdEntity {
   private Long id;
   private Long objectId;
   private Long userId;
