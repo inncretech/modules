@@ -12,6 +12,7 @@
  
   <modules>
     <module>inncretech-core</module>
+    <module>inncretech-test-core</module>
     <module>inncretech-user</module>
 	<module>inncretech-source</module>
     <module>inncretech-tag</module>
