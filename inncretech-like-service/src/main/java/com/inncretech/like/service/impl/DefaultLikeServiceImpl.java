@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 import com.inncretech.core.model.AccessContext;
 import com.inncretech.core.sharding.ShardAware;
 import com.inncretech.core.sharding.ShardType;
-import com.inncretech.like.dao.ObjectLikeDao;
+import com.inncretech.like.dao.SourceLikeDao;
 import com.inncretech.like.model.Like;
 import com.inncretech.like.service.LikeService;
 
@@ -28,17 +28,17 @@ public class DefaultLikeServiceImpl implements LikeService{
   }
   @Override
   @ShardAware(shardStrategy="entityid", shardType=ShardType.SOURCE)
-  public void likeSource(Long objectID, Long userId,AccessContext accessContext) {
+  public void likeSource(Long srcID, Long userId,AccessContext accessContext) {
     Like likeObj = new Like();
-    likeObj.setId(objLikeDao.getIdGenService().getIdOnShard(objLikeDao.getIdGenService().getShardId(objectID, ShardType.SOURCE)));
-    likeObj.setObjectId(objectID);
+    likeObj.setId(srcLikeDao.getIdGenService().getIdOnShard(srcLikeDao.getIdGenService().getShardId(srcID, ShardType.SOURCE)));
+    likeObj.setObjectId(srcID);
     likeObj.setUserId(userId);
-    objLikeDao.likeObject(likeObj);
+    srcLikeDao.likeObject(likeObj);
     
   }
     
 
   @Autowired
-  private ObjectLikeDao objLikeDao;
+  private SourceLikeDao srcLikeDao;
 
 }
