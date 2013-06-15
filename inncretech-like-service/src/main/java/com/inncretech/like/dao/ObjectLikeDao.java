@@ -9,24 +9,24 @@ import org.springframework.stereotype.Component;
 
 import com.inncretech.core.sharding.ShardType;
 import com.inncretech.core.sharding.dao.AbstractShardAwareHibernateDao;
-import com.inncretech.like.model.Like;
+import com.inncretech.like.model.SourceLike;
 
 @Component
-public class ObjectLikeDao extends AbstractShardAwareHibernateDao<Like> {
+public class ObjectLikeDao extends AbstractShardAwareHibernateDao<SourceLike> {
 
   public ObjectLikeDao() {
-    super(Like.class, ShardType.SOURCE);
+    super(SourceLike.class, ShardType.SOURCE);
   }
 
-  public List<Like> getAllLikes(Long objectId) {
+  public List<SourceLike> getAllLikes(Long objectId) {
     Query q = getCurrentSession(objectId).createQuery("from Like where objectId = ?");
     q.setParameter(1, objectId);
     return q.list();
   }
 
-  public List<Like> getAllLikes(List<Long> objectIds) {
+  public List<SourceLike> getAllLikes(List<Long> objectIds) {
     Map<Integer, List<Long>> buckets = bucketizeEntites(objectIds);
-    List<Like> result = new ArrayList<Like>();
+    List<SourceLike> result = new ArrayList<SourceLike>();
     for (Integer shardId : buckets.keySet()) {
       Query q = getCurrentSessionByShard(shardId).createQuery("from Like where objectId in (?)");
       q.setParameter(1, buckets.get(shardId));
@@ -34,7 +34,7 @@ public class ObjectLikeDao extends AbstractShardAwareHibernateDao<Like> {
     }
     return result;
   }
-  public Like likeObject(Like obj)
+  public SourceLike likeObject(SourceLike obj)
   {
     getCurrentSession(obj.getId()).save(obj);
     return obj;

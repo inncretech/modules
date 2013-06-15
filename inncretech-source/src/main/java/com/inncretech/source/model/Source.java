@@ -3,12 +3,14 @@ package com.inncretech.source.model;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.Transient;
 
 import com.inncretech.core.model.IdEntity;
+import com.inncretech.core.model.ShardEntity;
 
 
 @Entity
-public class Source implements IdEntity {
+public class Source implements IdEntity, ShardEntity {
 
   private Long id;
 
@@ -16,6 +18,11 @@ public class Source implements IdEntity {
   private String sourceUri;
 
   private int sourceType = 0;
+  
+  @Transient
+  public Long getShardedColumnValue(){
+    return this.id;
+  }
 
   @Id
   @Column

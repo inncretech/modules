@@ -9,27 +9,26 @@ import com.inncretech.core.model.AccessContext;
 import com.inncretech.core.sharding.ShardAware;
 import com.inncretech.core.sharding.ShardType;
 import com.inncretech.like.dao.SourceLikeDao;
-import com.inncretech.like.model.Like;
+import com.inncretech.like.model.SourceLike;
 import com.inncretech.like.service.LikeService;
 
 @Service
 public class DefaultLikeServiceImpl implements LikeService{
 
   @Override
-  public List<Like> getAllLikesByObject(Long objectId, AccessContext accessContext) {
+  public List<SourceLike> getAllLikesByObject(Long objectId, AccessContext accessContext) {
     // TODO Auto-generated method stub
     return null;
   }
 
   @Override
-  public List<Like> getAllLikeByUser(Long userId, AccessContext accessContext) {
+  public List<SourceLike> getAllLikeByUser(Long userId, AccessContext accessContext) {
     // TODO Auto-generated method stub
     return null;
   }
   @Override
-  @ShardAware(shardStrategy="entityid", shardType=ShardType.SOURCE)
   public void likeSource(Long srcID, Long userId,AccessContext accessContext) {
-    Like likeObj = new Like();
+    SourceLike likeObj = new SourceLike();
     likeObj.setId(srcLikeDao.getIdGenService().getIdOnShard(srcLikeDao.getIdGenService().getShardId(srcID, ShardType.SOURCE)));
     likeObj.setObjectId(srcID);
     likeObj.setUserId(userId);
