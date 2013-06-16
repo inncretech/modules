@@ -11,12 +11,12 @@
   </parent>
   <artifactId>inncretech-comment</artifactId>
   <packaging>jar</packaging>
-  <name>Inncretech User</name>
+  <name>Inncretech Comment</name>
   <dependencies>
-  	<dependency>
+   	<dependency>
       <groupId>com.inncretech</groupId>
       <artifactId>inncretech-core</artifactId>
       <version>1.0</version>
     </dependency>
-  </dependencies>
+   </dependencies>
 </project>
