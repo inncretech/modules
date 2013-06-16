@@ -26,17 +26,9 @@ public class ShardConfigDao {
   }
 
   @Transactional
-  public List<String> getAllDBConfigs() {
-    Query q = sessionFactory.getCurrentSession().createQuery("select distinct jdbcUrl from ShardConfig");
+  public List<ShardConfig> getAllDBConfigs() {
+    Query q = sessionFactory.getCurrentSession().createQuery("from ShardConfig");
     return q.list();
-
-  }
-
-  @Transactional
-  public String getJdbcUrlById(int shardId) {
-    Query q = sessionFactory.getCurrentSession().createQuery("select distinct jdbcUrl from ShardConfig where id = ? ");
-    q.setParameter(0, shardId);
-    return (String) q.list().get(0);
 
   }
 

@@ -18,28 +18,28 @@ import org.springframework.stereotype.Component;
 
 
 import com.inncretech.core.sharding.dao.ShardConfigDao;
+import com.inncretech.core.sharding.model.ShardConfig;
 import com.mchange.v2.c3p0.ComboPooledDataSource;
 
 @Component
 public class HibernateSessionFactoryManager {
 
-  private Map<String, SessionFactory> sessionFactoryMap = new HashMap<String, SessionFactory>();
+  private Map<Integer, SessionFactory> sessionFactoryMap = new HashMap<Integer, SessionFactory>();
 
-  private Map<String, HibernateTransactionManager> transactionManagerMap = new HashMap<String, HibernateTransactionManager>();
-
+  private Map<Integer, HibernateTransactionManager> transactionManagerMap = new HashMap<Integer, HibernateTransactionManager>();
+  
   @Autowired
   private ShardConfigDao shardConfigDao;
 
   @PostConstruct
   public void init() {
     try {
-      List<String> jdbcUrls = shardConfigDao.getAllDBConfigs();
-      int noOfShards = jdbcUrls.size();
-      for (int i = 0; i < noOfShards; i++) {
-        SessionFactory sessionFactory = createSessionFactory(jdbcUrls.get(i)).getObject();
+      List<ShardConfig> shardConfigs = shardConfigDao.getAllDBConfigs();
+      for (ShardConfig config : shardConfigs) {
+        SessionFactory sessionFactory = createSessionFactory(config.getJdbcUrl()).getObject();
 
-        sessionFactoryMap.put(jdbcUrls.get(i), sessionFactory);
-        transactionManagerMap.put(jdbcUrls.get(i), createTransactionManager(sessionFactory));
+        sessionFactoryMap.put(config.getId(), sessionFactory);
+        transactionManagerMap.put(config.getId(), createTransactionManager(sessionFactory));
       }
     } catch (Exception e) {
       throw new RuntimeException(e);
@@ -48,13 +48,11 @@ public class HibernateSessionFactoryManager {
   }
 
   public SessionFactory getSessionFactory(int shardId) {
-    String jdbcUrl = shardConfigDao.getJdbcUrlById(shardId);
-    return sessionFactoryMap.get(jdbcUrl);
+    return sessionFactoryMap.get(new Integer(shardId));
   }
 
   public HibernateTransactionManager getTransactionManager(int shardId) {
-    String jdbcUrl = shardConfigDao.getJdbcUrlById(shardId);
-    return transactionManagerMap.get(jdbcUrl);
+    return transactionManagerMap.get(new Integer(shardId));
   }
 
   public HibernateTransactionManager createTransactionManager(SessionFactory sessionFactory) {
@@ -91,7 +89,7 @@ public class HibernateSessionFactoryManager {
     return source;
   }
   
-  public Map<String, SessionFactory> getAllSessionFactory(){
+  public Map<Integer, SessionFactory> getAllSessionFactory(){
     return sessionFactoryMap;
   }
 

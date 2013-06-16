@@ -2,6 +2,7 @@ package com.inncretech.user.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.inncretech.core.model.AccessContext;
 import com.inncretech.core.sharding.ShardAware;
