@@ -15,10 +15,6 @@ import com.inncretech.core.sharding.dao.AbstractShardAwareHibernateDao;
 @Component
 public class CommentDao extends AbstractShardAwareHibernateDao<Comment>{
   
-	  @Autowired
-	  private SessionFactory sessionFactory;
-	  
-  
 	public CommentDao(){
 	    super(Comment.class, ShardType.SOURCE);
 	  }
@@ -31,8 +27,8 @@ public class CommentDao extends AbstractShardAwareHibernateDao<Comment>{
 	
 	 @ShardAware(shardStrategy = "entityid")
 	  public List<Comment> getComments(Long sourceId) {
-		 Query q=getCurrentSession(sourceId).createQuery("from Comment where sourceId=?");
-		 q.setParameter(0, sourceId);
+		 Query q=getCurrentSession(sourceId).createQuery("from Comment where sourceId = ?");
+		 q.setParameter(1, sourceId);
 		 return q.list();
 	  }
 
