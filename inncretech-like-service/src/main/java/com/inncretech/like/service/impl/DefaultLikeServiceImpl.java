@@ -17,14 +17,16 @@ public class DefaultLikeServiceImpl implements LikeService{
 
   @Override
   public List<SourceLike> getAllLikesByObject(Long objectId, AccessContext accessContext) {
-    // TODO Auto-generated method stub
-    return null;
+    List<SourceLike> allSourceLikes = srcLikeDao.getAllLikes(objectId);
+    
+    return allSourceLikes;
   }
 
   @Override
   public List<SourceLike> getAllLikeByUser(Long userId, AccessContext accessContext) {
-    // TODO Auto-generated method stub
-    return null;
+    List<SourceLike> allSourceLikes = srcLikeDao.getAllLikesByUser(userId);
+    
+    return allSourceLikes;
   }
   @Override
   public void likeSource(Long srcID, Long userId,AccessContext accessContext) {

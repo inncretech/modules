@@ -20,8 +20,13 @@ public class SourceLikeDao extends AbstractShardAwareHibernateDao<SourceLike> {
   }
 
   public List<SourceLike> getAllLikes(Long objectId) {
-    Query q = getCurrentSession(objectId).createQuery("from Like where objectId = ?");
+    Query q = getCurrentSession(objectId).createQuery("from SourceLike where objectId = ?");
     q.setParameter(1, objectId);
+    return q.list();
+  }
+  public List<SourceLike> getAllLikesByUser(Long userID) {
+    Query q = getCurrentSession(userID).createQuery("from SourceLike where userId = ?");
+    q.setParameter(1, userID);
     return q.list();
   }
 
@@ -29,7 +34,7 @@ public class SourceLikeDao extends AbstractShardAwareHibernateDao<SourceLike> {
     Map<Integer, List<Long>> buckets = bucketizeEntites(objectIds);
     List<SourceLike> result = new ArrayList<SourceLike>();
     for (Integer shardId : buckets.keySet()) {
-      Query q = getCurrentSessionByShard(shardId).createQuery("from Like where objectId in (?)");
+      Query q = getCurrentSessionByShard(shardId).createQuery("from SourceLike where objectId in (?)");
       q.setParameter(1, buckets.get(shardId));
       result.addAll(q.list());
     }
