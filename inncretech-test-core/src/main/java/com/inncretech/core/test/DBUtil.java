@@ -17,7 +17,7 @@ public class DBUtil {
   public void cleanUpdb(Integer shardID) {
 
     Session sess = hibernateSessionFactoryManager.getSessionFactory(shardID).getCurrentSession();
-    String[] tablesToBeDeleted = {"user", "user_login", "source"};
+    String[] tablesToBeDeleted = {"user", "user_login", "source","source_like"};
     for(String table : tablesToBeDeleted)
        sess.createSQLQuery("delete from "+table).executeUpdate();
 
