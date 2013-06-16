@@ -9,10 +9,10 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-import com.inncretech.core.model.AbstractEntity;
+import com.inncretech.core.model.ShardEntity;
 
 @Entity(name = "comment")
-public class Comment extends AbstractEntity {
+public class Comment implements ShardEntity {
     private Long id;
 	private Long sourceId;
 	private Long userId;
@@ -22,6 +22,10 @@ public class Comment extends AbstractEntity {
 
 	public Comment(){
 		
+	}
+	
+	public Long getShardedColumnValue(){
+	  return this.sourceId;
 	}
 	
 	public Comment(Long id, Long sourceId, Long userId, String comment,
@@ -36,7 +40,6 @@ public class Comment extends AbstractEntity {
 	}
 	
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column
 	public Long getId() {
 		return id;
