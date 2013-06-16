@@ -1,5 +1,6 @@
 package com.inncretech.core.test;
 
+import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -17,10 +18,13 @@ public class DBUtil {
   public void cleanUpdb(Integer shardID) {
 
     Session sess = hibernateSessionFactoryManager.getSessionFactory(shardID).getCurrentSession();
-    String[] tablesToBeDeleted = {"user", "user_login", "source","source_like"};
-    for(String table : tablesToBeDeleted)
-       sess.createSQLQuery("delete from "+table).executeUpdate();
-
+    String[] tablesToBeDeleted = { "user", "user_login", "source", "source_like" };
+    for (String table : tablesToBeDeleted)
+      try {
+        sess.createSQLQuery("delete from " + table).executeUpdate();
+      } catch (HibernateException e) {
+        System.err.println(e);
+      }
   }
 
 }

@@ -23,56 +23,55 @@ public class DefaultUserServiceImplTest {
   @Autowired
   private TestUtil dbUtility;
 
-  
   @Test
-  public void CreateUser() {
-    for(int i=0;i<5;i++)
-    {
-    User usr =CreateTestUser("Maheshaaa" + i, "Kumar", "mmk@gmail.com", "mmk123");
-    UserLogin usrlgn = CreateTestUserLogin("mmk123", "mmk@facebook", "mmk@twitter", "mmk@gooogle");
-    userService.createUser(usr,usrlgn, new AccessContext());
+  public void createUser() {
+    for (int i = 0; i < 5; i++) {
+      User usr = createTestUser("Maheshaaa" + i, "Kumar", "mmk@gmail.com", "mmk123");
+      UserLogin usrlgn = CreateTestUserLogin("mmk123", "mmk@facebook", "mmk@twitter", "mmk@gooogle");
+      userService.createUser(usr, usrlgn, new AccessContext());
     }
   }
+
   @Test
-  public void UpdateUser() {
-    User usr =CreateTestUser("Mahesh", "Kumar", "mmk@gmail.com", "mmk123");
+  public void updateUser() {
+    User usr = createTestUser("Mahesh", "Kumar", "mmk@gmail.com", "mmk123");
     UserLogin usrlgn = CreateTestUserLogin("mmk123", "mmk@facebook", "mmk@twitter", "mmk@gooogle");
-    userService.createUser(usr,usrlgn, new AccessContext());
+    userService.createUser(usr, usrlgn, new AccessContext());
     usr.setFirstName("MMK");
     userService.UpdateUserDet(usr, new AccessContext());
   }
+
   @Before
   public void setUp() {
     dbUtility.cleanUpdb();
 
   }
- User CreateTestUser (String fName,String lName,String eMail,String uName)
- {
-   User usr = new User();
-   usr.setFirstName(fName);
-   usr.setLastName(lName);
-   usr.setEmail(eMail);
-   usr.setUserName(uName);
-   return usr;
- 
- }
- 
- UserLogin CreateTestUserLogin (  String password,String facebookId,String twitterId,String googleId)
- {
-   UserLogin usrln = new UserLogin();
-   usrln.setPassword(password);
-   usrln.setFacebookId(facebookId);
-   usrln.setTwitterId(twitterId);
-   usrln.setGoogleId(googleId);
-   return usrln;
- 
- }
- UserProfile CreateTestProfile (String shortBio,String longBio)
- {
-   UserProfile usrprf = new UserProfile();
-   usrprf.setLongBio(longBio);
-   usrprf.setShortBio(shortBio);
-   return usrprf;
- 
- }
+
+  User createTestUser(String fName, String lName, String eMail, String uName) {
+    User usr = new User();
+    usr.setFirstName(fName);
+    usr.setLastName(lName);
+    usr.setEmail(eMail);
+    usr.setUserName(uName);
+    return usr;
+
+  }
+
+  UserLogin CreateTestUserLogin(String password, String facebookId, String twitterId, String googleId) {
+    UserLogin usrln = new UserLogin();
+    usrln.setPassword(password);
+    usrln.setFacebookId(facebookId);
+    usrln.setTwitterId(twitterId);
+    usrln.setGoogleId(googleId);
+    return usrln;
+
+  }
+
+  UserProfile CreateTestProfile(String shortBio, String longBio) {
+    UserProfile usrprf = new UserProfile();
+    usrprf.setLongBio(longBio);
+    usrprf.setShortBio(shortBio);
+    return usrprf;
+
+  }
 }

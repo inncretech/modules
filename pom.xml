@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" 
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 
                              http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.inncretech</groupId>
@@ -9,34 +8,107 @@
   <packaging>pom</packaging>
   <version>1.0</version>
   <name>Inncretech core modules</name>
- 
+
   <modules>
     <module>inncretech-core</module>
     <module>inncretech-test-core</module>
     <module>inncretech-user</module>
-	<module>inncretech-source</module>
+    <module>inncretech-source</module>
     <module>inncretech-tag</module>
     <module>inncretech-notification</module>
     <module>inncretech-like-service</module>
-	<module>inncretech-comment</module>
-	<module>inncretech-follow</module>
+    <module>inncretech-comment</module>
+    <module>inncretech-follow</module>
   </modules>
 
   <build>
     <pluginManagement>
-    <plugins>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-compiler-plugin</artifactId>
-        <configuration>
-          <source>1.6</source>
-          <target>1.6</target>
-        </configuration>
-      </plugin>
-    </plugins>
+      <plugins>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-compiler-plugin</artifactId>
+          <configuration>
+            <source>1.6</source>
+            <target>1.6</target>
+          </configuration>
+        </plugin>
+      </plugins>
     </pluginManagement>
   </build>
-
+  <dependencyManagement>
+    <dependencies>
+      <dependency>
+        <groupId>org.springframework</groupId>
+        <artifactId>spring-beans</artifactId>
+        <version>3.2.2.RELEASE</version>
+      </dependency>
+      <dependency>
+        <groupId>org.springframework</groupId>
+        <artifactId>spring-tx</artifactId>
+        <version>3.2.2.RELEASE</version>
+      </dependency>
+      <dependency>
+        <groupId>org.hibernate</groupId>
+        <artifactId>hibernate-entitymanager</artifactId>
+        <version>4.2.1.Final</version>
+      </dependency>
+      <dependency>
+        <groupId>org.springframework</groupId>
+        <artifactId>spring-aop</artifactId>
+        <version>3.2.0.RELEASE</version>
+      </dependency>
+      <dependency>
+        <groupId>org.springframework.data</groupId>
+        <artifactId>spring-data-jpa</artifactId>
+        <version>1.1.0.RELEASE</version>
+      </dependency>
+      <dependency>
+        <groupId>org.springframework</groupId>
+        <artifactId>spring-aspects</artifactId>
+        <version>3.1.1.RELEASE</version>
+      </dependency>
+      <dependency>
+        <groupId>aspectj</groupId>
+        <artifactId>aspectjrt</artifactId>
+        <version>1.5.4</version>
+      </dependency>
+      <dependency>
+        <groupId>aspectj</groupId>
+        <artifactId>aspectjweaver</artifactId>
+        <version>1.5.4</version>
+      </dependency>
+      <dependency>
+        <groupId>org.springframework</groupId>
+        <artifactId>spring-test</artifactId>
+        <version>3.2.0.RELEASE</version>
+      </dependency>
+      <dependency>
+        <groupId>org.springframework</groupId>
+        <artifactId>spring-context</artifactId>
+        <version>3.2.0.RELEASE</version>
+      </dependency>
+      <dependency>
+        <groupId>c3p0</groupId>
+        <artifactId>c3p0</artifactId>
+        <version>0.9.1.2</version>
+      </dependency>
+      <dependency>
+        <groupId>mysql</groupId>
+        <artifactId>mysql-connector-java</artifactId>
+        <version>5.1.18</version>
+      </dependency>
+      <dependency>
+        <groupId>org.jadira.usertype</groupId>
+        <artifactId>usertype.core</artifactId>
+        <version>3.0.0.CR1</version>
+      </dependency>
+      <dependency>
+        <groupId>joda-time</groupId>
+        <artifactId>joda-time</artifactId>
+        <version>2.0</version>
+      </dependency>
+    </dependencies>
+  </dependencyManagement>
   <dependencies>
     <dependency>
       <groupId>junit</groupId>
@@ -45,4 +117,10 @@
       <scope>test</scope>
     </dependency>
   </dependencies>
+  <repositories>
+    <repository>
+      <id>my-alternate-repository</id>
+      <url>http://repo1.maven.org/maven2</url>
+    </repository>
+  </repositories>
 </project>
