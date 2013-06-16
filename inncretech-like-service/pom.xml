@@ -19,5 +19,10 @@
       <artifactId>inncretech-core</artifactId>
       <version>1.0</version>
     </dependency>
+    <dependency>
+      <groupId>com.inncretech</groupId>
+      <artifactId>inncretech-test-core</artifactId>
+      <version>1.0</version>
+    </dependency>
   </dependencies>
 </project>

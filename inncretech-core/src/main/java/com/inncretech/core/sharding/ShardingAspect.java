@@ -6,7 +6,6 @@ import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
-import org.aspectj.lang.annotation.Pointcut;
 import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -15,6 +14,8 @@ import org.springframework.transaction.annotation.AnnotationTransactionAttribute
 import org.springframework.transaction.interceptor.TransactionAspectSupport;
 import org.springframework.transaction.interceptor.TransactionAttribute;
 
+import com.inncretech.core.model.IdEntity;
+import com.inncretech.core.model.ShardEntity;
 
 @Aspect
 @Component
@@ -25,10 +26,6 @@ public class ShardingAspect extends TransactionAspectSupport {
 
   @Autowired
   private IdGenerator idGenService;
-
-  @Pointcut("execution(public * ((@ShardAware *)+).*(..)) && within(@ShardAware *)")
-  public void anyPublicMethod() {
-  }
 
   public ShardingAspect() {
     setTransactionAttributeSource(new AnnotationTransactionAttributeSource(new ShardingAnnotationParser()));
@@ -45,6 +42,7 @@ public class ShardingAspect extends TransactionAspectSupport {
       commitTransactionAfterReturning(TransactionAspectSupport.currentTransactionInfo());
       return result;
     } catch (Throwable ex) {
+      ex.printStackTrace();
       completeTransactionAfterThrowing(TransactionAspectSupport.currentTransactionInfo(), ex);
       throw new RuntimeException(ex);
     } finally {
@@ -53,12 +51,22 @@ public class ShardingAspect extends TransactionAspectSupport {
   }
 
   protected TransactionInfo createTransactionIfNecessary(Method method, ShardAware txObject, JoinPoint jointPoint) {
-    // If the transaction attribute is null, the method is non-transactional.
+    // If the transaction attribute is null, the method is
+    // non-transactional.
     TransactionAttribute txAttr = getTransactionAttributeSource().getTransactionAttribute(method, txObject.getClass());
     PlatformTransactionManager tm = null;
-    if(txObject.shardStrategy().equals("entityid"))
-      tm = sessionFactoryService.getTransactionManager(idGenService.getShardId((Long) jointPoint.getArgs()[0], txObject.shardType()));
-    else
+    Long entityID = null;
+    Object fParam = jointPoint.getArgs()[0];
+
+    if (txObject.shardStrategy().equals("entityid")) {
+      if (fParam instanceof Long) {
+        entityID = (Long) fParam;
+      } else if (fParam instanceof ShardEntity) {
+        entityID = ((ShardEntity) fParam).getShardedColumnValue();
+      }
+
+      tm = sessionFactoryService.getTransactionManager(idGenService.getShardId(entityID, txObject.shardType()));
+    } else
       tm = sessionFactoryService.getTransactionManager((Integer) jointPoint.getArgs()[0]);
 
     return createTransactionIfNecessary(tm, txAttr, methodIdentification(method, txObject.getClass()));

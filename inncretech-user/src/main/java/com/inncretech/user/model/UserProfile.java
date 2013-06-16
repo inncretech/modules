@@ -2,21 +2,25 @@ package com.inncretech.user.model;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Transient;
 
-import com.inncretech.core.model.AbstractBaseEntity;
-import com.inncretech.core.model.AbstractEntity;
+import com.inncretech.core.model.IdEntity;
+import com.inncretech.core.model.ShardEntity;
 
 @Entity
-public class UserProfile extends AbstractEntity {
+public class UserProfile implements ShardEntity {
 
   private Long userId;
   private String shortBio;
   private String longBio;
 
   private Long id;
+  
+  @Transient
+  public Long getShardedColumnValue(){
+    return this.userId;
+  }
 
   @Id
   @Column

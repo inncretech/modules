@@ -1,48 +1,81 @@
 package com.inncretech.user.model;
 
-import java.io.Serializable;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.Transient;
 
-import com.inncretech.core.model.AbstractEntity;
+import com.inncretech.core.model.IdEntity;
+import com.inncretech.core.model.ShardEntity;
 
-@Entity(name = "user")
-public class User extends AbstractEntity {
 
-  private String email;
-  private String userName;
-  private String firstName;
-  private String lastName;
-  private String middleName;
-  private Long id;
 
-  @Id
-  @Column
-  public Long getId() {
-    return id;
-  }
+@Entity
+public class User  implements ShardEntity{
 
-  public void setId(Long id) {
-    this.id = id;
-  }
+	private String email;
+	  private String userName;
+	  private String firstName;
+	  private String lastName;
+	  private String middleName;
+	  private Long id;
+	  
+	  @Transient
+	  public Long getShardedColumnValue(){
+	    return this.id;
+	  }
+	 
+	  @Id
+	  @Column	
+	  public Long getId() {
+	    return id;
+	  }
 
-  @Column
-  public String getEmail() {
-    return email;
-  }
+	  public void setId(Long id) {
+	    this.id = id;
+	  }
 
-  public void setEmail(String email) {
-    this.email = email;
-  }
+	  @Column
+	  public String getEmail() {
+	    return email;
+	  }
 
-  @Column
-  public String getUserName() {
-    return userName;
-  }
+	  public void setEmail(String email) {
+	    this.email = email;
+	  }
 
-  public void setUserName(String userName) {
-    this.userName = userName;
-  }
+	  @Column
+	  public String getUserName() {
+	    return userName;
+	  }
+
+	  public void setUserName(String userName) {
+	    this.userName = userName;
+	  }
+	  @Column
+	public String getMiddleName() {
+		return middleName;
+	}
+
+	public void setMiddleName(String middleName) {
+		this.middleName = middleName;
+	}
+	 @Column
+	public String getFirstName() {
+		return firstName;
+	}
+
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
+	}
+	 @Column
+	public String getLastName() {
+		return lastName;
+	}
+
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
+	}
+			  
+		
 }

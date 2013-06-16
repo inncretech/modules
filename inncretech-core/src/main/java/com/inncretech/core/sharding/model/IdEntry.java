@@ -6,10 +6,11 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
-import com.inncretech.core.model.AbstractEntity;
+import com.inncretech.core.model.IdEntity;
+import com.inncretech.core.model.ShardEntity;
 
 @Entity
-public class IdEntry extends AbstractEntity {
+public class IdEntry implements IdEntity {
 
   private Long id;
 

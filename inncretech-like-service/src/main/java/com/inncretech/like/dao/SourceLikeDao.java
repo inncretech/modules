@@ -7,14 +7,15 @@ import java.util.Map;
 import org.hibernate.Query;
 import org.springframework.stereotype.Component;
 
+import com.inncretech.core.sharding.ShardAware;
 import com.inncretech.core.sharding.ShardType;
 import com.inncretech.core.sharding.dao.AbstractShardAwareHibernateDao;
 import com.inncretech.like.model.SourceLike;
 
 @Component
-public class ObjectLikeDao extends AbstractShardAwareHibernateDao<SourceLike> {
+public class SourceLikeDao extends AbstractShardAwareHibernateDao<SourceLike> {
 
-  public ObjectLikeDao() {
+  public SourceLikeDao() {
     super(SourceLike.class, ShardType.SOURCE);
   }
 
@@ -34,9 +35,11 @@ public class ObjectLikeDao extends AbstractShardAwareHibernateDao<SourceLike> {
     }
     return result;
   }
+  
+  @ShardAware(shardStrategy="entityid", shardType=ShardType.SOURCE)
   public SourceLike likeObject(SourceLike obj)
   {
-    getCurrentSession(obj.getId()).save(obj);
+    getCurrentSession(obj.getObjectId()).save(obj);
     return obj;
   }
 

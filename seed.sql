@@ -16,82 +16,64 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `IdEntry`
+-- Table structure for table `id_entry`
 --
-create database masterdb;
+drop database userdb1;
+drop database userdb2;
+drop database sourcedb1;
+drop database sourcedb2;
+drop database masterdb;
+
 create database userdb1;
 create database userdb2;
 create database sourcedb1;
 create database sourcedb2;
+create database masterdb;
 
-use masterdb;
+use database masterdb;
 
-DROP TABLE IF EXISTS `IdEntry`;
+DROP TABLE IF EXISTS `id_entry`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `IdEntry` (
+CREATE TABLE `id_entry` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `IdEntry`
+-- Dumping data for table `id_entry`
 --
 
-LOCK TABLES `IdEntry` WRITE;
-/*!40000 ALTER TABLE `IdEntry` DISABLE KEYS */;
-/*!40000 ALTER TABLE `IdEntry` ENABLE KEYS */;
+LOCK TABLES `id_entry` WRITE;
+/*!40000 ALTER TABLE `id_entry` DISABLE KEYS */;
+/*!40000 ALTER TABLE `id_entry` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
--- Table structure for table `ShardConfig`
+-- Table structure for table `shard_config`
 --
 
-DROP TABLE IF EXISTS `ShardConfig`;
+DROP TABLE IF EXISTS `shard_config`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `ShardConfig` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `allowNew` tinyint(1) DEFAULT NULL,
-  `jdbcUrl` varchar(255) DEFAULT NULL,
-  `shardType` tinyint(4) DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `ShardConfig`
---
-
-LOCK TABLES `ShardConfig` WRITE;
-/*!40000 ALTER TABLE `ShardConfig` DISABLE KEYS */;
-INSERT INTO `ShardConfig` VALUES (1,1,'jdbc:mysql://localhost:3306/userdb1',1),(2,1,'jdbc:mysql://localhost:3306/userdb2',1),(3,1,'jdbc:mysql://localhost:3306/sourcedb2',2),(4,1,'jdbc:mysql://localhost:3306/sourcedb1',2);
-/*!40000 ALTER TABLE `ShardConfig` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `User`
---
-
-DROP TABLE IF EXISTS `User`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `User` (
-  `id` bigint(20) NOT NULL,
-  `email` varchar(255) DEFAULT NULL,
-  `userName` varchar(255) DEFAULT NULL,
+CREATE TABLE `shard_config` (
+  `id` int(11) NOT NULL,
+  `allow_new` tinyint(1) DEFAULT NULL,
+  `jdbc_url` varchar(255) DEFAULT NULL,
+  `shard_type` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `User`
+-- Dumping data for table `shard_config`
 --
 
-LOCK TABLES `User` WRITE;
-/*!40000 ALTER TABLE `User` DISABLE KEYS */;
-/*!40000 ALTER TABLE `User` ENABLE KEYS */;
+LOCK TABLES `shard_config` WRITE;
+/*!40000 ALTER TABLE `shard_config` DISABLE KEYS */;
+INSERT INTO `shard_config` VALUES (1,1,'jdbc:mysql://localhost:3306/userdb1',0),(2,1,'jdbc:mysql://localhost:3306/userdb2',0),(8001,1,'jdbc:mysql://localhost:3306/sourcedb2',1),(8002,1,'jdbc:mysql://localhost:3306/sourcedb1',1);
+/*!40000 ALTER TABLE `shard_config` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -103,7 +85,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2013-05-18 23:24:14
-
-
-
+-- Dump completed on 2013-06-09 14:33:33

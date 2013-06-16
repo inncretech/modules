@@ -7,12 +7,14 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.inncretech.core.model.AbstractEntity;
+import com.inncretech.core.model.IdEntity;
+import com.inncretech.core.model.ShardEntity;
 import com.inncretech.core.sharding.HibernateSessionFactoryManager;
 import com.inncretech.core.sharding.IdGenerator;
+import com.inncretech.core.sharding.ShardAware;
 import com.inncretech.core.sharding.ShardType;
 
-public class AbstractShardAwareHibernateDao<T extends AbstractEntity> {
+public class AbstractShardAwareHibernateDao<T> {
 
   private Class clazz;
   private ShardType shardType;
@@ -40,11 +42,16 @@ public class AbstractShardAwareHibernateDao<T extends AbstractEntity> {
     return (T) getCurrentSession(entityId).get(clazz, entityId);
   }
 
+  public void save(Long entityId, Object obj) {
+    getCurrentSession(entityId).saveOrUpdate(obj);
+  }
+
   public Session getCurrentSession(Long entityId) {
     SessionFactory sessionFactory = sessionFactoryManager.getSessionFactory(idGenService.getShardId(entityId, shardType));
     return sessionFactory.getCurrentSession();
   }
 
+  
   public Session getCurrentSessionByShard(Integer shardId) {
     SessionFactory sessionFactory = sessionFactoryManager.getSessionFactory(shardId);
     return sessionFactory.getCurrentSession();

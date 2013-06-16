@@ -8,8 +8,20 @@ public enum ShardType {
   private ShardType(int type) {
     this.type = type;
   }
+  
+  public int getType(){
+    return type;
+  }
 
   public int getBaseId() {
-    return (8000 * type) + 1;
+    return 8000 * type;
+  }
+  
+  public static int getLogicalShardId(int dbShardId){
+    return dbShardId % 8000;
+  }
+  
+  public int getDbShardId(int encodedshardId){
+    return getBaseId()+encodedshardId;
   }
 }
