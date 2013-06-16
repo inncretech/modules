@@ -11,5 +11,9 @@ public interface LikeService {
   
   List<SourceLike> getAllLikeByUser(Long userId, AccessContext accessContext);
   
-  void likeSource(Long objectID,Long  userId, AccessContext accessContext);
+
+  void likeSource(Long srcID ,Long userId, AccessContext accessContext);
+
+  void unLikeSource(Long srcID, Long userId,AccessContext accessContext);
+
 }

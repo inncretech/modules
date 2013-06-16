@@ -1,6 +1,7 @@
 package com.inncretech.like;
 
 
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,6 +33,19 @@ public class DefaultLikeServiceImplTest extends BaseTest{
     long usrID =objDDAO.getIdGenService().getNewUserId();
     likeService.likeSource(objID,usrID,new AccessContext());
     
+  }
+  @Test
+  public void UnLikeSource() {
+ 
+    long objID= objDDAO.getIdGenService().getNewSourceId();
+    long usrID =objDDAO.getIdGenService().getNewUserId();
+    likeService.unLikeSource(objID,usrID,new AccessContext());
+    
+  }
+  @Before
+  public void setUp() {
+    dbUtility.cleanUpdb();
+
   }
 }
 

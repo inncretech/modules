@@ -32,10 +32,20 @@ public class DefaultLikeServiceImpl implements LikeService{
     likeObj.setId(srcLikeDao.getIdGenService().getIdOnShard(srcLikeDao.getIdGenService().getShardId(srcID, ShardType.SOURCE)));
     likeObj.setObjectId(srcID);
     likeObj.setUserId(userId);
+    likeObj.setLikeValue((byte) 1);
     srcLikeDao.likeObject(likeObj);
     
   }
+  @Override
+  public void unLikeSource(Long srcID, Long userId,AccessContext accessContext) {
+    SourceLike likeObj = new SourceLike();
+    likeObj.setId(srcLikeDao.getIdGenService().getIdOnShard(srcLikeDao.getIdGenService().getShardId(srcID, ShardType.SOURCE)));
+    likeObj.setObjectId(srcID);
+    likeObj.setUserId(userId);
+    likeObj.setLikeValue((byte) -1);
+    srcLikeDao.likeObject(likeObj);
     
+  } 
 
   @Autowired
   private SourceLikeDao srcLikeDao;
