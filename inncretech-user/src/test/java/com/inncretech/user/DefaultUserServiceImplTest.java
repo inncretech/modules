@@ -26,9 +26,12 @@ public class DefaultUserServiceImplTest {
   
   @Test
   public void CreateUser() {
-    User usr =CreateTestUser("Mahesh", "Kumar", "mmk@gmail.com", "mmk123");
+    for(int i=0;i<5;i++)
+    {
+    User usr =CreateTestUser("Maheshaaa" + i, "Kumar", "mmk@gmail.com", "mmk123");
     UserLogin usrlgn = CreateTestUserLogin("mmk123", "mmk@facebook", "mmk@twitter", "mmk@gooogle");
     userService.createUser(usr,usrlgn, new AccessContext());
+    }
   }
   @Test
   public void UpdateUser() {
