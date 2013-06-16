@@ -26,14 +26,13 @@ public class DefaultUserServiceImpl implements UserService {
 
     user.setId(userDao.getIdGenService().getNewUserId());
     userDao.createUser(user);
-    userLogin.setId(user.getId());
+    userLogin.setUserId(user.getId());
     createUserLogin(userLogin);
     return user;
 
   }
 
   public UserLogin createUserLogin(UserLogin userLogin) {
-    userLogin.getId(); 
     userLoginDao.CreateUserLogin(userLogin);    
     return userLogin;
 
@@ -48,7 +47,10 @@ public class DefaultUserServiceImpl implements UserService {
 
   @ShardAware(shardStrategy = "entityid", shardType = ShardType.USER)
   public void UpdateUserDet(User user, AccessContext accessContext) {
-    userDao.UpdateUserDetails(user);
+    User readUser = userDao.get(user.getId());
+    readUser.setFirstName(user.getFirstName());
+    readUser.setLastName(user.getLastName());
+    userDao.UpdateUserDetails(readUser);
 
   }
 

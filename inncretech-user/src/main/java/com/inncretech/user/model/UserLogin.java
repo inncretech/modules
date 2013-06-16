@@ -2,19 +2,29 @@ package com.inncretech.user.model;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Transient;
 
 import javax.persistence.Id;
 
 
 import com.inncretech.core.model.IdEntity;
+import com.inncretech.core.model.ShardEntity;
 
 @Entity
-public class UserLogin implements IdEntity {
+public class UserLogin implements ShardEntity {
 
   private Long id;
+  
+  @Transient
+  public Long getShardedColumnValue(){
+    return this.userId;
+  }
 
   @Id
   @Column
+  @GeneratedValue(strategy = GenerationType.AUTO)
   public Long getId() {
     return id;
   }

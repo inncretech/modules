@@ -26,11 +26,11 @@ public class IdGeneratorImpl implements IdGenerator {
   private IdEntryDao idEntryDao;
 
   public Long getNewUserId() {
-    return get(1);
+    return get(ShardType.USER);
   }
 
   public Long getNewSourceId() {
-    return get(2);
+    return get(ShardType.SOURCE);
   }
   
   public Long getSourceRelationId(Long sourceId){
@@ -41,8 +41,8 @@ public class IdGeneratorImpl implements IdGenerator {
     return null;
   }
 
-  private Long get(int shardType) {
-    return getIdOnShard(selectShardId(shardType).getId());
+  private Long get(ShardType shardType) {
+    return getIdOnShard(selectShardId(shardType.getType()).getId() - shardType.getBaseId());
   }
 
   private ShardConfig selectShardId(int shardType) {
@@ -59,12 +59,12 @@ public class IdGeneratorImpl implements IdGenerator {
   public Integer getShardId(Long id, ShardType shardType) {
     id = id >> 10;
     id = id & 0X3FFL;
-    return id.intValue();
+    return id.intValue()+shardType.getBaseId();
   }
   
   public Long getIdOnShard(Integer shardId){
     Long id = System.currentTimeMillis() << (64 - TIME_BITS);
-    id |= shardId << (64 - TIME_BITS - SHARD_BITS);
+    id |= ShardType.getLogicalShardId(shardId) << (64 - TIME_BITS - SHARD_BITS);
     id |= (nextSequence(shardId) % (int) Math.pow(2.0, (double) (64.0 - SHARD_BITS - TIME_BITS)));
     id &= 0X3FFFFFFFFFFFFFFFL;
     return id;

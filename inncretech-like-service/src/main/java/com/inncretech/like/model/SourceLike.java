@@ -3,16 +3,22 @@ package com.inncretech.like.model;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.Transient;
 
-import com.inncretech.core.model.AbstractBaseEntity;
-import com.inncretech.core.model.IdEntity;;
+import com.inncretech.core.model.IdEntity;
+import com.inncretech.core.model.ShardEntity;
 
 @Entity
-public class Like implements IdEntity {
+public class SourceLike implements IdEntity, ShardEntity {
   private Long id;
   private Long objectId;
   private Long userId;
   private Byte likeValue;
+  
+  @Transient
+  public Long getShardedColumnValue(){
+    return this.objectId;
+  }
   
   @Column
   @Id

@@ -8,12 +8,13 @@ import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.inncretech.core.model.IdEntity;
+import com.inncretech.core.model.ShardEntity;
 import com.inncretech.core.sharding.HibernateSessionFactoryManager;
 import com.inncretech.core.sharding.IdGenerator;
 import com.inncretech.core.sharding.ShardAware;
 import com.inncretech.core.sharding.ShardType;
 
-public class AbstractShardAwareHibernateDao<T extends IdEntity> {
+public class AbstractShardAwareHibernateDao<T> {
 
   private Class clazz;
   private ShardType shardType;

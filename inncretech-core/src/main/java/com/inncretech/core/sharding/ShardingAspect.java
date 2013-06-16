@@ -15,6 +15,7 @@ import org.springframework.transaction.interceptor.TransactionAspectSupport;
 import org.springframework.transaction.interceptor.TransactionAttribute;
 
 import com.inncretech.core.model.IdEntity;
+import com.inncretech.core.model.ShardEntity;
 
 @Aspect
 @Component
@@ -41,6 +42,7 @@ public class ShardingAspect extends TransactionAspectSupport {
       commitTransactionAfterReturning(TransactionAspectSupport.currentTransactionInfo());
       return result;
     } catch (Throwable ex) {
+      ex.printStackTrace();
       completeTransactionAfterThrowing(TransactionAspectSupport.currentTransactionInfo(), ex);
       throw new RuntimeException(ex);
     } finally {
@@ -59,8 +61,8 @@ public class ShardingAspect extends TransactionAspectSupport {
     if (txObject.shardStrategy().equals("entityid")) {
       if (fParam instanceof Long) {
         entityID = (Long) fParam;
-      } else if (fParam instanceof IdEntity) {
-        entityID = ((IdEntity) fParam).getId();
+      } else if (fParam instanceof ShardEntity) {
+        entityID = ((ShardEntity) fParam).getShardedColumnValue();
       }
 
       tm = sessionFactoryService.getTransactionManager(idGenService.getShardId(entityID, txObject.shardType()));

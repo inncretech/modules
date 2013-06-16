@@ -72,7 +72,7 @@ CREATE TABLE `shard_config` (
 
 LOCK TABLES `shard_config` WRITE;
 /*!40000 ALTER TABLE `shard_config` DISABLE KEYS */;
-INSERT INTO `shard_config` VALUES (1,1,'jdbc:mysql://localhost:3306/userdb1',1),(2,1,'jdbc:mysql://localhost:3306/userdb2',1),(3,1,'jdbc:mysql://localhost:3306/sourcedb2',2),(4,1,'jdbc:mysql://localhost:3306/sourcedb1',2);
+INSERT INTO `shard_config` VALUES (1,1,'jdbc:mysql://localhost:3306/userdb1',0),(2,1,'jdbc:mysql://localhost:3306/userdb2',0),(8001,1,'jdbc:mysql://localhost:3306/sourcedb2',1),(8002,1,'jdbc:mysql://localhost:3306/sourcedb1',1);
 /*!40000 ALTER TABLE `shard_config` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
