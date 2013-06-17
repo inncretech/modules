@@ -29,7 +29,7 @@ public class DefaultCommentServiceImplTest {
 	  comment.setSourceId(idGenerator.getNewSourceId());
 	  comment.setCommentParentId(10101L);
 	  comment.setComment("Comment1");
-	  commentService.create(idGenerator.getNewSourceId(), comment,new AccessContext());
+	  commentService.create(idGenerator.getNewSourceId(), comment);
   }
   
   @Test

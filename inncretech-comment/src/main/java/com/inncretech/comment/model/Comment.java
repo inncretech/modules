@@ -23,7 +23,7 @@ public class Comment implements ShardEntity {
 	public Comment(){
 		
 	}
-	
+	@Transient
 	public Long getShardedColumnValue(){
 	  return this.sourceId;
 	}
@@ -40,6 +40,7 @@ public class Comment implements ShardEntity {
 	}
 	
 	@Id
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column
 	public Long getId() {
 		return id;

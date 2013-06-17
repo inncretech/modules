@@ -19,13 +19,13 @@ public class CommentDao extends AbstractShardAwareHibernateDao<Comment>{
 	    super(Comment.class, ShardType.SOURCE);
 	  }
 
-	  @ShardAware(shardStrategy = "entityid")
+	  @ShardAware(shardStrategy = "entityid",shardType=ShardType.SOURCE)
 	  public Comment createComment(Long sourceId, Comment obj) {
 	    getCurrentSession(sourceId).save(obj);
 	    return obj;
 	  }
 	
-	 @ShardAware(shardStrategy = "entityid")
+	  @ShardAware(shardStrategy = "entityid",shardType=ShardType.SOURCE)
 	  public List<Comment> getComments(Long sourceId) {
 		 Query q=getCurrentSession(sourceId).createQuery("from Comment where sourceId = ?");
 		 q.setParameter(1, sourceId);
