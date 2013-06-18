@@ -28,29 +28,29 @@ public class DefaultLikeServiceImplTest extends BaseTest{
   @Autowired
   private TestUtil dbUtility;
   @Autowired
-  SourceLikeDao objDDAO ;
+  SourceLikeDao srcDAO ;
   
   @Test
   public void LikeSource() {
  
-    long srcID= objDDAO.getIdGenService().getNewSourceId();
-    long usrID =objDDAO.getIdGenService().getNewUserId();
+    long srcID= srcDAO.getIdGenService().getNewSourceId();
+    long usrID =srcDAO.getIdGenService().getNewUserId();
     likeService.likeSource(srcID,usrID,new AccessContext());
     
   }
   @Test
   public void UnLikeSource() {
  
-    long srcID= objDDAO.getIdGenService().getNewSourceId();
-    long usrID =objDDAO.getIdGenService().getNewUserId();
+    long srcID= srcDAO.getIdGenService().getNewSourceId();
+    long usrID =srcDAO.getIdGenService().getNewUserId();
     likeService.unLikeSource(srcID,usrID,new AccessContext());
     
   }
   @Test
   public void getLikeByObj() {
  
-    long srcID= objDDAO.getIdGenService().getNewSourceId();
-    long usrID =objDDAO.getIdGenService().getNewUserId();
+    long srcID= srcDAO.getIdGenService().getNewSourceId();
+    long usrID =srcDAO.getIdGenService().getNewUserId();
     likeService.unLikeSource(srcID,usrID,new AccessContext());
     List<SourceLike> lstSourceLike =  likeService.getAllLikesByObject(srcID, new AccessContext());
     
