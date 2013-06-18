@@ -8,10 +8,11 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import com.inncretech.core.model.ShardEntity;
 
-@Entity(name = "comment")
+@Entity(name = "Comment")
 public class Comment implements ShardEntity {
     private Long id;
 	private Long sourceId;

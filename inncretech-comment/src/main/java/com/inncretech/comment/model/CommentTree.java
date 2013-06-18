@@ -18,6 +18,8 @@ public class CommentTree<Comment> {
  public void addNode(Long commentParentId, Long commentId) {
     if (commentMap.containsKey(commentParentId)) {
     	commentMap.get(commentParentId).addNode(commentId);
+    }else{
+    	addNode(commentId);
     }
   }
 

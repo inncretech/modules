@@ -28,8 +28,8 @@ public class CommentDao extends AbstractShardAwareHibernateDao<Comment>{
 	  @ShardAware(shardStrategy = "entityid",shardType=ShardType.SOURCE)
 	  public List<Comment> getComments(Long sourceId) {
 		 Query q=getCurrentSession(sourceId).createQuery("from Comment where sourceId = ?");
-		 q.setParameter(1, sourceId);
+		 q.setParameter(0, sourceId);
 		 return q.list();
-	  }
+	}
 
 }
