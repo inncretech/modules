@@ -30,22 +30,22 @@ public class DefaultLikeServiceImpl implements LikeService{
   }
   @Override
   public void likeSource(Long srcID, Long userId,AccessContext accessContext) {
-    SourceLike likeObj = new SourceLike();
-    likeObj.setId(srcLikeDao.getIdGenService().getIdOnShard(srcLikeDao.getIdGenService().getShardId(srcID, ShardType.SOURCE)));
-    likeObj.setObjectId(srcID);
-    likeObj.setUserId(userId);
-    likeObj.setLikeValue((byte) 1);
-    srcLikeDao.likeObject(likeObj);
+    SourceLike likeSrc = new SourceLike();
+    likeSrc.setId(srcLikeDao.getIdGenService().getIdOnShard(srcLikeDao.getIdGenService().getShardId(srcID, ShardType.SOURCE)));
+    likeSrc.setObjectId(srcID);
+    likeSrc.setUserId(userId);
+    likeSrc.setLikeValue((byte) 1);
+    srcLikeDao.likeObject(likeSrc);
     
   }
   @Override
   public void unLikeSource(Long srcID, Long userId,AccessContext accessContext) {
-    SourceLike likeObj = new SourceLike();
-    likeObj.setId(srcLikeDao.getIdGenService().getIdOnShard(srcLikeDao.getIdGenService().getShardId(srcID, ShardType.SOURCE)));
-    likeObj.setObjectId(srcID);
-    likeObj.setUserId(userId);
-    likeObj.setLikeValue((byte) -1);
-    srcLikeDao.likeObject(likeObj);
+    SourceLike likeSrc= new SourceLike();
+    likeSrc.setId(srcLikeDao.getIdGenService().getIdOnShard(srcLikeDao.getIdGenService().getShardId(srcID, ShardType.SOURCE)));
+    likeSrc.setObjectId(srcID);
+    likeSrc.setUserId(userId);
+    likeSrc.setLikeValue((byte) -1);
+    srcLikeDao.likeObject(likeSrc);
     
   } 
 
