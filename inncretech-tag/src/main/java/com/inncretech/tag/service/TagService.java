@@ -2,15 +2,21 @@ package com.inncretech.tag.service;
 
 import java.util.List;
 
+import com.inncretech.core.sharding.ShardAware;
+import com.inncretech.core.sharding.ShardType;
+import com.inncretech.tag.model.Tag;
+
 public interface TagService {
   
-  Object tagSource(Long sourceId, String tagName);
+  void tagSource(Long sourceId, Long userId, String tagName);
   
-  List<Object> getTagsOfSource(Long sourceId);
+  @ShardAware(shardStrategy="entityid", shardType=ShardType.SOURCE)
+  List<Tag> getTagsOfSource(Long sourceId);
   
   //In current approach it will go to all shards
-  List<Object> getTagsCreatedByUser(Long userId);
+  List<Tag> getTagsCreatedByUser(Long userId);
   
+  @ShardAware(shardStrategy = "entityid", shardType = ShardType.SOURCE)
   void removeTagFromSource(Long sourceId, Long tagId);
 
 }

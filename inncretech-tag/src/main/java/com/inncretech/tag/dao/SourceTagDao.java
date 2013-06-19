@@ -3,88 +3,40 @@ package com.inncretech.tag.dao;
 import java.util.List;
 
 import org.hibernate.Query;
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Transactional;
 
-/**
- * 
- * @author amit
- * 
- */
+import com.inncretech.core.sharding.ShardAware;
+import com.inncretech.core.sharding.ShardType;
+import com.inncretech.core.sharding.dao.AbstractShardAwareHibernateDao;
+import com.inncretech.tag.model.SourceTag;
+import com.inncretech.tag.model.Tag;
+
 @Component
-public class SourceTagDao {
+public class SourceTagDao extends AbstractShardAwareHibernateDao<SourceTag> {
 
-	@Autowired
-	private SessionFactory sessionFactory;
+  public SourceTagDao() {
+    super(SourceTag.class, ShardType.SOURCE);
+  }
 
-	/**
-	 * 
-	 * @param sourceId
-	 * @return
-	 */
-	@Transactional
-	public List<Object> getTagsOfSource(Long sourceId) {
-		if (sessionFactory == null) {
-			throw new IllegalStateException();
-		}
+  @ShardAware(shardStrategy = "entityid", shardType = ShardType.SOURCE)
+  public void saveSourceTag(SourceTag sourceTag) {
+    save(sourceTag);
+  }
 
-		Query query = sessionFactory.getCurrentSession()
-				.createQuery("from SourceTag where sourceId= :id")
-				.setParameter("id", sourceId);
+  @SuppressWarnings("unchecked")
+  public List<SourceTag> getTagsOfSource(Long sourceId) {
+    Query query =
+        getCurrentSession(sourceId).createQuery("from SourceTag where sourceId= :id").setParameter("id", sourceId);
+    return query.list();
+  }
 
-		@SuppressWarnings("unchecked")
-		List<Object> tagsOfSource = query.list();
-		System.out.println("Source tags list:" + tagsOfSource.size());
+  public List<Tag> getTagsCreatedByUser(Long userId) {
+    return null;
+  }
 
-		return tagsOfSource;
-	}
-
-	/**
-	 * 
-	 * @param userId
-	 * @return
-	 */
-	@Transactional
-	public List<Object> getTagsCreatedByUser(Long userId) {
-		if (sessionFactory == null) {
-			throw new IllegalStateException();
-		}
-
-		Query query = sessionFactory.getCurrentSession()
-				.createQuery("from SourceTag where userId=:user_id")
-				.setParameter("user_id", userId);
-
-		@SuppressWarnings("unchecked")
-		List<Object> tagsCreatedByUser = query.list();
-		System.out.println("Source tags list by user:"
-				+ tagsCreatedByUser.size());
-
-		return tagsCreatedByUser;
-	}
-
-	/**
-	 * 
-	 * @param sourceId
-	 * @param tagId
-	 * @return
-	 */
-	@Transactional
-	public int removeTagFromSource(Long sourceId, Long tagId) {
-		if (sessionFactory == null) {
-			throw new IllegalStateException();
-		}
-		Session sess = this.sessionFactory.getCurrentSession();
-
-		int count = sess
-				.createSQLQuery(
-						"delete from source_tag where source_id= :source_id")
-				.setParameter("source_id", sourceId).executeUpdate();
-
-		System.out.println("Source tag delete Count:" + count);
-		return count;
-	}
+  public void removeTagFromSource(Long sourceId, Long tagId) {
+    getCurrentSession(sourceId).createSQLQuery("delete from source_tag where source_id= :source_id")
+      .setParameter("source_id", sourceId).executeUpdate();
+  }
 
 }

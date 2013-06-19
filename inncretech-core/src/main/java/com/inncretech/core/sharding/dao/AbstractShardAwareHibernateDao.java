@@ -45,6 +45,10 @@ public class AbstractShardAwareHibernateDao<T> {
   public void save(Long entityId, Object obj) {
     getCurrentSession(entityId).saveOrUpdate(obj);
   }
+  
+  public void save(ShardEntity obj) {
+    getCurrentSession(obj.getShardedColumnValue()).saveOrUpdate(obj);
+  }
 
   public Session getCurrentSession(Long entityId) {
     SessionFactory sessionFactory = sessionFactoryManager.getSessionFactory(idGenService.getShardId(entityId, shardType));

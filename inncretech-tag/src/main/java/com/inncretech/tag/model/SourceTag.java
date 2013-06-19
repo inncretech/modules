@@ -5,19 +5,28 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Transient;
+
+import com.inncretech.core.model.ShardEntity;
 
 /**
  * 
  * communicates with masterdb and should not fall under Shard aware annotation
  */
 @Entity
-public class SourceTag {
+public class SourceTag implements ShardEntity{
 
 	private Long id;
 	private Long sourceId;
 	private Long userId;
 	private Long tagId;
 	private byte recordStatus;
+	
+	
+	@Transient
+	public Long getShardedColumnValue(){
+	  return sourceId;
+	}
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)

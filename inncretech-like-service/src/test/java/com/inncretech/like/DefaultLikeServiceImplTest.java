@@ -15,6 +15,7 @@ import com.inncretech.core.BaseTest;
 import com.inncretech.core.model.AccessContext;
 import com.inncretech.core.test.TestUtil;
 import com.inncretech.like.dao.SourceLikeDao;
+import com.inncretech.like.model.LikeType;
 import com.inncretech.like.model.SourceLike;
 import com.inncretech.like.service.LikeService;
 
@@ -35,7 +36,8 @@ public class DefaultLikeServiceImplTest extends BaseTest{
  
     long srcID= srcDAO.getIdGenService().getNewSourceId();
     long usrID =srcDAO.getIdGenService().getNewUserId();
-    likeService.likeSource(srcID,usrID,new AccessContext());
+    AccessContext.set(usrID, null);
+    likeService.likeSource(srcID,LikeType.LIKE);
     
   }
   @Test
@@ -43,7 +45,8 @@ public class DefaultLikeServiceImplTest extends BaseTest{
  
     long srcID= srcDAO.getIdGenService().getNewSourceId();
     long usrID =srcDAO.getIdGenService().getNewUserId();
-    likeService.unLikeSource(srcID,usrID,new AccessContext());
+    AccessContext.set(usrID, null);
+    likeService.likeSource(srcID,LikeType.UNLIKE);
     
   }
   @Test
@@ -51,8 +54,9 @@ public class DefaultLikeServiceImplTest extends BaseTest{
  
     long srcID= srcDAO.getIdGenService().getNewSourceId();
     long usrID =srcDAO.getIdGenService().getNewUserId();
-    likeService.unLikeSource(srcID,usrID,new AccessContext());
-    List<SourceLike> lstSourceLike =  likeService.getAllLikesByObject(srcID, new AccessContext());
+    AccessContext.set(usrID, null);
+    likeService.likeSource(srcID,LikeType.UNLIKE);
+    List<SourceLike> lstSourceLike =  likeService.getAllLikesByObject(srcID);
     
     assertEquals((byte)-1, (byte)lstSourceLike.get(0).getLikeValue());
     
