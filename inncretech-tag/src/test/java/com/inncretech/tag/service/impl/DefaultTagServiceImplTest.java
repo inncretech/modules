@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import com.inncretech.core.sharding.IdGenerator;
 import com.inncretech.tag.service.TagService;
 
 /**
@@ -24,6 +25,9 @@ public class DefaultTagServiceImplTest {
 
 	@Autowired
 	private TagService tagService;
+	
+	 @Autowired
+	  private IdGenerator idGenerator;
 
 	@Autowired
 	private TestUtil dbUtility;
@@ -31,12 +35,12 @@ public class DefaultTagServiceImplTest {
 	@Test
 	public void testTagSource() {
 
-		tagService.tagSource(new Long("1"), "devtest");
+	  tagService.tagSource(idGenerator.getNewSourceId(),idGenerator.getNewUserId(),"test" );
 	}
 
 	@Test
 	public void testGetTagsOfSource() {
-		tagService.getTagsOfSource((long) 1);
+		tagService.getTagsOfSource(idGenerator.getNewSourceId());
 	}
 
 	@Test
@@ -46,7 +50,7 @@ public class DefaultTagServiceImplTest {
 
 	@Test
 	public void testRemoveTagFromSource() {
-		tagService.removeTagFromSource((long) 1, (long) 1);
+		tagService.removeTagFromSource(idGenerator.getNewSourceId(), (long) 1);
 
 	}
 

@@ -22,6 +22,7 @@ public class TagDao {
     tag.setId(id);
   }
 
+  @Transactional
   public Tag getTag(String tagName) {
     Query q = sessionFactory.getCurrentSession().createQuery("from Tag where name = ? ").setParameter(0, tagName);
     List tagList = q.list();
