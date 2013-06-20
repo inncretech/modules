@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import sun.java2d.pipe.hw.AccelDeviceEventListener;
+
 import com.inncretech.core.model.AccessContext;
 import com.inncretech.core.test.TestUtil;
 import com.inncretech.user.model.User;
@@ -28,7 +30,7 @@ public class DefaultUserServiceImplTest {
     for (int i = 0; i < 5; i++) {
       User usr = createTestUser("Maheshaaa" + i, "Kumar", "mmk@gmail.com", "mmk123");
       UserLogin usrlgn = CreateTestUserLogin("mmk123", "mmk@facebook", "mmk@twitter", "mmk@gooogle");
-      userService.createUser(usr, usrlgn, new AccessContext());
+      userService.createUser(usr, usrlgn);
     }
   }
 
@@ -36,9 +38,10 @@ public class DefaultUserServiceImplTest {
   public void updateUser() {
     User usr = createTestUser("Mahesh", "Kumar", "mmk@gmail.com", "mmk123");
     UserLogin usrlgn = CreateTestUserLogin("mmk123", "mmk@facebook", "mmk@twitter", "mmk@gooogle");
-    userService.createUser(usr, usrlgn, new AccessContext());
+    AccessContext.set(usr.getId(), null);
+    userService.createUser(usr, usrlgn);
     usr.setFirstName("MMK");
-    userService.UpdateUserDet(usr, new AccessContext());
+    userService.UpdateUserDet(usr);
   }
 
   @Before

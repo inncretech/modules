@@ -11,14 +11,14 @@ public interface UserService {
 
   User getUserById(Long userId, AccessContext accessContext);
 
-  User createUser(User user, UserLogin userLogin, AccessContext accessContext);
+  User createUser(User user, UserLogin userLogin);
 
   @ShardAware(shardStrategy = "entityid", shardType = ShardType.USER)
-  void UpdateUserDet(User user, AccessContext accessContext);
+  void UpdateUserDet(User user);
 
-  UserProfile updateProfile(Long UserID, UserProfile profile, AccessContext accessContext);
+  UserProfile updateProfile(Long UserID, UserProfile profile);
 
-  void updateFacebookInfo(String facebookId, AccessContext accessContext);
+  void updateFacebookInfo(String facebookId);
 
   void updateUserLogin(Long UserID, UserLogin ul);
 
