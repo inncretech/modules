@@ -9,6 +9,6 @@ import com.inncretech.core.model.AccessContext;
 public interface CommentService {
 
   public Comment create(Long sourceId, Comment comment);
-  public List<Comment> getAllComments(Long sourceId, AccessContext accessContext);
+  public List<Comment> getAllComments(Long sourceId);
   
 }
