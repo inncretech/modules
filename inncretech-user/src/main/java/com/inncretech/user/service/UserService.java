@@ -21,5 +21,7 @@ public interface UserService {
   void updateFacebookInfo(String facebookId);
 
   void updateUserLogin(Long UserID, UserLogin ul);
+  
+  void ForgotPassword(Long userID);
 
 }

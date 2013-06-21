@@ -4,16 +4,26 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.inncretech.core.mail.SendMail;
 import com.inncretech.core.model.AccessContext;
 import com.inncretech.core.sharding.ShardAware;
 import com.inncretech.core.sharding.ShardType;
 import com.inncretech.user.dao.UserDao;
+import com.inncretech.user.dao.UserFPDao;
 import com.inncretech.user.dao.UserLoginDao;
 import com.inncretech.user.dao.UserProfileDao;
 import com.inncretech.user.model.User;
+import com.inncretech.user.model.UserForgetPwd;
 import com.inncretech.user.model.UserLogin;
 import com.inncretech.user.model.UserProfile;
 import com.inncretech.user.service.UserService;
+
+import java.util.Date;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.UUID;
+
 
 @Service
 public class DefaultUserServiceImpl implements UserService {
@@ -78,6 +88,25 @@ public class DefaultUserServiceImpl implements UserService {
     // TODO Auto-generated method stub
 
   }
+  @Override
+  public void ForgotPassword(Long userID) {
+    DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+    Date dt = new Date();
+    //System.out.println("Current Date Time : " + dateFormat.format(cal.getTime()));
+ 
+   String rndVal =UUID.randomUUID().toString();
+   
+   sm.sendEmail();
+   
+   UserForgetPwd ufp= new UserForgetPwd();
+   ufp.setUserId(userID);
+   ufp.setRndString(rndVal);
+   ufp.setDateRndString(dt);
+    
+   userFPDao.SetUserPWDLink(ufp);
+   
+    
+  }
 
   @Autowired
   private UserDao userDao;
@@ -86,5 +115,11 @@ public class DefaultUserServiceImpl implements UserService {
   private UserProfileDao userProfileDao;
   @Autowired
   private UserLoginDao userLoginDao;
+  
+  @Autowired
+  private UserFPDao userFPDao;
+ 
+  @Autowired
+  private SendMail sm;
 
 }

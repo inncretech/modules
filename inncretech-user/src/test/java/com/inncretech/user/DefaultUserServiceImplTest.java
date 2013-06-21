@@ -9,6 +9,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import sun.java2d.pipe.hw.AccelDeviceEventListener;
 
+import com.inncretech.core.mail.SendMail;
 import com.inncretech.core.model.AccessContext;
 import com.inncretech.core.test.TestUtil;
 import com.inncretech.user.model.User;
@@ -25,13 +26,25 @@ public class DefaultUserServiceImplTest {
   @Autowired
   private TestUtil dbUtility;
 
+  
   @Test
   public void createUser() {
     for (int i = 0; i < 5; i++) {
       User usr = createTestUser("Maheshaaa" + i, "Kumar", "mmk@gmail.com", "mmk123");
       UserLogin usrlgn = CreateTestUserLogin("mmk123", "mmk@facebook", "mmk@twitter", "mmk@gooogle");
       userService.createUser(usr, usrlgn);
+   
     }
+  }
+  
+  @Test
+  public void usrFgtPwd() {
+    User usr = createTestUser("Mahesh", "Kumar", "mmk@gmail.com", "mmk123");
+    UserLogin usrlgn = CreateTestUserLogin("mmk123", "mmk@facebook", "mmk@twitter", "mmk@gooogle");
+    userService.createUser(usr, usrlgn);
+      userService.ForgotPassword(usr.getId());
+   
+    
   }
 
   @Test
