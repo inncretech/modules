@@ -23,7 +23,7 @@ public class DefaultUserServiceImpl implements UserService {
     return userDao.get(userId);
   }
 
-  public User createUser(User user,UserLogin userLogin,AccessContext accessContext) {
+  public User createUser(User user,UserLogin userLogin) {
 
     user.setId(userDao.getIdGenService().getNewUserId());
     userDao.createUser(user);
@@ -47,7 +47,7 @@ public class DefaultUserServiceImpl implements UserService {
   
 
   @ShardAware(shardStrategy = "entityid", shardType = ShardType.USER)
-  public void UpdateUserDet(User user, AccessContext accessContext) {
+  public void UpdateUserDet(User user) {
     User readUser = userDao.get(user.getId());
     readUser.setFirstName(user.getFirstName());
     readUser.setLastName(user.getLastName());
@@ -63,8 +63,7 @@ public class DefaultUserServiceImpl implements UserService {
 
   @Override
   @ShardAware(shardStrategy = "entityid", shardType = ShardType.USER)
-  public UserProfile updateProfile(Long UserID, UserProfile profile, AccessContext accessContext) {
-
+  public UserProfile updateProfile(Long UserID, UserProfile profile) {
     UserProfile readProfile = userProfileDao.getProfileForUser(profile.getUserId());
     readProfile.setLongBio(profile.getLongBio());
     readProfile.setCurrentAddress(profile.getCurrentAddress());
@@ -75,7 +74,7 @@ public class DefaultUserServiceImpl implements UserService {
   }
 
   @Override
-  public void updateFacebookInfo(String facebookId, AccessContext accessContext) {
+  public void updateFacebookInfo(String facebookId) {
     // TODO Auto-generated method stub
 
   }
