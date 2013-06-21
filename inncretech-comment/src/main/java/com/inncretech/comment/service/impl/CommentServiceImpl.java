@@ -6,17 +6,13 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import com.inncretech.comment.dao.CommentDao;
 import com.inncretech.comment.model.Comment;
-import com.inncretech.comment.model.CommentTree;
 import com.inncretech.comment.service.CommentService;
-import com.inncretech.core.model.AccessContext;
 
 @Service
 public class CommentServiceImpl implements CommentService {
-
 	@Autowired
 	private CommentDao commentDao;
 
@@ -29,21 +25,21 @@ public class CommentServiceImpl implements CommentService {
 
 	@Override
 	public List<Comment> getAllComments(Long sourceId) {
-		  List<Comment> listComment = commentDao.getComments(sourceId); 
-		 
-		  CommentTree<Comment> rootNode = new CommentTree<Comment>(sourceId);
-		  int noOfComments = listComment.size();
-		  System.out.println("Comment Size : "+noOfComments);
-			for (int i = 0; i < noOfComments; i++) {
-				rootNode.addNode(listComment.get(i).getCommentParentId(),
-						listComment.get(i).getId());
-			}
-			String s = rootNode.getCommentTree(1);
-			System.out.println(s);
-		  
-		  
-		  return listComment;
-		 
+		List<Comment> listComment = commentDao.getComments(sourceId);
 
+		List<Comment> commentObjWithChildList = new ArrayList<Comment>();
+		for (Comment tempComment1 : listComment) {
+			Comment comment = new Comment();
+			List<Comment> childNode = new ArrayList<Comment>();
+			for (Comment tempComment2 : listComment) {
+				if (tempComment1.getId() == tempComment2.getCommentParentId()) {
+					childNode.add(tempComment2);
+				}
+			}
+			comment = tempComment1;
+			comment.setChildComments(childNode);
+			commentObjWithChildList.add(comment);
+		}
+		return commentObjWithChildList;
 	}
 }
