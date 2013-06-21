@@ -1,13 +1,13 @@
 package com.inncretech.comment.model;
 
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.Table;
 import javax.persistence.Transient;
 
 import com.inncretech.core.model.ShardEntity;
@@ -20,7 +20,17 @@ public class Comment implements ShardEntity {
 	private String comment;
 	private Long commentParentId;
 	private Date commentDate;
+	
+	@Transient
+	private List <Comment> childComments ;
 
+	@Transient
+	public List<Comment> getChildComments() {
+		return childComments;
+	}
+	public void setChildComments(List<Comment> childComments) {
+		this.childComments = childComments;
+	}
 	public Comment(){
 		
 	}

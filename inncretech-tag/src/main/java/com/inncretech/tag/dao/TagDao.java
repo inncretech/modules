@@ -19,6 +19,7 @@ public class TagDao {
   @Transactional
   public void createTag(Tag tag) {
     Long id = (Long)sessionFactory.getCurrentSession().save(tag);
+    System.out.println("id::"+id);
     tag.setId(id);
   }
 
@@ -26,6 +27,8 @@ public class TagDao {
   public Tag getTag(String tagName) {
     Query q = sessionFactory.getCurrentSession().createQuery("from Tag where name = ? ").setParameter(0, tagName);
     List tagList = q.list();
+    for(int i =0;i<tagList.size();i++)
+    	System.out.println();
     return (tagList.size() > 0) ? (Tag) tagList.get(0) : null;
   }
   
