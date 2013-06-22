@@ -40,7 +40,7 @@ public class CommentServiceImpl implements CommentService {
       }else{
         commentMap.put(comment.getId(), comment);
       }
-		  
+
 		}
 		List<Comment> firstLevelComments = new ArrayList<Comment>();
 		for(Long commentId : commentMap.keySet())
