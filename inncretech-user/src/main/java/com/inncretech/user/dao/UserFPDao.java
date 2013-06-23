@@ -1,13 +1,13 @@
 package com.inncretech.user.dao;
 
+import org.hibernate.Query;
 import org.springframework.stereotype.Component;
 
 import com.inncretech.core.sharding.ShardAware;
 import com.inncretech.core.sharding.ShardType;
 import com.inncretech.core.sharding.dao.AbstractShardAwareHibernateDao;
-import com.inncretech.user.model.User;
 import com.inncretech.user.model.UserForgetPwd;
-import com.inncretech.user.model.UserLogin;
+
 
 @Component
 public class UserFPDao extends AbstractShardAwareHibernateDao<UserForgetPwd> {
@@ -15,10 +15,18 @@ public class UserFPDao extends AbstractShardAwareHibernateDao<UserForgetPwd> {
     super(UserForgetPwd.class, ShardType.USER);
   }
   @ShardAware(shardStrategy = "entityid", shardType=ShardType.USER)
-  public UserForgetPwd SetUserPWDLink(UserForgetPwd obj) {
+  public UserForgetPwd CreateRandomStringForPassword(UserForgetPwd obj) {
       getCurrentSession(obj.getUserId()).save(obj);
       return obj;
     }
+  @ShardAware(shardStrategy = "entityid", shardType=ShardType.USER)
+  public UserForgetPwd GetDateForRandomString(UserForgetPwd obj) {
+      
+    Query q = getCurrentSession(obj.getUserId()).createQuery("from UserForgetPwd where rndString = ?");
+    q.setString(0, obj.getRndString());
+    return  (UserForgetPwd)q.uniqueResult();
+   
+    } 
 
 
 }

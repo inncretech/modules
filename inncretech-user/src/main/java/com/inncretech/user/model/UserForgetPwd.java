@@ -54,10 +54,10 @@ public class UserForgetPwd implements ShardEntity{
   }
 
   @Column
-  public Date getDateRndString() {
+  public Date getDate() {
     return dateRndString;
   }
-  public void setDateRndString(Date dateRndString) {
+  public void setDate(Date dateRndString) {
     this.dateRndString = dateRndString;
   }
 }

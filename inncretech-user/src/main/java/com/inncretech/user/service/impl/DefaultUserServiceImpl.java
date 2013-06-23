@@ -2,26 +2,17 @@ package com.inncretech.user.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
-import com.inncretech.core.mail.SendMail;
 import com.inncretech.core.model.AccessContext;
 import com.inncretech.core.sharding.ShardAware;
 import com.inncretech.core.sharding.ShardType;
 import com.inncretech.user.dao.UserDao;
 import com.inncretech.user.dao.UserFPDao;
-import com.inncretech.user.dao.UserLoginDao;
 import com.inncretech.user.dao.UserProfileDao;
 import com.inncretech.user.model.User;
 import com.inncretech.user.model.UserForgetPwd;
-import com.inncretech.user.model.UserLogin;
 import com.inncretech.user.model.UserProfile;
 import com.inncretech.user.service.UserService;
-
 import java.util.Date;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.UUID;
 
 
@@ -33,22 +24,15 @@ public class DefaultUserServiceImpl implements UserService {
     return userDao.get(userId);
   }
 
-  public User createUser(User user,UserLogin userLogin) {
+  public User createUser(User user) {
 
     user.setId(userDao.getIdGenService().getNewUserId());
     userDao.createUser(user);
-    userLogin.setUserId(user.getId());
-    createUserLogin(userLogin);
     return user;
 
   }
 
-  public UserLogin createUserLogin(UserLogin userLogin) {
-    userLoginDao.CreateUserLogin(userLogin);    
-    return userLogin;
 
-  }
-  
   public UserProfile createUserProfile(UserProfile userProfile) {
     userProfileDao.CreateUserProfile(userProfile);    
     return userProfile;
@@ -65,11 +49,6 @@ public class DefaultUserServiceImpl implements UserService {
 
   }
 
-  @ShardAware(shardStrategy = "entityid", shardType = ShardType.USER)
-  public void updateUserLogin(Long UserID, UserLogin ul) {
-    userLoginDao.UpdateUserLoginDetails(ul);
-
-  }
 
   @Override
   @ShardAware(shardStrategy = "entityid", shardType = ShardType.USER)
@@ -85,41 +64,64 @@ public class DefaultUserServiceImpl implements UserService {
 
   @Override
   public void updateFacebookInfo(String facebookId) {
-    // TODO Auto-generated method stub
+
 
   }
   @Override
-  public void ForgotPassword(Long userID) {
-    DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
-    Date dt = new Date();
-    //System.out.println("Current Date Time : " + dateFormat.format(cal.getTime()));
- 
+  public UserForgetPwd forgotPassword(Long userID) {
+    Date dt = new Date(); 
    String rndVal =UUID.randomUUID().toString();
-   
-   sm.sendEmail();
-   
+   // sm.sendEmail();
    UserForgetPwd ufp= new UserForgetPwd();
    ufp.setUserId(userID);
    ufp.setRndString(rndVal);
-   ufp.setDateRndString(dt);
+   ufp.setDate(dt);
     
-   userFPDao.SetUserPWDLink(ufp);
+   return userFPDao.CreateRandomStringForPassword(ufp);
    
     
   }
+  
+  @Override
+  public void resetPassword(String pwd) {
+    User readUser = userDao.get(AccessContext.get().getCallerUserId());
+    readUser.setPassword(pwd);
+    userDao.UpdateUserDetails(readUser);
+    
+   
+  }
+  
+  
+  @Override
+  public  boolean validateRandomString(String randomString)
+  {
+    Date dt = new Date();
+    UserForgetPwd ufp = new UserForgetPwd();
+    ufp.setUserId(AccessContext.get().getCallerUserId());
+    ufp.setRndString(randomString);
+    ufp  = userFPDao.GetDateForRandomString(ufp);
+    if(dt.getTime() -  ufp.getDate().getTime() < 86400)
+    {
+      return true;
+    }
+    else
+      return false;
+    }
+    
+    
 
   @Autowired
   private UserDao userDao;
 
   @Autowired
   private UserProfileDao userProfileDao;
-  @Autowired
-  private UserLoginDao userLoginDao;
   
   @Autowired
   private UserFPDao userFPDao;
  
-  @Autowired
-  private SendMail sm;
+ // @Autowired
+  //private SendMail sm;
+
+ 
 
 }

@@ -4,14 +4,14 @@ import com.inncretech.core.model.AccessContext;
 import com.inncretech.core.sharding.ShardAware;
 import com.inncretech.core.sharding.ShardType;
 import com.inncretech.user.model.User;
-import com.inncretech.user.model.UserLogin;
+import com.inncretech.user.model.UserForgetPwd;
 import com.inncretech.user.model.UserProfile;
 
 public interface UserService {
 
   User getUserById(Long userId, AccessContext accessContext);
 
-  User createUser(User user, UserLogin userLogin);
+  User createUser(User user);
 
   @ShardAware(shardStrategy = "entityid", shardType = ShardType.USER)
   void UpdateUserDet(User user);
@@ -20,8 +20,11 @@ public interface UserService {
 
   void updateFacebookInfo(String facebookId);
 
-  void updateUserLogin(Long UserID, UserLogin ul);
+  UserForgetPwd forgotPassword(Long userID);
   
-  void ForgotPassword(Long userID);
+  void resetPassword(String Pwd);
+  
+  boolean validateRandomString(String randomString);
+  
 
 }

@@ -4,8 +4,6 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Transient;
-
-import com.inncretech.core.model.IdEntity;
 import com.inncretech.core.model.ShardEntity;
 
 @Entity
