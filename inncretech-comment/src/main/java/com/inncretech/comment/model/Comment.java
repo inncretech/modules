@@ -1,5 +1,6 @@
 package com.inncretech.comment.model;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -22,7 +23,7 @@ public class Comment implements ShardEntity {
 	private Date commentDate;
 	
 	@Transient
-	private List <Comment> childComments ;
+	private List <Comment> childComments = new ArrayList<Comment>();
 
 	@Transient
 	public List<Comment> getChildComments() {

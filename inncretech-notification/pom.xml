@@ -12,7 +12,7 @@
 
   <artifactId>inncretech-notification</artifactId>
   <packaging>jar</packaging>
-  <name>Inncretech User</name>
+  <name>Inncretech Notification</name>
   <dependencies>
   	<dependency>
       <groupId>com.inncretech</groupId>
