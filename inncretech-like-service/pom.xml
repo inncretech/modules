@@ -12,7 +12,7 @@
 
   <artifactId>inncretech-like</artifactId>
   <packaging>jar</packaging>
-  <name>Inncretech User</name>
+  <name>Inncretech Like</name>
   <dependencies>
   	<dependency>
       <groupId>com.inncretech</groupId>
