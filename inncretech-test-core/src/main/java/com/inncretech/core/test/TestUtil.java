@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.inncretech.core.sharding.dao.ShardConfigDao;
 import com.inncretech.core.sharding.model.ShardConfig;
@@ -18,6 +19,7 @@ public class TestUtil {
   @Autowired
   private DBUtil dbUtil;
   
+  @Transactional
   public void cleanUpdb(){
     
     List<ShardConfig> shardConfigs = shardConfigDao.getAllActiveShards(1);

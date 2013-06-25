@@ -31,5 +31,14 @@ public class ShardConfigDao {
     return q.list();
 
   }
+  
+  @Transactional
+  public List<ShardConfig> getAllShards(int shardType) {
+    Query q = sessionFactory.getCurrentSession().createQuery("from ShardConfig where shardType= ?");
+    //q.setParameter(0, true);
+    q.setParameter(0, shardType);
+    return q.list();
+
+  }
 
 }

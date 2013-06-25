@@ -38,9 +38,10 @@
 		<property name="dataSource" ref="dataSource" />
 		<property name="packagesToScan">
 			<list>
-				<value>com.inncretech.core</value>
+				<value>com.inncretech</value>
 			</list>
 		</property>
+		
 		<property name="namingStrategy" ref="namingStrategy"/>
 		<property name="hibernateProperties">
 			<props>
