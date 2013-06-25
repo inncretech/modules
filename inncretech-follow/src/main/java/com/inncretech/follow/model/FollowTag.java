@@ -14,8 +14,6 @@ public class FollowTag implements ShardEntity {
 
 	private Long id;
 	private Long tagId;
-
-	private Long userId;
 	private Long followerId;
 
 	@Id
@@ -27,15 +25,6 @@ public class FollowTag implements ShardEntity {
 
 	public void setId(Long id) {
 		this.id = id;
-	}
-
-	@Column
-	public Long getUserId() {
-		return userId;
-	}
-
-	public void setUserId(Long userId) {
-		this.userId = userId;
 	}
 
 	@Column
@@ -58,7 +47,7 @@ public class FollowTag implements ShardEntity {
 
 	@Transient
 	public Long getShardedColumnValue() {
-		return this.userId;
+		return this.followerId;
 	}
 
 }

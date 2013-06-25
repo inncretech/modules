@@ -8,25 +8,24 @@ import com.inncretech.follow.model.FollowTag;
 
 public interface FollowService {
 
-	@ShardAware(shardStrategy = "entityid", shardType = ShardType.SOURCE)
-	void followTag(Long id, Long userId, Long followerId);
+	void followTag(Long tagid, Long followerId);
 
-	@ShardAware(shardStrategy = "entityid", shardType = ShardType.SOURCE)
-	List<FollowTag> getFollowersByTag(Long sourceId, Long tagId);
+	List<FollowTag> getFollowersByTag(Long tagId);
 
-	@ShardAware(shardStrategy = "entityid", shardType = ShardType.SOURCE)
-	void followSource(Long sourceId, Long tagId);
+	void followSource(Long sourceId, Long followerId);
 
-	void followUser(Long tagId);
-
-	List<Object> getFollowersBySource(Long sourceId);
+	void followUser(Long userId, Long followerId);
 
 	List<Object> getFollowersByUser(Long userId);
 
 	List<Object> getFollowedSources(Long userId);
 
+	List<Object> getFollowersBySource(Long sourceId);
+
+	// TODO
 	List<Object> getFollowedUsers(Long userId);
 
+	// TODO
 	List<Object> getFollowedTags(Long userId);
 
 }

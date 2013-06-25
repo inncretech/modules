@@ -1,19 +1,31 @@
 package com.inncretech.follow.dao;
 
+import java.util.Collection;
 import java.util.List;
 
 import org.hibernate.Query;
+import org.hibernate.Session;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import com.inncretech.core.sharding.HibernateSessionFactoryManager;
 import com.inncretech.core.sharding.ShardAware;
 import com.inncretech.core.sharding.ShardType;
 import com.inncretech.core.sharding.dao.AbstractShardAwareHibernateDao;
+import com.inncretech.core.sharding.dao.ShardConfigDao;
 import com.inncretech.follow.model.FollowSource;
 import com.inncretech.follow.model.FollowTag;
+import com.inncretech.follow.model.FollowUser;
 
 @Component
 public class FollowSourceDao extends
 		AbstractShardAwareHibernateDao<FollowSource> {
+
+	@Autowired
+	private ShardConfigDao shardConfigDao;
+
+	@Autowired
+	private HibernateSessionFactoryManager hibernateSessionFactoryManager;
 
 	public FollowSourceDao() {
 		super(FollowSource.class, ShardType.SOURCE);
@@ -31,6 +43,29 @@ public class FollowSourceDao extends
 		@SuppressWarnings("unchecked")
 		List<FollowTag> followersList = query.list();
 		return followersList;
+	}
+
+	@ShardAware(shardStrategy = "shardid")
+	public Collection<? extends Object> getFollowedSources(Integer shardId,
+			Long userId) {
+
+		Session sess = getCurrentSessionByShard(shardId);
+		Query query = sess.createQuery(
+				"from FollowSource where followerId= :user_id").setParameter(
+				"user_id", userId);
+		return query.list();
+
+	}
+
+	@ShardAware(shardStrategy = "shardid")
+	public Collection<? extends Object> getFollowersBySource(Integer shardId,
+			Long sourceId) {
+		Session sess = getCurrentSessionByShard(shardId);
+		Query query = sess.createQuery(
+				"from FollowSource where sourceId= :source_id").setParameter(
+				"source_id", sourceId);
+		return query.list();
+
 	}
 
 }

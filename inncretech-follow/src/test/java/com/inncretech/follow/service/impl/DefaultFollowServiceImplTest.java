@@ -29,39 +29,38 @@ public class DefaultFollowServiceImplTest {
 
 	@Test
 	public void testFollowTag() {
-		followService.followTag(new Long(111), idGenerator.getNewUserId(),
-				new Long(1));
+		followService.followTag(new Long(111), idGenerator.getNewUserId());
 	}
 
 	@Test
 	public void testGetFollowersByTag() {
-		followService.getFollowersByTag(idGenerator.getNewSourceId(), new Long(
-				111));
+		followService.getFollowersByTag(new Long(111));
 	}
 
 	@Test
 	public void testFollowSource() {
-		followService.followSource(idGenerator.getNewSourceId(), new Long(111));
+		followService.followSource(idGenerator.getNewSourceId(),
+				idGenerator.getNewUserId());
 	}
 
-	// @Test
+	@Test
 	public void testFollowUser() {
-		fail("Not yet implemented");
+		followService.followUser(idGenerator.getNewUserId(), new Long(1));
 	}
 
-	// @Test
+	@Test
 	public void testGetFollowersBySource() {
-		fail("Not yet implemented");
+		followService.getFollowersBySource(new Long("2286633485940558014"));
 	}
 
-	// @Test
+	@Test
 	public void testGetFollowersByUser() {
-		fail("Not yet implemented");
+		followService.getFollowersByUser(new Long("2287325698546730152"));
 	}
 
-	// @Test
+	@Test
 	public void testGetFollowedSources() {
-		fail("Not yet implemented");
+		followService.getFollowedSources(new Long("2286633486351599807"));
 	}
 
 	// @Test
