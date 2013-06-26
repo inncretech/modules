@@ -134,14 +134,31 @@ public class DefaultFollowServiceImpl implements FollowService {
 
 	@Override
 	public List<Object> getFollowedUsers(Long userId) {
-		// TODO Auto-generated method stub
-		return null;
+		List<ShardConfig> shardConfigs = shardConfigDao.getAllShards(0);
+		@SuppressWarnings("unchecked")
+		List<Object> followedUsersList = new ArrayList<Object>();
+
+		for (ShardConfig config : shardConfigs) {
+			followedUsersList.addAll(followUserDao.getfollowedUsersList(
+					config.getId(), userId));
+		}
+		System.out
+				.println("FollowedUsersList size:" + followedUsersList.size());
+		return (followedUsersList.size() > 0) ? followedUsersList : null;
 	}
 
 	@Override
 	public List<Object> getFollowedTags(Long userId) {
-		// TODO Auto-generated method stub
-		return null;
+		List<ShardConfig> shardConfigs = shardConfigDao.getAllShards(0);
+		@SuppressWarnings("unchecked")
+		List<Object> followedTagsList = new ArrayList<Object>();
+
+		for (ShardConfig config : shardConfigs) {
+			followedTagsList.addAll(followTagDao.getfollowedTagsList(
+					config.getId(), userId));
+		}
+		System.out.println("FollowedTagsList size:" + followedTagsList.size());
+		return (followedTagsList.size() > 0) ? followedTagsList : null;
 	}
 
 }

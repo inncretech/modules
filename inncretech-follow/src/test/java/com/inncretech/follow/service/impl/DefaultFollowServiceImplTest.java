@@ -1,7 +1,5 @@
 package com.inncretech.follow.service.impl;
 
-import static org.junit.Assert.fail;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -63,14 +61,15 @@ public class DefaultFollowServiceImplTest {
 		followService.getFollowedSources(new Long("2286633486351599807"));
 	}
 
-	// @Test
+	@Test
 	public void testGetFollowedUsers() {
-		fail("Not yet implemented");
+		followService.getFollowersByUser(new Long("2287325698546730152"));
 	}
 
-	// @Test
+	@Test
 	public void testGetFollowedTags() {
-		fail("Not yet implemented");
+
+		followService.getFollowedTags(new Long("2287332117325022377"));
 	}
 
 	@Before

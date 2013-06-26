@@ -36,7 +36,19 @@ public class FollowUserDao extends AbstractShardAwareHibernateDao<FollowUser> {
 	public Collection<? extends FollowUser> getFollowersByUser(Integer shardId,
 			Long userId) {
 		Session sess = getCurrentSessionByShard(shardId);
-		Query query = sess.createQuery("from FollowUser where userId= :user_id")
+		Query query = sess
+				.createQuery("from FollowUser where userId= :user_id")
+				.setParameter("user_id", userId);
+		return query.list();
+
+	}
+
+	@ShardAware(shardStrategy = "shardid")
+	public Collection<? extends Object> getfollowedUsersList(Integer shardId,
+			Long userId) {
+		Session sess = getCurrentSessionByShard(shardId);
+		Query query = sess
+				.createQuery("from FollowUser where userId= :user_id")
 				.setParameter("user_id", userId);
 		return query.list();
 

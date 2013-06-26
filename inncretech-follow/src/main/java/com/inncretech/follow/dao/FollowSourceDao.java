@@ -15,7 +15,6 @@ import com.inncretech.core.sharding.dao.AbstractShardAwareHibernateDao;
 import com.inncretech.core.sharding.dao.ShardConfigDao;
 import com.inncretech.follow.model.FollowSource;
 import com.inncretech.follow.model.FollowTag;
-import com.inncretech.follow.model.FollowUser;
 
 @Component
 public class FollowSourceDao extends

@@ -1,5 +1,6 @@
 package com.inncretech.follow.dao;
 
+import java.util.Collection;
 import java.util.List;
 
 import org.hibernate.Query;
@@ -38,6 +39,16 @@ public class FollowTagDao extends AbstractShardAwareHibernateDao<FollowTag> {
 		Session sess = getCurrentSessionByShard(shardId);
 		Query query = sess.createQuery("from FollowTag where tagId= :tag_id")
 				.setParameter("tag_id", tagId);
+		return query.list();
+	}
+
+	@ShardAware(shardStrategy = "shardid")
+	public Collection<? extends Object> getfollowedTagsList(Integer shardId,
+			Long userId) {
+		Session sess = getCurrentSessionByShard(shardId);
+		Query query = sess.createQuery(
+				"from FollowTag where followerId= :user_id").setParameter(
+				"user_id", userId);
 		return query.list();
 	}
 

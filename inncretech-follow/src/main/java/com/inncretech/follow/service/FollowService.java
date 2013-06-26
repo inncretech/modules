@@ -2,8 +2,6 @@ package com.inncretech.follow.service;
 
 import java.util.List;
 
-import com.inncretech.core.sharding.ShardAware;
-import com.inncretech.core.sharding.ShardType;
 import com.inncretech.follow.model.FollowTag;
 
 public interface FollowService {
@@ -22,10 +20,8 @@ public interface FollowService {
 
 	List<Object> getFollowersBySource(Long sourceId);
 
-	// TODO
 	List<Object> getFollowedUsers(Long userId);
 
-	// TODO
 	List<Object> getFollowedTags(Long userId);
 
 }
