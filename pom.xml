@@ -19,6 +19,7 @@
     <module>inncretech-like-service</module>
     <module>inncretech-comment</module>
     <module>inncretech-follow</module>
+    <module>inncretech-social</module>
   </modules>
 
   <build>
