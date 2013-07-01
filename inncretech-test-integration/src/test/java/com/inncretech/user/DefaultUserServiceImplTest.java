@@ -24,7 +24,7 @@ public class DefaultUserServiceImplTest {
   
   @Test
   public void createUser() {
-    for (int i = 0; i < 100; i++) {
+    for (int i = 0; i < 1000000; i++) {
       User usr = createTestUser("Dev", "Test", "test@gmail.com", "devuser-"+i,"mm111","mmk@facebook", "mmk@twitter", "mmk@gooogle");
       userService.createUser(usr);
    
