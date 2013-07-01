@@ -10,9 +10,9 @@
     <version>1.0</version>
   </parent>
 
-  <artifactId>inncretech-user</artifactId>
+  <artifactId>inncretech-test-integration</artifactId>
   <packaging>jar</packaging>
-  <name>Inncretech User</name>
+  <name>Inncretech Integration Test</name>
   <dependencies>
   	<dependency>
       <groupId>com.inncretech</groupId>
