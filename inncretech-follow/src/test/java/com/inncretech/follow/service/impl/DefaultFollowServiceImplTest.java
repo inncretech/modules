@@ -70,6 +70,7 @@ public class DefaultFollowServiceImplTest {
 	public void testGetFollowedTags() {
 
 		followService.getFollowedTags(new Long("2287332117325022377"));
+
 	}
 
 	@Before
