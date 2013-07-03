@@ -1,5 +1,6 @@
 package com.inncretech.follow.service.impl;
 
+import com.inncretech.core.BaseTest;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -11,16 +12,18 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import com.inncretech.core.sharding.IdGenerator;
 import com.inncretech.follow.service.FollowService;
 
+//TODO: Use IdgeneService.getNewSourceId() while passing the source id and user id to the service method.
+// Do not hard code the ids.
+// For getFollow test should first follow it and then getAllthefollowers
+// use asserts to verify if the result of the service returns data correctly.
+
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "/applicationcontext-follow.xml" })
 @Service
-public class DefaultFollowServiceImplTest {
+public class DefaultFollowServiceImplTest extends BaseTest{
 
 	@Autowired
 	private FollowService followService;
-
-	@Autowired
-	private TestUtil dbUtility;
 
 	@Autowired
 	private IdGenerator idGenerator;
@@ -32,6 +35,7 @@ public class DefaultFollowServiceImplTest {
 
 	@Test
 	public void testGetFollowersByTag() {
+        followService.followTag(new Long(111), idGenerator.getNewUserId());
 		followService.getFollowersByTag(new Long(111));
 	}
 
@@ -70,12 +74,6 @@ public class DefaultFollowServiceImplTest {
 	public void testGetFollowedTags() {
 
 		followService.getFollowedTags(new Long("2287332117325022377"));
-
-	}
-
-	@Before
-	public void setUp() {
-		dbUtility.cleanUpdb();
 
 	}
 

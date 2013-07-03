@@ -36,10 +36,11 @@ public class DefaultFollowServiceImpl implements FollowService {
 
 	@Autowired
 	private FollowUserDao followUserDao;
-
+    //TODO: check if the user is already following the tag
+    //make sure first argument to shardware annotated method has the right shard type
 	@Override
 	@ShardAware(shardStrategy = "entityid", shardType = ShardType.USER)
-	public void followTag(Long tagId, Long followerId) {
+	public void followTag(Long followerId, Long tagId) {
 		FollowTag followTag = new FollowTag();
 		followTag.setTagId(tagId);
 		followTag.setFollowerId(followerId);
@@ -47,10 +48,11 @@ public class DefaultFollowServiceImpl implements FollowService {
 
 	}
 
+    //TODO:move these logic to dao, all shardign logic should be inside the dao.
 	@Override
 	public List<FollowTag> getFollowersByTag(Long tagId) {
 
-		List<ShardConfig> shardConfigs = shardConfigDao.getAllShards(0);
+		List<ShardConfig> shardConfigs = shardConfigDao.getAllShards(ShardType.USER.getType());
 		@SuppressWarnings("unchecked")
 		List<FollowTag> followersList = new ArrayList<FollowTag>();
 
@@ -58,12 +60,12 @@ public class DefaultFollowServiceImpl implements FollowService {
 			followersList.addAll(followTagDao.getFollowersByTag(config.getId(),
 					tagId));
 		}
-		System.out.println("followerList size:" + followersList.size());
 
-		return (followersList.size() > 0) ? followersList : null;
+		return followersList ;
 
 	}
 
+    //TODO:check if the user is already following the source
 	@Override
 	@ShardAware(shardStrategy = "entityid", shardType = ShardType.SOURCE)
 	public void followSource(Long sourceId, Long followerId) {
@@ -77,16 +79,19 @@ public class DefaultFollowServiceImpl implements FollowService {
 
 	@Override
 	@ShardAware(shardStrategy = "entityid", shardType = ShardType.USER)
-	public void followUser(Long userId, Long followerId) {
+	public void followUser(Long followerId, Long userId) {
 		FollowUser followUser = new FollowUser();
 		followUser.setUserId(userId);
 		followUser.setFollowerId(followerId);
 		followUserDao.saveFolloUser(followUser);
 	}
 
+    // TODO:return type should be list of FollowSource. There are lot of code repetition
+    // which implements basically the same logic of going to all shards and finding the follow source/tag/user.
+    //consider writing a common method for this.
 	@Override
 	public List<Object> getFollowersBySource(Long sourceId) {
-		List<ShardConfig> shardConfigs = shardConfigDao.getAllShards(1);
+		List<ShardConfig> shardConfigs = shardConfigDao.getAllShards(ShardType.SOURCE.getType());
 		@SuppressWarnings("unchecked")
 		List<Object> sourcesList = new ArrayList<Object>();
 
