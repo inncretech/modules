@@ -14,6 +14,9 @@ import com.inncretech.user.model.User;
 import com.inncretech.user.model.UserProfile;
 import com.inncretech.user.service.UserService;
 
+//TODO: Read an environment variable "instanceid" . Append this to user identifier.
+//if it is not there default to 1.
+
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "/applicationcontext-user.xml" })
 public class DefaultUserServiceImplTest implements Runnable {
@@ -23,27 +26,19 @@ public class DefaultUserServiceImplTest implements Runnable {
 	@Autowired
 	private TestUtil dbUtility;
 
+    private int noOfThread = 10;
+    private long noOfUsers = 1000000;
+
 	Thread thread;
 
 	@Test
-	public void createUser() {
+	public void createUser()throws Exception{
 		for (int threadCount=1;threadCount<=10;threadCount++){
 			thread = new Thread(this, "Create User Thread ["+threadCount+"]");
 			System.out.println("Creating New Thread for Execution.....");
-			
 			thread.start();
-				
+			thread.join();
 		}
-		System.out.println("Thread Start Time:[" + new Date()+"]");
-		for (int i = 1; i <=100 ; i++) {
-			System.out.println("Main Thread Executing >>>>>>>>>>" + i);
-			User usr = createTestUser("Dev", "Test", "test@gmail.com",
-					"devuser-" + i, "mm111", "mmk@facebook", "mmk@twitter",
-					"mmk@gooogle");
-			userService.createUser(usr);
-
-		}
-		System.out.println("Main Thread End Time:[ " + new Date()+"]");
 		
 	}
 
@@ -81,7 +76,7 @@ public class DefaultUserServiceImplTest implements Runnable {
 		User usr = null;
 		try {
 			System.out.println("Thread Start Time:[" + new Date()+"]");
-			for (int i = 0; i < 1000000; i++) {
+			for (int i = 0; i < (noOfUsers/noOfThread); i++) {
 				System.out.println("Child Thread Executing >>>>" + i);
 				usr = createTestUser("Devrun", "Test", "test@gmail.com",
 						"devuser-" + i, "mm111", "mmk@facebook", "mmk@twitter",
