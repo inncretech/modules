@@ -13,8 +13,7 @@ public class SourceDao extends AbstractShardAwareHibernateDao<Source>{
   public SourceDao(){
     super(Source.class, ShardType.SOURCE);
   }
-  
-  @ShardAware(shardStrategy="entityid", shardType=ShardType.SOURCE)
+
   public Source createSource(Source source){
     save(source.getId(), source);
     return source;
