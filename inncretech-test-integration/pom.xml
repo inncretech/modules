@@ -1,28 +1,75 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" 
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 
                              http://maven.apache.org/maven-v4_0_0.xsd">
-  <modelVersion>4.0.0</modelVersion>
-  <parent>
-    <groupId>com.inncretech</groupId>
-    <artifactId>inncretech-modules-parent</artifactId>
-    <version>1.0</version>
-  </parent>
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>com.inncretech</groupId>
+		<artifactId>inncretech-modules-parent</artifactId>
+		<version>1.0</version>
+	</parent>
 
-  <artifactId>inncretech-test-integration</artifactId>
-  <packaging>jar</packaging>
-  <name>Inncretech Integration Test</name>
-  <dependencies>
-  	<dependency>
-      <groupId>com.inncretech</groupId>
-      <artifactId>inncretech-core</artifactId>
-      <version>1.0</version>
-    </dependency>
-    <dependency>
-      <groupId>com.inncretech</groupId>
-      <artifactId>inncretech-test-core</artifactId>
-      <version>1.0</version>
-    </dependency>
-  </dependencies>
+	<artifactId>inncretech-test-integration</artifactId>
+	<packaging>jar</packaging>
+	<name>Inncretech Integration Test</name>
+	<dependencies>
+		<dependency>
+			<groupId>com.inncretech</groupId>
+			<artifactId>inncretech-follow</artifactId>
+			<version>1.0</version>
+
+		</dependency>
+		<dependency>
+			<groupId>com.inncretech</groupId>
+			<artifactId>inncretech-user</artifactId>
+			<version>1.0</version>
+
+		</dependency>
+		<dependency>
+			<groupId>com.inncretech</groupId>
+			<artifactId>inncretech-test-core</artifactId>
+			<version>1.0</version>
+
+		</dependency>
+		<dependency>
+			<groupId>com.inncretech</groupId>
+			<artifactId>inncretech-like</artifactId>
+			<version>1.0</version>
+		</dependency>
+		<dependency>
+			<groupId>com.inncretech</groupId>
+			<artifactId>inncretech-tag</artifactId>
+			<version>1.0</version>
+		</dependency>
+		<dependency>
+			<groupId>com.inncretech</groupId>
+			<artifactId>inncretech-source</artifactId>
+			<version>1.0</version>
+		</dependency>
+
+	</dependencies>
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<version>2.14.1</version>
+				<configuration>
+					<forkCount>1</forkCount>
+					<argLine>-Xms512m -Xmx750m</argLine>
+					<testFailureIgnore>false</testFailureIgnore>
+					<skip>false</skip>
+					<reuseForks>true</reuseForks>
+					<includes>
+						<include>/inncretech-follow/*</include>
+						<include>/inncretech-user/*</include>
+						<include>/inncretech-like-service/*</include>
+						<include>/inncretech-tag/*</include>
+						<include>/inncretech-source/*</include>
+					</includes>
+				</configuration>
+			</plugin>
+
+		</plugins>
+	</build>
 </project>

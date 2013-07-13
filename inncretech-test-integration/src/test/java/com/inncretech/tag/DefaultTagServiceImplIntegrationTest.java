@@ -1,4 +1,4 @@
-package com.inncretech.tag.service.impl;
+package com.inncretech.tag;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -14,7 +14,7 @@ import com.inncretech.tag.service.TagService;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "/applicationcontext-tag.xml" })
 @Service
-public class DefaultTagServiceImplTest {
+public class DefaultTagServiceImplIntegrationTest {
 
 	@Autowired
 	private TagService tagService;
@@ -23,7 +23,7 @@ public class DefaultTagServiceImplTest {
 	private IdGenerator idGenerator;
 
 	@Autowired
-	private TestTagUtil dbUtility;
+	private TestIntegrationUtil dbUtility;
 
 	@Test
 	public void testTagSource() {

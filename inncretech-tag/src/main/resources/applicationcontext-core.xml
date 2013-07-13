@@ -55,6 +55,27 @@
 	<bean id="transactionManager" name="transactionManager" class="org.springframework.orm.hibernate4.HibernateTransactionManager">
 		<property name="sessionFactory" ref="sessionFactory" />
 	</bean>
+	
+<bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
+	<property name="host" value="smtp.gmail.com" />
+	<property name="port" value="587" />
+	<property name="username" value="m.mahesh.k@gmail.com" />
+	<property name="password" value="mmk@12345" />
+ 
+	<property name="javaMailProperties">
+	   <props>
+       	      <prop key="mail.smtp.auth">true</prop>
+       	      <prop key="mail.smtp.starttls.enable">true</prop>
+       	   </props>
+	</property>
+</bean>
+
+<!-- this is a template message that we can pre-load with default state -->
+<bean id="templateMessage" class="org.springframework.mail.SimpleMailMessage">
+  <property name="from" value="m.mahesh.k@gmail.com"/>
+  <property name="subject" value="Test java"/>
+</bean>
+	
 	<tx:annotation-driven transaction-manager="transactionManager" />
 	<context:component-scan base-package="com.inncretech.core" />
 	<aop:aspectj-autoproxy/>
