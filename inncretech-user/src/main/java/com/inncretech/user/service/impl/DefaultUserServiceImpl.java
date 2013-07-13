@@ -122,6 +122,19 @@ public class DefaultUserServiceImpl implements UserService {
  // @Autowired
   //private SendMail sm;
 
- 
 
+    @Override
+    public User signupFacebookUser(String accessToken) {
+        return null;  //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    @Override
+    public User authenticateFbUserLogin(String accessToken) {
+        return null;  //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    @Override
+    public User authenticateUser(String userName, String password) {
+        return null;  //To change body of implemented methods use File | Settings | File Templates.
+    }
 }
