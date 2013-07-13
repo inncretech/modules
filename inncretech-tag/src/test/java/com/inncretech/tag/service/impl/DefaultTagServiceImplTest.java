@@ -1,5 +1,7 @@
 package com.inncretech.tag.service.impl;
 
+import com.inncretech.core.BaseTest;
+import com.inncretech.core.test.TestUtil;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -14,7 +16,7 @@ import com.inncretech.tag.service.TagService;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "/applicationcontext-tag.xml" })
 @Service
-public class DefaultTagServiceImplTest {
+public class DefaultTagServiceImplTest extends BaseTest{
 
 	@Autowired
 	private TagService tagService;
@@ -22,9 +24,12 @@ public class DefaultTagServiceImplTest {
 	@Autowired
 	private IdGenerator idGenerator;
 
+<<<<<<< HEAD
 	@Autowired
 	private TestTagUtil dbUtility;
 
+=======
+>>>>>>> a7a7c0834a6748e101e8b7d2760bf8522a8f66b6
 	@Test
 	public void testTagSource() {
 		tagService.tagSource(idGenerator.getNewSourceId(),
@@ -47,12 +52,6 @@ public class DefaultTagServiceImplTest {
 		tagService.tagSource(sourceId, idGenerator.getNewUserId(), "test2");
 		tagService.tagSource(sourceId, idGenerator.getNewUserId(), "test3");
 		tagService.removeTagFromSource(sourceId, (long) 36);
-
-	}
-
-	@Before
-	public void setUp() {
-		dbUtility.cleanUpdb();
 
 	}
 

@@ -25,6 +25,10 @@ public interface UserService {
   void resetPassword(String Pwd);
   
   boolean validateRandomString(String randomString);
-  
 
+  User signupFacebookUser(String accessToken);
+
+  User authenticateFbUserLogin(String accessToken);
+
+  User authenticateUser(String userName, String password);
 }

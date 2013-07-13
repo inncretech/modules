@@ -19,8 +19,8 @@ public class DefaultSourceServiceImpl implements SourceService{
   private IdGenerator idGenerator;
 
   @Override
+  @ShardAware(shardStrategy="entityid", shardType=ShardType.SOURCE)
   public Source create(Source source) {
-    source.setId(idGenerator.getNewSourceId());
     return sourceDao.createSource(source);
   }
 
