@@ -58,14 +58,13 @@ public class FollowTagDao extends AbstractShardAwareHibernateDao<FollowTag> {
 		return query.list();
 	}
 
-	@ShardAware(shardStrategy = "shardid")
 	public List<FollowTag> getFollowersByTag(Long tagId) {
 
 		List<ShardConfig> shardConfigs = getAllShards();
 		List<FollowTag> followersList = new ArrayList<FollowTag>();
 
 		for (ShardConfig config : shardConfigs) {
-			Session sess = getCurrentSessionByShard((Integer)config.getId());
+			Session sess = getCurrentSessionByShard(config.getId());
 			Query query = sess.createQuery(
 					"from FollowTag where tagId= :tag_id").setParameter(
 					"tag_id", tagId);
