@@ -36,23 +36,37 @@ public class DefaultFollowServiceImpl implements FollowService {
 
 	@Autowired
 	private FollowUserDao followUserDao;
-    //TODO: check if the user is already following the tag
-    //make sure first argument to shardware annotated method has the right shard type
+
+	// TODO: check if the user is already following the tag --done
+	// make sure first argument to shardware annotated method has the right
+	// shard type
 	@Override
 	@ShardAware(shardStrategy = "entityid", shardType = ShardType.USER)
 	public void followTag(Long followerId, Long tagId) {
 		FollowTag followTag = new FollowTag();
-		followTag.setTagId(tagId);
-		followTag.setFollowerId(followerId);
-		followTagDao.saveFollowTag(followTag);
+		List<FollowTag> followerList = getFollowersByTag(tagId);
+		for (int i = 0; i < followerList.size(); i++) {
+			Long existingFollowerId = followerList.get(i).getFollowerId()
+					.longValue();
+			if (followerId.longValue() == existingFollowerId) {
+				System.out.println("User already followed the tag>>>" + tagId
+						+ ", with FollowerId:" + followerId);
+			} else {
+				followTag.setTagId(tagId);
+				followTag.setFollowerId(followerId);
+				followTagDao.saveFollowTag(followTag);
+			}
+		}
 
 	}
 
-    //TODO:move these logic to dao, all shardign logic should be inside the dao.
+	// TODO:move these logic to dao, all shardign logic should be inside the
+	// dao.
 	@Override
 	public List<FollowTag> getFollowersByTag(Long tagId) {
 
-		List<ShardConfig> shardConfigs = shardConfigDao.getAllShards(ShardType.USER.getType());
+		List<ShardConfig> shardConfigs = shardConfigDao
+				.getAllShards(ShardType.USER.getType());
 		@SuppressWarnings("unchecked")
 		List<FollowTag> followersList = new ArrayList<FollowTag>();
 
@@ -61,11 +75,11 @@ public class DefaultFollowServiceImpl implements FollowService {
 					tagId));
 		}
 
-		return followersList ;
+		return followersList;
 
 	}
 
-    //TODO:check if the user is already following the source
+	// TODO:check if the user is already following the source
 	@Override
 	@ShardAware(shardStrategy = "entityid", shardType = ShardType.SOURCE)
 	public void followSource(Long sourceId, Long followerId) {
@@ -86,12 +100,15 @@ public class DefaultFollowServiceImpl implements FollowService {
 		followUserDao.saveFolloUser(followUser);
 	}
 
-    // TODO:return type should be list of FollowSource. There are lot of code repetition
-    // which implements basically the same logic of going to all shards and finding the follow source/tag/user.
-    //consider writing a common method for this.
+	// TODO:return type should be list of FollowSource. There are lot of code
+	// repetition
+	// which implements basically the same logic of going to all shards and
+	// finding the follow source/tag/user.
+	// consider writing a common method for this.
 	@Override
 	public List<Object> getFollowersBySource(Long sourceId) {
-		List<ShardConfig> shardConfigs = shardConfigDao.getAllShards(ShardType.SOURCE.getType());
+		List<ShardConfig> shardConfigs = shardConfigDao
+				.getAllShards(ShardType.SOURCE.getType());
 		@SuppressWarnings("unchecked")
 		List<Object> sourcesList = new ArrayList<Object>();
 
@@ -107,7 +124,8 @@ public class DefaultFollowServiceImpl implements FollowService {
 
 	@Override
 	public List<Object> getFollowersByUser(Long userId) {
-		List<ShardConfig> shardConfigs = shardConfigDao.getAllShards(0);
+		List<ShardConfig> shardConfigs = shardConfigDao
+				.getAllShards(ShardType.USER.getType());
 		@SuppressWarnings("unchecked")
 		List<Object> followersList = new ArrayList<Object>();
 
@@ -124,7 +142,8 @@ public class DefaultFollowServiceImpl implements FollowService {
 
 	@Override
 	public List<Object> getFollowedSources(Long userId) {
-		List<ShardConfig> shardConfigs = shardConfigDao.getAllShards(1);
+		List<ShardConfig> shardConfigs = shardConfigDao
+				.getAllShards(ShardType.SOURCE.getType());
 		@SuppressWarnings("unchecked")
 		List<Object> sourcesList = new ArrayList<Object>();
 
@@ -139,7 +158,8 @@ public class DefaultFollowServiceImpl implements FollowService {
 
 	@Override
 	public List<Object> getFollowedUsers(Long userId) {
-		List<ShardConfig> shardConfigs = shardConfigDao.getAllShards(0);
+		List<ShardConfig> shardConfigs = shardConfigDao
+				.getAllShards(ShardType.USER.getType());
 		@SuppressWarnings("unchecked")
 		List<Object> followedUsersList = new ArrayList<Object>();
 
@@ -154,7 +174,8 @@ public class DefaultFollowServiceImpl implements FollowService {
 
 	@Override
 	public List<Object> getFollowedTags(Long userId) {
-		List<ShardConfig> shardConfigs = shardConfigDao.getAllShards(0);
+		List<ShardConfig> shardConfigs = shardConfigDao
+				.getAllShards(ShardType.USER.getType());
 		@SuppressWarnings("unchecked")
 		List<Object> followedTagsList = new ArrayList<Object>();
 

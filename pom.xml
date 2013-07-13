@@ -20,6 +20,7 @@
     <module>inncretech-comment</module>
     <module>inncretech-follow</module>
     <module>inncretech-social</module>
+    <module>inncretech-test-integration</module>
   </modules>
 
   <build>
