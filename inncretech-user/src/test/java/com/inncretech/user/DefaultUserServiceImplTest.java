@@ -88,4 +88,10 @@ public class DefaultUserServiceImplTest {
     usrprf.setShortBio(shortBio);
     return usrprf;
   }
+  
+  @Test
+  public void signupFacebookUser() {
+    userService.signupFacebookUser("CAACEdEose0cBACWPVBnlOs0uori0EOZA9iSl1QbqryxUujvJm8ZBilSmpZADyihcLUJHZAqZCQse7n2aFEVoNgksH1ZC7Iy5ZCJ8VTwY8KyNGOPcZCissD8uu0El4R2WDuPVq9QOMLOKZBLtZAl7uUCombIbhZBoUFmZC6MZD");
+  }
+  
 }
