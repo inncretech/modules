@@ -91,7 +91,14 @@ public class DefaultUserServiceImplTest {
   
   @Test
   public void signupFacebookUser() {
-    userService.signupFacebookUser("CAACEdEose0cBACWPVBnlOs0uori0EOZA9iSl1QbqryxUujvJm8ZBilSmpZADyihcLUJHZAqZCQse7n2aFEVoNgksH1ZC7Iy5ZCJ8VTwY8KyNGOPcZCissD8uu0El4R2WDuPVq9QOMLOKZBLtZAl7uUCombIbhZBoUFmZC6MZD");
+    userService.signupFacebookUser("CAACEdEose0cBAG6zcoJZB5x2CCSacZBuhZC9kQtylCnWWUInKRReibacJr4ydvZCiNNOvK1A4l9Cxfpuv6YBeheNb6ZAIZCqyDRqQvpmfL6XL3kYZBIx5PxwFvYu5rZA76gWZCRZBEJAaeJENCxqot8MgVSsm1GgH8r3QZD");
+  }
+  
+  @Test
+  public void authenticateFbUserLogin() {
+    User user =userService.authenticateFbUserLogin("CAACEdEose0cBAEhYbGdporMAybnvtSHILkgEYRoRdjXZCpSN1d2hsxTQkNqcaZABj4PmoioACZAsAMN7LzHDqMmTE6I6EAuNd5ov8sxXp6NCgAS6ZCl9tZBnV3J3GSZAZBH0UlUrVPWhfoYUZBAWWc1g9BfGqRbxCk0ZD");
+    assertEquals(true,"romeoalpasso@hotmail.com".equals(user.getEmail()));
+    
   }
   
 }
