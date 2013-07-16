@@ -8,6 +8,7 @@ import com.inncretech.core.sharding.ShardType;
 import com.inncretech.user.dao.UserDao;
 import com.inncretech.user.dao.UserFPDao;
 import com.inncretech.user.dao.UserProfileDao;
+import com.inncretech.user.memberservice.MemberService;
 import com.inncretech.user.model.User;
 import com.inncretech.user.model.UserForgetPwd;
 import com.inncretech.user.model.UserProfile;
@@ -62,11 +63,7 @@ public class DefaultUserServiceImpl implements UserService {
 
   }
 
-  @Override
-  public void updateFacebookInfo(String facebookId) {
 
-
-  }
   @Override
   public UserForgetPwd forgotPassword(Long userID) {
     Date dt = new Date(); 
@@ -108,7 +105,11 @@ public class DefaultUserServiceImpl implements UserService {
       return false;
     }
     
-    
+  @Override
+  public void updateFacebookInfo(String facebookId) {
+
+
+  }    
 
   @Autowired
   private UserDao userDao;
@@ -118,23 +119,49 @@ public class DefaultUserServiceImpl implements UserService {
   
   @Autowired
   private UserFPDao userFPDao;
- 
- // @Autowired
-  //private SendMail sm;
+  
+  @Autowired
+  private MemberService memberService;
 
+@Override
+public User signupFacebookUser(String accessToken) {
+	 User member = memberService.signupFacebookUser(accessToken);
+	   /* doAutoFbLogin(member, accessToken, req);*/
+	 
+	    return null;
+}
 
-    @Override
-    public User signupFacebookUser(String accessToken) {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
-    }
+/*public MemberDTO signupFacebookUser(String accessToken) {
+	FacebookTemplate fbTemplate = new FacebookTemplate(accessToken);
+	UserOperations userOperation = fbTemplate.userOperations();
+	FacebookProfile profile = userOperation.getUserProfile();
 
-    @Override
-    public User authenticateFbUserLogin(String accessToken) {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
-    }
+	String email = profile.getEmail();
+	Member member = memberDao.getMemberByEmail(email);
+	MemberDTO resultMember = null;
+	if (member == null) {
+		resultMember = createMemberFromFacebookProfile(profile);
+	} else {
+		  MemberInfo memberInfo = memberInfoDao.getMemberInfoByMemberId(member.getId());
+			member.setFacebookId(profile.getId());
+			memberInfo.setFacebookId(profile.getUsername());
+			memberDao.save(member);
+			memberInfoDao.save(memberInfo);
+		resultMember = getMember(member.getId());
+	}
+	updateFacebookAuthtoken( profile,  accessToken);
+	return resultMember;
+}
+*/
+@Override
+public User authenticateFbUserLogin(String accessToken) {
+	// TODO Auto-generated method stub
+	return null;
+}
 
-    @Override
-    public User authenticateUser(String userName, String password) {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
-    }
+@Override
+public User authenticateUser(String userName, String password) {
+	// TODO Auto-generated method stub
+	return null;
+}
 }

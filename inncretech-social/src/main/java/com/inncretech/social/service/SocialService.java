@@ -1,11 +1,12 @@
 package com.inncretech.social.service;
 
 
-import java.util.Map;
+import org.springframework.util.MultiValueMap;
 
 public interface SocialService {
 
-    void sharePostToFacebook(String facebookId, String accessToken, Map<String, String>postData);
     void sharePostToTwitter(String twitterId);
+	void sharePostToFacebook(String facebookId, String accessToken,
+			MultiValueMap<String, String> postData);
 	
 }
