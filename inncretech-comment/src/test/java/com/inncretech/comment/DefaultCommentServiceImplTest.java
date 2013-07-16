@@ -20,7 +20,7 @@ import com.inncretech.core.sharding.IdGenerator;
 import com.inncretech.core.test.TestUtil;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = { "classpath:/applicationcontext-comment.xml" })
+@ContextConfiguration(locations = { "classpath:*/applicationcontext-comment.xml" })
 public class DefaultCommentServiceImplTest {
 
 	List<Comment> commList = new ArrayList<Comment>();

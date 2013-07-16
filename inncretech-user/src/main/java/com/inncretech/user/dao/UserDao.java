@@ -23,8 +23,7 @@ import com.inncretech.user.model.User;
 @Component
 public class UserDao extends AbstractShardAwareHibernateDao<User> {
 
-	@Autowired
-	private ShardConfigDao shardConfigDao;
+	
 	
   public UserDao() {
     super(User.class, ShardType.USER);
@@ -46,25 +45,14 @@ public class UserDao extends AbstractShardAwareHibernateDao<User> {
     return  (User)q.uniqueResult();
    }
   
-  public List<User> getUserByEmail(String emailID) {
 
-		List<ShardConfig> shardConfigs = shardConfigDao.getAllShards(ShardType.USER.getType());
-		@SuppressWarnings("unchecked")
-		List<User> userList = new ArrayList<User>();
-
-		for (ShardConfig config : shardConfigs) {
-			userList.addAll(getUser(config.getId(), emailID));
-		}
-		return userList ;
-  }
-  
+  //Assuming that only one user will exists for a given email
   @ShardAware(shardStrategy = "shardid")
-  public Collection<? extends User> getUser(Integer shardId,String emailID) {
+  public  User getUser(Integer shardId,String emailID) {
 	  Session sess = getCurrentSessionByShard(shardId);
 		Query query = sess.createQuery("from User where email= :email_id")
-		//query.setString(email_id, emailID);
 				.setParameter("email_id", emailID);
-		return query.list();
+		return (User) query.uniqueResult();
 }
   
   
