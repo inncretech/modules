@@ -115,8 +115,6 @@ public class DefaultUserServiceImpl implements UserService {
 	@Override
 	public User signupFacebookUser(String accessToken) {
 		User user = fbMemberService.signupFacebookUser(accessToken);
-		//TODO Implement autologin after signup
-		/* doAutoFbLogin(member, accessToken, req); */
 		return user;
 	}
 

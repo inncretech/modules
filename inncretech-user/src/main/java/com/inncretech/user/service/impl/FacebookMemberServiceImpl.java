@@ -34,14 +34,14 @@ public class FacebookMemberServiceImpl implements FacebookMemberService {
 		FacebookTemplate fbTemplate = new FacebookTemplate(accessToken);
 		UserOperations userOperation = fbTemplate.userOperations();
 		FacebookProfile profile = userOperation.getUserProfile();
-		String email = profile.getEmail();
-		User user = getUserByEmail(email);
+		String emailId = profile.getEmail();		
+		User user = getUserByEmail(emailId);
 		User resultUser = null;
 		if (user == null) {
 			resultUser = createMemberFromFacebookProfile(profile);
-			throw new RuntimeException("User does not exists...!!!");
+			return resultUser;
 		} else {
-			throw new RuntimeException("User exists...!!!");
+			return user;
 		}
 	}
 
@@ -63,7 +63,10 @@ public class FacebookMemberServiceImpl implements FacebookMemberService {
 		User user = new User();
 		user.setEmail(profile.getEmail());
 		user.setId(idGenerator.getNewUserId());
+		user.setFirstName(profile.getFirstName());
+		user.setLastName(profile.getLastName());
 		user.setFacebookId(profile.getId());
+		user.setUserName(profile.getUsername());
 		return userDao.createUser(user);
 	}
 
@@ -71,9 +74,12 @@ public class FacebookMemberServiceImpl implements FacebookMemberService {
 		List<ShardConfig> shardConfigs = shardConfigDao
 				.getAllShards(ShardType.USER.getType());
 		@SuppressWarnings("unchecked")
-		List<User> userList = new ArrayList<User>();
+		List<User> userList = new ArrayList<User>(0);
 		for (ShardConfig config : shardConfigs) {
 			userList.add(userDao.getUser(config.getId(), emailID));
+			if(userList.get(0) != null){
+				break;
+			}
 		}
 		return (userList.size() > 0) ? userList.get(0) : null;
 	}
