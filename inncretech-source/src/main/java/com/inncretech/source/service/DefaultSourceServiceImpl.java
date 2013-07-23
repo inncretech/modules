@@ -26,14 +26,12 @@ public class DefaultSourceServiceImpl implements SourceService{
 
   @Override
   public void delete(Long sourceId) {
-    // TODO Auto-generated method stub
     
   }
 
   @Override
   public Source get(Long sourceId) {
-    // TODO Auto-generated method stub
-    return null;
+   return sourceDao.get(sourceId);
   }
 
 }
