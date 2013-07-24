@@ -1,6 +1,10 @@
 package com.inncretech.user;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -9,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import com.inncretech.core.sharding.IdGenerator;
 import com.inncretech.core.test.TestUtil;
 import com.inncretech.user.model.User;
 import com.inncretech.user.model.UserProfile;
@@ -22,14 +27,16 @@ import com.inncretech.user.service.UserService;
 public class DefaultUserServiceImplIntegrationTest implements Runnable {
 
 	@Autowired
-	private UserService userService;
+	private UserService userService=null;
 	@Autowired
-	private TestUtil dbUtility;
+	private TestUtil dbUtility=null;
+	@Autowired
+	private IdGenerator idGenerator=null;
 
 	private int noOfThread = 10;
-	private long noOfUsers = 1000000;
+	private long noOfUsers = 100;
 
-	Thread thread;
+	Thread thread=null;
 
 	@Test
 	public void createUser() throws Exception {
@@ -76,16 +83,16 @@ public class DefaultUserServiceImplIntegrationTest implements Runnable {
 	@Override
 	public void run() {
 		User usr = null;
+		Map<String, Object> map = new HashMap<String, Object>();
 		try {
 			System.out.println("Thread Start Time:[" + new Date() + "]");
 			for (int i = 0; i < (noOfUsers / noOfThread); i++) {
 				System.out.println("Child Thread Executing >>>>" + i);
 				usr = createTestUser("Devrun", "Test", "test@gmail.com",
-						"devuser-" + i, "mm111", "mmk@facebook", "mmk@twitter",
-						"mmk@gooogle");
-				userService.createUser(usr);
-				
-			}
+						"devuser_" + i, "dev_" + i, "dev_" + i + "@facebook",
+						"dev_" + i + "@twitter", "dev_" + i + "@gooogle");
+			User user=	userService.createUser(usr);
+            	}
 			System.out.println("Child Thread Execution Out Time:[" + new Date()
 					+ "]");
 

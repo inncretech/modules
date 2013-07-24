@@ -1,8 +1,5 @@
 package com.inncretech.follow;
 
-
-import com.inncretech.core.BaseTest;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import com.inncretech.core.BaseTest;
 import com.inncretech.core.sharding.IdGenerator;
 import com.inncretech.follow.service.FollowService;
 
@@ -21,7 +19,7 @@ import com.inncretech.follow.service.FollowService;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "/applicationcontext-follow.xml" })
 @Service
-public class DefaultFollowServiceImplTest extends BaseTest{
+public class DefaultFollowServiceImplTest extends BaseTest {
 
 	@Autowired
 	private FollowService followService;
@@ -31,13 +29,13 @@ public class DefaultFollowServiceImplTest extends BaseTest{
 
 	@Test
 	public void testFollowTag() {
-		followService.followTag(idGenerator.getNewUserId(),new Long(111));
+		followService.followTag(idGenerator.getNewUserId(), new Long("NULL"));
 	}
 
 	@Test
 	public void testGetFollowersByTag() {
-        followService.followTag(idGenerator.getNewUserId(),new Long(111));
-		//followService.getFollowersByTag(new Long(111));
+		followService.getFollowersByTag(new Long(111));
+		// followService.getFollowersByTag(new Long(111));
 	}
 
 	@Test
@@ -48,7 +46,7 @@ public class DefaultFollowServiceImplTest extends BaseTest{
 
 	@Test
 	public void testFollowUser() {
-		followService.followUser(new Long(1),idGenerator.getNewUserId());
+		followService.followUser(new Long(1), idGenerator.getNewUserId());
 	}
 
 	@Test

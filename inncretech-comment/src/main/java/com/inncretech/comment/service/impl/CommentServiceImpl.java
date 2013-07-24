@@ -20,6 +20,7 @@ public class CommentServiceImpl implements CommentService {
 
 	@Override
 	public Comment create(Long sourceId, Comment comment) {
+		comment=new Comment();
 		comment.setCommentDate(new Date());
 		commentDao.createComment(sourceId, comment);
 		return comment;

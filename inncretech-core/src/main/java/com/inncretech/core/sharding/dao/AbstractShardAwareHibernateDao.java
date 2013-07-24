@@ -16,8 +16,8 @@ import com.inncretech.core.sharding.ShardType;
 
 public class AbstractShardAwareHibernateDao<T> {
 
-  private Class clazz;
-  private ShardType shardType;
+  private Class clazz=null;
+  private ShardType shardType=null;
 
   public AbstractShardAwareHibernateDao(Class clazz, ShardType shardType) {
     this.clazz = clazz;
@@ -29,10 +29,10 @@ public class AbstractShardAwareHibernateDao<T> {
   }
 
   @Autowired
-  private HibernateSessionFactoryManager sessionFactoryManager;
+  private HibernateSessionFactoryManager sessionFactoryManager=null;
 
   @Autowired
-  private IdGenerator idGenService;
+  private IdGenerator idGenService=null;
 
   public IdGenerator getIdGenService() {
     return idGenService;

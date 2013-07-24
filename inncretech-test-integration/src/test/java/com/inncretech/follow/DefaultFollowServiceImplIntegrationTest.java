@@ -1,7 +1,10 @@
 package com.inncretech.follow;
 
-import com.inncretech.core.BaseTest;
-import org.junit.Before;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+
+import java.util.List;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import com.inncretech.core.BaseTest;
 import com.inncretech.core.sharding.IdGenerator;
 import com.inncretech.follow.service.FollowService;
 
@@ -20,7 +24,7 @@ import com.inncretech.follow.service.FollowService;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "/applicationcontext-follow.xml" })
 @Service
-public class DefaultFollowServiceImplIntegrationTest extends BaseTest{
+public class DefaultFollowServiceImplIntegrationTest extends BaseTest {
 
 	@Autowired
 	private FollowService followService;
@@ -30,50 +34,83 @@ public class DefaultFollowServiceImplIntegrationTest extends BaseTest{
 
 	@Test
 	public void testFollowTag() {
-		followService.followTag(idGenerator.getNewUserId(),new Long(111));
+		followService.followTag(idGenerator.getNewUserId(), new Long("111"));
+		assertNotNull("followService is null", followService.getClass());
 	}
 
 	@Test
 	public void testGetFollowersByTag() {
-        followService.followTag(idGenerator.getNewUserId(),new Long(111));
-		followService.getFollowersByTag(new Long(111));
+		@SuppressWarnings("rawtypes")
+		List follower = followService.getFollowersByTag(new Long(111));
+		String result = (follower.size() > 0) ? "Available" : "No Availability";
+		assertEquals("Records Not found", "Available", result);
+
 	}
 
 	@Test
 	public void testFollowSource() {
 		followService.followSource(idGenerator.getNewSourceId(),
 				idGenerator.getNewUserId());
+		assertNotNull("followService is null", followService.getClass());
+
 	}
 
 	@Test
 	public void testFollowUser() {
-		followService.followUser(new Long(1),idGenerator.getNewUserId());
+		followService.followUser(new Long(1), idGenerator.getNewUserId());
+		assertNotNull("followService is null", followService.getClass());
+
 	}
 
 	@Test
 	public void testGetFollowersBySource() {
-		followService.getFollowersBySource(new Long("2286633485940558014"));
+		@SuppressWarnings("rawtypes")
+		List followerBySource = followService.getFollowersBySource(new Long(
+				"2304710477424363873"));
+		String result = followerBySource != null ? "Available"
+				: "No Availability";
+		assertEquals("Records Not found", "Available", result);
 	}
 
 	@Test
 	public void testGetFollowersByUser() {
-		followService.getFollowersByUser(new Long("2287325698546730152"));
+		@SuppressWarnings("rawtypes")
+		List followersListByUser = followService.getFollowersByUser(new Long(
+				"2287325698546730152"));
+		String result = followersListByUser != null ? "Available"
+				: "No Availability";
+		assertEquals("Records Not found", "Available", result);
 	}
 
 	@Test
 	public void testGetFollowedSources() {
-		followService.getFollowedSources(new Long("2286633486351599807"));
+		@SuppressWarnings("rawtypes")
+		List followedSourceList = followService.getFollowedSources(new Long(
+				"2304710478204503373"));
+		String result = followedSourceList != null ? "Available"
+				: "No Availability";
+		assertEquals("Records Not found", "Available", result);
 	}
 
 	@Test
 	public void testGetFollowedUsers() {
-		followService.getFollowersByUser(new Long("2287325698546730152"));
+		@SuppressWarnings("rawtypes")
+		List followedUserList = followService.getFollowersByUser(new Long(
+				"2287325698546730152"));
+		String result = followedUserList != null ? "Available"
+				: "No Availability";
+		assertEquals("Records Not found", "Available", result);
+
 	}
 
 	@Test
 	public void testGetFollowedTags() {
-
-		followService.getFollowedTags(new Long("2287332117325022377"));
+		@SuppressWarnings("rawtypes")
+		List followedTagList = followService.getFollowedTags(new Long(
+				"2294567042977629831"));
+		String result = followedTagList != null ? "Available"
+				: "No Availability";
+		assertEquals("Records Not found", "Available", result);
 
 	}
 

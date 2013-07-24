@@ -12,7 +12,7 @@ public interface FollowService {
 
 	void followSource(Long sourceId, Long followerId);
 
-	void followUser(Long userId, Long followerId);
+	void followUser(Long followerId, Long userId);
 
 	List<Object> getFollowersByUser(Long userId);
 

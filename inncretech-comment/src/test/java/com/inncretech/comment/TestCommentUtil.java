@@ -19,7 +19,9 @@ public class TestCommentUtil extends AbstractShardAwareHibernateDao<Comment> {
 		Query q = getCurrentSession(sourceId).createQuery(
 				"select id from Comment where sourceId = ?");
 		q.setParameter(0, sourceId);
-		return (Long) q.list().get(0);
+		//return (Long) q.list().get(0);
+		return (!q.list().isEmpty())?(Long) q.list().get(0):null;
+		
 	}
 	
 	@ShardAware(shardStrategy = "entityid", shardType = ShardType.SOURCE)
@@ -27,6 +29,8 @@ public class TestCommentUtil extends AbstractShardAwareHibernateDao<Comment> {
 		Query q = getCurrentSession(sourceId).createQuery(
 				"select id from Comment where sourceId = ?");
 		q.setParameter(0, sourceId);
-		return (Long) q.list().get(q.list().size()-1);
+		//return (Long) q.list().get(q.list().size()-1);
+		return (!q.list().isEmpty())?(Long) q.list().get(q.list().size()-1):null;
+		
 	}
 }
