@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component inheritJdk="true">
+	<exclude-output/>
+	<contentEntry url="file://$MODULE_DIR$"/>
+	<lib name="classes_managed" scope="COMPILE">
+		<relative-module-cls project-related="file://$USER_HOME$/myprojects/modules/inncretech-communication/target/scala-2.10/classes_managed"/>
+	</lib>
+</component>
