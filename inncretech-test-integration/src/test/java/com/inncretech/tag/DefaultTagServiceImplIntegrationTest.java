@@ -1,5 +1,9 @@
 package com.inncretech.tag;
 
+import static org.junit.Assert.assertEquals;
+
+import java.util.List;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -9,6 +13,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.inncretech.core.sharding.IdGenerator;
+import com.inncretech.tag.model.Tag;
 import com.inncretech.tag.service.TagService;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -33,12 +38,20 @@ public class DefaultTagServiceImplIntegrationTest {
 
 	@Test
 	public void testGetTagsOfSource() {
-		tagService.getTagsOfSource(idGenerator.getNewSourceId());
+		List<Tag> tagSourceList=tagService.getTagsOfSource(idGenerator.getNewSourceId());
+		String result = tagSourceList != null ? "Available"
+				: "No Availability";
+		assertEquals("Records Not found", "Available", result);
+		
 	}
 
 	@Test
 	public void testGetTagsCreatedByUser() {
-		tagService.getTagsCreatedByUser((long) 1);
+		List <Tag> tagsList=tagService.getTagsCreatedByUser((long) 1);
+		String result = tagsList != null ? "Available"
+				: "No Availability";
+		assertEquals("Records Not found", "Available", result);
+		
 	}
 
 	@Test

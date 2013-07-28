@@ -65,21 +65,21 @@ public class DefaultFollowServiceImpl implements FollowService {
 	@Override
 	public List<FollowTag> getFollowersByTag(Long tagId) {
 
-		/*
-		 * List<ShardConfig> shardConfigs = shardConfigDao
-		 * .getAllShards(ShardType.USER.getType());
-		 * 
-		 * @SuppressWarnings("unchecked") List<FollowTag> followersList = new
-		 * ArrayList<FollowTag>();
-		 * 
-		 * for (ShardConfig config : shardConfigs) {
-		 * followersList.addAll(followTagDao.getFollowersByTag(config.getId(),
-		 * tagId)); }
-		 */
-		@SuppressWarnings("unchecked")
+		
+		  List<ShardConfig> shardConfigs = shardConfigDao
+		  .getAllShards(ShardType.USER.getType());
+		  
+		  @SuppressWarnings("unchecked") List<FollowTag> followersList = new
+		  ArrayList<FollowTag>();
+		  
+		  for (ShardConfig config : shardConfigs) {
+		  followersList.addAll(followTagDao.getFollowersByTag(config.getId(),
+		  tagId)); }
+		 
+		/*@SuppressWarnings("unchecked")
 		List<FollowTag> followersList = new ArrayList<FollowTag>();
 		followersList = followTagDao.getFollowersByTag(tagId);
-
+*/
 		return followersList;
 
 	}

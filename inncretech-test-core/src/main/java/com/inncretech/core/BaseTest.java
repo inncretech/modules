@@ -12,7 +12,7 @@ public class BaseTest {
   
   @Before
   public void setUp() {
-    testUtility.cleanUpdb();
+   // testUtility.cleanUpdb();
   }
 
 }
