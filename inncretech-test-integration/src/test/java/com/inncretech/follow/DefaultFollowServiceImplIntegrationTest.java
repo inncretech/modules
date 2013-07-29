@@ -76,7 +76,7 @@ public class DefaultFollowServiceImplIntegrationTest extends BaseTest {
 	public void testGetFollowersByUser() {
 		@SuppressWarnings("rawtypes")
 		List followersListByUser = followService.getFollowersByUser(new Long(
-				"2287325698546730152"));
+				"2311465561881577687"));
 		String result = followersListByUser != null ? "Available"
 				: "No Availability";
 		assertEquals("Records Not found", "Available", result);

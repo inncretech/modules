@@ -47,7 +47,7 @@ public class DefaultFollowServiceImplTest extends BaseTest{
 
 	@Test
 	public void testFollowUser() {
-		followService.followUser(idGenerator.getNewUserId(), new Long(1));
+		followService.followUser(new Long(1),idGenerator.getNewUserId());
 	}
 
 	@Test
@@ -67,7 +67,7 @@ public class DefaultFollowServiceImplTest extends BaseTest{
 
 	@Test
 	public void testGetFollowedUsers() {
-		followService.getFollowersByUser(new Long("2287325698546730152"));
+		followService.getFollowersByUser(new Long("2311479905981827798"));
 	}
 
 	@Test

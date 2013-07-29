@@ -33,7 +33,7 @@
 		</dependency>
 		<dependency>
 			<groupId>com.inncretech</groupId>
-			<artifactId>inncretech-like</artifactId>
+			<artifactId>inncretech-like-service</artifactId>
 			<version>1.0</version>
 		</dependency>
 		<dependency>

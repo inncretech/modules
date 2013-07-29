@@ -3,7 +3,6 @@ package com.inncretech.user;
 import static org.junit.Assert.assertNotNull;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Random;
 import java.util.logging.Logger;
@@ -40,7 +39,7 @@ public class DefaultUserServiceImplTask1Test {
 	@Autowired
 	private FollowService followService;
 
-	private long noOfUsers = 500;
+	private long noOfUsers = 50;
 	private long totalFollowers = 3;
 
 	Long randomeValue = null;
@@ -53,11 +52,10 @@ public class DefaultUserServiceImplTask1Test {
 	public void createUser() throws Exception {
 		User usr = null;
 		List list = new ArrayList<User>();
-		for (int userCount = 1; userCount < totalFollowers+1; userCount++) {
+		for (int userCount = 1; userCount < totalFollowers + 1; userCount++) {
 
 			for (int i = 1; i <= noOfUsers; i++) {
-				// logger.info("Child Thread Executing >>>>" + i);
-				usr = createTestUser("Devrun", "Test", "test@gmail.com",
+			usr = createTestUser("Devrun", "Test", "test@gmail.com",
 						"devuser_" + i, "dev_" + i, "dev_" + i + "@facebook",
 						"dev_" + i + "@twitter", "dev_" + i + "@gooogle");
 				User user = userService.createUser(usr);
@@ -71,19 +69,44 @@ public class DefaultUserServiceImplTask1Test {
 			randomList.add(randomValue);
 		}
 		testFollowUser(randomList);
+		//find the list of followers
+		testFollowersList(randomList);
+		
 	}
 
 	public void testFollowUser(List randomList) {
 		System.out.println("Random Followers List:" + randomList);
-		for (int i = 0; i <= randomList.size(); i++) {
+		Long userId = null;
+		for (int i = 1; i < randomList.size(); i++) {
 			randomList.get(i);
 			System.out.println("userId:" + randomList.get(i).toString());
-			Long userId = new Long(randomList.get(i).toString());
-			followService.followUser(userId, idGenerator.getNewUserId());
+			userId = new Long(randomList.get(i).toString());
+			System.out.println("UserId Passed to DB:"+userId);
+			followService.followUser(idGenerator.getNewUserId(),userId);
 		}
-		assertNotNull("followService is null", followService.getClass());
-	}
+		//assertNotNull("followService is null", followService.getClass());
 
+	}
+ 
+	public List testFollowersList(List userList){
+		List followerList=null;
+		System.out.println("Size of UserList:"+userList.size());
+		// getFollowersByUser
+				for (int i = 1; i < userList.size(); i++) {
+					Long userId= new Long(userList.get(i).toString());
+					System.out.println("user id to find the list of followers="+userId);
+					followerList=followService.getFollowersByUser(userId);
+										
+				}
+				//System.out.println("Just test..."+followerList.size());
+				if(followerList!=null){
+					System.out.println("Available Followers for the User >>>>"+followerList.size());
+					return followerList;
+				}
+				return null;
+				
+	}
+	
 	@Before
 	public void setUp() {
 		dbUtility.cleanUpdb();
