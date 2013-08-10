@@ -26,9 +26,9 @@ public class CommunicationService {
 
     private Communication createCommunicationToSend(Event event){
         Communication comm = new Communication();
-        comm.commType = 1;
+        comm.commType = event.getEventType().getId();
         comm.commMethod = 1;
-        comm.commData = event.getEventData().toString();
+        comm.commData = (event.getEventData() !=null) ? event.getEventData().toString() : null;
         comm.contactInfo = event.getUser().getEmailId();
         Communication.insert(comm);
         return comm;

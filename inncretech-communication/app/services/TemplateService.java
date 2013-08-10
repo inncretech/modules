@@ -18,9 +18,9 @@ public class TemplateService {
     private STGroupDir groupDir;
 
     public TemplateService(){
-        templateDataMap.put(EventType.LOGIN.getId() , "login.email.template");
-        groupDir = new STGroupDir("templates/group");
-
+        templateDataMap.put(EventType.LOGIN.getId() , "login");
+        templateDataMap.put(EventType.SIGNUP.getId() , "signup");
+        groupDir = new STGroupDir("templates", '$', '$');
     }
     public String createCommunicationBody(Communication comm) throws Exception{
         return groupDir.getInstanceOf(templateDataMap.get(comm.commType)).render();

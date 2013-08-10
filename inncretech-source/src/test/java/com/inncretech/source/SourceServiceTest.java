@@ -1,5 +1,6 @@
 package com.inncretech.source;
 
+import com.inncretech.core.sharding.IdGenerator;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,10 +17,14 @@ public class SourceServiceTest extends BaseTest{
   
   @Autowired
   private SourceService sourceService;
+
+  @Autowired
+  private IdGenerator idGenerator;
   
   @Test
   public void testSourceCreate(){
     Source s = new Source();
+    s.setId(idGenerator.getNewSourceId());
     s.setSourceType(1);
     s.setSourceUri("testsource");
     sourceService.create(s);

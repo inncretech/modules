@@ -5,4 +5,7 @@
 	<lib name="classes_managed" scope="COMPILE">
 		<relative-module-cls project-related="file://$USER_HOME$/myprojects/modules/inncretech-communication/target/scala-2.10/classes_managed"/>
 	</lib>
+	<lib name="stringtemplate-4.0.2.jar" scope="COMPILE">
+		<srcroot url="jar://$USER_HOME$/.ideaLibSources/stringtemplate-4.0.2-sources.jar!/"/>
+	</lib>
 </component>
