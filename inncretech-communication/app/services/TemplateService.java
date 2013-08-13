@@ -23,6 +23,6 @@ public class TemplateService {
         groupDir = new STGroupDir("templates", '$', '$');
     }
     public String createCommunicationBody(Communication comm) throws Exception{
-        return groupDir.getInstanceOf(templateDataMap.get(comm.commType)).render();
+        return groupDir.getInstanceOf(templateDataMap.get(comm.commType)).add("data", comm.commData).render();
     }
 }

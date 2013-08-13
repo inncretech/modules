@@ -34,7 +34,7 @@ public class EmailSenderService {
                 mimeMessage.setRecipient(Message.RecipientType.TO,
                         new InternetAddress(comm.contactInfo));
                 mimeMessage.setFrom(new InternetAddress("pranabd@gmail.com"));
-                mimeMessage.setText(templateService.createCommunicationBody(comm));
+                mimeMessage.setContent(templateService.createCommunicationBody(comm), "text/html");
             }
         };
         mailSender.send(preparator);
