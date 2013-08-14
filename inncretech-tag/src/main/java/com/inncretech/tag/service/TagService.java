@@ -8,7 +8,7 @@ import com.inncretech.tag.model.Tag;
 
 public interface TagService {
   
-  void tagSource(Long sourceId, Long userId, String tagName);
+  void tagSource(Long sourceId, Long userId, Long tagId);
   
   @ShardAware(shardStrategy="entityid", shardType=ShardType.SOURCE)
   List<Tag> getTagsOfSource(Long sourceId);
@@ -18,5 +18,7 @@ public interface TagService {
   
   @ShardAware(shardStrategy = "entityid", shardType = ShardType.SOURCE)
   void removeTagFromSource(Long sourceId, Long tagId);
+
+  Tag createTag(String tagName);
 
 }

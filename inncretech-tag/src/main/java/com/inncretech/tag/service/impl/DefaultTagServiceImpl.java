@@ -24,17 +24,18 @@ public class DefaultTagServiceImpl implements TagService {
 
 	@Autowired
 	private SourceTagDao sourceTagDao;
+	
+	@Override
+	public Tag createTag(String tagName) {
+	  Tag t = new Tag();
+    t.setName(tagName);
+    tagDao.createTag(t);
+    return t;
+	}
 
 	@Override
-	public void tagSource(Long sourceId, Long userId, String tagName) {
-		Tag readTag = tagDao.getTag(tagName);
-		if (readTag == null) {
-			Tag t = new Tag();
-			t.setName(tagName);
-			tagDao.createTag(t);
-			readTag = t;
-		}
-
+	public void tagSource(Long sourceId, Long userId, Long tagId) {
+		Tag readTag = tagDao.get(tagId);
 		SourceTag sourceTag = new SourceTag();
 		sourceTag.setSourceId(sourceId);
 		sourceTag.setUserId(userId);
@@ -64,5 +65,4 @@ public class DefaultTagServiceImpl implements TagService {
 		sourceTagDao.removeTagFromSource(sourceId, tagId);
 
 	}
-
 }
