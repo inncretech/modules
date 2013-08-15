@@ -8,6 +8,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.inncretech.core.sharding.IdGenerator;
+import com.inncretech.tag.model.Tag;
 import com.inncretech.tag.service.TagService;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -27,8 +28,9 @@ public class DefaultTagServiceImplTest extends TestTagUtil{
 
 	@Test
 	public void testTagSource() {
+	  Tag tag = tagService.createTag("test1");
 		tagService.tagSource(idGenerator.getNewSourceId(),
-				idGenerator.getNewUserId(), "test1");
+				idGenerator.getNewUserId(), tag.getId());
 	}
 
 	@Test
@@ -43,9 +45,11 @@ public class DefaultTagServiceImplTest extends TestTagUtil{
 
 	@Test
 	public void testRemoveTagFromSource() {
+	  Tag tagOne = tagService.createTag("test2");
+	  Tag tagTwo = tagService.createTag("test3");
 		Long sourceId = idGenerator.getNewSourceId();
-		tagService.tagSource(sourceId, idGenerator.getNewUserId(), "test2");
-		tagService.tagSource(sourceId, idGenerator.getNewUserId(), "test3");
+		tagService.tagSource(sourceId, idGenerator.getNewUserId(), tagOne.getId());
+		tagService.tagSource(sourceId, idGenerator.getNewUserId(), tagTwo.getId());
 		tagService.removeTagFromSource(sourceId, (long) 36);
 
 	}

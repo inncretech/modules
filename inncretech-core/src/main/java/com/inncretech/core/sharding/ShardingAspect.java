@@ -37,7 +37,7 @@ public class ShardingAspect extends TransactionAspectSupport {
       MethodSignature methodSignature = (MethodSignature) jointPoint.getSignature();
       Method method = methodSignature.getMethod();
       TransactionInfo txInfo = createTransactionIfNecessary(method, txObject, jointPoint);
-      System.out.println("I m inside" + method.getName());
+      System.out.println("Calling beforeStartTx: " + method.getName());
       Object result = jointPoint.proceed();
       commitTransactionAfterReturning(TransactionAspectSupport.currentTransactionInfo());
       return result;
