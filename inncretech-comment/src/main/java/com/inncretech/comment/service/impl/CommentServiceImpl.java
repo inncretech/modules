@@ -24,6 +24,7 @@ public class CommentServiceImpl implements CommentService {
         comment.setCreatedBy(createdBy);
         comment.setCommentText(commentText);
         comment.setCommentParentId(parentCommentId);
+        comment.setSourceId(sourceId);
 		comment.setCreatedAt(new Date());
 		commentDao.createComment(sourceId, comment);
 		return comment;
