@@ -44,7 +44,7 @@ public class DefaultLikeServiceImpl implements LikeService{
     SourceLike likeSrc = new SourceLike();
     likeSrc.setObjectId(srcID);
     likeSrc.setUserId(createdBy);
-    likeSrc.setLikeValue((byte) 1);
+    likeSrc.setLikeValue(likeType.getValue());
     srcLikeDao.likeObject(likeSrc);
     
   }
