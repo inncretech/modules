@@ -1,5 +1,6 @@
 package com.inncretech.tag.service.impl;
 
+import com.inncretech.core.model.AccessContext;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,8 +30,8 @@ public class DefaultTagServiceImplTest extends TestTagUtil{
 	@Test
 	public void testTagSource() {
 	  Tag tag = tagService.createTag("test1");
-		tagService.tagSource(idGenerator.getNewSourceId(),
-				idGenerator.getNewUserId(), tag.getId());
+        AccessContext.set(idGenerator.getNewUserId(), null);
+		tagService.tagSource(idGenerator.getNewSourceId(), tag.getId());
 	}
 
 	@Test
@@ -48,8 +49,9 @@ public class DefaultTagServiceImplTest extends TestTagUtil{
 	  Tag tagOne = tagService.createTag("test2");
 	  Tag tagTwo = tagService.createTag("test3");
 		Long sourceId = idGenerator.getNewSourceId();
-		tagService.tagSource(sourceId, idGenerator.getNewUserId(), tagOne.getId());
-		tagService.tagSource(sourceId, idGenerator.getNewUserId(), tagTwo.getId());
+        AccessContext.set(idGenerator.getNewUserId(), null);
+		tagService.tagSource(sourceId, tagOne.getId());
+		tagService.tagSource(sourceId, tagTwo.getId());
 		tagService.removeTagFromSource(sourceId, (long) 36);
 
 	}
