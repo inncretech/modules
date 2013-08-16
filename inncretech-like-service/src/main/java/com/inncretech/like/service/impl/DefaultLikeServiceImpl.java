@@ -30,11 +30,11 @@ public class DefaultLikeServiceImpl implements LikeService{
     return allSourceLikes;
   }
   @Override
-  public void likeSource(Long srcID , LikeType likeType) {
+  public void likeSource(Long srcID , LikeType likeType, Long createdBy) {
     SourceLike likeSrc = new SourceLike();
     likeSrc.setId(srcLikeDao.getIdGenService().getIdOnShard(srcLikeDao.getIdGenService().getShardId(srcID, ShardType.SOURCE)));
     likeSrc.setObjectId(srcID);
-    likeSrc.setUserId(AccessContext.get().getCallerUserId());
+    likeSrc.setUserId(createdBy);
     likeSrc.setLikeValue((byte) 1);
     srcLikeDao.likeObject(likeSrc);
     

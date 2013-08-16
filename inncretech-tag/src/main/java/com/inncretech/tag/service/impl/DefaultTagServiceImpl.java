@@ -5,7 +5,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import com.inncretech.core.model.AccessContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -35,11 +34,11 @@ public class DefaultTagServiceImpl implements TagService {
 	}
 
 	@Override
-	public void tagSource(Long sourceId, Long tagId) {
+	public void tagSource(Long sourceId, Long userId, Long tagId) {
 		Tag readTag = tagDao.get(tagId);
 		SourceTag sourceTag = new SourceTag();
 		sourceTag.setSourceId(sourceId);
-		sourceTag.setUserId(AccessContext.get().getCallerUserId());
+		sourceTag.setUserId(userId);
 		sourceTag.setTagId(readTag.getId());
 		sourceTagDao.saveSourceTag(sourceTag);
 	}

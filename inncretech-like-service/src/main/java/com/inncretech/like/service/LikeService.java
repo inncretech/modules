@@ -11,6 +11,6 @@ public interface LikeService {
   
   List<SourceLike> getAllLikeByUser(Long userId);
   
-  void likeSource(Long srcID , LikeType likeType);
+  void likeSource(Long srcID , LikeType likeType, Long createdBy);
 
 }

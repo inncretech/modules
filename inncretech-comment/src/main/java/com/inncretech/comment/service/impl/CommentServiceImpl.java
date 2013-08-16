@@ -6,7 +6,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.inncretech.core.model.AccessContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,9 +19,9 @@ public class CommentServiceImpl implements CommentService {
 	private CommentDao commentDao;
 
 	@Override
-	public Comment create(Long sourceId, String commentText, Long parentCommentId) {
+	public Comment create(Long sourceId, String commentText, Long createdBy, Long parentCommentId) {
         Comment comment = new Comment();
-        comment.setCreatedBy(AccessContext.get().getCallerUserId());
+        comment.setCreatedBy(createdBy);
         comment.setCommentText(commentText);
         comment.setCommentParentId(parentCommentId);
         comment.setSourceId(sourceId);

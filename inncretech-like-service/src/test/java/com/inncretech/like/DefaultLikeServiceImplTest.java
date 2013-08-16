@@ -37,7 +37,7 @@ public class DefaultLikeServiceImplTest extends BaseTest{
     long srcID= srcDAO.getIdGenService().getNewSourceId();
     long usrID =srcDAO.getIdGenService().getNewUserId();
     AccessContext.set(usrID, null);
-    likeService.likeSource(srcID,LikeType.LIKE);
+    likeService.likeSource(srcID,LikeType.LIKE, usrID);
     
   }
   @Test
@@ -46,7 +46,7 @@ public class DefaultLikeServiceImplTest extends BaseTest{
     long srcID= srcDAO.getIdGenService().getNewSourceId();
     long usrID =srcDAO.getIdGenService().getNewUserId();
     AccessContext.set(usrID, null);
-    likeService.likeSource(srcID,LikeType.UNLIKE);
+    likeService.likeSource(srcID,LikeType.UNLIKE, usrID);
     
   }
   @Test
@@ -55,7 +55,7 @@ public class DefaultLikeServiceImplTest extends BaseTest{
     long srcID= srcDAO.getIdGenService().getNewSourceId();
     long usrID =srcDAO.getIdGenService().getNewUserId();
     AccessContext.set(usrID, null);
-    likeService.likeSource(srcID,LikeType.UNLIKE);
+    likeService.likeSource(srcID,LikeType.UNLIKE, usrID);
     List<SourceLike> lstSourceLike =  likeService.getAllLikesBySource(srcID);
     
     assertEquals((byte)-1, (byte)lstSourceLike.get(0).getLikeValue());
