@@ -17,8 +17,8 @@ import com.inncretech.like.service.LikeService;
 public class DefaultLikeServiceImpl implements LikeService{
 
   @Override
-  public List<SourceLike> getAllLikesByObject(Long objectId) {
-    List<SourceLike> allSourceLikes = srcLikeDao.getAllLikes(objectId);
+  public List<SourceLike> getAllLikesBySource(Long sourceIdId) {
+    List<SourceLike> allSourceLikes = srcLikeDao.getAllLikes(sourceIdId);
     
     return allSourceLikes;
   }
