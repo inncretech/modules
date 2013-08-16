@@ -42,7 +42,6 @@ public class DefaultLikeServiceImpl implements LikeService{
   @Override
   public void likeSource(Long srcID , LikeType likeType, Long createdBy) {
     SourceLike likeSrc = new SourceLike();
-    likeSrc.setId(srcLikeDao.getIdGenService().getIdOnShard(srcLikeDao.getIdGenService().getShardId(srcID, ShardType.SOURCE)));
     likeSrc.setObjectId(srcID);
     likeSrc.setUserId(createdBy);
     likeSrc.setLikeValue((byte) 1);
