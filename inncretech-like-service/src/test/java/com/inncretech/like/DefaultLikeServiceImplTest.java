@@ -62,6 +62,21 @@ public class DefaultLikeServiceImplTest extends BaseTest{
     
     
   }
+
+    @Test
+    public void getLikeByUser() {
+
+        long srcID= srcDAO.getIdGenService().getNewSourceId();
+        long usrID =srcDAO.getIdGenService().getNewUserId();
+        AccessContext.set(usrID, null);
+        likeService.likeSource(srcID,LikeType.UNLIKE, usrID);
+        List<SourceLike> lstSourceLike =  likeService.getAllLikeByUser(usrID);
+
+        assertEquals((byte)-1, (byte)lstSourceLike.get(0).getLikeValue());
+
+
+    }
+
   @Before
   public void setUp() {
     dbUtility.cleanUpdb();

@@ -33,7 +33,7 @@ public class SourceLikeDao extends AbstractShardAwareHibernateDao<SourceLike> {
 
   @ShardAware(shardStrategy="shardid")
   public List<SourceLike> getAllLikesByUser(Integer shardId, Long userID) {
-    Query q = getCurrentSession(userID).createQuery("from SourceLike where userId = ?");
+    Query q = getCurrentSessionByShard(shardId).createQuery("from SourceLike where userId = ?");
     q.setParameter(0, userID);
     return q.list();
   }
