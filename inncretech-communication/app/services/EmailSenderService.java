@@ -33,7 +33,8 @@ public class EmailSenderService {
 
                 mimeMessage.setRecipient(Message.RecipientType.TO,
                         new InternetAddress(comm.contactInfo));
-                mimeMessage.setFrom(new InternetAddress("pranabd@gmail.com"));
+                mimeMessage.setFrom(new InternetAddress("info@incontrolads.com"));
+                mimeMessage.setSubject("Welcome to IncontrolAds");
                 mimeMessage.setContent(templateService.createCommunicationBody(comm), "text/html");
             }
         };
