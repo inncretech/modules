@@ -4,7 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import com.inncretech.core.sharding.dao.ShardConfigDao;
+import com.inncretech.core.sharding.model.ShardConfig;
 import org.hibernate.Query;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.inncretech.core.sharding.ShardAware;
@@ -15,6 +18,9 @@ import com.inncretech.like.model.SourceLike;
 @Component
 public class SourceLikeDao extends AbstractShardAwareHibernateDao<SourceLike> {
 
+  @Autowired
+  private ShardConfigDao shardConfigDao;
+
   public SourceLikeDao() {
     super(SourceLike.class, ShardType.SOURCE);
   }
@@ -24,7 +30,9 @@ public class SourceLikeDao extends AbstractShardAwareHibernateDao<SourceLike> {
     q.setParameter(0, objectId);
     return q.list();
   }
-  public List<SourceLike> getAllLikesByUser(Long userID) {
+
+  @ShardAware(shardStrategy="shardid")
+  public List<SourceLike> getAllLikesByUser(Integer shardId, Long userID) {
     Query q = getCurrentSession(userID).createQuery("from SourceLike where userId = ?");
     q.setParameter(0, userID);
     return q.list();
