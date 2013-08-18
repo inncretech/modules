@@ -20,9 +20,10 @@ public class TemplateService {
     public TemplateService(){
         templateDataMap.put(EventType.LOGIN.getId() , "login");
         templateDataMap.put(EventType.SIGNUP.getId() , "signup");
+        templateDataMap.put(EventType.FORGOTPWD.getId() , "forgotpwd");
         groupDir = new STGroupDir("templates", '$', '$');
     }
     public String createCommunicationBody(Communication comm) throws Exception{
-        return groupDir.getInstanceOf(templateDataMap.get(comm.commType)).add("data", comm.commData).render();
+        return groupDir.getInstanceOf(templateDataMap.get(comm.commType)).add("data", comm.getCommData()).render();
     }
 }

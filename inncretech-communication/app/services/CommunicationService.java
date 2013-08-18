@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.stringtemplate.v4.AutoIndentWriter;
 
+import java.util.HashMap;
+
 /**
  * Created with IntelliJ IDEA.
  * User: pranab
@@ -19,16 +21,16 @@ public class CommunicationService {
     @Autowired
     private CommuncationSenderService communcationSenderService;
 
-    public void handleEvent(Event event){
+    public void handleEvent(Event event)throws Exception{
         Communication comm = createCommunicationToSend(event);
         communcationSenderService.sendCommunication(comm);
     }
 
-    private Communication createCommunicationToSend(Event event){
+    private Communication createCommunicationToSend(Event event)throws Exception{
         Communication comm = new Communication();
         comm.commType = event.getEventType().getId();
         comm.commMethod = 1;
-        comm.commData = (event.getEventData() !=null) ? event.getEventData().toString() : null;
+        comm.setCommData(event);
         comm.contactInfo = event.getUser().getEmailId();
         Communication.insert(comm);
         return comm;

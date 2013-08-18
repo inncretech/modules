@@ -24,7 +24,6 @@ public class CommuncationSenderService {
     private EmailSenderService emailSenderService;
     public void sendCommunication(final Communication comm){
         pool.execute(new Runnable() {
-            @Override
             public void run() {
                 emailSenderService.sendEmail(comm);
             }

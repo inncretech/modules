@@ -1,14 +1,19 @@
 package models;
 
 import com.avaje.ebean.Ebean;
+import org.codehaus.jackson.map.ObjectMapper;
 import play.data.validation.Constraints;
 import play.db.ebean.Model;
+import play.libs.Json;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import java.io.IOException;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created with IntelliJ IDEA.
@@ -44,5 +49,25 @@ public class Communication extends Model{
      this.sent = true;
      this.sentAt = new Date();
      Ebean.save(this);
+    }
+
+    public void setCommData(Event event)throws IOException {
+        ObjectMapper mapper = new ObjectMapper();
+        HashMap<String, Object> data = new HashMap<String, Object>();
+        if(event.getEventData() !=null)
+            data.putAll(event.getEventData());
+
+        data.put("firstName", event.getUser().getFirstName());
+        data.put("lastName", event.getUser().getLastName());
+        data.put("emailId", event.getUser().getEmailId());
+        commData = mapper.writeValueAsString(data);
+    }
+
+    public Map getCommData()throws Exception{
+        if(commData !=null){
+            ObjectMapper mapper = new ObjectMapper();
+            return mapper.readValue(commData, Map.class);
+        }
+        return null;
     }
 }
