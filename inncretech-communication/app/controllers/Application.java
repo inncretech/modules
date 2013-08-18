@@ -17,6 +17,10 @@ public class Application extends Controller {
 
     @Autowired
     private CommunicationService communicationService;
+
+    public Result index(){
+        return ok("ok");
+    }
   
     public  Result handleEvent()throws Exception {
         JsonNode json = request().body().asJson();
