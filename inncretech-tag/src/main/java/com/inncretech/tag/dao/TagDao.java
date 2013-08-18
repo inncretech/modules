@@ -32,6 +32,7 @@ public class TagDao {
     return (tagList.size() > 0) ? (Tag) tagList.get(0) : null;
   }
   
+  @Transactional
   public Tag get(Long tagId) {
     return (Tag)sessionFactory.getCurrentSession().get(Tag.class, tagId);
   }

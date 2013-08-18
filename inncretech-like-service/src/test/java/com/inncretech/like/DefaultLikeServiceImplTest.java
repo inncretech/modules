@@ -3,7 +3,7 @@ package com.inncretech.like;
 
 import java.util.List;
 import static org.junit.Assert.assertEquals;
-import org.aspectj.apache.bcel.verifier.exc.AssertionViolatedException;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -37,7 +37,7 @@ public class DefaultLikeServiceImplTest extends BaseTest{
     long srcID= srcDAO.getIdGenService().getNewSourceId();
     long usrID =srcDAO.getIdGenService().getNewUserId();
     AccessContext.set(usrID, null);
-    likeService.likeSource(srcID,LikeType.LIKE);
+    likeService.likeSource(srcID,LikeType.LIKE, usrID);
     
   }
   @Test
@@ -46,7 +46,7 @@ public class DefaultLikeServiceImplTest extends BaseTest{
     long srcID= srcDAO.getIdGenService().getNewSourceId();
     long usrID =srcDAO.getIdGenService().getNewUserId();
     AccessContext.set(usrID, null);
-    likeService.likeSource(srcID,LikeType.UNLIKE);
+    likeService.likeSource(srcID,LikeType.UNLIKE, usrID);
     
   }
   @Test
@@ -55,13 +55,28 @@ public class DefaultLikeServiceImplTest extends BaseTest{
     long srcID= srcDAO.getIdGenService().getNewSourceId();
     long usrID =srcDAO.getIdGenService().getNewUserId();
     AccessContext.set(usrID, null);
-    likeService.likeSource(srcID,LikeType.UNLIKE);
-    List<SourceLike> lstSourceLike =  likeService.getAllLikesByObject(srcID);
+    likeService.likeSource(srcID,LikeType.UNLIKE, usrID);
+    List<SourceLike> lstSourceLike =  likeService.getAllLikesBySource(srcID);
     
     assertEquals((byte)-1, (byte)lstSourceLike.get(0).getLikeValue());
     
     
   }
+
+    @Test
+    public void getLikeByUser() {
+
+        long srcID= srcDAO.getIdGenService().getNewSourceId();
+        long usrID =srcDAO.getIdGenService().getNewUserId();
+        AccessContext.set(usrID, null);
+        likeService.likeSource(srcID,LikeType.UNLIKE, usrID);
+        List<SourceLike> lstSourceLike =  likeService.getAllLikeByUser(usrID);
+
+        assertEquals((byte)-1, (byte)lstSourceLike.get(0).getLikeValue());
+
+
+    }
+
   @Before
   public void setUp() {
     dbUtility.cleanUpdb();

@@ -19,9 +19,13 @@ public class CommentServiceImpl implements CommentService {
 	private CommentDao commentDao;
 
 	@Override
-	public Comment create(Long sourceId, Comment comment) {
-		comment=new Comment();
-		comment.setCommentDate(new Date());
+	public Comment create(Long sourceId, String commentText, Long createdBy, Long parentCommentId) {
+        Comment comment = new Comment();
+        comment.setCreatedBy(createdBy);
+        comment.setCommentText(commentText);
+        comment.setCommentParentId(parentCommentId);
+        comment.setSourceId(sourceId);
+		comment.setCreatedAt(new Date());
 		commentDao.createComment(sourceId, comment);
 		return comment;
 	}

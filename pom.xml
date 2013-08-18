@@ -21,7 +21,6 @@
     <module>inncretech-follow</module>
     <module>inncretech-social</module>
     <module>inncretech-test-integration</module>
-      <module>inncretech-communication</module>
   </modules>
 
   <build>

@@ -55,30 +55,25 @@ public class DefaultCommentServiceImplTest {
 		Long userId = idGenerator.getNewUserId();
 		Long sourceId = idGenerator.getNewSourceId();
 
-		comment.setUserId(userId);
-		comment.setSourceId(sourceId);
-		comment.setCommentParentId(null);
-		comment.setComment("Comment1");
-
-		commentService.create(sourceId, comment);
+		commentService.create(sourceId, "Comment1", userId, null);
 		firstCommentId = testCommentUtil.getFirstCommentId(sourceId);
 		
 		comment.setCommentParentId(firstCommentId);
-		commentService.create(sourceId, comment);
-		commentService.create(sourceId, comment);
+		commentService.create(sourceId, "Comment1", userId, firstCommentId);
+		commentService.create(sourceId, "Comment1", userId, firstCommentId);
 
 		lastCommentId1 = testCommentUtil.getLastEnteredCommentId(sourceId);
 		comment.setCommentParentId(lastCommentId1);
-		commentService.create(sourceId, comment);
-		commentService.create(sourceId, comment);
-		commentService.create(sourceId, comment);
+		commentService.create(sourceId, "Comment1", userId, lastCommentId1);
+		commentService.create(sourceId, "Comment1", userId, lastCommentId1);
+		commentService.create(sourceId, "Comment1", userId, lastCommentId1);
 
 		lastCommentId2 = testCommentUtil.getLastEnteredCommentId(sourceId);
 		comment.setCommentParentId(lastCommentId2);
-		commentService.create(sourceId, comment);
-		commentService.create(sourceId, comment);
-		commentService.create(sourceId, comment);
-		commentService.create(sourceId, comment);
+		commentService.create(sourceId, "Comment1", userId, lastCommentId2);
+		commentService.create(sourceId, "Comment1", userId, lastCommentId2);
+		commentService.create(sourceId, "Comment1", userId, lastCommentId2);
+		commentService.create(sourceId, "Comment1", userId, lastCommentId2);
 
 		commList = commentService.getAllComments(sourceId);
 		

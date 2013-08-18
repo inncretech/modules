@@ -17,10 +17,10 @@ import com.inncretech.core.model.ShardEntity;
 public class Comment implements ShardEntity {
     private Long id;
 	private Long sourceId;
-	private Long userId;
-	private String comment;
+	private Long createdBy;
+	private String commentText;
 	private Long commentParentId;
-	private Date commentDate;
+	private Date createdAt;
 	
 	@Transient
 	private List <Comment> childComments = new ArrayList<Comment>();
@@ -45,10 +45,10 @@ public class Comment implements ShardEntity {
 		super();
 		this.id = id;
 		this.sourceId = sourceId;
-		this.userId = userId;
-		this.comment = comment;
+		this.createdBy = userId;
+		this.commentText = comment;
 		this.commentParentId = commentParentId;
-		this.commentDate = commentDate;
+		this.createdAt = commentDate;
 	}
 	
 	@Id
@@ -68,24 +68,35 @@ public class Comment implements ShardEntity {
 	public void setSourceId(Long sourceId) {
 		this.sourceId = sourceId;
 	}
-	
-	@Column
-	public Long getUserId() {
-		return userId;
-	}
-	public void setUserId(Long userId) {
-		this.userId = userId;
-	}
-	
-	@Column(name="comment")
-	public String getComment() {
-		return comment;
-	}
-	public void setComment(String comment) {
-		this.comment = comment;
-	}
-	
-	@Column
+
+    @Column
+    public Long getCreatedBy() {
+        return createdBy;
+    }
+
+    public void setCreatedBy(Long createdBy) {
+        this.createdBy = createdBy;
+    }
+
+    @Column
+    public String getCommentText() {
+        return commentText;
+    }
+
+    public void setCommentText(String commentText) {
+        this.commentText = commentText;
+    }
+
+    @Column
+    public Date getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(Date createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    @Column
 	public Long getCommentParentId() {
 		return commentParentId;
 	}
@@ -93,12 +104,5 @@ public class Comment implements ShardEntity {
 		this.commentParentId = commentParentId;
 	}
 	
-	@Column
-	public Date getCommentDate() {
-		return commentDate;
-	}
-	public void setCommentDate(Date commentDate) {
-		this.commentDate = commentDate;
-	}
-		
+
 }

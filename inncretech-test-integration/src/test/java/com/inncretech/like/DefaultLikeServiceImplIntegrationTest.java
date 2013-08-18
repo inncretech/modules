@@ -4,7 +4,6 @@ import java.util.List;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
-import org.aspectj.apache.bcel.verifier.exc.AssertionViolatedException;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -58,7 +57,7 @@ public class DefaultLikeServiceImplIntegrationTest extends BaseTest {
 		long usrID = srcDAO.getIdGenService().getNewUserId();
 		AccessContext.set(usrID, null);
 		likeService.likeSource(srcID, LikeType.UNLIKE);
-		List<SourceLike> lstSourceLike = likeService.getAllLikesByObject(srcID);
+		List<SourceLike> lstSourceLike = likeService.getAllLikesBySource(srcID);
 
 		 //assertEquals((byte)-1, (byte)lstSourceLike.get(0).getLikeValue());
 		String result = lstSourceLike != null ? "Available" : "No Availability";

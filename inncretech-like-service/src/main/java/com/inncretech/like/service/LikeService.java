@@ -7,10 +7,10 @@ import com.inncretech.like.model.SourceLike;
 
 public interface LikeService {
   
-  List<SourceLike> getAllLikesByObject(Long objectId);
+  List<SourceLike> getAllLikesBySource(Long objectId);
   
   List<SourceLike> getAllLikeByUser(Long userId);
   
-  void likeSource(Long srcID , LikeType likeType);
+  void likeSource(Long srcID , LikeType likeType, Long createdBy);
 
 }

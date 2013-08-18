@@ -1,9 +1,6 @@
 package com.inncretech.like.model;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Transient;
+import javax.persistence.*;
 
 import com.inncretech.core.model.IdEntity;
 import com.inncretech.core.model.ShardEntity;
@@ -22,6 +19,7 @@ public class SourceLike implements IdEntity, ShardEntity {
   
   @Column
   @Id
+  @GeneratedValue(strategy=GenerationType.IDENTITY)
   public Long getId(){
     return this.id;
   }
