@@ -2,7 +2,9 @@ package services;
 
 import models.Communication;
 import models.EventType;
+import models.Template;
 import org.springframework.stereotype.Service;
+import org.stringtemplate.v4.ST;
 import org.stringtemplate.v4.STGroupDir;
 import org.stringtemplate.v4.STGroupFile;
 
@@ -15,15 +17,14 @@ import java.util.Map;
 @Service
 public class TemplateService {
     private Map<Byte, String> templateDataMap = new HashMap<Byte, String>();
-    private STGroupDir groupDir;
 
     public TemplateService(){
         templateDataMap.put(EventType.LOGIN.getId() , "login");
         templateDataMap.put(EventType.SIGNUP.getId() , "signup");
         templateDataMap.put(EventType.FORGOTPWD.getId() , "forgotpwd");
-        groupDir = new STGroupDir("templates", '$', '$');
     }
     public String createCommunicationBody(Communication comm) throws Exception{
-        return groupDir.getInstanceOf(templateDataMap.get(comm.commType)).add("data", comm.getCommData()).render();
+        String templateText =  Template.find.where().eq("name", "login").findList().get(0).templateText;
+        return new ST(templateText).add("data", comm.getCommData()).render();
     }
 }
