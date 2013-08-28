@@ -4,7 +4,7 @@ function TemplateCtrl($scope, $http){
     $scope.templateData = templateMap;
 
     $scope.saveTemplate = function(){
-        $http.post("saveTemplate.json", {subject: $scope.templateData[$scope.template.name].subject,
+        $http.post("/emailadmin/saveTemplate.json", {subject: $scope.templateData[$scope.template.name].subject,
                                          name : $scope.template.name,
                                          templateText : $("#templateTextId").val()}, function(){
             alert("saved");
