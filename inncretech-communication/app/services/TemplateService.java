@@ -19,12 +19,11 @@ public class TemplateService {
     private Map<Byte, String> templateDataMap = new HashMap<Byte, String>();
 
     public TemplateService(){
-        templateDataMap.put(EventType.LOGIN.getId() , "login");
-        templateDataMap.put(EventType.SIGNUP.getId() , "signup");
-        templateDataMap.put(EventType.FORGOTPWD.getId() , "forgotpwd");
+        templateDataMap.put(EventType.SIGNUP.getId() , "SIGNUP");
+        templateDataMap.put(EventType.FORGOTPWD.getId() , "FORGOTPWD");
     }
-    public String createCommunicationBody(Communication comm) throws Exception{
-        String templateText =  Template.find.where().eq("name", "login").findList().get(0).templateText;
+    public String createCommunicationBody(Communication comm, Template template) throws Exception{
+        String templateText =  template.getTemplateText();
         return new ST(templateText).add("data", comm.getCommData()).render();
     }
 }

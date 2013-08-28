@@ -13,4 +13,11 @@ public enum EventType {
     public byte getId() {
         return this.id;
     }
+
+    public static EventType getById(byte id){
+        if(id == 2)
+           return  SIGNUP;
+        else
+            return FORGOTPWD;
+    }
 }

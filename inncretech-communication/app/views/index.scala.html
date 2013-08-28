@@ -1,7 +1,43 @@
-@(message: String)
+@(templates: List[Template])
 
-@main("Welcome to Play 2.1") {
-    
-    @play20.welcome(message, style = "Java")
-    
+@import play.libs._
+
+@main("Welcome to Emailadmin") {
+
+<script>
+    var templates = @Html(Json.toJson(templates).toString())
+    var templateMap = {"SIGNUP" : {"subject": "", "templateText" :""}, "FORGOTPWD" : {"subject": "", "templateText" :""}};
+    for(var i in templates){
+        templateMap[templates[i].name] = templates[i];
+    }
+</script>
+
+<div class="navbar navbar-inverse">
+    <div class="navbar-inner">
+        <div class="container">
+            <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="brand" href="#">Email Admin</a>
+            <div class="nav-collapse collapse">
+                <ul class="nav">
+
+                </ul>
+            </div><!--/.nav-collapse -->
+        </div>
+    </div>
+</div>
+
+<div class="container" ng-controller="TemplateCtrl">
+    <select ng-model="template" ng-options="t.name for t in templateNames">
+        <option value="">Choose Template</option>
+    </select>
+    <input type="text" ng-model="templateData[template.name].subject" />
+    <textarea  ng-model="templateData[template.name].templateText" id="templateTextId" rows="10" style="width:500px;"></textarea>
+
+    <button ng-click="saveTemplate()">Save</button>
+</div>
+
 }

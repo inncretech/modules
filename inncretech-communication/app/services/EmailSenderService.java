@@ -1,6 +1,8 @@
 package services;
 
 import models.Communication;
+import models.EventType;
+import models.Template;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.MailException;
 import org.springframework.mail.MailSender;
@@ -30,12 +32,12 @@ public class EmailSenderService {
         MimeMessagePreparator preparator = new MimeMessagePreparator() {
 
             public void prepare(MimeMessage mimeMessage) throws Exception {
-
+                Template template = Template.find.where().eq("name", EventType.getById(comm.commType)).findList().get(0);
                 mimeMessage.setRecipient(Message.RecipientType.TO,
                         new InternetAddress(comm.contactInfo));
                 mimeMessage.setFrom(new InternetAddress("info@incontrolads.com"));
-                mimeMessage.setSubject("Welcome to IncontrolAds");
-                mimeMessage.setContent(templateService.createCommunicationBody(comm), "text/html");
+                mimeMessage.setSubject(template.getSubject());
+                mimeMessage.setContent(templateService.createCommunicationBody(comm, template), "text/html");
             }
         };
         mailSender.send(preparator);

@@ -30,7 +30,7 @@ public class Application extends Controller {
             ObjectMapper mapper = new ObjectMapper();
             Event event = mapper.readValue(json, Event.class);
             communicationService.handleEvent(event);
-            return ok(index.render("Your new application is readyn."));
+            return ok("ok");
         }
     }
   
