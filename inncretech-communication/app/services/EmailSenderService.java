@@ -32,7 +32,7 @@ public class EmailSenderService {
         MimeMessagePreparator preparator = new MimeMessagePreparator() {
 
             public void prepare(MimeMessage mimeMessage) throws Exception {
-                Template template = Template.find.where().eq("name", EventType.getById(comm.commType)).findList().get(0);
+                Template template = Template.find.where().eq("name", EventType.getById(comm.commType).toString()).findList().get(0);
                 mimeMessage.setRecipient(Message.RecipientType.TO,
                         new InternetAddress(comm.contactInfo));
                 mimeMessage.setFrom(new InternetAddress("info@incontrolads.com"));
