@@ -10,4 +10,4 @@ GET     /admin                           @controllers.Admin.index()
 POST     /admin/saveTemplate.json               @controllers.Admin.saveTemplate()
 
 # Map static resources from the /public folder to the /assets URL path
-GET     /assets/*file               controllers.Assets.at(path="/public", file)
+GET     /emailadminassets/*file               controllers.Assets.at(path="/public", file)
