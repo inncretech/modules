@@ -1,30 +1,38 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" 
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 
                              http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <parent>
     <groupId>com.inncretech</groupId>
     <artifactId>inncretech-modules-parent</artifactId>
-    <version>1.0</version>    
+    <version>1.0</version>
   </parent>
 
   <artifactId>inncretech-tag</artifactId>
   <packaging>jar</packaging>
   <name>Inncretech Tag</name>
   <dependencies>
-  	<dependency>
+    <dependency>
       <groupId>com.inncretech</groupId>
       <artifactId>inncretech-core</artifactId>
       <version>1.0</version>
       <scope>provided</scope>
     </dependency>
-      <dependency>
-          <groupId>com.inncretech</groupId>
-          <artifactId>inncretech-test-core</artifactId>
-          <version>1.0</version>
-          <scope>provided</scope>
-      </dependency>
+    <dependency>
+      <groupId>com.inncretech</groupId>
+      <artifactId>inncretech-test-core</artifactId>
+      <version>1.0</version>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>joda-time</groupId>
+      <artifactId>joda-time</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.jadira.usertype</groupId>
+      <artifactId>usertype.core</artifactId>
+      <version>3.0.0.GA</version>
+    </dependency>
   </dependencies>
 </project>

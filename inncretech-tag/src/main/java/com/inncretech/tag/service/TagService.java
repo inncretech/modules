@@ -19,6 +19,6 @@ public interface TagService {
   @ShardAware(shardStrategy = "entityid", shardType = ShardType.SOURCE)
   void removeTagFromSource(Long sourceId, Long tagId);
 
-  Tag createTag(String tagName);
+  Tag createTag(String tagName, Long userId);
 
 }

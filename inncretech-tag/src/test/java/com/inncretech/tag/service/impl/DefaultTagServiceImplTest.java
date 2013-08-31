@@ -19,8 +19,8 @@ public class DefaultTagServiceImplTest extends TestTagUtil{
 	@Autowired
 	private TagService tagService;
 
-	@Autowired
-	private IdGenerator idGenerator;
+  @Autowired
+  private IdGenerator idGenerator;
 
 
 	@Autowired
@@ -28,7 +28,7 @@ public class DefaultTagServiceImplTest extends TestTagUtil{
 
 	@Test
 	public void testTagSource() {
-	  Tag tag = tagService.createTag("test1");
+	  Tag tag = tagService.createTag("test1", 1L);
 		tagService.tagSource(idGenerator.getNewSourceId(),
 				idGenerator.getNewUserId(), tag.getId());
 	}
@@ -45,8 +45,8 @@ public class DefaultTagServiceImplTest extends TestTagUtil{
 
 	@Test
 	public void testRemoveTagFromSource() {
-	  Tag tagOne = tagService.createTag("test2");
-	  Tag tagTwo = tagService.createTag("test3");
+	  Tag tagOne = tagService.createTag("test2", 1L);
+	  Tag tagTwo = tagService.createTag("test3", 1L);
 		Long sourceId = idGenerator.getNewSourceId();
 		tagService.tagSource(sourceId, idGenerator.getNewUserId(), tagOne.getId());
 		tagService.tagSource(sourceId, idGenerator.getNewUserId(), tagTwo.getId());

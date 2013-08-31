@@ -5,6 +5,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -26,9 +27,11 @@ public class DefaultTagServiceImpl implements TagService {
 	private SourceTagDao sourceTagDao;
 	
 	@Override
-	public Tag createTag(String tagName) {
+	public Tag createTag(String tagName, Long userId) {
 	  Tag t = new Tag();
     t.setName(tagName);
+    t.setCreatedBy(userId);
+    t.setCreatedAt(new DateTime());
     tagDao.createTag(t);
     return t;
 	}

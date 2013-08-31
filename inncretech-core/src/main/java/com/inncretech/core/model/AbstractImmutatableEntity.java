@@ -20,7 +20,7 @@ public class AbstractImmutatableEntity extends BaseEntity {
    * 
    * @return A DateTime object (this.createdAt)
    */
-  @Type(type = "org.joda.time.contrib.hibernate.PersistentDateTime")
+  @Type(type="org.jadira.usertype.dateandtime.joda.PersistentDateTime")
   @Basic(optional = true)
   @Column(name = "created_at")
   public DateTime getCreatedAt() {

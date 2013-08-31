@@ -20,7 +20,7 @@ public class AbstractMutableEntity extends AbstractImmutatableEntity {
    * 
    * @return A DateTime object (this.updatedAt)
    */
-  @Type(type = "org.joda.time.contrib.hibernate.PersistentDateTime")
+  @Type(type="org.jadira.usertype.dateandtime.joda.PersistentDateTime")
   @Basic(optional = false)
   @Column(name = "updated_at", nullable = false)
   public DateTime getUpdatedAt() {
