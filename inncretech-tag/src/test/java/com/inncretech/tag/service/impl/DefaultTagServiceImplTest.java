@@ -1,11 +1,14 @@
 package com.inncretech.tag.service.impl;
 
+import java.util.List;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.util.Assert;
 
 import com.inncretech.core.sharding.IdGenerator;
 import com.inncretech.tag.model.Tag;
@@ -53,5 +56,16 @@ public class DefaultTagServiceImplTest extends TestTagUtil{
 		tagService.removeTagFromSource(sourceId, (long) 36);
 
 	}
+	
+	@Test
+  public void testGetAllTags() {
+	  List<Tag> tags = tagService.getAllTags(0, 10);
+	  for (Tag tag : tags) {
+      System.out.println("Id: " + tag.getId() + ", Name: " + tag.getName());
+      System.out.println();
+    }
+	  Assert.notEmpty(tags);
+
+  }
 
 }

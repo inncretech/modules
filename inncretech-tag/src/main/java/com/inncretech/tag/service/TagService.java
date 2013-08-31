@@ -20,5 +20,7 @@ public interface TagService {
   void removeTagFromSource(Long sourceId, Long tagId);
 
   Tag createTag(String tagName, Long userId);
+  
+  List<Tag> getAllTags(int offset, int maxLimit);
 
 }
