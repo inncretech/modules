@@ -58,7 +58,7 @@ public class DefaultTagServiceImpl implements TagService {
   }
 
   @Override
-  public List<Tag> getTagsCreatedByUser(Long userId) {
+  public List<Tag> getTagsCreatedByUser(Long userId) { 
     return sourceTagDao.getTagsCreatedByUser(userId);
   }
 

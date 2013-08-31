@@ -17,11 +17,6 @@ package com.inncretech.core.model;
 
 import java.io.Serializable;
 
-import javax.persistence.Basic;
-import javax.persistence.Column;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
 import javax.persistence.Transient;
 
@@ -31,26 +26,12 @@ import javax.persistence.Transient;
  * @author shade05
  */
 @MappedSuperclass
-public class BaseEntity implements Serializable {
+public abstract class BaseEntity implements Serializable {
 
-  private Long id;
 
-  /**
-   * Returns the identifier of the entity.
-   * 
-   * @return the id
-   */
-  @Id
-  @Basic(optional = false)
-  @GeneratedValue(strategy = GenerationType.AUTO)
-  @Column(name = "id", nullable = false)
-  public Long getId() {
-    return id;
-  }
+  public abstract Long getId();
 
-  public void setId(Long id) {
-    this.id = id;
-  }
+  public abstract void setId(Long id);
 
   @Override
   public boolean equals(Object obj) {
@@ -61,10 +42,10 @@ public class BaseEntity implements Serializable {
     if (getClass() != obj.getClass())
       return false;
     BaseEntity other = (BaseEntity) obj;
-    if (id == null) {
-      if (other.id != null)
+    if (getId() == null) {
+      if (other.getId() != null)
         return false;
-    } else if (!id.equals(other.id))
+    } else if (!getId().equals(other.getId()))
       return false;
     return true;
   }
@@ -73,13 +54,13 @@ public class BaseEntity implements Serializable {
   public int hashCode() {
     final int prime = 31;
     int result = 1;
-    result = prime * result + ((id == null) ? 0 : id.hashCode());
+    result = prime * result + ((getId() == null) ? 0 : getId().hashCode());
     return result;
   }
 
   @Override
   public String toString() {
-    return "BaseEntity [id=" + id + "]";
+    return "BaseEntity [id=" + getId() + "]";
   }
 
   /**

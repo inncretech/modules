@@ -1,18 +1,24 @@
 package com.inncretech.core.model;
 
-import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.MappedSuperclass;
 
+import org.hibernate.annotations.Parameter;
 import org.hibernate.annotations.Type;
+import org.hibernate.annotations.TypeDef;
 import org.joda.time.DateTime;
 
 
+@TypeDef(name = "myDateTime", typeClass = org.jadira.usertype.dateandtime.joda.PersistentDateTime.class, parameters = {
+  @Parameter(value = "UTC", name = "databaseZone"), @Parameter(value = "UTC", name = "javaZone") })
 @MappedSuperclass
-public class AbstractImmutatableEntity extends BaseEntity {
+public abstract class AbstractImmutatableEntity extends BaseEntity {
 
+  @Type(type="myDateTime")
+  @Column()
   private DateTime createdAt;
 
+  @Column
   private Long createdBy;
 
   /**
@@ -20,9 +26,6 @@ public class AbstractImmutatableEntity extends BaseEntity {
    * 
    * @return A DateTime object (this.createdAt)
    */
-  @Type(type="org.jadira.usertype.dateandtime.joda.PersistentDateTime")
-  @Basic(optional = true)
-  @Column(name = "created_at")
   public DateTime getCreatedAt() {
     return this.createdAt;
 
@@ -43,8 +46,6 @@ public class AbstractImmutatableEntity extends BaseEntity {
    * 
    * @return A Long object (this.createdBy)
    */
-  @Basic(optional = true)
-  @Column(name = "created_by")
   public Long getCreatedBy() {
     return this.createdBy;
 

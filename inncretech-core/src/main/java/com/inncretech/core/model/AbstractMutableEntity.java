@@ -3,16 +3,30 @@ package com.inncretech.core.model;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.MappedSuperclass;
+import javax.persistence.Version;
 
+import org.hibernate.annotations.Parameter;
 import org.hibernate.annotations.Type;
+import org.hibernate.annotations.TypeDef;
 import org.joda.time.DateTime;
 
+@TypeDef(name = "myDateTime", typeClass = org.jadira.usertype.dateandtime.joda.PersistentDateTime.class, parameters = {
+    @Parameter(value = "UTC", name = "databaseZone"), @Parameter(value = "UTC", name = "javaZone") })
 @MappedSuperclass
-public class AbstractMutableEntity extends AbstractImmutatableEntity {
+public abstract class AbstractMutableEntity extends AbstractImmutatableEntity {
 
+  @Type(type="myDateTime")
+  @Basic(optional = false)
+  @Column(name = "updated_at", nullable = false)
   private DateTime updatedAt;
+  
+  @Column
   private Long updatedBy;
+  
+  @Version
   private Long versionId;
+  
+  @Column
   private Byte recordStatus;
 
   /**
@@ -20,9 +34,6 @@ public class AbstractMutableEntity extends AbstractImmutatableEntity {
    * 
    * @return A DateTime object (this.updatedAt)
    */
-  @Type(type="org.jadira.usertype.dateandtime.joda.PersistentDateTime")
-  @Basic(optional = false)
-  @Column(name = "updated_at", nullable = false)
   public DateTime getUpdatedAt() {
     return this.updatedAt;
 
@@ -43,8 +54,6 @@ public class AbstractMutableEntity extends AbstractImmutatableEntity {
    * 
    * @return A Long object (this.updatedBy)
    */
-  @Basic(optional = true)
-  @Column(name = "updated_by")
   public Long getUpdatedBy() {
     return this.updatedBy;
 
@@ -65,8 +74,6 @@ public class AbstractMutableEntity extends AbstractImmutatableEntity {
    * 
    * @return A Long object (this.versionId)
    */
-  @Basic(optional = false)
-  @Column(name = "version_id", nullable = false)
   public Long getVersionId() {
     return this.versionId;
 
@@ -87,7 +94,6 @@ public class AbstractMutableEntity extends AbstractImmutatableEntity {
    * 
    * @return A Byte object (this.recordStatus)
    */
-  @Basic(optional = true)
   @Column(name = "record_status")
   public Byte getRecordStatus() {
     return this.recordStatus;
