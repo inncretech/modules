@@ -42,6 +42,7 @@ public class AbstractShardAwareHibernateDao<T> {
     return (T) getCurrentSession(entityId).get(clazz, entityId);
   }
 
+  @ShardAware(shardStrategy = "entityid", shardType = ShardType.SOURCE)
   public void save(Long entityId, Object obj) {
     getCurrentSession(entityId).saveOrUpdate(obj);
   }
