@@ -7,12 +7,9 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
-import org.springframework.stereotype.Component;
-
 import com.inncretech.core.model.AbstractImmutatableEntity;
 
 @Entity
-@Component
 public class Tag extends AbstractImmutatableEntity {
 
   @Id

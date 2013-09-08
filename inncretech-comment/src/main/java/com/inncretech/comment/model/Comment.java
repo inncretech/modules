@@ -1,7 +1,6 @@
 package com.inncretech.comment.model;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -11,98 +10,125 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Transient;
 
+import com.inncretech.core.model.AbstractImmutatableEntity;
 import com.inncretech.core.model.ShardEntity;
 
-@Entity(name = "Comment")
-public class Comment implements ShardEntity {
-    private Long id;
-	private Long sourceId;
-	private Long createdBy;
-	private String commentText;
-	private Long commentParentId;
-	private Date createdAt;
-	
-	@Transient
-	private List <Comment> childComments = new ArrayList<Comment>();
+@Entity(name = "comment")
+public class Comment extends AbstractImmutatableEntity implements ShardEntity {
 
-	@Transient
-	public List<Comment> getChildComments() {
-		return childComments;
-	}
-	public void setChildComments(List<Comment> childComments) {
-		this.childComments = childComments;
-	}
-	public Comment(){
-		
-	}
-	@Transient
-	public Long getShardedColumnValue(){
-	  return this.sourceId;
-	}
-	
-	public Comment(Long id, Long sourceId, Long userId, String comment,
-			Long commentParentId, Date commentDate) {
-		super();
-		this.id = id;
-		this.sourceId = sourceId;
-		this.createdBy = userId;
-		this.commentText = comment;
-		this.commentParentId = commentParentId;
-		this.createdAt = commentDate;
-	}
-	
-	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	@Column
-	public Long getId() {
-		return id;
-	}
-	public void setId(Long id) {
-		this.id = id;
-	}
-	
-	@Column
-	public Long getSourceId() {
-		return sourceId;
-	}
-	public void setSourceId(Long sourceId) {
-		this.sourceId = sourceId;
-	}
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private Long id;
 
-    @Column
-    public Long getCreatedBy() {
-        return createdBy;
-    }
+  @Column
+  private Long sourceId;
 
-    public void setCreatedBy(Long createdBy) {
-        this.createdBy = createdBy;
-    }
+  @Column
+  private String commentText;
 
-    @Column
-    public String getCommentText() {
-        return commentText;
-    }
+  @Column
+  private Long commentParentId;
 
-    public void setCommentText(String commentText) {
-        this.commentText = commentText;
-    }
+  @Transient
+  private List<Comment> childComments = new ArrayList<Comment>();
 
-    @Column
-    public Date getCreatedAt() {
-        return createdAt;
-    }
+  public Long getId() {
+    return id;
+  }
 
-    public void setCreatedAt(Date createdAt) {
-        this.createdAt = createdAt;
-    }
+  public void setId(Long id) {
+    this.id = id;
+  }
 
-    @Column
-	public Long getCommentParentId() {
-		return commentParentId;
-	}
-	public void setCommentParentId(Long commentParentId) {
-		this.commentParentId = commentParentId;
-	}
-	
+  public Long getSourceId() {
+    return sourceId;
+  }
 
+  public void setSourceId(Long sourceId) {
+    this.sourceId = sourceId;
+  }
+
+  public String getCommentText() {
+    return commentText;
+  }
+
+  public void setCommentText(String commentText) {
+    this.commentText = commentText;
+  }
+
+  public Long getCommentParentId() {
+    return commentParentId;
+  }
+
+  public void setCommentParentId(Long commentParentId) {
+    this.commentParentId = commentParentId;
+  }
+
+  public List<Comment> getChildComments() {
+    return childComments;
+  }
+
+  public void setChildComments(List<Comment> childComments) {
+    this.childComments = childComments;
+  }
+
+  @Transient
+  public Long getShardedColumnValue() {
+    return this.sourceId;
+  }
+
+  @Override
+  public int hashCode() {
+    final int prime = 31;
+    int result = super.hashCode();
+    result = prime * result + ((childComments == null) ? 0 : childComments.hashCode());
+    result = prime * result + ((commentParentId == null) ? 0 : commentParentId.hashCode());
+    result = prime * result + ((commentText == null) ? 0 : commentText.hashCode());
+    result = prime * result + ((id == null) ? 0 : id.hashCode());
+    result = prime * result + ((sourceId == null) ? 0 : sourceId.hashCode());
+    return result;
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj)
+      return true;
+    if (!super.equals(obj))
+      return false;
+    if (getClass() != obj.getClass())
+      return false;
+    Comment other = (Comment) obj;
+    if (childComments == null) {
+      if (other.childComments != null)
+        return false;
+    } else if (!childComments.equals(other.childComments))
+      return false;
+    if (commentParentId == null) {
+      if (other.commentParentId != null)
+        return false;
+    } else if (!commentParentId.equals(other.commentParentId))
+      return false;
+    if (commentText == null) {
+      if (other.commentText != null)
+        return false;
+    } else if (!commentText.equals(other.commentText))
+      return false;
+    if (id == null) {
+      if (other.id != null)
+        return false;
+    } else if (!id.equals(other.id))
+      return false;
+    if (sourceId == null) {
+      if (other.sourceId != null)
+        return false;
+    } else if (!sourceId.equals(other.sourceId))
+      return false;
+    return true;
+  }
+
+  @Override
+  public String toString() {
+    return "Comment [id=" + id + ", sourceId=" + sourceId + ", commentText=" + commentText + ", commentParentId=" + commentParentId
+        + ", childComments=" + childComments + ", toString()=" + super.toString() + "]";
+  }
 }
