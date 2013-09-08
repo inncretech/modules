@@ -18,8 +18,11 @@ public class IdGeneratorImpl implements IdGenerator {
 
   @Autowired
   private ShardConfigDao shardConfigDao;
+  
   private Random random = new Random();
+  
   private static final int TIME_BITS = 41;
+  
   private static final int SHARD_BITS = 13;
 
   @Autowired
@@ -32,12 +35,12 @@ public class IdGeneratorImpl implements IdGenerator {
   public Long getNewSourceId() {
     return get(ShardType.SOURCE);
   }
-  
-  public Long getSourceRelationId(Long sourceId){
+
+  public Long getSourceRelationId(Long sourceId) {
     return null;
   }
-  
-  public Long getUserRelationId(Long userId){
+
+  public Long getUserRelationId(Long userId) {
     return null;
   }
 
@@ -57,12 +60,13 @@ public class IdGeneratorImpl implements IdGenerator {
 
   @Override
   public Integer getShardId(Long id, ShardType shardType) {
-    id = id >> 10;
-    id = id & 0X3FFL;
-    return id.intValue()+shardType.getBaseId();
+    Long newId = new Long(id);
+    newId = newId >> 10;
+    newId = newId & 0X3FFL;
+    return newId.intValue() + shardType.getBaseId();
   }
-  
-  public Long getIdOnShard(Integer shardId){
+
+  public Long getIdOnShard(Integer shardId) {
     Long id = System.currentTimeMillis() << (64 - TIME_BITS);
     id |= ShardType.getLogicalShardId(shardId) << (64 - TIME_BITS - SHARD_BITS);
     id |= (nextSequence(shardId) % (int) Math.pow(2.0, (double) (64.0 - SHARD_BITS - TIME_BITS)));
@@ -76,10 +80,8 @@ public class IdGeneratorImpl implements IdGenerator {
       Integer shardId = getShardId(entityId, shardType);
       if (!buckets.containsKey(shardId))
         buckets.put(shardId, new ArrayList<Long>());
-
       buckets.get(shardId).add(entityId);
     }
     return buckets;
   }
-
 }
