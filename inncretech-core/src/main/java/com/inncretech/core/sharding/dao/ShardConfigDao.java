@@ -16,6 +16,7 @@ public class ShardConfigDao {
   @Autowired
   private SessionFactory sessionFactory;
 
+  @SuppressWarnings("unchecked")
   @Transactional
   public List<ShardConfig> getAllActiveShards(int shardType) {
     Query q = sessionFactory.getCurrentSession().createQuery("from ShardConfig where allowNew =? and shardType= ?");
@@ -25,20 +26,21 @@ public class ShardConfigDao {
 
   }
 
+  @SuppressWarnings("unchecked")
   @Transactional
   public List<ShardConfig> getAllDBConfigs() {
     Query q = sessionFactory.getCurrentSession().createQuery("from ShardConfig");
     return q.list();
 
   }
-  
+
+  @SuppressWarnings("unchecked")
   @Transactional
   public List<ShardConfig> getAllShards(int shardType) {
     Query q = sessionFactory.getCurrentSession().createQuery("from ShardConfig where shardType= ?");
-    //q.setParameter(0, true);
+    // q.setParameter(0, true);
     q.setParameter(0, shardType);
     return q.list();
-
   }
 
 }
