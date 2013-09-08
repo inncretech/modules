@@ -29,7 +29,7 @@ import com.inncretech.core.sharding.ShardType;
  * 
  */
 
-public abstract class GenericUserShardDaoImpl<T extends BaseEntity, PK extends Serializable> implements GenericSourceShardDAO<T, PK> {
+public abstract class GenericUserShardDaoImpl<T extends BaseEntity, PK extends Serializable> implements GenericUserShardDAO<T, PK> {
 
 	private Class<T> clazz;
 
@@ -43,7 +43,7 @@ public abstract class GenericUserShardDaoImpl<T extends BaseEntity, PK extends S
 
 	public GenericUserShardDaoImpl(Class<T> type) {
 		this.clazz = type;
-		this.shardType = ShardType.SOURCE;
+		this.shardType = ShardType.USER;
 	}
 
 	public Class<T> getPersistentClass() {
