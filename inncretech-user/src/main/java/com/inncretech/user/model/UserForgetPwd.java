@@ -10,17 +10,18 @@ import javax.persistence.Id;
 import javax.persistence.Transient;
 
 import com.inncretech.core.model.ShardEntity;
+
 @Entity
-public class UserForgetPwd implements ShardEntity{
-  
+public class UserForgetPwd implements ShardEntity {
+
   private Long userId;
   private String rndString;
   private Date dateRndString;
 
   private Long id;
-  
+
   @Transient
-  public Long getShardedColumnValue(){
+  public Long getShardedColumnValue() {
     return this.userId;
   }
 
@@ -57,6 +58,7 @@ public class UserForgetPwd implements ShardEntity{
   public Date getDate() {
     return dateRndString;
   }
+
   public void setDate(Date dateRndString) {
     this.dateRndString = dateRndString;
   }

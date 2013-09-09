@@ -17,54 +17,52 @@ import com.inncretech.tag.service.TagService;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "/applicationcontext-tag.xml" })
 @Service
-public class DefaultTagServiceImplTest extends TestTagUtil{
+public class DefaultTagServiceImplTest extends TestTagUtil {
 
-	@Autowired
-	private TagService tagService;
+  @Autowired
+  private TagService tagService;
 
   @Autowired
   private IdGenerator idGenerator;
 
+  @Autowired
+  private TestTagUtil dbUtility;
 
-	@Autowired
-	private TestTagUtil dbUtility;
+  @Test
+  public void testTagSource() {
+    Tag tag = tagService.createTag("test1", 1L);
+    tagService.tagSource(idGenerator.getNewSourceId(), idGenerator.getNewUserId(), tag.getId());
+  }
 
-	@Test
-	public void testTagSource() {
-	  Tag tag = tagService.createTag("test1", 1L);
-		tagService.tagSource(idGenerator.getNewSourceId(),
-				idGenerator.getNewUserId(), tag.getId());
-	}
+  @Test
+  public void testGetTagsOfSource() {
+    tagService.getTagsOfSource(idGenerator.getNewSourceId());
+  }
 
-	@Test
-	public void testGetTagsOfSource() {
-		tagService.getTagsOfSource(idGenerator.getNewSourceId());
-	}
+  @Test
+  public void testGetTagsCreatedByUser() {
+    tagService.getTagsCreatedByUser((long) 1);
+  }
 
-	@Test
-	public void testGetTagsCreatedByUser() {
-		tagService.getTagsCreatedByUser((long) 1);
-	}
+  @Test
+  public void testRemoveTagFromSource() {
+    Tag tagOne = tagService.createTag("test2", 1L);
+    Tag tagTwo = tagService.createTag("test3", 1L);
+    Long sourceId = idGenerator.getNewSourceId();
+    tagService.tagSource(sourceId, idGenerator.getNewUserId(), tagOne.getId());
+    tagService.tagSource(sourceId, idGenerator.getNewUserId(), tagTwo.getId());
+    tagService.removeTagFromSource(sourceId, (long) 36);
 
-	@Test
-	public void testRemoveTagFromSource() {
-	  Tag tagOne = tagService.createTag("test2", 1L);
-	  Tag tagTwo = tagService.createTag("test3", 1L);
-		Long sourceId = idGenerator.getNewSourceId();
-		tagService.tagSource(sourceId, idGenerator.getNewUserId(), tagOne.getId());
-		tagService.tagSource(sourceId, idGenerator.getNewUserId(), tagTwo.getId());
-		tagService.removeTagFromSource(sourceId, (long) 36);
+  }
 
-	}
-	
-	@Test
+  @Test
   public void testGetAllTags() {
-	  List<Tag> tags = tagService.getAllTags(0, 10);
-	  for (Tag tag : tags) {
+    List<Tag> tags = tagService.getAllTags(0, 10);
+    for (Tag tag : tags) {
       System.out.println("Id: " + tag.getId() + ", Name: " + tag.getName());
       System.out.println();
     }
-	  Assert.notEmpty(tags);
+    Assert.notEmpty(tags);
 
   }
 

@@ -19,117 +19,107 @@ import java.util.UUID;
 @Service
 public class DefaultUserServiceImpl implements UserService {
 
-	@Override
-	public User getUserById(Long userId, AccessContext accessContext) {
-		return userDao.get(userId);
-	}
+  @Override
+  public User getUserById(Long userId, AccessContext accessContext) {
+    return userDao.get(userId);
+  }
 
-	public User createUser(User user) {
+  public User createUser(User user) {
+    user.setId(userDao.getIdGenService().getNewUserId());
+    userDao.createUser(user);
+    return user;
+  }
 
-		user.setId(userDao.getIdGenService().getNewUserId());
-		userDao.createUser(user);
-		return user;
+  public UserProfile createUserProfile(UserProfile userProfile) {
+    userProfileDao.CreateUserProfile(userProfile);
+    return userProfile;
+  }
 
-	}
+  @ShardAware(shardStrategy = "entityid", shardType = ShardType.USER)
+  public void UpdateUserDet(User user) {
+    User readUser = userDao.get(user.getId());
+    readUser.setFirstName(user.getFirstName());
+    readUser.setLastName(user.getLastName());
+    userDao.UpdateUserDetails(readUser);
 
-	public UserProfile createUserProfile(UserProfile userProfile) {
-		userProfileDao.CreateUserProfile(userProfile);
-		return userProfile;
+  }
 
-	}
+  @Override
+  @ShardAware(shardStrategy = "entityid", shardType = ShardType.USER)
+  public UserProfile updateProfile(Long UserID, UserProfile profile) {
+    UserProfile readProfile = userProfileDao.getProfileForUser(profile.getUserId());
+    readProfile.setLongBio(profile.getLongBio());
+    userProfileDao.save(profile.getUserId(), readProfile);
+    return readProfile;
 
-	@ShardAware(shardStrategy = "entityid", shardType = ShardType.USER)
-	public void UpdateUserDet(User user) {
-		User readUser = userDao.get(user.getId());
-		readUser.setFirstName(user.getFirstName());
-		readUser.setLastName(user.getLastName());
-		userDao.UpdateUserDetails(readUser);
+  }
 
-	}
+  @Override
+  public UserForgetPwd forgotPassword(Long userID) {
+    Date dt = new Date();
+    String rndVal = UUID.randomUUID().toString();
+    // sm.sendEmail();
+    UserForgetPwd ufp = new UserForgetPwd();
+    ufp.setUserId(userID);
+    ufp.setRndString(rndVal);
+    ufp.setDate(dt);
 
-	@Override
-	@ShardAware(shardStrategy = "entityid", shardType = ShardType.USER)
-	public UserProfile updateProfile(Long UserID, UserProfile profile) {
-		UserProfile readProfile = userProfileDao.getProfileForUser(profile
-				.getUserId());
-		readProfile.setLongBio(profile.getLongBio());
-		readProfile.setCurrentAddress(profile.getCurrentAddress());
+    return userFPDao.CreateRandomStringForPassword(ufp);
 
-		userProfileDao.save(profile.getUserId(), readProfile);
-		return readProfile;
+  }
 
-	}
+  @Override
+  public void resetPassword(String pwd) {
+    User readUser = userDao.get(AccessContext.get().getCallerUserId());
+    readUser.setPassword(pwd);
+    userDao.UpdateUserDetails(readUser);
 
-	@Override
-	public UserForgetPwd forgotPassword(Long userID) {
-		Date dt = new Date();
-		String rndVal = UUID.randomUUID().toString();
-		// sm.sendEmail();
-		UserForgetPwd ufp = new UserForgetPwd();
-		ufp.setUserId(userID);
-		ufp.setRndString(rndVal);
-		ufp.setDate(dt);
+  }
 
-		return userFPDao.CreateRandomStringForPassword(ufp);
+  @Override
+  public boolean validateRandomString(String randomString) {
+    Date dt = new Date();
+    UserForgetPwd ufp = new UserForgetPwd();
+    ufp.setUserId(AccessContext.get().getCallerUserId());
+    ufp.setRndString(randomString);
+    ufp = userFPDao.GetDateForRandomString(ufp);
+    if (dt.getTime() - ufp.getDate().getTime() < 86400) {
+      return true;
+    } else
+      return false;
+  }
 
-	}
+  @Override
+  public void updateFacebookInfo(String facebookId) {
 
-	@Override
-	public void resetPassword(String pwd) {
-		User readUser = userDao.get(AccessContext.get().getCallerUserId());
-		readUser.setPassword(pwd);
-		userDao.UpdateUserDetails(readUser);
+  }
 
-	}
+  @Autowired
+  private UserDao userDao;
 
-	@Override
-	public boolean validateRandomString(String randomString) {
-		Date dt = new Date();
-		UserForgetPwd ufp = new UserForgetPwd();
-		ufp.setUserId(AccessContext.get().getCallerUserId());
-		ufp.setRndString(randomString);
-		ufp = userFPDao.GetDateForRandomString(ufp);
-		if (dt.getTime() - ufp.getDate().getTime() < 86400) {
-			return true;
-		} else
-			return false;
-	}
+  @Autowired
+  private UserProfileDao userProfileDao;
 
-	@Override
-	public void updateFacebookInfo(String facebookId) {
+  @Autowired
+  private UserFPDao userFPDao;
 
-	}
+  @Autowired
+  private FacebookMemberService fbMemberService;
 
-	@Autowired
-	private UserDao userDao;
+  @Override
+  public User signupFacebookUser(String accessToken) {
+    User user = fbMemberService.signupFacebookUser(accessToken);
+    return user;
+  }
 
-	@Autowired
-	private UserProfileDao userProfileDao;
+  @Override
+  public User authenticateFbUserLogin(String accessToken) {
+    User user = fbMemberService.authenticateFbUserLogin(accessToken);
+    return user;
+  }
 
-	@Autowired
-	private UserFPDao userFPDao;
-
-	@Autowired
-	private FacebookMemberService fbMemberService;
-
-	@Override
-	public User signupFacebookUser(String accessToken) {
-		User user = fbMemberService.signupFacebookUser(accessToken);
-		return user;
-	}
-
-	@Override
-	public User authenticateFbUserLogin(String accessToken) {
-		User user = fbMemberService.authenticateFbUserLogin(accessToken);
-		return user;
-	}
-
-	@Override
-	public User authenticateUser(String userName, String password) {
-		return null;
-	}
-
-	// @Autowired
-	// private SendMail sm;
-
+  @Override
+  public User authenticateUser(String userName, String password) {
+    return null;
+  }
 }

@@ -2,6 +2,7 @@ package com.inncretech.user;
 
 import static org.junit.Assert.assertEquals;
 
+import org.joda.time.DateTime;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -21,31 +22,36 @@ public class DefaultUserServiceImplTest {
 
   @Autowired
   private UserService userService;
+
   @Autowired
   private TestUtil dbUtility;
-
   
+  @Before
+  public void setUp() {
+    dbUtility.cleanUpdb();
+
+  }
+
   @Test
   public void createUser() {
     for (int i = 0; i < 5; i++) {
-      User usr = createTestUser("Mahesh", "Kumar", "mmk@gmail.com", "mmk123","mm111","mmk@facebook", "mmk@twitter", "mmk@gooogle");
+      User usr = createTestUser("Mahesh", "Kumar", "mmk@gmail.com", "mmk123", "mm111", "mmk@facebook", "mmk@twitter", "mmk@gooogle");
       userService.createUser(usr);
-   
     }
   }
-  
+
   @Test
   public void usrFgtPwd() {
-    User usr = createTestUser("Mahesh", "Kumar", "mmk@gmail.com", "mmk123","mm111","mmk@facebook", "mmk@twitter", "mmk@gooogle");
+    User usr = createTestUser("Mahesh", "Kumar", "mmk@gmail.com", "mmk123", "mm111", "mmk@facebook", "mmk@twitter", "mmk@gooogle");
     userService.createUser(usr);
-    userService.forgotPassword(usr.getId());   
-    
+    userService.forgotPassword(usr.getId());
+
   }
 
   @Test
   public void updateUser() {
-    User usr = createTestUser("Mahesh", "Kumar", "mmk@gmail.com", "mmk123","mm111","mmk@facebook", "mmk@twitter", "mmk@gooogle");
-    
+    User usr = createTestUser("Mahesh", "Kumar", "mmk@gmail.com", "mmk123", "mm111", "mmk@facebook", "mmk@twitter", "mmk@gooogle");
+
     AccessContext.set(usr.getId(), null);
     userService.createUser(usr);
     usr.setFirstName("MMK");
@@ -53,23 +59,16 @@ public class DefaultUserServiceImplTest {
   }
 
   @Test
-  public void ValidateRandString() {
-    User usr = createTestUser("Mahesh", "Kumar", "mmk@gmail.com", "mmk123","mm111","mmk@facebook", "mmk@twitter", "mmk@gooogle");
+  public void validateRandString() {
+    User usr = createTestUser("Mahesh", "Kumar", "mmk@gmail.com", "mmk123", "mm111", "mmk@facebook", "mmk@twitter", "mmk@gooogle");
     userService.createUser(usr);
     AccessContext.set(usr.getId(), null);
     UserForgetPwd ufp = new UserForgetPwd();
-    ufp  = userService.forgotPassword(usr.getId()); 
-    assertEquals(true,userService.validateRandomString(ufp.getRndString()));
+    ufp = userService.forgotPassword(usr.getId());
+    assertEquals(true, userService.validateRandomString(ufp.getRndString()));
   }
 
-
-  @Before
-  public void setUp() {
-    dbUtility.cleanUpdb();
-
-  }
-
-  User createTestUser(String fName, String lName, String eMail, String uName,String password, String facebookId, String twitterId, String googleId) {
+  User createTestUser(String fName, String lName, String eMail, String uName, String password, String facebookId, String twitterId, String googleId) {
     User usr = new User();
     usr.setFirstName(fName);
     usr.setLastName(lName);
@@ -79,26 +78,30 @@ public class DefaultUserServiceImplTest {
     usr.setFacebookId(facebookId);
     usr.setTwitterId(twitterId);
     usr.setGoogleId(googleId);
+    usr.setCreatedAt(new DateTime());
+    usr.setCreatedBy(0L);
+    usr.setUpdatedAt(new DateTime());
     return usr;
 
   }
+
   UserProfile CreateTestProfile(String shortBio, String longBio) {
     UserProfile usrprf = new UserProfile();
     usrprf.setLongBio(longBio);
     usrprf.setShortBio(shortBio);
     return usrprf;
   }
-  
+
   @Test
   public void signupFacebookUser() {
-    userService.signupFacebookUser("CAACEdEose0cBAGET2StOcTN4BNDf1xsgWVku7dqfgk5hlSWbfm0cWezOZB4mxqst0cyHx7NsG10ZCzZBmF6ruAC0zZAs4JNy5jMiCdf6UQSxofGE0uVjR7P8QQGVOeLP2KXbT6FcvlVNlUPg5kDdVOsi6iGHil8ZD");
+    userService
+        .signupFacebookUser("CAACEdEose0cBAGET2StOcTN4BNDf1xsgWVku7dqfgk5hlSWbfm0cWezOZB4mxqst0cyHx7NsG10ZCzZBmF6ruAC0zZAs4JNy5jMiCdf6UQSxofGE0uVjR7P8QQGVOeLP2KXbT6FcvlVNlUPg5kDdVOsi6iGHil8ZD");
   }
-  
+
   @Test
   public void authenticateFbUserLogin() {
-    User user =userService.authenticateFbUserLogin("CAACEdEose0cBAGET2StOcTN4BNDf1xsgWVku7dqfgk5hlSWbfm0cWezOZB4mxqst0cyHx7NsG10ZCzZBmF6ruAC0zZAs4JNy5jMiCdf6UQSxofGE0uVjR7P8QQGVOeLP2KXbT6FcvlVNlUPg5kDdVOsi6iGHil8ZD");
-    assertEquals(true,"romeoalpasso@hotmail.com".equals(user.getEmail()));
-    
+    User user = userService
+        .authenticateFbUserLogin("CAACEdEose0cBAGET2StOcTN4BNDf1xsgWVku7dqfgk5hlSWbfm0cWezOZB4mxqst0cyHx7NsG10ZCzZBmF6ruAC0zZAs4JNy5jMiCdf6UQSxofGE0uVjR7P8QQGVOeLP2KXbT6FcvlVNlUPg5kDdVOsi6iGHil8ZD");
+    assertEquals(true, "romeoalpasso@hotmail.com".equals(user.getEmail()));
   }
-  
 }
