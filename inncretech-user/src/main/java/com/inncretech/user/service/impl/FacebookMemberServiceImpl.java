@@ -67,7 +67,8 @@ public class FacebookMemberServiceImpl implements FacebookMemberService {
     user.setLastName(profile.getLastName());
     user.setFacebookId(profile.getId());
     user.setUserName(profile.getUsername());
-    return userDao.createUser(user);
+    userDao.save(user.getId(), user);
+    return user;
   }
 
   public User getUserByEmail(String emailID) {

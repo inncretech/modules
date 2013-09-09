@@ -29,7 +29,6 @@ public class DefaultUserServiceImplTest {
   @Before
   public void setUp() {
     dbUtility.cleanUpdb();
-
   }
 
   @Test

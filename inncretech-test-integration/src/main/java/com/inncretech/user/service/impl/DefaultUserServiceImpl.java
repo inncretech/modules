@@ -41,7 +41,7 @@ public class DefaultUserServiceImpl implements UserService {
   
 
   @ShardAware(shardStrategy = "entityid", shardType = ShardType.USER)
-  public void UpdateUserDet(User user) {
+  public void updateUserDet(User user) {
     User readUser = userDao.get(user.getId());
     readUser.setFirstName(user.getFirstName());
     readUser.setLastName(user.getLastName());

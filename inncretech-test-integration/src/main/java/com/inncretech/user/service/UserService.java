@@ -14,7 +14,7 @@ public interface UserService {
   User createUser(User user);
 
   @ShardAware(shardStrategy = "entityid", shardType = ShardType.USER)
-  void UpdateUserDet(User user);
+  void updateUserDet(User user);
 
   UserProfile updateProfile(Long UserID, UserProfile profile);
 
