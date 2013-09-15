@@ -8,10 +8,12 @@ import org.joda.time.DateTime;
 @Embeddable
 public class AbstractBaseEntity {
 
+  @Column
   private DateTime createdAt;
+  @Column
   private DateTime updatedAt;
 
-  @Column
+  
   public DateTime getCreatedAt() {
     return createdAt;
   }
@@ -20,7 +22,6 @@ public class AbstractBaseEntity {
     this.createdAt = createdAt;
   }
 
-  @Column
   public DateTime getUpdatedAt() {
     return updatedAt;
   }

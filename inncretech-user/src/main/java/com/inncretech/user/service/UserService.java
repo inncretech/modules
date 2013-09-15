@@ -21,9 +21,9 @@ public interface UserService {
   void updateFacebookInfo(String facebookId);
 
   UserForgetPwd forgotPassword(Long userID);
-  
+
   void resetPassword(String Pwd);
-  
+
   boolean validateRandomString(String randomString);
 
   User signupFacebookUser(String accessToken);

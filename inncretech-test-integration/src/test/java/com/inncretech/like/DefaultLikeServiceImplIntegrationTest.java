@@ -1,8 +1,8 @@
 package com.inncretech.like;
 
-import java.util.List;
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
+
+import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -23,51 +23,51 @@ import com.inncretech.like.service.LikeService;
 @ContextConfiguration(locations = { "/applicationcontext-like.xml" })
 public class DefaultLikeServiceImplIntegrationTest extends BaseTest {
 
-	@Autowired
-	private LikeService likeService;
-	@Autowired
-	private TestUtil dbUtility;
-	@Autowired
-	SourceLikeDao srcDAO;
+  @Autowired
+  private LikeService likeService;
+  @Autowired
+  private TestUtil dbUtility;
+  @Autowired
+  SourceLikeDao srcDAO;
 
-	@Test
-	public void LikeSource() {
+  @Test
+  public void LikeSource() {
 
-		long srcID = srcDAO.getIdGenService().getNewSourceId();
-		long usrID = srcDAO.getIdGenService().getNewUserId();
-		AccessContext.set(usrID, null);
-		likeService.likeSource(srcID, LikeType.LIKE);
-		
-	}
+    long srcID = srcDAO.getIdGenService().getNewSourceId();
+    long usrID = srcDAO.getIdGenService().getNewUserId();
+    AccessContext.set(usrID, null);
+    likeService.likeSource(srcID, LikeType.LIKE, usrID);
 
-	@Test
-	public void UnLikeSource() {
+  }
 
-		long srcID = srcDAO.getIdGenService().getNewSourceId();
-		long usrID = srcDAO.getIdGenService().getNewUserId();
-		AccessContext.set(usrID, null);
-		likeService.likeSource(srcID, LikeType.UNLIKE);
-		
-	}
+  @Test
+  public void UnLikeSource() {
 
-	@Test
-	public void getLikeByObj() {
+    long srcID = srcDAO.getIdGenService().getNewSourceId();
+    long usrID = srcDAO.getIdGenService().getNewUserId();
+    AccessContext.set(usrID, null);
+    likeService.likeSource(srcID, LikeType.UNLIKE, usrID);
 
-		long srcID = srcDAO.getIdGenService().getNewSourceId();
-		long usrID = srcDAO.getIdGenService().getNewUserId();
-		AccessContext.set(usrID, null);
-		likeService.likeSource(srcID, LikeType.UNLIKE);
-		List<SourceLike> lstSourceLike = likeService.getAllLikesBySource(srcID);
+  }
 
-		 //assertEquals((byte)-1, (byte)lstSourceLike.get(0).getLikeValue());
-		String result = lstSourceLike != null ? "Available" : "No Availability";
-		assertEquals("Records Not found", "Available", result);
+  @Test
+  public void getLikeByObj() {
 
-	}
+    long srcID = srcDAO.getIdGenService().getNewSourceId();
+    long usrID = srcDAO.getIdGenService().getNewUserId();
+    AccessContext.set(usrID, null);
+    likeService.likeSource(srcID, LikeType.UNLIKE, usrID);
+    List<SourceLike> lstSourceLike = likeService.getAllLikesBySource(srcID);
 
-	@Before
-	public void setUp() {
-		dbUtility.cleanUpdb();
+    // assertEquals((byte)-1, (byte)lstSourceLike.get(0).getLikeValue());
+    String result = lstSourceLike != null ? "Available" : "No Availability";
+    assertEquals("Records Not found", "Available", result);
 
-	}
+  }
+
+  @Before
+  public void setUp() {
+    dbUtility.cleanUpdb();
+
+  }
 }

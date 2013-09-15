@@ -7,37 +7,33 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.inncretech.core.model.IdEntity;
 import com.inncretech.core.model.ShardEntity;
 import com.inncretech.core.sharding.HibernateSessionFactoryManager;
 import com.inncretech.core.sharding.IdGenerator;
-import com.inncretech.core.sharding.ShardAware;
 import com.inncretech.core.sharding.ShardType;
 
 public class AbstractShardAwareHibernateDao<T> {
 
-  private Class clazz=null;
-  private ShardType shardType=null;
+  private Class<?> clazz = null;
+  
+  private ShardType shardType = null;
 
-  public AbstractShardAwareHibernateDao(Class clazz, ShardType shardType) {
+  public AbstractShardAwareHibernateDao(Class<?> clazz, ShardType shardType) {
     this.clazz = clazz;
     this.shardType = shardType;
   }
 
-  public AbstractShardAwareHibernateDao() {
-
-  }
+  @Autowired
+  private HibernateSessionFactoryManager sessionFactoryManager = null;
 
   @Autowired
-  private HibernateSessionFactoryManager sessionFactoryManager=null;
-
-  @Autowired
-  private IdGenerator idGenService=null;
+  private IdGenerator idGenService = null;
 
   public IdGenerator getIdGenService() {
     return idGenService;
   }
 
+  @SuppressWarnings("unchecked")
   public T get(Long entityId) {
     return (T) getCurrentSession(entityId).get(clazz, entityId);
   }
@@ -45,7 +41,7 @@ public class AbstractShardAwareHibernateDao<T> {
   public void save(Long entityId, Object obj) {
     getCurrentSession(entityId).saveOrUpdate(obj);
   }
-  
+
   public void save(ShardEntity obj) {
     getCurrentSession(obj.getShardedColumnValue()).saveOrUpdate(obj);
   }
@@ -55,7 +51,6 @@ public class AbstractShardAwareHibernateDao<T> {
     return sessionFactory.getCurrentSession();
   }
 
-  
   public Session getCurrentSessionByShard(Integer shardId) {
     SessionFactory sessionFactory = sessionFactoryManager.getSessionFactory(shardId);
     return sessionFactory.getCurrentSession();
@@ -64,5 +59,4 @@ public class AbstractShardAwareHibernateDao<T> {
   public Map<Integer, List<Long>> bucketizeEntites(List<Long> entityIds) {
     return idGenService.bucketizeEntites(entityIds, shardType);
   }
-  
 }

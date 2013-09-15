@@ -1,7 +1,5 @@
 package com.inncretech.user.model;
 
-import java.util.Date;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -9,24 +7,33 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Transient;
 
-import com.inncretech.core.model.ShardEntity;
-@Entity
-public class UserForgetPwd implements ShardEntity{
-  
-  private Long userId;
-  private String rndString;
-  private Date dateRndString;
+import org.joda.time.DateTime;
 
-  private Long id;
-  
-  @Transient
-  public Long getShardedColumnValue(){
-    return this.userId;
-  }
+import com.inncretech.core.model.AbstractMutableEntity;
+import com.inncretech.core.model.ShardEntity;
+
+@Entity
+public class UserForgetPwd extends AbstractMutableEntity implements ShardEntity {
 
   @Id
   @GeneratedValue(strategy = GenerationType.AUTO)
   @Column
+  private Long id;
+
+  @Column
+  private Long userId;
+
+  @Column
+  private String rndString;
+
+  @Column
+  private DateTime dateRndString;
+
+  @Transient
+  public Long getShardedColumnValue() {
+    return this.userId;
+  }
+
   public Long getId() {
     return id;
   }
@@ -35,7 +42,6 @@ public class UserForgetPwd implements ShardEntity{
     this.id = id;
   }
 
-  @Column
   public Long getUserId() {
     return userId;
   }
@@ -44,7 +50,6 @@ public class UserForgetPwd implements ShardEntity{
     this.userId = userId;
   }
 
-  @Column
   public String getRndString() {
     return rndString;
   }
@@ -53,11 +58,60 @@ public class UserForgetPwd implements ShardEntity{
     this.rndString = rndString;
   }
 
-  @Column
-  public Date getDate() {
+  public DateTime getDateRndString() {
     return dateRndString;
   }
-  public void setDate(Date dateRndString) {
+
+  public void setDateRndString(DateTime dateRndString) {
     this.dateRndString = dateRndString;
+  }
+
+  @Override
+  public int hashCode() {
+    final int prime = 31;
+    int result = super.hashCode();
+    result = prime * result + ((dateRndString == null) ? 0 : dateRndString.hashCode());
+    result = prime * result + ((id == null) ? 0 : id.hashCode());
+    result = prime * result + ((rndString == null) ? 0 : rndString.hashCode());
+    result = prime * result + ((userId == null) ? 0 : userId.hashCode());
+    return result;
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj)
+      return true;
+    if (!super.equals(obj))
+      return false;
+    if (getClass() != obj.getClass())
+      return false;
+    UserForgetPwd other = (UserForgetPwd) obj;
+    if (dateRndString == null) {
+      if (other.dateRndString != null)
+        return false;
+    } else if (!dateRndString.equals(other.dateRndString))
+      return false;
+    if (id == null) {
+      if (other.id != null)
+        return false;
+    } else if (!id.equals(other.id))
+      return false;
+    if (rndString == null) {
+      if (other.rndString != null)
+        return false;
+    } else if (!rndString.equals(other.rndString))
+      return false;
+    if (userId == null) {
+      if (other.userId != null)
+        return false;
+    } else if (!userId.equals(other.userId))
+      return false;
+    return true;
+  }
+
+  @Override
+  public String toString() {
+    return "UserForgetPwd [id=" + id + ", userId=" + userId + ", rndString=" + rndString + ", dateRndString=" + dateRndString + ", toString()="
+        + super.toString() + "]";
   }
 }

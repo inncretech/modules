@@ -4,8 +4,7 @@ import com.inncretech.user.model.User;
 
 public interface FacebookMemberService {
 
-	User signupFacebookUser(String accessToken);
+  User signupFacebookUser(String accessToken);
 
-	User authenticateFbUserLogin(String accessToken);
-
+  User authenticateFbUserLogin(String accessToken);
 }

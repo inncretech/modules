@@ -21,52 +21,48 @@ import com.inncretech.tag.service.TagService;
 @Service
 public class DefaultTagServiceImplIntegrationTest {
 
-	@Autowired
-	private TagService tagService;
+  @Autowired
+  private TagService tagService;
 
-	@Autowired
-	private IdGenerator idGenerator;
+  @Autowired
+  private IdGenerator idGenerator;
 
-	@Autowired
-	private TestIntegrationUtil dbUtility;
+  @Autowired
+  private TestIntegrationUtil dbUtility;
 
-	@Test
-	public void testTagSource() {
-		tagService.tagSource(idGenerator.getNewSourceId(),
-				idGenerator.getNewUserId(), "test1");
-	}
+  private Long userId;
 
-	@Test
-	public void testGetTagsOfSource() {
-		List<Tag> tagSourceList=tagService.getTagsOfSource(idGenerator.getNewSourceId());
-		String result = tagSourceList != null ? "Available"
-				: "No Availability";
-		assertEquals("Records Not found", "Available", result);
-		
-	}
+  @Test
+  public void testTagSource() {
+    Tag tag = tagService.createTag("test1", 1L);
+    tagService.tagSource(idGenerator.getNewSourceId(), idGenerator.getNewUserId(), tag.getId());
+  }
 
-	@Test
-	public void testGetTagsCreatedByUser() {
-		List <Tag> tagsList=tagService.getTagsCreatedByUser((long) 1);
-		String result = tagsList != null ? "Available"
-				: "No Availability";
-		assertEquals("Records Not found", "Available", result);
-		
-	}
+  @Test
+  public void testGetTagsOfSource() {
+    List<Tag> tagSourceList = tagService.getTagsOfSource(idGenerator.getNewSourceId());
+    String result = tagSourceList != null ? "Available" : "No Availability";
+    assertEquals("Records Not found", "Available", result);
 
-	@Test
-	public void testRemoveTagFromSource() {
-		Long sourceId = idGenerator.getNewSourceId();
-		tagService.tagSource(sourceId, idGenerator.getNewUserId(), "test2");
-		tagService.tagSource(sourceId, idGenerator.getNewUserId(), "test3");
-		tagService.removeTagFromSource(sourceId, (long) 36);
+  }
 
-	}
 
-	@Before
-	public void setUp() {
-		dbUtility.cleanUpdb();
+  @Test
+  public void testRetrievalAndRemoveTagFromSource() {
+    Long sourceId = idGenerator.getNewSourceId();
+    Tag tagOne = tagService.createTag("test2", userId);
+    Tag tagTwo = tagService.createTag("test3", userId);
+    tagService.tagSource(sourceId, userId, tagOne.getId());
+    tagService.tagSource(sourceId, userId, tagTwo.getId());
+    List<Tag> tagsList = tagService.getTagsCreatedByUser(userId);
+    String result = tagsList != null ? "Available" : "No Availability";
+    assertEquals("Records Not found", "Available", result);
+    tagService.removeTagFromSource(sourceId, (long) 36);
+  }
 
-	}
-
+  @Before
+  public void setUp() {
+    dbUtility.cleanUpdb();
+    userId = idGenerator.getNewUserId();
+  }
 }

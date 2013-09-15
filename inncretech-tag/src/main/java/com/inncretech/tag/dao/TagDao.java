@@ -18,23 +18,33 @@ public class TagDao {
 
   @Transactional
   public void createTag(Tag tag) {
-    Long id = (Long)sessionFactory.getCurrentSession().save(tag);
-    System.out.println("id::"+id);
+    Long id = (Long) sessionFactory.getCurrentSession().save(tag);
+    System.out.println("id::" + id);
     tag.setId(id);
   }
 
+  @SuppressWarnings("unchecked")
+  @Transactional
+  public List<Tag> getAllTags(int offset, int maxLimit) {
+    Query q = sessionFactory.getCurrentSession().createQuery("from Tag");
+    q.setFirstResult(offset);
+    q.setMaxResults(maxLimit);
+    return q.list();
+  }
+
+  @SuppressWarnings("rawtypes")
   @Transactional
   public Tag getTag(String tagName) {
     Query q = sessionFactory.getCurrentSession().createQuery("from Tag where name = ? ").setParameter(0, tagName);
     List tagList = q.list();
-    for(int i =0;i<tagList.size();i++)
-    	System.out.println();
-    return (tagList.size() > 0) ? (Tag) tagList.get(0) : null;
+    for (int i = 0; i < tagList.size(); i++)
+      System.out.println();
+    return (tagList != null && tagList.size() > 0) ? (Tag) tagList.get(0) : null;
   }
-  
+
   @Transactional
   public Tag get(Long tagId) {
-    return (Tag)sessionFactory.getCurrentSession().get(Tag.class, tagId);
+    return (Tag) sessionFactory.getCurrentSession().get(Tag.class, tagId);
   }
 
 }
