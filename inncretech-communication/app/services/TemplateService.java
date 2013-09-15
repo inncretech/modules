@@ -24,6 +24,6 @@ public class TemplateService {
     }
     public String createCommunicationBody(Communication comm, Template template) throws Exception{
         String templateText =  template.getTemplateText();
-        return new ST(templateText).add("data", comm.getCommData()).render();
+        return new ST(templateText, '$', '$').add("data", comm.getCommData()).render();
     }
 }
