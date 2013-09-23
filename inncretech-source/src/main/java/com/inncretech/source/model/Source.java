@@ -5,18 +5,22 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Transient;
 
+import com.inncretech.core.model.AbstractImmutatableEntity;
 import com.inncretech.core.model.IdEntity;
 import com.inncretech.core.model.ShardEntity;
 
 
 @Entity
-public class Source implements IdEntity, ShardEntity {
+public class Source extends AbstractImmutatableEntity {
 
+  @Id
+  @Column
   private Long id;
 
-  // <source_type>:<magzine_name>/image_title, product:<mag>
+  @Column
   private String sourceUri;
 
+  @Column
   private int sourceType = 0;
   
   @Transient
@@ -24,8 +28,7 @@ public class Source implements IdEntity, ShardEntity {
     return this.id;
   }
 
-  @Id
-  @Column
+
   public Long getId() {
     return id;
   }
@@ -34,7 +37,7 @@ public class Source implements IdEntity, ShardEntity {
     this.id = id;
   }
 
-  @Column
+
   public String getSourceUri() {
     return sourceUri;
   }
@@ -43,7 +46,7 @@ public class Source implements IdEntity, ShardEntity {
     this.sourceUri = sourceUri;
   }
 
-  @Column
+
   public int getSourceType() {
     return sourceType;
   }

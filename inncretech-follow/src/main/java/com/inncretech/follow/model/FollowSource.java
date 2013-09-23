@@ -7,10 +7,11 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Transient;
 
+import com.inncretech.core.model.BaseEntity;
 import com.inncretech.core.model.ShardEntity;
 
 @Entity
-public class FollowSource implements ShardEntity {
+public class FollowSource extends BaseEntity {
 
 	private Long id;
 	private Long sourceId;

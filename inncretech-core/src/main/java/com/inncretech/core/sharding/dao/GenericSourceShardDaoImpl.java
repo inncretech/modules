@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
 
+import com.inncretech.core.model.ShardEntity;
 import org.hibernate.Criteria;
 import org.hibernate.Query;
 import org.hibernate.Session;
@@ -92,13 +93,13 @@ public abstract class GenericSourceShardDaoImpl<T extends BaseEntity, PK extends
 		getSession(o.getId()).update(o);
 	}
 
-	@ShardAware(shardStrategy = "entityid", shardType = ShardType.SOURCE)
+	@ShardAware(shardStrategy = "shardid", shardType = ShardType.SOURCE)
 	public Query getQuery(Integer shardId, String s) {
 		return getCurrentSessionByShard(shardId).createQuery(s);
 	}
 
 	@SuppressWarnings("unchecked")
-	@ShardAware(shardStrategy = "entityid", shardType = ShardType.SOURCE)
+	@ShardAware(shardStrategy = "shardid", shardType = ShardType.SOURCE)
 	public List<T> findByCriteria(Integer shardId, Criterion... criterion) {
 		Criteria crit = getCurrentSessionByShard(shardId).createCriteria(getPersistentClass());
 
@@ -108,20 +109,9 @@ public abstract class GenericSourceShardDaoImpl<T extends BaseEntity, PK extends
 		return crit.list();
 	}
 
-	@ShardAware(shardStrategy = "entityid", shardType = ShardType.SOURCE)
+	@ShardAware(shardStrategy = "shardid", shardType = ShardType.SOURCE)
 	public List<T> findAll(Integer shardId) {
 		return findByCriteria(shardId);
-	}
-
-	@ShardAware(shardStrategy = "entityid", shardType = ShardType.SOURCE)
-	public void flush(List<Long> entityIds) {
-		Map<Integer, List<Long>> bucketedEntities = bucketizeEntites(entityIds);
-		for (Integer shardId : bucketedEntities.keySet()) {
-			List<Long> entities = bucketedEntities.get(shardId);
-			if (entities != null && entities.size() > 0) {
-				getSession(entities.get(0)).flush();
-			}
-		}
 	}
 
 	@ShardAware(shardStrategy = "entityid", shardType = ShardType.SOURCE)
@@ -150,8 +140,13 @@ public abstract class GenericSourceShardDaoImpl<T extends BaseEntity, PK extends
 		return idGenService.bucketizeEntites(entityIds, getShardType());
 	}
 
-	public ShardType getShardType() {
+  public IdGenerator getIdGenService() {
+    return idGenService;
+  }
+
+  public ShardType getShardType() {
 		return shardType;
+
 	}
 
 	public Session getSession(Long entityId) {

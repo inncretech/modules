@@ -20,11 +20,11 @@ public class TestUtil {
   private DBUtil dbUtil;
   
   @Transactional
-  public void cleanUpdb(){
+  public void cleanUpdb(String[] tablesToDelete){
     
     List<ShardConfig> shardConfigs = shardConfigDao.getAllActiveShards(1);
     for(ShardConfig config :shardConfigs){
-      dbUtil.cleanUpdb(config.getId());
+      dbUtil.cleanUpdb(config.getId(), tablesToDelete);
     }
     
   }

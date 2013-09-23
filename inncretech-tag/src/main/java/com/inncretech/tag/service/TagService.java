@@ -7,7 +7,7 @@ import com.inncretech.core.sharding.ShardType;
 import com.inncretech.tag.model.Tag;
 
 public interface TagService {
-  
+
   void tagSource(Long sourceId, Long userId, Long tagId);
   
   @ShardAware(shardStrategy="entityid", shardType=ShardType.SOURCE)

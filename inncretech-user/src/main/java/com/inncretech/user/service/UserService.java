@@ -1,29 +1,34 @@
 package com.inncretech.user.service;
 
-import com.inncretech.core.model.AccessContext;
 import com.inncretech.core.sharding.ShardAware;
 import com.inncretech.core.sharding.ShardType;
 import com.inncretech.user.model.User;
-import com.inncretech.user.model.UserForgetPwd;
+import com.inncretech.user.model.UserForgotPassword;
 import com.inncretech.user.model.UserProfile;
+import org.springframework.transaction.annotation.Transactional;
 
 public interface UserService {
 
-  User getUserById(Long userId, AccessContext accessContext);
+  @ShardAware(shardStrategy = "entityid", shardType = ShardType.USER)
+  User get(Long userId);
 
   User createUser(User user);
 
   @ShardAware(shardStrategy = "entityid", shardType = ShardType.USER)
-  void UpdateUserDet(User user);
+  void UpdateUser(User user);
 
+  @ShardAware(shardStrategy = "entityid", shardType = ShardType.USER)
   UserProfile updateProfile(Long UserID, UserProfile profile);
 
   void updateFacebookInfo(String facebookId);
 
-  UserForgetPwd forgotPassword(Long userID);
+  @Transactional
+  UserForgotPassword forgotPassword(Long userID);
 
-  void resetPassword(String Pwd);
+  @ShardAware(shardStrategy = "entityid", shardType = ShardType.USER)
+  void resetPassword(Long userId, String Pwd);
 
+  @Transactional
   boolean validateRandomString(String randomString);
 
   User signupFacebookUser(String accessToken);

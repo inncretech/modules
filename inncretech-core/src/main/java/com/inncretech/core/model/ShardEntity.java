@@ -1,6 +1,6 @@
 package com.inncretech.core.model;
 
-public interface ShardEntity {
+public interface ShardEntity{
   
   Long getShardedColumnValue();
 

@@ -9,10 +9,9 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import com.inncretech.core.model.AccessContext;
 import com.inncretech.core.test.TestUtil;
 import com.inncretech.user.model.User;
-import com.inncretech.user.model.UserForgetPwd;
+import com.inncretech.user.model.UserForgotPassword;
 import com.inncretech.user.model.UserProfile;
 import com.inncretech.user.service.UserService;
 
@@ -28,7 +27,7 @@ public class DefaultUserServiceImplTest {
   
   @Before
   public void setUp() {
-    dbUtility.cleanUpdb();
+    dbUtility.cleanUpdb(new String[] {"user", "user_forget_pwd", "user_profile"});
   }
 
   @Test
@@ -51,19 +50,16 @@ public class DefaultUserServiceImplTest {
   public void updateUser() {
     User usr = createTestUser("Mahesh", "Kumar", "mmk@gmail.com", "mmk123", "mm111", "mmk@facebook", "mmk@twitter", "mmk@gooogle");
 
-    AccessContext.set(usr.getId(), null);
     userService.createUser(usr);
     usr.setFirstName("MMK");
-    userService.UpdateUserDet(usr);
+    userService.UpdateUser(usr);
   }
 
   @Test
   public void validateRandString() {
     User usr = createTestUser("Mahesh", "Kumar", "mmk@gmail.com", "mmk123", "mm111", "mmk@facebook", "mmk@twitter", "mmk@gooogle");
     userService.createUser(usr);
-    AccessContext.set(usr.getId(), null);
-    UserForgetPwd ufp = new UserForgetPwd();
-    ufp = userService.forgotPassword(usr.getId());
+    UserForgotPassword ufp = userService.forgotPassword(usr.getId());
     assertEquals(true, userService.validateRandomString(ufp.getRndString()));
   }
 
@@ -89,18 +85,5 @@ public class DefaultUserServiceImplTest {
     usrprf.setLongBio(longBio);
     usrprf.setShortBio(shortBio);
     return usrprf;
-  }
-
-  @Test
-  public void signupFacebookUser() {
-    userService
-        .signupFacebookUser("CAACEdEose0cBAGET2StOcTN4BNDf1xsgWVku7dqfgk5hlSWbfm0cWezOZB4mxqst0cyHx7NsG10ZCzZBmF6ruAC0zZAs4JNy5jMiCdf6UQSxofGE0uVjR7P8QQGVOeLP2KXbT6FcvlVNlUPg5kDdVOsi6iGHil8ZD");
-  }
-
-  @Test
-  public void authenticateFbUserLogin() {
-    User user = userService
-        .authenticateFbUserLogin("CAACEdEose0cBAGET2StOcTN4BNDf1xsgWVku7dqfgk5hlSWbfm0cWezOZB4mxqst0cyHx7NsG10ZCzZBmF6ruAC0zZAs4JNy5jMiCdf6UQSxofGE0uVjR7P8QQGVOeLP2KXbT6FcvlVNlUPg5kDdVOsi6iGHil8ZD");
-    assertEquals(true, "romeoalpasso@hotmail.com".equals(user.getEmail()));
   }
 }

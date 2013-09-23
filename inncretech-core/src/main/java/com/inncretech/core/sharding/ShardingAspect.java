@@ -2,6 +2,7 @@ package com.inncretech.core.sharding;
 
 import java.lang.reflect.Method;
 
+import com.inncretech.core.model.BaseEntity;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
@@ -61,8 +62,8 @@ public class ShardingAspect extends TransactionAspectSupport {
     if (txObject.shardStrategy().equals("entityid")) {
       if (fParam instanceof Long) {
         entityID = (Long) fParam;
-      } else if (fParam instanceof ShardEntity) {
-        entityID = ((ShardEntity) fParam).getShardedColumnValue();
+      } else if (fParam instanceof IdEntity) {
+        entityID = ((IdEntity) fParam).getId();
       }
 
       tm = sessionFactoryService.getTransactionManager(idGenService.getShardId(entityID, txObject.shardType()));

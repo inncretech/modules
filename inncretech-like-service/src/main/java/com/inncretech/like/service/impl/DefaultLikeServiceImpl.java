@@ -3,6 +3,7 @@ package com.inncretech.like.service.impl;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.inncretech.core.sharding.IdGenerator;
 import com.inncretech.core.sharding.dao.ShardConfigDao;
 import com.inncretech.core.sharding.model.ShardConfig;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +22,9 @@ public class DefaultLikeServiceImpl implements LikeService{
 
     @Autowired
     private ShardConfigDao shardConfigDao;
+
+  @Autowired
+  private IdGenerator idGenerator;
 
   @Override
   public List<SourceLike> getAllLikesBySource(Long sourceIdId) {
@@ -42,6 +46,7 @@ public class DefaultLikeServiceImpl implements LikeService{
   @Override
   public void likeSource(Long srcID , LikeType likeType, Long createdBy) {
     SourceLike likeSrc = new SourceLike();
+    likeSrc.setId(idGenerator.getIdOnShard(idGenerator.getShardId(srcID, ShardType.SOURCE)));
     likeSrc.setObjectId(srcID);
     likeSrc.setUserId(createdBy);
     likeSrc.setLikeValue(likeType.getValue());

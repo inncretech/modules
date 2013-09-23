@@ -79,7 +79,7 @@ public class DefaultLikeServiceImplTest extends BaseTest{
 
   @Before
   public void setUp() {
-    dbUtility.cleanUpdb();
+    dbUtility.cleanUpdb(new String[] {"like"});
 
   }
 }

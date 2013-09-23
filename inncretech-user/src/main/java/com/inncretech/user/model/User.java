@@ -9,7 +9,7 @@ import com.inncretech.core.model.AbstractMutableEntity;
 import com.inncretech.core.model.ShardEntity;
 
 @Entity
-public class User extends AbstractMutableEntity implements ShardEntity {
+public class User extends AbstractMutableEntity {
 
   @Column
   private String email;
@@ -53,7 +53,6 @@ public class User extends AbstractMutableEntity implements ShardEntity {
   @Column
   private Boolean isGoogleLoginEnabled;
 
-  @Transient
   public Long getShardedColumnValue() {
     return this.id;
   }
@@ -74,7 +73,7 @@ public class User extends AbstractMutableEntity implements ShardEntity {
     this.facebookId = facebookId;
   }
 
-  @Column
+
   public String getTwitterId() {
     return twitterId;
   }
@@ -83,7 +82,7 @@ public class User extends AbstractMutableEntity implements ShardEntity {
     this.twitterId = twitterId;
   }
 
-  @Column
+
   public String getGoogleId() {
     return googleId;
   }
@@ -108,7 +107,7 @@ public class User extends AbstractMutableEntity implements ShardEntity {
     this.isFacebookLoginEnabled = isFacebookLoginEnabled;
   }
 
-  @Column
+
   public Boolean getIsTwitterLoginEnabled() {
     return isTwitterLoginEnabled;
   }
@@ -117,7 +116,7 @@ public class User extends AbstractMutableEntity implements ShardEntity {
     this.isTwitterLoginEnabled = isTwitterLoginEnabled;
   }
 
-  @Column
+
   public Boolean getIsGoogleLoginEnabled() {
     return isGoogleLoginEnabled;
   }

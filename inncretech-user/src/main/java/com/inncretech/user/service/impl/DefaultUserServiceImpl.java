@@ -2,11 +2,14 @@ package com.inncretech.user.service.impl;
 
 import java.util.UUID;
 
+import com.inncretech.user.dao.UserForgotPasswordLookupDao;
+import com.inncretech.user.model.UserForgotPassword;
+import com.inncretech.user.model.UserForgotPasswordLookup;
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.codec.Base64;
 import org.springframework.stereotype.Service;
 
-import com.inncretech.core.model.AccessContext;
 import com.inncretech.core.sharding.IdGenerator;
 import com.inncretech.core.sharding.ShardAware;
 import com.inncretech.core.sharding.ShardType;
@@ -14,10 +17,10 @@ import com.inncretech.user.dao.UserDao;
 import com.inncretech.user.dao.UserFPDao;
 import com.inncretech.user.dao.UserProfileDao;
 import com.inncretech.user.model.User;
-import com.inncretech.user.model.UserForgetPwd;
 import com.inncretech.user.model.UserProfile;
 import com.inncretech.user.service.FacebookMemberService;
 import com.inncretech.user.service.UserService;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class DefaultUserServiceImpl implements UserService {
@@ -37,9 +40,19 @@ public class DefaultUserServiceImpl implements UserService {
   @Autowired
   private FacebookMemberService fbMemberService;
 
+  @Autowired
+  private PasswordService passwordService;
+
+  @Autowired
+  private UserForgotPasswordLookupDao userForgotPasswordLookupDao;
+
   @Override
-  public User getUserById(Long userId, AccessContext accessContext) {
+  public User get(Long userId) {
     return userDao.get(userId);
+  }
+
+  public User getByEmailId(String emailId) {
+    return null;
   }
 
   public User createUser(User user) {
@@ -54,7 +67,7 @@ public class DefaultUserServiceImpl implements UserService {
   }
 
   @ShardAware(shardStrategy = "entityid", shardType = ShardType.USER)
-  public void UpdateUserDet(User user) {
+  public void UpdateUser(User user) {
     User readUser = userDao.get(user.getId());
     readUser.setFirstName(user.getFirstName());
     readUser.setLastName(user.getLastName());
@@ -72,33 +85,44 @@ public class DefaultUserServiceImpl implements UserService {
 
   }
 
-  @Override
-  public UserForgetPwd forgotPassword(Long userID) {
-    String rndVal = UUID.randomUUID().toString();
-    UserForgetPwd ufp = new UserForgetPwd();
-    ufp.setUserId(userID);
-    ufp.setRndString(rndVal);
+  private UserForgotPassword saveForgotPasswordRequest(Long userId, String token){
+    UserForgotPassword ufp = new UserForgotPassword();
+    ufp.setUserId(userId);
+    ufp.setRndString(token);
     ufp.setDateRndString(new DateTime());
     ufp.setCreatedAt(new DateTime());
     ufp.setUpdatedAt(new DateTime());
-    ufp.setCreatedBy(userID);
-    ufp.setUpdatedBy(userID);
+    ufp.setCreatedBy(userId);
+    ufp.setUpdatedBy(userId);
     userFPDao.save(ufp.getUserId(), ufp);
+
+    UserForgotPasswordLookup ufpLookup = new UserForgotPasswordLookup();
+    ufpLookup.setKey(token);
+    ufpLookup.setUserId(userId);
+    userForgotPasswordLookupDao.saveOrUpdate(ufpLookup);
     return ufp;
   }
 
   @Override
-  public void resetPassword(String pwd) {
-    User readUser = userDao.get(AccessContext.get().getCallerUserId());
+  @Transactional
+  public UserForgotPassword forgotPassword(Long userId) {
+    String rndVal = passwordService.generateResetPasswordToken();
+    return saveForgotPasswordRequest(userId, rndVal);
+  }
+
+  @Override
+  @ShardAware(shardStrategy = "entityid", shardType = ShardType.USER)
+  public void resetPassword(Long userId, String pwd) {
+    User readUser = userDao.get(userId);
     readUser.setPassword(pwd);
     userDao.update(readUser);
   }
 
   @Override
+  @Transactional
   public boolean validateRandomString(String randomString) {
     DateTime dt = new DateTime();
-    UserForgetPwd ufp = new UserForgetPwd();
-    ufp.setUserId(AccessContext.get().getCallerUserId());
+    UserForgotPassword ufp = new UserForgotPassword();
     ufp.setRndString(randomString);
     ufp = userFPDao.getDateForRandomString(ufp);
     if (dt.getMillis() - ufp.getDateRndString().getMillis() < 86400) {

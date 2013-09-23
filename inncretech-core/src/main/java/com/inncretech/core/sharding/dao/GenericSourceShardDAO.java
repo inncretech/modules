@@ -2,7 +2,10 @@ package com.inncretech.core.sharding.dao;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.Map;
 
+import com.inncretech.core.model.BaseEntity;
+import com.inncretech.core.model.ShardEntity;
 import org.hibernate.Query;
 import org.hibernate.criterion.Criterion;
 
@@ -14,7 +17,7 @@ import com.inncretech.core.sharding.ShardType;
  * 
  * @author shade05
  */
-public interface GenericSourceShardDAO<T, PK extends Serializable> {
+public interface GenericSourceShardDAO<T extends BaseEntity, PK extends Serializable> {
 
   /**
    * Persist the newInstance object into database.
@@ -77,7 +80,7 @@ public interface GenericSourceShardDAO<T, PK extends Serializable> {
    *          Query to execute
    * @return A query object
    **/
-  @ShardAware(shardStrategy = "entityid", shardType = ShardType.SOURCE)
+  @ShardAware(shardStrategy = "shardid", shardType = ShardType.SOURCE)
   Query getQuery(Integer shardId, String s);
 
   /**
@@ -108,7 +111,7 @@ public interface GenericSourceShardDAO<T, PK extends Serializable> {
    *          to exclude
    * @return A list of objects
    */
-  @ShardAware(shardStrategy = "entityid", shardType = ShardType.SOURCE)
+  @ShardAware(shardStrategy = "shardid", shardType = ShardType.SOURCE)
   List<T> findByExample(Integer shardId, T exampleInstance, String... excludeProperty);
 
   /**
@@ -116,7 +119,7 @@ public interface GenericSourceShardDAO<T, PK extends Serializable> {
    * 
    * @return list of objects
    */
-  @ShardAware(shardStrategy = "entityid", shardType = ShardType.SOURCE)
+  @ShardAware(shardStrategy = "shardid", shardType = ShardType.SOURCE)
   List<T> findAll(Integer shardId);
 
   /**
@@ -135,7 +138,7 @@ public interface GenericSourceShardDAO<T, PK extends Serializable> {
    *          to filter.
    * @return list of objects
    */
-  @ShardAware(shardStrategy = "entityid", shardType = ShardType.SOURCE)
+  @ShardAware(shardStrategy = "shardid", shardType = ShardType.SOURCE)
   List<T> findByCriteria(Integer shardId, Criterion... criterion);
 
   /**
@@ -143,6 +146,7 @@ public interface GenericSourceShardDAO<T, PK extends Serializable> {
    * 
    * @return the currently set class.
    */
-  @ShardAware(shardStrategy = "entityid", shardType = ShardType.SOURCE)
   Class<T> getPersistentClass();
+
+  public Map<Integer, List<Long>> bucketizeEntites(List<Long> entityIds);
 }

@@ -3,6 +3,7 @@ package com.inncretech.core.sharding.dao;
 import java.util.List;
 import java.util.Map;
 
+import com.inncretech.core.model.BaseEntity;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,8 +43,8 @@ public class AbstractShardAwareHibernateDao<T> {
     getCurrentSession(entityId).saveOrUpdate(obj);
   }
 
-  public void save(ShardEntity obj) {
-    getCurrentSession(obj.getShardedColumnValue()).saveOrUpdate(obj);
+  public void save(BaseEntity obj) {
+    getCurrentSession(obj.getId()).saveOrUpdate(obj);
   }
 
   public Session getCurrentSession(Long entityId) {

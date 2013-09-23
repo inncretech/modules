@@ -7,10 +7,11 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Transient;
 
+import com.inncretech.core.model.BaseEntity;
 import com.inncretech.core.model.ShardEntity;
 
 @Entity
-public class Notification implements ShardEntity {
+public class Notification extends BaseEntity {
 
   @Transient
   public Long getShardedColumnValue() {

@@ -42,7 +42,7 @@ public class DefaultNotificationServiceImplTest {
 
   @Before
   public void setUp() {
-    dbUtility.cleanUpdb();
+    dbUtility.cleanUpdb(new String[] {"notification"});
 
   }
 

@@ -3,20 +3,18 @@ package com.inncretech.user.model;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.Transient;
 
+import org.hibernate.annotations.Type;
 import org.joda.time.DateTime;
 
 import com.inncretech.core.model.AbstractMutableEntity;
-import com.inncretech.core.model.ShardEntity;
 
 @Entity
-public class UserForgetPwd extends AbstractMutableEntity implements ShardEntity {
+public class UserForgotPassword extends AbstractMutableEntity{
 
   @Id
-  @GeneratedValue(strategy = GenerationType.AUTO)
+  @GeneratedValue
   @Column
   private Long id;
 
@@ -26,13 +24,9 @@ public class UserForgetPwd extends AbstractMutableEntity implements ShardEntity 
   @Column
   private String rndString;
 
+  @Type(type="myDateTime")
   @Column
   private DateTime dateRndString;
-
-  @Transient
-  public Long getShardedColumnValue() {
-    return this.userId;
-  }
 
   public Long getId() {
     return id;
@@ -85,7 +79,7 @@ public class UserForgetPwd extends AbstractMutableEntity implements ShardEntity 
       return false;
     if (getClass() != obj.getClass())
       return false;
-    UserForgetPwd other = (UserForgetPwd) obj;
+    UserForgotPassword other = (UserForgotPassword) obj;
     if (dateRndString == null) {
       if (other.dateRndString != null)
         return false;
@@ -111,7 +105,7 @@ public class UserForgetPwd extends AbstractMutableEntity implements ShardEntity 
 
   @Override
   public String toString() {
-    return "UserForgetPwd [id=" + id + ", userId=" + userId + ", rndString=" + rndString + ", dateRndString=" + dateRndString + ", toString()="
+    return "UserForgotPassword [id=" + id + ", userId=" + userId + ", rndString=" + rndString + ", dateRndString=" + dateRndString + ", toString()="
         + super.toString() + "]";
   }
 }

@@ -8,6 +8,9 @@
   <packaging>pom</packaging>
   <version>1.0</version>
   <name>Inncretech core modules</name>
+  <properties>
+      <profile>dev</profile>
+  </properties>
 
   <modules>
     <module>inncretech-core</module>
@@ -20,7 +23,6 @@
     <module>inncretech-comment</module>
     <module>inncretech-follow</module>
     <module>inncretech-social</module>
-    <module>inncretech-test-integration</module>
   </modules>
 
   <build>

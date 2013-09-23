@@ -26,12 +26,8 @@ import javax.persistence.Transient;
  * @author shade05
  */
 @MappedSuperclass
-public abstract class BaseEntity implements Serializable {
+public abstract class BaseEntity implements IdEntity, Serializable {
 
-
-  public abstract Long getId();
-
-  public abstract void setId(Long id);
 
   @Override
   public boolean equals(Object obj) {

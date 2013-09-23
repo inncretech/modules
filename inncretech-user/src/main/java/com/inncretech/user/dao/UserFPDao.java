@@ -1,12 +1,9 @@
 package com.inncretech.user.dao;
 
-import com.inncretech.core.sharding.ShardAware;
-import com.inncretech.core.sharding.ShardType;
-import com.inncretech.core.sharding.dao.GenericUserShardDAO;
-import com.inncretech.user.model.UserForgetPwd;
+import com.inncretech.core.sharding.dao.GenericDAO;
+import com.inncretech.user.model.UserForgotPassword;
 
-public interface UserFPDao extends GenericUserShardDAO<UserForgetPwd, Long> {
+public interface UserFPDao extends GenericDAO<UserForgotPassword, Long> {
 
-  @ShardAware(shardStrategy = "entityid", shardType = ShardType.USER)
-  public UserForgetPwd getDateForRandomString(UserForgetPwd obj);
+  public UserForgotPassword getDateForRandomString(UserForgotPassword obj);
 }

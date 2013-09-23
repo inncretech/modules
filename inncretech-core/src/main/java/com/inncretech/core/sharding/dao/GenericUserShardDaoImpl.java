@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
 
+import com.inncretech.core.model.ShardEntity;
 import org.hibernate.Criteria;
 import org.hibernate.Query;
 import org.hibernate.Session;
@@ -41,7 +42,7 @@ public abstract class GenericUserShardDaoImpl<T extends BaseEntity, PK extends S
 	@Autowired
 	private IdGenerator idGenService;
 
-	public GenericUserShardDaoImpl(Class<T> type) {
+	public GenericUserShardDaoImpl(Class<T > type) {
 		this.clazz = type;
 		this.shardType = ShardType.USER;
 	}
@@ -92,13 +93,13 @@ public abstract class GenericUserShardDaoImpl<T extends BaseEntity, PK extends S
 		getSession(o.getId()).update(o);
 	}
 
-	@ShardAware(shardStrategy = "entityid", shardType = ShardType.USER)
+	@ShardAware(shardStrategy = "shardid", shardType = ShardType.USER)
 	public Query getQuery(Integer shardId, String s) {
 		return getCurrentSessionByShard(shardId).createQuery(s);
 	}
 
 	@SuppressWarnings("unchecked")
-	@ShardAware(shardStrategy = "entityid", shardType = ShardType.USER)
+	@ShardAware(shardStrategy = "shardid", shardType = ShardType.USER)
 	public List<T> findByCriteria(Integer shardId, Criterion... criterion) {
 		Criteria crit = getCurrentSessionByShard(shardId).createCriteria(getPersistentClass());
 
@@ -108,20 +109,9 @@ public abstract class GenericUserShardDaoImpl<T extends BaseEntity, PK extends S
 		return crit.list();
 	}
 
-	@ShardAware(shardStrategy = "entityid", shardType = ShardType.USER)
+	@ShardAware(shardStrategy = "shardid", shardType = ShardType.USER)
 	public List<T> findAll(Integer shardId) {
 		return findByCriteria(shardId);
-	}
-
-	@ShardAware(shardStrategy = "entityid", shardType = ShardType.USER)
-	public void flush(List<Long> entityIds) {
-		Map<Integer, List<Long>> bucketedEntities = bucketizeEntites(entityIds);
-		for (Integer shardId : bucketedEntities.keySet()) {
-			List<Long> entities = bucketedEntities.get(shardId);
-			if (entities != null && entities.size() > 0) {
-				getSession(entities.get(0)).flush();
-			}
-		}
 	}
 
 	@ShardAware(shardStrategy = "entityid", shardType = ShardType.USER)
@@ -130,7 +120,7 @@ public abstract class GenericUserShardDaoImpl<T extends BaseEntity, PK extends S
 	}
 
 	@SuppressWarnings("unchecked")
-	@ShardAware(shardStrategy = "entityid", shardType = ShardType.USER)
+	@ShardAware(shardStrategy = "shardid", shardType = ShardType.USER)
 	public List<T> findByExample(Integer shardId, T exampleInstance, String... excludeProperty) {
 		Criteria crit = getCurrentSessionByShard(shardId).createCriteria(getPersistentClass());
 		Example example = Example.create(exampleInstance);

@@ -7,6 +7,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Transient;
 
+import com.inncretech.core.model.BaseEntity;
 import com.inncretech.core.model.ShardEntity;
 
 /**
@@ -14,23 +15,25 @@ import com.inncretech.core.model.ShardEntity;
  * communicates with masterdb and should not fall under Shard aware annotation
  */
 @Entity
-public class SourceTag implements ShardEntity{
+public class SourceTag extends BaseEntity{
 
+  @Id
+  @Column
 	private Long id;
-	private Long sourceId;
-	private Long userId;
-	private Long tagId;
-	private byte recordStatus;
-	
-	
-	@Transient
-	public Long getShardedColumnValue(){
-	  return sourceId;
-	}
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column
+  @Column
+	private Long sourceId;
+
+  @Column
+	private Long userId;
+
+  @Column
+	private Long tagId;
+
+  @Column
+	private byte recordStatus;
+
+
 	public Long getId() {
 		return id;
 	}
@@ -39,7 +42,6 @@ public class SourceTag implements ShardEntity{
 		this.id = id;
 	}
 
-	@Column
 	public Long getSourceId() {
 		return sourceId;
 	}
@@ -48,7 +50,6 @@ public class SourceTag implements ShardEntity{
 		this.sourceId = sourceId;
 	}
 
-	@Column
 	public Long getUserId() {
 		return userId;
 	}
@@ -57,7 +58,6 @@ public class SourceTag implements ShardEntity{
 		this.userId = userId;
 	}
 
-	@Column
 	public Long getTagId() {
 		return tagId;
 	}
@@ -66,7 +66,6 @@ public class SourceTag implements ShardEntity{
 		this.tagId = tagId;
 	}
 
-	@Column
 	public byte getRecordStatus() {
 		return recordStatus;
 	}

@@ -11,7 +11,7 @@ import com.inncretech.core.model.AbstractMutableEntity;
 import com.inncretech.core.model.ShardEntity;
 
 @Entity
-public class UserProfile extends AbstractMutableEntity implements ShardEntity {
+public class UserProfile extends AbstractMutableEntity {
 
   @Column
   private Long userId;
@@ -23,10 +23,9 @@ public class UserProfile extends AbstractMutableEntity implements ShardEntity {
   private String longBio;
 
   @Id
-  @GeneratedValue(strategy = GenerationType.AUTO)
+  @GeneratedValue
   private Long id;
 
-  @Transient
   public Long getShardedColumnValue() {
     return this.userId;
   }

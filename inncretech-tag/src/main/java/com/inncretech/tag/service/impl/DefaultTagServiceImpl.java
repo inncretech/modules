@@ -5,6 +5,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import com.inncretech.core.sharding.IdGenerator;
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -26,6 +27,9 @@ public class DefaultTagServiceImpl implements TagService {
   @Autowired
   private SourceTagDao sourceTagDao;
 
+  @Autowired
+  private IdGenerator idGenerator;
+
   @Override
   public Tag createTag(String tagName, Long userId) {
     Tag t = new Tag();
@@ -40,6 +44,7 @@ public class DefaultTagServiceImpl implements TagService {
   public void tagSource(Long sourceId, Long userId, Long tagId) {
     Tag readTag = tagDao.get(tagId);
     SourceTag sourceTag = new SourceTag();
+    sourceTag.setId(idGenerator.getIdOnShard(idGenerator.getShardId(sourceId, ShardType.SOURCE)));
     sourceTag.setSourceId(sourceId);
     sourceTag.setUserId(userId);
     sourceTag.setTagId(readTag.getId());
