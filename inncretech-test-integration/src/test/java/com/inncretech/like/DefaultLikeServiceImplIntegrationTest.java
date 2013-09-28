@@ -67,7 +67,8 @@ public class DefaultLikeServiceImplIntegrationTest extends BaseTest {
 
   @Before
   public void setUp() {
-    dbUtility.cleanUpdb();
+    String[] tablesToBeDeleted = {"source_like"};
+    dbUtility.cleanUpdb(tablesToBeDeleted);
 
   }
 }
