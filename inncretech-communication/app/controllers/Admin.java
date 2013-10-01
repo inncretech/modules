@@ -9,6 +9,8 @@ import play.mvc.Controller;
 import play.mvc.Result;
 
 import java.util.List;
+import java.util.Map;
+
 import views.html.*;
 
 /**
@@ -22,11 +24,31 @@ import views.html.*;
 public class Admin extends Controller{
 
     public Result index(){
+        if(session().get("admin_token") !=null){
         List<Template> templates = Template.find.findList();
         return ok(index.render(templates));
+        }else
+          return redirect("/emailadmin/login");
     }
 
+  public Result loginpage(){
+    return ok(adminlogin.render());
+  }
+
+  public Result login(){
+    Map<String, String[]> formData = request().body().asFormUrlEncoded() ;
+    String adminToken = (formData.get("adminToken") !=null && formData.get("adminToken").length > 0)?
+                          formData.get("adminToken")[0] : null ;
+
+    if(adminToken !=null && adminToken.equals("incontrolads101#")){
+      session().put("admin_token", "incontrolads101#");
+      return redirect("/emailadmin");
+    }else
+      return redirect("/emailadmin/login");
+  }
+
     public Result saveTemplate()throws Exception{
+      if(session().get("admin_token") !=null){
         JsonNode json = request().body().asJson();
         if(json == null) {
             return badRequest("Expecting Json data");
@@ -52,5 +74,7 @@ public class Admin extends Controller{
             }
             return ok("ok");
         }
+    }else
+        return redirect("/emailadmin/login");
     }
 }

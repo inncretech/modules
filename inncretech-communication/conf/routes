@@ -6,8 +6,10 @@
 GET     /                           @controllers.Application.index()
 POST     /                           @controllers.Application.handleEvent()
 
-GET     /admin                           @controllers.Admin.index()
-POST     /admin/saveTemplate.json               @controllers.Admin.saveTemplate()
+GET     /emailadmin                           @controllers.Admin.index()
+POST     /emailadmin/login                           @controllers.Admin.login()
+GET     /emailadmin/login                           @controllers.Admin.loginpage()
+POST     /emailadmin/saveTemplate.json               @controllers.Admin.saveTemplate()
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /emailadminassets/*file               controllers.Assets.at(path="/public", file)
