@@ -13,21 +13,20 @@ import com.inncretech.source.service.SourceService;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "/applicationcontext-source.xml" })
-public class SourceServiceTest extends BaseTest{
-  
+public class SourceServiceTest extends BaseTest {
+
   @Autowired
   private SourceService sourceService;
 
   @Autowired
   private IdGenerator idGenerator;
-  
+
   @Test
-  public void testSourceCreate(){
+  public void testSourceCreate() {
     Source s = new Source();
     s.setId(idGenerator.getNewSourceId());
     s.setSourceType(1);
     s.setSourceUri("testsource");
     sourceService.create(s);
   }
-
 }

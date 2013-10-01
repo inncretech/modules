@@ -44,7 +44,8 @@ public class DefaultUserServiceImplTest implements Runnable {
 
 	@Before
 	public void setUp() {
-		dbUtility.cleanUpdb();
+	  String[] tablesToBeDeleted = {"user"};
+		dbUtility.cleanUpdb(tablesToBeDeleted);
 
 	}
 

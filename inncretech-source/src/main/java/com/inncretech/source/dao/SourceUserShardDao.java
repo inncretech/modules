@@ -7,10 +7,10 @@ import com.inncretech.core.sharding.dao.AbstractShardAwareHibernateDao;
 import com.inncretech.source.model.Source;
 
 @Component
-public class SourceDao extends AbstractShardAwareHibernateDao<Source> {
+public class SourceUserShardDao extends AbstractShardAwareHibernateDao<Source> {
 
-  public SourceDao() {
-    super(Source.class, ShardType.SOURCE);
+  public SourceUserShardDao() {
+    super(Source.class, ShardType.USER);
   }
 
   public Source createSource(Source source) {

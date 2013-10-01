@@ -47,7 +47,8 @@ public class DefaultUserServiceImplTask2Test  {
 
 	@Before
 	public void setUp() {
-		dbUtility.cleanUpdb();
+	  String[] tablesToBeDeleted = {"user"};
+		dbUtility.cleanUpdb(tablesToBeDeleted);
 
 	}
 
