@@ -4,7 +4,6 @@ import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
 
-import com.inncretech.core.model.ShardEntity;
 import org.hibernate.Criteria;
 import org.hibernate.Query;
 import org.hibernate.Session;
@@ -47,57 +46,68 @@ public abstract class GenericUserShardDaoImpl<T extends BaseEntity, PK extends S
 		this.shardType = ShardType.USER;
 	}
 
+	@Override
 	public Class<T> getPersistentClass() {
 		return this.clazz;
 	}
 
+	@Override
 	@ShardAware(shardStrategy = "entityid", shardType = ShardType.USER)
 	public void delete(T persistentObject) {
 		getSession(persistentObject.getId()).delete(persistentObject);
 	}
 
+	@Override
 	@ShardAware(shardStrategy = "entityid", shardType = ShardType.USER)
 	public void delete(PK id) {
 		getSession((Long) id).delete(load(id));
 	}
 
+	@Override
 	@SuppressWarnings("unchecked")
 	public T load(PK id) {
 		return (T) getSession((Long) id).load(this.clazz, id);
 	}
 
+	@Override
 	@SuppressWarnings("unchecked")
 	@ShardAware(shardStrategy = "entityid", shardType = ShardType.USER)
 	public T get(PK id) {
 		return (T) getSession((Long) id).get(this.clazz, id);
 	}
 
+	@Override
 	@SuppressWarnings("unchecked")
 	@ShardAware(shardStrategy = "entityid", shardType = ShardType.USER)
-	public PK save(Long id, T o) {
-		return (PK) getSession(id).save(o);
+	public PK save(T o) {
+		return (PK) getSession(o.getId()).save(o);
 	}
 
+	@Override
 	@ShardAware(shardStrategy = "entityid", shardType = ShardType.USER)
 	public void refresh(T o) {
 		getSession(o.getId()).refresh(o);
 	}
 
+	@Override
 	@ShardAware(shardStrategy = "entityid", shardType = ShardType.USER)
 	public void saveOrUpdate(T o) {
 		getSession(o.getId()).saveOrUpdate(o);
 	}
-
+	
+	@Override
 	@ShardAware(shardStrategy = "entityid", shardType = ShardType.USER)
 	public void update(T o) {
 		getSession(o.getId()).update(o);
 	}
 
+	@Override
 	@ShardAware(shardStrategy = "shardid", shardType = ShardType.USER)
 	public Query getQuery(Integer shardId, String s) {
 		return getCurrentSessionByShard(shardId).createQuery(s);
 	}
 
+	@Override
 	@SuppressWarnings("unchecked")
 	@ShardAware(shardStrategy = "shardid", shardType = ShardType.USER)
 	public List<T> findByCriteria(Integer shardId, Criterion... criterion) {
@@ -109,16 +119,19 @@ public abstract class GenericUserShardDaoImpl<T extends BaseEntity, PK extends S
 		return crit.list();
 	}
 
+	@Override
 	@ShardAware(shardStrategy = "shardid", shardType = ShardType.USER)
 	public List<T> findAll(Integer shardId) {
 		return findByCriteria(shardId);
 	}
 
+	@Override
 	@ShardAware(shardStrategy = "entityid", shardType = ShardType.USER)
 	public void evict(T obj) {
 		getSession(obj.getId()).evict(obj);
 	}
 
+	@Override
 	@SuppressWarnings("unchecked")
 	@ShardAware(shardStrategy = "shardid", shardType = ShardType.USER)
 	public List<T> findByExample(Integer shardId, T exampleInstance, String... excludeProperty) {
@@ -136,6 +149,7 @@ public abstract class GenericUserShardDaoImpl<T extends BaseEntity, PK extends S
 		return sessionFactory.getCurrentSession();
 	}
 
+	@Override
 	public Map<Integer, List<Long>> bucketizeEntites(List<Long> entityIds) {
 		return idGenService.bucketizeEntites(entityIds, getShardType());
 	}

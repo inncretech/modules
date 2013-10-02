@@ -15,6 +15,11 @@ import org.joda.time.DateTime;
 @MappedSuperclass
 public abstract class AbstractMutableEntity extends AbstractImmutatableEntity {
 
+  /**
+   * Serialization version ID 
+   */
+  private static final long serialVersionUID = 1L;
+	
   @Type(type="myDateTime")
   @Basic(optional = false)
   @Column(name = "updated_at", nullable = false)

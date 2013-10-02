@@ -7,11 +7,15 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 import com.inncretech.core.model.IdEntity;
-import com.inncretech.core.model.ShardEntity;
 
 @Entity
 public class IdEntry implements IdEntity {
 
+  /**
+   * Serialization version ID 
+   */
+  private static final long serialVersionUID = 1L;
+	
   private Long id;
 
   @Id

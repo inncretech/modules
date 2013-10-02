@@ -11,7 +11,7 @@ import java.util.List;
 @Transactional
 public interface GenericDAO<T extends BaseEntity, PK extends Serializable> {
 
-  PK save(PK id, T newInstance);
+  PK save(T newInstance);
 
   void saveOrUpdate(T transientObject);
 

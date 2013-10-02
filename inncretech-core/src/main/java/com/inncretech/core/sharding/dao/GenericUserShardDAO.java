@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Map;
 
 import com.inncretech.core.model.BaseEntity;
-import com.inncretech.core.model.ShardEntity;
 import org.hibernate.Query;
 import org.hibernate.criterion.Criterion;
 
@@ -22,9 +21,9 @@ public interface GenericUserShardDAO<T extends BaseEntity, PK extends Serializab
   /**
    * Persist the newInstance object into database.
    * 
-   **/
+   */
   @ShardAware(shardStrategy = "entityid", shardType = ShardType.USER)
-  PK save(PK id, T newInstance);
+  PK save(T newInstance);
 
   /**
    * Save or update.

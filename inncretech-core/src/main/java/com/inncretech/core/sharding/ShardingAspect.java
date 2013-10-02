@@ -2,7 +2,6 @@ package com.inncretech.core.sharding;
 
 import java.lang.reflect.Method;
 
-import com.inncretech.core.model.BaseEntity;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
@@ -16,7 +15,6 @@ import org.springframework.transaction.interceptor.TransactionAspectSupport;
 import org.springframework.transaction.interceptor.TransactionAttribute;
 
 import com.inncretech.core.model.IdEntity;
-import com.inncretech.core.model.ShardEntity;
 
 @Aspect
 @Component
@@ -37,7 +35,7 @@ public class ShardingAspect extends TransactionAspectSupport {
     try {
       MethodSignature methodSignature = (MethodSignature) jointPoint.getSignature();
       Method method = methodSignature.getMethod();
-      TransactionInfo txInfo = createTransactionIfNecessary(method, txObject, jointPoint);
+      createTransactionIfNecessary(method, txObject, jointPoint);
       System.out.println("Calling beforeStartTx: " + method.getName());
       Object result = jointPoint.proceed();
       commitTransactionAfterReturning(TransactionAspectSupport.currentTransactionInfo());
