@@ -44,7 +44,7 @@ public class DefaultTagServiceImpl implements TagService {
   public void tagSource(Long sourceId, Long userId, Long tagId) {
     Tag readTag = tagDao.get(tagId);
     SourceTag sourceTag = new SourceTag();
-    sourceTag.setId(idGenerator.getIdOnShard(idGenerator.getShardId(sourceId, ShardType.SOURCE)));
+    sourceTag.setId(idGenerator.getNewIdOnSourceShard(sourceId));
     sourceTag.setSourceId(sourceId);
     sourceTag.setUserId(userId);
     sourceTag.setTagId(readTag.getId());

@@ -13,6 +13,8 @@ public interface IdGenerator {
   
   public Map<Integer, List<Long>> bucketizeEntites(List<Long> entityIds, ShardType shardType);
   
-  public Long getIdOnShard(Integer shardId);
+  public Long getNewIdOnUserShard(Long entityId);
+
+  public Long getNewIdOnSourceShard(Long entityId);
 
 }

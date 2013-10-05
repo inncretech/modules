@@ -26,7 +26,7 @@ public class CommentServiceImpl implements CommentService {
   @Override
   public Comment create(Long sourceId, String commentText, Long createdBy, Long parentCommentId) {
     Comment comment = new Comment();
-    comment.setId(idGenerator.getIdOnShard(idGenerator.getShardId(sourceId, ShardType.SOURCE)));
+    comment.setId(idGenerator.getNewIdOnSourceShard(sourceId));
     comment.setCreatedBy(createdBy);
     comment.setCommentText(commentText);
     comment.setCommentParentId(parentCommentId);

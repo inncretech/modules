@@ -18,11 +18,11 @@ public class IdGeneratorImpl implements IdGenerator {
 
   @Autowired
   private ShardConfigDao shardConfigDao;
-  
+
   private Random random = new Random();
-  
+
   private static final int TIME_BITS = 41;
-  
+
   private static final int SHARD_BITS = 13;
 
   @Autowired
@@ -34,14 +34,6 @@ public class IdGeneratorImpl implements IdGenerator {
 
   public Long getNewSourceId() {
     return get(ShardType.SOURCE);
-  }
-
-  public Long getSourceRelationId(Long sourceId) {
-    return null;
-  }
-
-  public Long getUserRelationId(Long userId) {
-    return null;
   }
 
   private Long get(ShardType shardType) {
@@ -64,6 +56,14 @@ public class IdGeneratorImpl implements IdGenerator {
     newId = newId >> 10;
     newId = newId & 0X3FFL;
     return newId.intValue() + shardType.getBaseId();
+  }
+
+  public Long getNewIdOnSourceShard(Long entityId) {
+    return getIdOnShard(getShardId(entityId, ShardType.SOURCE));
+  }
+
+  public Long getNewIdOnUserShard(Long entityId) {
+    return getIdOnShard(getShardId(entityId, ShardType.USER));
   }
 
   public Long getIdOnShard(Integer shardId) {
