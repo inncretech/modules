@@ -2,6 +2,7 @@ package com.inncretech.tag.dao;
 
 import java.util.List;
 
+import com.inncretech.core.sharding.dao.GenericSourceShardDaoImpl;
 import org.hibernate.Query;
 import org.springframework.stereotype.Component;
 
@@ -12,10 +13,10 @@ import com.inncretech.tag.model.SourceTag;
 import com.inncretech.tag.model.Tag;
 
 @Component
-public class SourceTagDao extends AbstractShardAwareHibernateDao<SourceTag> {
+public class SourceTagDao extends GenericSourceShardDaoImpl<SourceTag, Long> {
 
 	public SourceTagDao() {
-		super(SourceTag.class, ShardType.SOURCE);
+		super(SourceTag.class);
 	}
 
 	@ShardAware(shardStrategy = "entityid", shardType = ShardType.SOURCE)
@@ -25,7 +26,7 @@ public class SourceTagDao extends AbstractShardAwareHibernateDao<SourceTag> {
 
 	@SuppressWarnings("unchecked")
 	public List<SourceTag> getTagsOfSource(Long sourceId) {
-		Query query = getCurrentSession(sourceId).createQuery(
+		Query query = getQuery(getIdGenService().getShardId(sourceId, ShardType.SOURCE),
 				"from SourceTag where sourceId= :id").setParameter("id",
 				sourceId);
 		return query.list();
@@ -37,7 +38,7 @@ public class SourceTagDao extends AbstractShardAwareHibernateDao<SourceTag> {
 
 	@ShardAware(shardStrategy = "entityid", shardType = ShardType.SOURCE)
 	public void removeTagFromSource(Long sourceId, Long tagId) {
-		Query query = getCurrentSession(sourceId).createSQLQuery(
+		Query query = getQuery(getIdGenService().getShardId(sourceId, ShardType.SOURCE),
 				"update source_tag set record_status= :record_status"
 						+ " where source_id= :source_id"
 						+ " and tag_id= :tag_id");

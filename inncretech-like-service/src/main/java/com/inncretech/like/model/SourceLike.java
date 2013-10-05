@@ -4,7 +4,6 @@ import javax.persistence.*;
 
 import com.inncretech.core.model.AbstractImmutatableEntity;
 import com.inncretech.core.model.IdEntity;
-import com.inncretech.core.model.ShardEntity;
 
 @Entity
 public class SourceLike extends AbstractImmutatableEntity {

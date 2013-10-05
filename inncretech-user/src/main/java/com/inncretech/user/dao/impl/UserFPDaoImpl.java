@@ -15,7 +15,7 @@ public class UserFPDaoImpl extends GenericDAOImpl<UserForgotPassword, Long> impl
   }
 
   public UserForgotPassword getDateForRandomString(UserForgotPassword obj) {
-    Query q = getSession().createQuery("from UserForgetPwd where rndString = ?");
+    Query q = getSession().createQuery("from UserForgotPassword where rndString = ?");
     q.setString(0, obj.getRndString());
     return (UserForgotPassword) q.uniqueResult();
   }

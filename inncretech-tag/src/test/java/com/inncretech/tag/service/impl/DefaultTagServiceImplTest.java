@@ -2,6 +2,7 @@ package com.inncretech.tag.service.impl;
 
 import java.util.List;
 
+import com.inncretech.core.test.TestUtil;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +18,7 @@ import com.inncretech.tag.service.TagService;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "/applicationcontext-tag.xml" })
 @Service
-public class DefaultTagServiceImplTest extends TestTagUtil {
+public class DefaultTagServiceImplTest{
 
   @Autowired
   private TagService tagService;
@@ -26,7 +27,7 @@ public class DefaultTagServiceImplTest extends TestTagUtil {
   private IdGenerator idGenerator;
 
   @Autowired
-  private TestTagUtil dbUtility;
+  private TestUtil testUtil;
 
   @Test
   public void testTagSource() {

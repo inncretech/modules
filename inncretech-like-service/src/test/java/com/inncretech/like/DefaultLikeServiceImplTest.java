@@ -1,9 +1,12 @@
 package com.inncretech.like;
 
 
-import java.util.List;
-import static org.junit.Assert.assertEquals;
-
+import com.inncretech.core.BaseTest;
+import com.inncretech.core.test.TestUtil;
+import com.inncretech.like.dao.SourceLikeDao;
+import com.inncretech.like.model.LikeType;
+import com.inncretech.like.model.SourceLike;
+import com.inncretech.like.service.LikeService;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -11,13 +14,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import com.inncretech.core.BaseTest;
-import com.inncretech.core.model.AccessContext;
-import com.inncretech.core.test.TestUtil;
-import com.inncretech.like.dao.SourceLikeDao;
-import com.inncretech.like.model.LikeType;
-import com.inncretech.like.model.SourceLike;
-import com.inncretech.like.service.LikeService;
+import java.util.List;
+
+import static org.junit.Assert.assertEquals;
 
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -36,7 +35,6 @@ public class DefaultLikeServiceImplTest extends BaseTest{
  
     long srcID= srcDAO.getIdGenService().getNewSourceId();
     long usrID =srcDAO.getIdGenService().getNewUserId();
-    AccessContext.set(usrID, null);
     likeService.likeSource(srcID,LikeType.LIKE, usrID);
     
   }
@@ -45,7 +43,6 @@ public class DefaultLikeServiceImplTest extends BaseTest{
  
     long srcID= srcDAO.getIdGenService().getNewSourceId();
     long usrID =srcDAO.getIdGenService().getNewUserId();
-    AccessContext.set(usrID, null);
     likeService.likeSource(srcID,LikeType.UNLIKE, usrID);
     
   }
@@ -54,7 +51,6 @@ public class DefaultLikeServiceImplTest extends BaseTest{
  
     long srcID= srcDAO.getIdGenService().getNewSourceId();
     long usrID =srcDAO.getIdGenService().getNewUserId();
-    AccessContext.set(usrID, null);
     likeService.likeSource(srcID,LikeType.UNLIKE, usrID);
     List<SourceLike> lstSourceLike =  likeService.getAllLikesBySource(srcID);
     
@@ -68,7 +64,6 @@ public class DefaultLikeServiceImplTest extends BaseTest{
 
         long srcID= srcDAO.getIdGenService().getNewSourceId();
         long usrID =srcDAO.getIdGenService().getNewUserId();
-        AccessContext.set(usrID, null);
         likeService.likeSource(srcID,LikeType.UNLIKE, usrID);
         List<SourceLike> lstSourceLike =  likeService.getAllLikeByUser(usrID);
 

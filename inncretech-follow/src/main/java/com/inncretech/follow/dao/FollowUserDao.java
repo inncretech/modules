@@ -2,6 +2,7 @@ package com.inncretech.follow.dao;
 
 import java.util.Collection;
 
+import com.inncretech.core.sharding.dao.GenericUserShardDaoImpl;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +16,7 @@ import com.inncretech.core.sharding.dao.ShardConfigDao;
 import com.inncretech.follow.model.FollowUser;
 
 @Component
-public class FollowUserDao extends AbstractShardAwareHibernateDao<FollowUser> {
+public class FollowUserDao extends GenericUserShardDaoImpl<FollowUser, Long> {
 
 	@Autowired
 	private ShardConfigDao shardConfigDao;
@@ -24,7 +25,7 @@ public class FollowUserDao extends AbstractShardAwareHibernateDao<FollowUser> {
 	private HibernateSessionFactoryManager hibernateSessionFactoryManager;
 
 	public FollowUserDao() {
-		super(FollowUser.class, ShardType.USER);
+		super(FollowUser.class);
 	}
 
 	@ShardAware(shardStrategy = "entityid", shardType = ShardType.USER)

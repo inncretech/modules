@@ -16,17 +16,17 @@ public class UserForgotPasswordLookup extends BaseEntity{
   private Long id;
 
   @Column
-  private String key;
+  private String fortgotPasswordKey;
 
   @Column
   private Long userId;
 
-  public String getKey() {
-    return key;
+  public String getFortgotPasswordKey() {
+    return fortgotPasswordKey;
   }
 
-  public void setKey(String key) {
-    this.key = key;
+  public void setFortgotPasswordKey(String fortgotPasswordKey) {
+    this.fortgotPasswordKey = fortgotPasswordKey;
   }
 
   public Long getUserId() {

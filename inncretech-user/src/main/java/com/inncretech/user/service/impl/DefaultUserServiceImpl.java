@@ -64,7 +64,7 @@ public class DefaultUserServiceImpl implements UserService {
   }
 
   @ShardAware(shardStrategy = "entityid", shardType = ShardType.USER)
-  public void UpdateUser(User user) {
+  public void UpdateName(User user) {
     User readUser = userDao.get(user.getId());
     readUser.setFirstName(user.getFirstName());
     readUser.setLastName(user.getLastName());
@@ -95,7 +95,7 @@ public class DefaultUserServiceImpl implements UserService {
     userFPDao.save(ufp);
 
     UserForgotPasswordLookup ufpLookup = new UserForgotPasswordLookup();
-    ufpLookup.setKey(token);
+    ufpLookup.setFortgotPasswordKey(token);
     ufpLookup.setUserId(userId);
     userForgotPasswordLookupDao.saveOrUpdate(ufpLookup);
     return ufp;

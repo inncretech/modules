@@ -20,11 +20,6 @@ public class Source extends AbstractImmutatableEntity {
 
   @Column
   private int sourceType = 0;
-  
-  @Transient
-  public Long getShardedColumnValue(){
-    return this.id;
-  }
 
   public Long getId() {
     return id;

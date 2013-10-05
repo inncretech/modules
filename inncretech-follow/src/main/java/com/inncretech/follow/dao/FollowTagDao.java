@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import com.inncretech.core.sharding.dao.GenericSourceShardDaoImpl;
+import com.inncretech.core.sharding.dao.GenericUserShardDaoImpl;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -20,7 +22,7 @@ import com.inncretech.core.sharding.model.ShardConfig;
 import com.inncretech.follow.model.FollowTag;
 
 @Component
-public class FollowTagDao extends AbstractShardAwareHibernateDao<FollowTag> {
+public class FollowTagDao extends GenericUserShardDaoImpl<FollowTag, Long> {
 	@Autowired
 	private ShardConfigDao shardConfigDao;
 
@@ -30,7 +32,7 @@ public class FollowTagDao extends AbstractShardAwareHibernateDao<FollowTag> {
 	private SessionFactory sessionFactory;
 
 	public FollowTagDao() {
-		super(FollowTag.class, ShardType.USER);
+		super(FollowTag.class);
 	}
 
 	@ShardAware(shardStrategy = "entityid", shardType = ShardType.USER)

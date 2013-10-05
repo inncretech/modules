@@ -1,5 +1,6 @@
 package com.inncretech.user.dao.impl;
 
+import com.inncretech.core.sharding.ShardType;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.springframework.stereotype.Component;
@@ -16,10 +17,7 @@ public class UserDaoImpl extends GenericUserShardDaoImpl<User, Long> implements 
     super(User.class);
   }
 
-  /**
-   * Assuming that only one user will exists for a given email
-   */
-  @ShardAware(shardStrategy = "shardid")
+  @ShardAware(shardStrategy = "shardid", shardType = ShardType.USER)
   public User getUser(Integer shardId, String emailID) {
     Session sess = getCurrentSessionByShard(shardId);
     Query query = sess.createQuery("from User where email= :email_id").setParameter("email_id", emailID);

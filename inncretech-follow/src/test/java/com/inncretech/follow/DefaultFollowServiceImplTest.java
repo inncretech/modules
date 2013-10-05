@@ -11,11 +11,6 @@ import com.inncretech.core.BaseTest;
 import com.inncretech.core.sharding.IdGenerator;
 import com.inncretech.follow.service.FollowService;
 
-//TODO: Use IdgeneService.getNewSourceId() while passing the source id and user id to the service method.
-// Do not hard code the ids.
-// For getFollow test should first follow it and then getAllthefollowers
-// use asserts to verify if the result of the service returns data correctly.
-
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "/applicationcontext-follow.xml" })
 @Service

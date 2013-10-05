@@ -6,7 +6,7 @@ import com.inncretech.core.sharding.ShardType;
 import com.inncretech.core.sharding.model.IdEntry;
 
 @Component
-public class IdEntryDao extends AbstractShardAwareHibernateDao<IdEntry>{
+public class IdEntryDao extends AbstractShardAwareHibernateDao<IdEntry, Long>{
   
   public IdEntryDao(){
     super(IdEntry.class, ShardType.NOT_KNOWN);

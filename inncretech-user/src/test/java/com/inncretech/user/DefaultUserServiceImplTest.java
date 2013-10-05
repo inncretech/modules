@@ -56,7 +56,7 @@ public class DefaultUserServiceImplTest {
 
     userService.createUser(usr);
     usr.setFirstName("MMK");
-    userService.UpdateUser(usr);
+    userService.UpdateName(usr);
   }
 
   @Test

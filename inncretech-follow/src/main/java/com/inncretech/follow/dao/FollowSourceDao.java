@@ -3,6 +3,7 @@ package com.inncretech.follow.dao;
 import java.util.Collection;
 import java.util.List;
 
+import com.inncretech.core.sharding.dao.GenericSourceShardDaoImpl;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,8 +18,7 @@ import com.inncretech.follow.model.FollowSource;
 import com.inncretech.follow.model.FollowTag;
 
 @Component
-public class FollowSourceDao extends
-		AbstractShardAwareHibernateDao<FollowSource> {
+public class FollowSourceDao extends GenericSourceShardDaoImpl<FollowSource, Long> {
 
 	@Autowired
 	private ShardConfigDao shardConfigDao;
@@ -27,7 +27,7 @@ public class FollowSourceDao extends
 	private HibernateSessionFactoryManager hibernateSessionFactoryManager;
 
 	public FollowSourceDao() {
-		super(FollowSource.class, ShardType.SOURCE);
+		super(FollowSource.class);
 	}
 
 	@ShardAware(shardStrategy = "entityid", shardType = ShardType.SOURCE)
@@ -36,7 +36,7 @@ public class FollowSourceDao extends
 	}
 
 	public List<FollowTag> getFollowersByTag(Long sourceId, Long tagId) {
-		Query query = getCurrentSession(sourceId).createQuery(
+		Query query = getQuery(getIdGenService().getShardId(sourceId, ShardType.SOURCE) ,
 				"from FollowTag where tagId= :tag_id").setParameter("tag_id",
 				tagId);
 		@SuppressWarnings("unchecked")

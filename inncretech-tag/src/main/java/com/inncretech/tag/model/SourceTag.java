@@ -8,7 +8,6 @@ import javax.persistence.Id;
 import javax.persistence.Transient;
 
 import com.inncretech.core.model.BaseEntity;
-import com.inncretech.core.model.ShardEntity;
 
 /**
  * 

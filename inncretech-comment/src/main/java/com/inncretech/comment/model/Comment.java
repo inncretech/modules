@@ -11,7 +11,6 @@ import javax.persistence.Id;
 import javax.persistence.Transient;
 
 import com.inncretech.core.model.AbstractImmutatableEntity;
-import com.inncretech.core.model.ShardEntity;
 
 @Entity(name = "comment")
 public class Comment extends AbstractImmutatableEntity {

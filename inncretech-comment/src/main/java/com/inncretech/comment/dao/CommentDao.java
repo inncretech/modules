@@ -2,6 +2,7 @@ package com.inncretech.comment.dao;
 
 import java.util.List;
 
+import com.inncretech.core.sharding.dao.GenericSourceShardDaoImpl;
 import org.hibernate.Query;
 import org.springframework.stereotype.Component;
 
@@ -11,22 +12,22 @@ import com.inncretech.core.sharding.ShardType;
 import com.inncretech.core.sharding.dao.AbstractShardAwareHibernateDao;
 
 @Component
-public class CommentDao extends AbstractShardAwareHibernateDao<Comment> {
+public class CommentDao extends GenericSourceShardDaoImpl<Comment, Long> {
 
   public CommentDao() {
-    super(Comment.class, ShardType.SOURCE);
+    super(Comment.class);
   }
 
   @ShardAware(shardStrategy = "entityid", shardType = ShardType.SOURCE)
   public Comment createComment(Long sourceId, Comment obj) {
-    getCurrentSession(sourceId).save(obj);
+    save(obj);
     return obj;
   }
 
   @SuppressWarnings("unchecked")
   @ShardAware(shardStrategy = "entityid", shardType = ShardType.SOURCE)
   public List<Comment> getComments(Long sourceId) {
-    Query q = getCurrentSession(sourceId).createQuery("from comment where sourceId = ?");
+    Query q = getQuery(getIdGenService().getShardId(sourceId, ShardType.SOURCE) , "from comment where sourceId = ?");
     q.setParameter(0, sourceId);
     return q.list();
   }

@@ -6,7 +6,6 @@ import javax.persistence.Id;
 import javax.persistence.Transient;
 
 import com.inncretech.core.model.AbstractMutableEntity;
-import com.inncretech.core.model.ShardEntity;
 
 @Entity
 public class User extends AbstractMutableEntity {

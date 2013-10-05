@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import com.inncretech.core.sharding.dao.GenericSourceShardDaoImpl;
 import com.inncretech.core.sharding.dao.ShardConfigDao;
 import com.inncretech.core.sharding.model.ShardConfig;
 import org.hibernate.Query;
@@ -16,17 +17,17 @@ import com.inncretech.core.sharding.dao.AbstractShardAwareHibernateDao;
 import com.inncretech.like.model.SourceLike;
 
 @Component
-public class SourceLikeDao extends AbstractShardAwareHibernateDao<SourceLike> {
+public class SourceLikeDao extends GenericSourceShardDaoImpl<SourceLike, Long> {
 
   @Autowired
   private ShardConfigDao shardConfigDao;
 
   public SourceLikeDao() {
-    super(SourceLike.class, ShardType.SOURCE);
+    super(SourceLike.class);
   }
   @ShardAware(shardStrategy="entityid", shardType=ShardType.SOURCE)
   public List<SourceLike> getAllLikes(Long objectId) {
-    Query q = getCurrentSession(objectId).createQuery("from SourceLike where objectId = ?");
+    Query q = getQuery(getIdGenService().getShardId(objectId, ShardType.SOURCE) , "from SourceLike where objectId = ?");
     q.setParameter(0, objectId);
     return q.list();
   }
@@ -52,7 +53,7 @@ public class SourceLikeDao extends AbstractShardAwareHibernateDao<SourceLike> {
   @ShardAware(shardStrategy="entityid", shardType=ShardType.SOURCE)
   public SourceLike likeObject(SourceLike obj)
   {
-    getCurrentSession(obj.getObjectId()).save(obj);
+    save(obj);
     return obj;
   }
 
