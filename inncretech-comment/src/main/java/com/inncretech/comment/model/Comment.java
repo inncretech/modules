@@ -14,10 +14,10 @@ import com.inncretech.core.model.AbstractImmutatableEntity;
 import com.inncretech.core.model.ShardEntity;
 
 @Entity(name = "comment")
-public class Comment extends AbstractImmutatableEntity implements ShardEntity {
+public class Comment extends AbstractImmutatableEntity {
 
   @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  @Column
   private Long id;
 
   @Column
@@ -70,11 +70,6 @@ public class Comment extends AbstractImmutatableEntity implements ShardEntity {
 
   public void setChildComments(List<Comment> childComments) {
     this.childComments = childComments;
-  }
-
-  @Transient
-  public Long getShardedColumnValue() {
-    return this.sourceId;
   }
 
   @Override

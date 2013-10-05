@@ -87,6 +87,7 @@ public class DefaultUserServiceImpl implements UserService {
 
   private UserForgotPassword saveForgotPasswordRequest(Long userId, String token){
     UserForgotPassword ufp = new UserForgotPassword();
+    ufp.setId(idGenerator.getIdOnShard(idGenerator.getShardId(userId, ShardType.USER)));
     ufp.setUserId(userId);
     ufp.setRndString(token);
     ufp.setDateRndString(new DateTime());

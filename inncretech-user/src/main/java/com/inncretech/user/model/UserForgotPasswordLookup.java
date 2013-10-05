@@ -4,12 +4,14 @@ import com.inncretech.core.model.BaseEntity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
 @Entity
 public class UserForgotPasswordLookup extends BaseEntity{
 
   @Id
+  @GeneratedValue
   @Column
   private Long id;
 

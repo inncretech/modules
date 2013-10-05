@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 public interface  IdEntity extends Serializable {
 
-  public abstract Long getId();
+   Long getId();
 
-  public abstract void setId(Long id);
+   void setId(Long id);
 }

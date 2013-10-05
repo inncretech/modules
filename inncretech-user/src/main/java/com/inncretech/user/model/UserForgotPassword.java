@@ -14,7 +14,6 @@ import com.inncretech.core.model.AbstractMutableEntity;
 public class UserForgotPassword extends AbstractMutableEntity{
 
   @Id
-  @GeneratedValue
   @Column
   private Long id;
 

@@ -13,13 +13,16 @@ import com.inncretech.core.model.ShardEntity;
 @Entity
 public class FollowUser extends BaseEntity {
 
+  @Id
+  @Column
 	private Long id;
+
+  @Column
 	private Long userId;
+
+  @Column
 	private Long followerId;
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column
 	public Long getId() {
 		return id;
 	}
@@ -28,7 +31,6 @@ public class FollowUser extends BaseEntity {
 		this.id = id;
 	}
 
-	@Column
 	public Long getUserId() {
 		return userId;
 	}
@@ -37,18 +39,12 @@ public class FollowUser extends BaseEntity {
 		this.userId = userId;
 	}
 
-	@Column
 	public Long getFollowerId() {
 		return followerId;
 	}
 
 	public void setFollowerId(Long followerId) {
 		this.followerId = followerId;
-	}
-
-	@Transient
-	public Long getShardedColumnValue() {
-		return userId;
 	}
 
 }

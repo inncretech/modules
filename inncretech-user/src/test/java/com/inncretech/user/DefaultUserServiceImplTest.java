@@ -1,6 +1,8 @@
 package com.inncretech.user;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 import org.joda.time.DateTime;
 import org.junit.Before;
@@ -34,7 +36,9 @@ public class DefaultUserServiceImplTest {
   public void createUser() {
     for (int i = 0; i < 5; i++) {
       User usr = createTestUser("Mahesh", "Kumar", "mmk@gmail.com", "mmk123", "mm111", "mmk@facebook", "mmk@twitter", "mmk@gooogle");
-      userService.createUser(usr);
+      User returnUser = userService.createUser(usr);
+      assertTrue(returnUser.getId() > 0);
+      assertEquals("Mahesh" ,returnUser.getFirstName());
     }
   }
 

@@ -5,6 +5,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.inncretech.core.sharding.IdGenerator;
+import com.inncretech.core.sharding.ShardType;
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,9 +20,13 @@ public class CommentServiceImpl implements CommentService {
   @Autowired
   private CommentDao commentDao;
 
+  @Autowired
+  private IdGenerator idGenerator;
+
   @Override
   public Comment create(Long sourceId, String commentText, Long createdBy, Long parentCommentId) {
     Comment comment = new Comment();
+    comment.setId(idGenerator.getIdOnShard(idGenerator.getShardId(sourceId, ShardType.SOURCE)));
     comment.setCreatedBy(createdBy);
     comment.setCommentText(commentText);
     comment.setCommentParentId(parentCommentId);
