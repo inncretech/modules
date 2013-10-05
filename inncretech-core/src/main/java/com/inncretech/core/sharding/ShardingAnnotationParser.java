@@ -13,6 +13,11 @@ import org.springframework.transaction.interceptor.TransactionAttribute;
 
 public class ShardingAnnotationParser implements TransactionAnnotationParser, Serializable {
 
+  /**
+   * Serialization version ID 
+   */
+  private static final long serialVersionUID = 1L;
+	
   public TransactionAttribute parseTransactionAnnotation(AnnotatedElement ae) {
     ShardAware ann = AnnotationUtils.getAnnotation(ae, ShardAware.class);
     if (ann != null) {
@@ -30,8 +35,8 @@ public class ShardingAnnotationParser implements TransactionAnnotationParser, Se
     rbta.setReadOnly(ann.readOnly());
     rbta.setQualifier(ann.value());
     ArrayList<RollbackRuleAttribute> rollBackRules = new ArrayList<RollbackRuleAttribute>();
-    Class[] rbf = ann.rollbackFor();
-    for (Class rbRule : rbf) {
+    Class<? extends Throwable>[] rbf = ann.rollbackFor();
+    for (Class<? extends Throwable> rbRule : rbf) {
       RollbackRuleAttribute rule = new RollbackRuleAttribute(rbRule);
       rollBackRules.add(rule);
     }
@@ -40,8 +45,8 @@ public class ShardingAnnotationParser implements TransactionAnnotationParser, Se
       RollbackRuleAttribute rule = new RollbackRuleAttribute(rbRule);
       rollBackRules.add(rule);
     }
-    Class[] nrbf = ann.noRollbackFor();
-    for (Class rbRule : nrbf) {
+    Class<? extends Throwable>[] nrbf = ann.noRollbackFor();
+    for (Class<? extends Throwable> rbRule : nrbf) {
       NoRollbackRuleAttribute rule = new NoRollbackRuleAttribute(rbRule);
       rollBackRules.add(rule);
     }

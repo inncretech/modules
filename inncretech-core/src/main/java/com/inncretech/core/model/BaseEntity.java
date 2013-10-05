@@ -28,8 +28,12 @@ import javax.persistence.Transient;
 @MappedSuperclass
 public abstract class BaseEntity implements IdEntity, Serializable {
 
+  /**
+   * Serialization version ID 
+   */
+  private static final long serialVersionUID = 1L;
 
-  @Override
+@Override
   public boolean equals(Object obj) {
     if (this == obj)
       return true;

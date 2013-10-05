@@ -13,6 +13,11 @@ import org.joda.time.DateTime;
   @Parameter(value = "UTC", name = "databaseZone"), @Parameter(value = "UTC", name = "javaZone") })
 @MappedSuperclass
 public abstract class AbstractImmutatableEntity extends BaseEntity {
+	
+  /**
+   * Serialization version ID 
+   */
+  private static final long serialVersionUID = 1L;
 
   @Type(type="myDateTime")
   @Column()

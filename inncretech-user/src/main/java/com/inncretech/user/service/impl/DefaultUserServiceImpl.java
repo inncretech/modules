@@ -1,13 +1,10 @@
 package com.inncretech.user.service.impl;
 
-import java.util.UUID;
-
 import com.inncretech.user.dao.UserForgotPasswordLookupDao;
 import com.inncretech.user.model.UserForgotPassword;
 import com.inncretech.user.model.UserForgotPasswordLookup;
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.codec.Base64;
 import org.springframework.stereotype.Service;
 
 import com.inncretech.core.sharding.IdGenerator;
@@ -57,12 +54,12 @@ public class DefaultUserServiceImpl implements UserService {
 
   public User createUser(User user) {
     user.setId(idGenerator.getNewUserId());
-    userDao.save(user.getId(), user);
+    userDao.save(user);
     return user;
   }
 
   public UserProfile createUserProfile(UserProfile userProfile) {
-    userProfileDao.save(userProfile.getUserId(), userProfile);
+    userProfileDao.save(userProfile);
     return userProfile;
   }
 
@@ -80,7 +77,7 @@ public class DefaultUserServiceImpl implements UserService {
   public UserProfile updateProfile(Long UserID, UserProfile profile) {
     UserProfile readProfile = userProfileDao.load(profile.getUserId());
     readProfile.setLongBio(profile.getLongBio());
-    userProfileDao.save(profile.getUserId(), readProfile);
+    userProfileDao.save(readProfile);
     return readProfile;
 
   }
@@ -95,7 +92,7 @@ public class DefaultUserServiceImpl implements UserService {
     ufp.setUpdatedAt(new DateTime());
     ufp.setCreatedBy(userId);
     ufp.setUpdatedBy(userId);
-    userFPDao.save(ufp.getUserId(), ufp);
+    userFPDao.save(ufp);
 
     UserForgotPasswordLookup ufpLookup = new UserForgotPasswordLookup();
     ufpLookup.setKey(token);
