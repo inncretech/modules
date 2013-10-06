@@ -4,7 +4,6 @@ import com.inncretech.core.sharding.ShardAware;
 import com.inncretech.core.sharding.ShardType;
 import com.inncretech.user.model.User;
 import com.inncretech.user.model.UserForgotPassword;
-import com.inncretech.user.model.UserProfile;
 import org.springframework.transaction.annotation.Transactional;
 
 public interface UserService {
@@ -20,8 +19,6 @@ public interface UserService {
   @ShardAware(shardStrategy = "entityid", shardType = ShardType.USER)
   void UpdateName(User user);
 
-  @ShardAware(shardStrategy = "entityid", shardType = ShardType.USER)
-  UserProfile updateProfile(Long UserID, UserProfile profile);
 
   void updateFacebookInfo(String facebookId);
 

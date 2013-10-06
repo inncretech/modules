@@ -14,9 +14,7 @@ import com.inncretech.core.sharding.ShardAware;
 import com.inncretech.core.sharding.ShardType;
 import com.inncretech.user.dao.UserDao;
 import com.inncretech.user.dao.UserFPDao;
-import com.inncretech.user.dao.UserProfileDao;
 import com.inncretech.user.model.User;
-import com.inncretech.user.model.UserProfile;
 import com.inncretech.user.service.FacebookMemberService;
 import com.inncretech.user.service.UserService;
 import org.springframework.transaction.annotation.Transactional;
@@ -29,9 +27,6 @@ public class DefaultUserServiceImpl implements UserService {
 
   @Autowired
   private UserDao userDao;
-
-  @Autowired
-  private UserProfileDao userProfileDao;
 
   @Autowired
   private UserFPDao userFPDao;
@@ -67,27 +62,12 @@ public class DefaultUserServiceImpl implements UserService {
     return user;
   }
 
-  public UserProfile createUserProfile(UserProfile userProfile) {
-    userProfileDao.save(userProfile);
-    return userProfile;
-  }
-
   @ShardAware(shardStrategy = "entityid", shardType = ShardType.USER)
   public void UpdateName(User user) {
     User readUser = userDao.get(user.getId());
     readUser.setFirstName(user.getFirstName());
     readUser.setLastName(user.getLastName());
     userDao.update(readUser);
-
-  }
-
-  @Override
-  @ShardAware(shardStrategy = "entityid", shardType = ShardType.USER)
-  public UserProfile updateProfile(Long UserID, UserProfile profile) {
-    UserProfile readProfile = userProfileDao.load(profile.getUserId());
-    readProfile.setLongBio(profile.getLongBio());
-    userProfileDao.save(readProfile);
-    return readProfile;
 
   }
 

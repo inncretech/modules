@@ -10,7 +10,7 @@
   <name>Inncretech core modules</name>
   <properties>
       <profile>dev</profile>
-      <hibernate.version>4.3.1.Final</hibernate.version>
+      <hibernate.version>4.2.6.Final</hibernate.version>
       <spring.version>3.2.4.RELEASE</spring.version>
   </properties>
 

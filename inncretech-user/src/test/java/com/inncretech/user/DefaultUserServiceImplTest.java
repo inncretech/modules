@@ -14,7 +14,6 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import com.inncretech.core.test.TestUtil;
 import com.inncretech.user.model.User;
 import com.inncretech.user.model.UserForgotPassword;
-import com.inncretech.user.model.UserProfile;
 import com.inncretech.user.service.UserService;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -82,12 +81,5 @@ public class DefaultUserServiceImplTest {
     usr.setUpdatedAt(new DateTime());
     return usr;
 
-  }
-
-  UserProfile CreateTestProfile(String shortBio, String longBio) {
-    UserProfile usrprf = new UserProfile();
-    usrprf.setLongBio(longBio);
-    usrprf.setShortBio(shortBio);
-    return usrprf;
   }
 }
