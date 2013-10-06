@@ -3,6 +3,8 @@ package com.inncretech.user.service.impl;
 import com.inncretech.user.dao.UserForgotPasswordLookupDao;
 import com.inncretech.user.model.UserForgotPassword;
 import com.inncretech.user.model.UserForgotPasswordLookup;
+import com.inncretech.user.model.UserStatus;
+
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -47,6 +49,12 @@ public class DefaultUserServiceImpl implements UserService {
   public User get(Long userId) {
     return userDao.get(userId);
   }
+  
+  
+  public void activateNewUser(Long userId){
+    User user = userDao.load(userId);
+    userDao.activateUser(user);
+  }
 
   public User getByEmailId(String emailId) {
     return null;
@@ -54,6 +62,7 @@ public class DefaultUserServiceImpl implements UserService {
 
   public User createUser(User user) {
     user.setId(idGenerator.getNewUserId());
+    user.setRecordStatus(UserStatus.INACTIVE.getId());
     userDao.save(user);
     return user;
   }
