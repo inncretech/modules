@@ -58,6 +58,8 @@ public class DefaultUserServiceImpl implements UserService {
   public User createUser(User user) {
     user.setId(idGenerator.getNewUserId());
     user.setRecordStatus(UserStatus.INACTIVE.getId());
+    user.setCreatedAt(new DateTime());
+    user.setUpdatedAt(new DateTime());
     userDao.save(user);
     return user;
   }
@@ -67,6 +69,7 @@ public class DefaultUserServiceImpl implements UserService {
     User readUser = userDao.get(user.getId());
     readUser.setFirstName(user.getFirstName());
     readUser.setLastName(user.getLastName());
+    readUser.setUpdatedAt(new DateTime());
     userDao.update(readUser);
 
   }
