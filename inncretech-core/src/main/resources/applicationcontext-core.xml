@@ -51,6 +51,7 @@
     <property name="packagesToScan">
       <list>
         <value>com.inncretech</value>
+        <value> ${db.packages:com.inncretech}</value>
       </list>
     </property>
 
