@@ -56,8 +56,7 @@ public class DefaultUserServiceImpl implements UserService {
   }
 
   public User createUser(User user) {
-    user.setId(idGenerator.getNewUserId());
-    user.setRecordStatus(UserStatus.INACTIVE.getId());
+    user.setRecordStatus(UserStatus.ACTIVE.getId());
     user.setCreatedAt(new DateTime());
     user.setUpdatedAt(new DateTime());
     userDao.save(user);

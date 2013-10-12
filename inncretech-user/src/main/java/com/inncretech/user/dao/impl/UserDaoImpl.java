@@ -27,7 +27,7 @@ public class UserDaoImpl extends GenericUserShardDaoImpl<User, Long> implements 
   
   public void activateUser(User user)
   {
-    user.setRecordStatus(UserStatus.INACTIVE.getId());
+    user.setRecordStatus(UserStatus.ACTIVE.getId());
     saveOrUpdate(user);
   }
 }
