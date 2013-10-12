@@ -1,10 +1,12 @@
 package com.inncretech.core.sharding.dao;
 
 import com.inncretech.core.model.BaseEntity;
+import com.inncretech.core.sharding.IdGenerator;
 import com.inncretech.core.sharding.ShardAware;
 import com.inncretech.core.sharding.ShardType;
 import org.hibernate.Query;
 import org.hibernate.criterion.Criterion;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.io.Serializable;
 import java.util.List;
@@ -21,6 +23,9 @@ import java.util.List;
  */
 
 public abstract class GenericUserShardDaoImpl<T extends BaseEntity, PK extends Serializable> extends AbstractShardAwareHibernateDao<T, PK> implements GenericUserShardDAO<T, PK> {
+
+  @Autowired
+  private IdGenerator idGenerator;
 
   public GenericUserShardDaoImpl(Class<T> type) {
     super(type , ShardType.USER);
@@ -77,9 +82,9 @@ public abstract class GenericUserShardDaoImpl<T extends BaseEntity, PK extends S
   }
 
   @Override
-  @ShardAware(shardStrategy = "shardid", shardType = ShardType.USER)
-  public Query getQuery(Integer shardId, String s) {
-    return super.getQuery(shardId, s);
+  @ShardAware(shardStrategy = "entityid", shardType = ShardType.USER)
+  public Query getQuery(Long entityId, String s) {
+    return super.getQuery(idGenerator.getShardId(entityId, ShardType.USER), s);
   }
 
   @Override

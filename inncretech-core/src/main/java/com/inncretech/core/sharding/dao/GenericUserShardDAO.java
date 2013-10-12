@@ -79,8 +79,8 @@ public interface GenericUserShardDAO<T extends BaseEntity, PK extends Serializab
    *          Query to execute
    * @return A query object
    **/
-  @ShardAware(shardStrategy = "shardid", shardType = ShardType.USER)
-  Query getQuery(Integer shardId, String s);
+  @ShardAware(shardStrategy = "entityid", shardType = ShardType.USER)
+  Query getQuery(Long entityId, String s);
 
   /**
    * Deletes an object of a given Id. Will load the object internally so
