@@ -17,13 +17,6 @@ public class UserDaoImpl extends GenericUserShardDaoImpl<User, Long> implements 
   public UserDaoImpl() {
     super(User.class);
   }
-
-  @ShardAware(shardStrategy = "shardid", shardType = ShardType.USER)
-  public User getUser(Integer shardId, String emailID) {
-    Session sess = getCurrentSessionByShard(shardId);
-    Query query = sess.createQuery("from User where email= :email_id").setParameter("email_id", emailID);
-    return (User) query.uniqueResult();
-  }
   
   public void activateUser(User user)
   {

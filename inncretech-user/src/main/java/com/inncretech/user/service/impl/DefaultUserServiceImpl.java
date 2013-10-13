@@ -1,9 +1,8 @@
 package com.inncretech.user.service.impl;
 
 import com.inncretech.user.dao.UserForgotPasswordLookupDao;
-import com.inncretech.user.model.UserForgotPassword;
-import com.inncretech.user.model.UserForgotPasswordLookup;
-import com.inncretech.user.model.UserStatus;
+import com.inncretech.user.dao.impl.UserLoginLookupDaoImpl;
+import com.inncretech.user.model.*;
 
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +13,6 @@ import com.inncretech.core.sharding.ShardAware;
 import com.inncretech.core.sharding.ShardType;
 import com.inncretech.user.dao.UserDao;
 import com.inncretech.user.dao.UserFPDao;
-import com.inncretech.user.model.User;
 import com.inncretech.user.service.FacebookMemberService;
 import com.inncretech.user.service.UserService;
 import org.springframework.transaction.annotation.Transactional;
@@ -40,6 +38,9 @@ public class DefaultUserServiceImpl implements UserService {
   @Autowired
   private UserForgotPasswordLookupDao userForgotPasswordLookupDao;
 
+  @Autowired
+  private UserLoginLookupDaoImpl userLoginLookupDao;
+
   @Override
   public User get(Long userId) {
     return userDao.get(userId);
@@ -60,6 +61,11 @@ public class DefaultUserServiceImpl implements UserService {
     user.setCreatedAt(new DateTime());
     user.setUpdatedAt(new DateTime());
     userDao.save(user);
+
+    UserLoginLookup userLoginLookup = new UserLoginLookup();
+    userLoginLookup.setUserId(user.getId());
+    userLoginLookup.setLogin(user.getEmail());
+    userLoginLookupDao.save(userLoginLookup);
     return user;
   }
 
@@ -139,6 +145,12 @@ public class DefaultUserServiceImpl implements UserService {
 
   @Override
   public User authenticateUser(String userName, String password) {
+    UserLoginLookup userLoginLookup = userLoginLookupDao.getUserLoginLookup(userName);
+    if(userLoginLookup !=null){
+      User user = userDao.get(userLoginLookup.getUserId());
+      if(user.getPassword().equals(password))
+        return user;
+    }
     return null;
   }
 }

@@ -10,7 +10,5 @@ import com.inncretech.user.model.User;
 public interface UserDao extends GenericUserShardDAO<User, Long> {
   
   public void activateUser(User user);
-  
-  @ShardAware(shardStrategy = "shardid")
-  public User getUser(Integer shardId, String emailID);
+
 }
