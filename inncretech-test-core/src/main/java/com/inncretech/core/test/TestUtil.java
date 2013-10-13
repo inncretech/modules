@@ -26,7 +26,7 @@ public class TestUtil {
     for(ShardConfig config :shardConfigs){
       dbUtil.cleanUpdb(config.getId(), tablesToDelete);
     }
-    
+    dbUtil.cleanUpdb(tablesToDelete);
   }
 
 }
