@@ -1,6 +1,7 @@
 package com.inncretech.user.service.impl;
 
 import com.inncretech.user.dao.UserForgotPasswordLookupDao;
+import com.inncretech.user.dao.UserLoginLookupDao;
 import com.inncretech.user.dao.impl.UserLoginLookupDaoImpl;
 import com.inncretech.user.model.*;
 
@@ -39,7 +40,7 @@ public class DefaultUserServiceImpl implements UserService {
   private UserForgotPasswordLookupDao userForgotPasswordLookupDao;
 
   @Autowired
-  private UserLoginLookupDaoImpl userLoginLookupDao;
+  private UserLoginLookupDao userLoginLookupDao;
 
   @Override
   public User get(Long userId) {

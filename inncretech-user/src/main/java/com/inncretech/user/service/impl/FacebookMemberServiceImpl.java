@@ -72,14 +72,6 @@ public class FacebookMemberServiceImpl implements FacebookMemberService {
   }
 
   public User getUserByEmail(String emailID) {
-    List<ShardConfig> shardConfigs = shardConfigDao.getAllShards(ShardType.USER.getType());
-    List<User> userList = new ArrayList<User>(0);
-    for (ShardConfig config : shardConfigs) {
-      userList.add(userDao.getUser(config.getId(), emailID));
-      if (userList.get(0) != null) {
-        break;
-      }
-    }
-    return (userList.size() > 0) ? userList.get(0) : null;
+    return null;
   }
 }
