@@ -7,6 +7,7 @@ import com.inncretech.user.model.*;
 
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Service;
 
 import com.inncretech.core.sharding.IdGenerator;
@@ -149,7 +150,7 @@ public class DefaultUserServiceImpl implements UserService {
     UserLoginLookup userLoginLookup = userLoginLookupDao.getUserLoginLookup(userName);
     if(userLoginLookup !=null){
       User user = userDao.get(userLoginLookup.getUserId());
-      if(user.getPassword().equals(password))
+      if(BCrypt.checkpw(password, user.getPassword()))
         return user;
     }
     return null;
