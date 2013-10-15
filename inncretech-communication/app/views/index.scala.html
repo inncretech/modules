@@ -5,8 +5,11 @@
 @main("Welcome to Emailadmin") {
 
 <script>
-    var templates = @Html(Json.toJson(templates).toString())
-    var templateMap = {"SIGNUP" : {"subject": "", "templateText" :""}, "FORGOTPWD" : {"subject": "", "templateText" :""}};
+    var templates = @Html(Json.toJson(templates).toString());
+    var templateMap = {"SIGNUP" : {"subject": "", "templateText" :""},
+        "FORGOTPWD" : {"subject": "", "templateText" :""},
+        "UNSUBSCRIBE" : {"subject": "", "templateText" :""}
+        };
     for(var i in templates){
         templateMap[templates[i].name] = templates[i];
     }

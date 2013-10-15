@@ -21,6 +21,7 @@ public class TemplateService {
     public TemplateService(){
         templateDataMap.put(EventType.SIGNUP.getId() , "SIGNUP");
         templateDataMap.put(EventType.FORGOTPWD.getId() , "FORGOTPWD");
+        templateDataMap.put(EventType.UNSUBSCRIBE.getId() , "UNSUBSCRIBE");
     }
     public String createCommunicationBody(Communication comm, Template template) throws Exception{
         String templateText =  template.getTemplateText();

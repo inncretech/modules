@@ -2,7 +2,7 @@ package models;
 
 public enum EventType {
 
-    LOGIN((byte) 1), SIGNUP((byte) 2), FORGOTPWD((byte)3);
+    LOGIN((byte) 1), SIGNUP((byte) 2), FORGOTPWD((byte)3), UNSUBSCRIBE((byte)4);
 
     private byte id;
 
