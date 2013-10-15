@@ -1,6 +1,6 @@
 function TemplateCtrl($scope, $http){
 
-    $scope.templateNames = [{name : "SIGNUP"}, {name : "FORGOTPWD"}] ;
+    $scope.templateNames = [{name : "SIGNUP"}, {name : "FORGOTPWD"}, {name : "UNSUBSCRIBE"}] ;
     $scope.templateData = templateMap;
 
     $scope.saveTemplate = function(){
