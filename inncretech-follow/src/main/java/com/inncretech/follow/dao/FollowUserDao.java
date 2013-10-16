@@ -29,7 +29,7 @@ public class FollowUserDao extends GenericUserShardDaoImpl<FollowUser, Long> {
 	}
 
 	@ShardAware(shardStrategy = "entityid", shardType = ShardType.USER)
-	public void saveFolloUser(FollowUser followUser) {
+	public void saveFollowUser(FollowUser followUser) {
 		save(followUser);
 	}
 
@@ -44,15 +44,17 @@ public class FollowUserDao extends GenericUserShardDaoImpl<FollowUser, Long> {
 
 	}
 
+	
 	@ShardAware(shardStrategy = "shardid")
-	public Collection<? extends Object> getfollowedUsersList(Integer shardId,
+	public Collection<? extends FollowUser> getFollowedByUser(Integer shardId,
 			Long userId) {
 		Session sess = getCurrentSessionByShard(shardId);
 		Query query = sess
-				.createQuery("from FollowUser where userId= :user_id")
+				.createQuery("from FollowUser where followerId= :user_id")
 				.setParameter("user_id", userId);
 		return query.list();
 
 	}
+	
 
 }
