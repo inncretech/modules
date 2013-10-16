@@ -1,6 +1,7 @@
 package com.inncretech.follow.service.impl;
 
 import com.inncretech.core.sharding.HibernateSessionFactoryManager;
+import com.inncretech.core.sharding.IdGenerator;
 import com.inncretech.core.sharding.ShardAware;
 import com.inncretech.core.sharding.ShardType;
 import com.inncretech.core.sharding.dao.ShardConfigDao;
@@ -35,6 +36,9 @@ public class DefaultFollowServiceImpl implements FollowService {
 
   @Autowired
   private FollowUserDao followUserDao;
+  
+  @Autowired
+  IdGenerator idGenerator;
 
   @Override
   @ShardAware(shardStrategy = "entityid", shardType = ShardType.USER)
@@ -81,13 +85,51 @@ public class DefaultFollowServiceImpl implements FollowService {
 
   @Override
   @ShardAware(shardStrategy = "entityid", shardType = ShardType.USER)
-  public void followUser(Long followerId, Long userId) {
-    FollowUser followUser = new FollowUser();
-    followUser.setUserId(userId);
+  public void followUser(Long userId, Long followerId) {
+    
+	FollowUser followUser = null;
+    List<Object> followerList = getFollowersByUser(userId);
+    for (int i = 0; i < followerList.size(); i++) {
+    	
+      followUser = ((FollowUser)followerList.get(i));
+      long existingFollowerId = followUser.getFollowerId().longValue();
+  
+      if (followerId.longValue() == existingFollowerId) 
+    	  return;
+      
+    }
+    followUser = new FollowUser();
     followUser.setFollowerId(followerId);
-    followUserDao.saveFolloUser(followUser);
+    followUser.setUserId(userId);
+    followUser.setId(idGenerator.getNewIdOnUserShard(userId));
+    
+    followUserDao.saveFollowUser(followUser);
   }
 
+    @Override
+    @ShardAware(shardStrategy = "entityid", shardType = ShardType.USER)
+    public List<Object> getFollowersByUser(Long userId) {
+      
+      List<Object> followersList = new ArrayList<Object>();      
+      followersList.add(followUserDao.getFollowersByUser(idGenerator.getShardId(userId, ShardType.USER),userId));   
+      return (followersList.size() > 0) ? followersList : null;
+      
+    }
+  
+    @Override
+    public List<Object> getFollowedUsers(Long userId) {
+      List<ShardConfig> shardConfigs = shardConfigDao.getAllShards(ShardType.USER.getType());
+      @SuppressWarnings("unchecked")
+      List<Object> followedUsersList = new ArrayList<Object>();
+
+      for (ShardConfig config : shardConfigs) {
+        followedUsersList.addAll(followUserDao.getFollowedByUser(config.getId(), userId));
+      }
+
+      return (followedUsersList.size() > 0) ? followedUsersList : null;
+    }
+  
+  
   @Override
   public List<Object> getFollowersBySource(Long sourceId) {
     List<ShardConfig> shardConfigs = shardConfigDao.getAllShards(ShardType.SOURCE.getType());
@@ -102,18 +144,7 @@ public class DefaultFollowServiceImpl implements FollowService {
     return (sourcesList.size() > 0) ? sourcesList : null;
   }
 
-  @Override
-  public List<Object> getFollowersByUser(Long userId) {
-    List<ShardConfig> shardConfigs = shardConfigDao.getAllShards(ShardType.USER.getType());
-    @SuppressWarnings("unchecked")
-    List<Object> followersList = new ArrayList<Object>();
 
-    for (ShardConfig config : shardConfigs) {
-      followersList.addAll(followUserDao.getFollowersByUser(config.getId(), userId));
-    }
-
-    return (followersList.size() > 0) ? followersList : null;
-  }
 
   @Override
   public List<Object> getFollowedSources(Long userId) {
@@ -128,18 +159,7 @@ public class DefaultFollowServiceImpl implements FollowService {
     return (sourcesList.size() > 0) ? sourcesList : null;
   }
 
-  @Override
-  public List<Object> getFollowedUsers(Long userId) {
-    List<ShardConfig> shardConfigs = shardConfigDao.getAllShards(ShardType.USER.getType());
-    @SuppressWarnings("unchecked")
-    List<Object> followedUsersList = new ArrayList<Object>();
 
-    for (ShardConfig config : shardConfigs) {
-      followedUsersList.addAll(followUserDao.getfollowedUsersList(config.getId(), userId));
-    }
-
-    return (followedUsersList.size() > 0) ? followedUsersList : null;
-  }
 
   @Override
   public List<Object> getFollowedTags(Long userId) {

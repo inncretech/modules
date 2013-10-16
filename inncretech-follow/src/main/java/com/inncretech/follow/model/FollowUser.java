@@ -17,8 +17,8 @@ public class FollowUser extends BaseEntity {
 	private Long id;
 
   @Column
-	private Long userId;
-
+	private Long userId; // sharded on userId
+   
   @Column
 	private Long followerId;
 
