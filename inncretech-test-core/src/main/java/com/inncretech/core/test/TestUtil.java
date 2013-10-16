@@ -2,6 +2,7 @@ package com.inncretech.core.test;
 
 import java.util.List;
 
+import com.inncretech.core.sharding.ShardType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,7 +23,7 @@ public class TestUtil {
   @Transactional
   public void cleanUpdb(String[] tablesToDelete){
     
-    List<ShardConfig> shardConfigs = shardConfigDao.getAllActiveShards(1);
+    List<ShardConfig> shardConfigs = shardConfigDao.getAllActiveShards(ShardType.USER.getType());
     for(ShardConfig config :shardConfigs){
       dbUtil.cleanUpdb(config.getId(), tablesToDelete);
     }
