@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Service;
 
+import com.inncretech.core.model.RecordStatus;
 import com.inncretech.core.sharding.IdGenerator;
 import com.inncretech.core.sharding.ShardAware;
 import com.inncretech.core.sharding.ShardType;
@@ -59,7 +60,7 @@ public class DefaultUserServiceImpl implements UserService {
   }
 
   public User createUser(User user) {
-    user.setRecordStatus(UserStatus.ACTIVE.getId());
+    user.setRecordStatus(RecordStatus.ACTIVE.getId());
     user.setCreatedAt(new DateTime());
     user.setUpdatedAt(new DateTime());
     userDao.save(user);
