@@ -26,7 +26,8 @@ public class SourceServiceTest extends BaseTest {
     Source s = new Source();
     s.setId(idGenerator.getNewSourceId());
     s.setSourceType(1);
-    s.setSourceUri("testsource");
+    s.setSourceUri("testsource1");
+   
     sourceService.create(s);
   }
 }
