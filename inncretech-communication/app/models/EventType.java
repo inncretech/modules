@@ -18,6 +18,9 @@ public enum EventType {
         if(id == 2)
            return  SIGNUP;
         else
+        if(id == 3)
             return FORGOTPWD;
+        else
+          return UNSUBSCRIBE;
     }
 }
