@@ -1,8 +1,5 @@
 package com.inncretech.user.service.impl;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.facebook.api.FacebookProfile;
 import org.springframework.social.facebook.api.UserOperations;
@@ -10,9 +7,7 @@ import org.springframework.social.facebook.api.impl.FacebookTemplate;
 import org.springframework.stereotype.Service;
 
 import com.inncretech.core.sharding.IdGenerator;
-import com.inncretech.core.sharding.ShardType;
 import com.inncretech.core.sharding.dao.ShardConfigDao;
-import com.inncretech.core.sharding.model.ShardConfig;
 import com.inncretech.user.dao.UserDao;
 import com.inncretech.user.model.User;
 import com.inncretech.user.service.FacebookMemberService;

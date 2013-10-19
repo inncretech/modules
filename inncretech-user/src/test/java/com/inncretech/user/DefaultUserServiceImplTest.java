@@ -1,7 +1,6 @@
 package com.inncretech.user;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 import org.joda.time.DateTime;
@@ -11,6 +10,8 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+
+import com.inncretech.core.sharding.IdGenerator;
 import com.inncretech.core.test.TestUtil;
 import com.inncretech.user.model.User;
 import com.inncretech.user.model.UserForgotPassword;
@@ -26,9 +27,12 @@ public class DefaultUserServiceImplTest {
   @Autowired
   private TestUtil dbUtility;
   
+  @Autowired
+  private IdGenerator idGenerator;
+
   @Before
   public void setUp() {
-    dbUtility.cleanUpdb(new String[] {"user", "user_forget_pwd", "user_profile"});
+    dbUtility.cleanUpdb(new String[] { "user", "user_forget_pwd", "user_profile" });
   }
 
   @Test
@@ -37,7 +41,7 @@ public class DefaultUserServiceImplTest {
       User usr = createTestUser("Mahesh", "Kumar", "mmk@gmail.com", "mmk123", "mm111", "mmk@facebook", "mmk@twitter", "mmk@gooogle");
       User returnUser = userService.createUser(usr);
       assertTrue(returnUser.getId() > 0);
-      assertEquals("Mahesh" ,returnUser.getFirstName());
+      assertEquals("Mahesh", returnUser.getFirstName());
     }
   }
 
@@ -55,7 +59,7 @@ public class DefaultUserServiceImplTest {
 
     userService.createUser(usr);
     usr.setFirstName("MMK");
-    userService.UpdateName(usr);
+    userService.updateName(usr);
   }
 
   @Test
@@ -68,6 +72,7 @@ public class DefaultUserServiceImplTest {
 
   User createTestUser(String fName, String lName, String eMail, String uName, String password, String facebookId, String twitterId, String googleId) {
     User usr = new User();
+    usr.setId(idGenerator.getNewUserId());
     usr.setFirstName(fName);
     usr.setLastName(lName);
     usr.setEmail(eMail);

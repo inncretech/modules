@@ -37,4 +37,6 @@ public interface FollowService {
 	
 	boolean doesUserFollowAUser	(long userId, long followerId);
 
+  boolean doesUserHasAFollower(long userId, long followerId);
+
 }

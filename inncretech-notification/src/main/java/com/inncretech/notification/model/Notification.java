@@ -7,19 +7,30 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Transient;
 
-import com.inncretech.core.model.BaseEntity;
+import com.inncretech.core.model.AbstractImmutatableEntity;
 
 @Entity
-public class Notification extends BaseEntity {
+public class Notification extends AbstractImmutatableEntity {
+
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  @Column
+  private Long id;
+
+  @Column
+  private Long sourceId;
+
+  @Column
+  private Long receiverUserId;
+
+  @Column
+  private String notificationData;
 
   @Transient
   public Long getShardedColumnValue() {
     return getSourceId();
   }
 
-  @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
-  @Column
   public Long getId() {
     return id;
   }
@@ -28,7 +39,6 @@ public class Notification extends BaseEntity {
     this.id = id;
   }
 
-  @Column
   public Long getSourceId() {
     return sourceId;
   }
@@ -55,19 +65,52 @@ public class Notification extends BaseEntity {
     this.notificationData = notificationData;
   }
 
-  @Column
-  public Long getCreatedBy() {
-    return createdBy;
+  @Override
+  public int hashCode() {
+    final int prime = 31;
+    int result = super.hashCode();
+    result = prime * result + ((id == null) ? 0 : id.hashCode());
+    result = prime * result + ((notificationData == null) ? 0 : notificationData.hashCode());
+    result = prime * result + ((receiverUserId == null) ? 0 : receiverUserId.hashCode());
+    result = prime * result + ((sourceId == null) ? 0 : sourceId.hashCode());
+    return result;
   }
 
-  public void setCreatedBy(Long createdBy) {
-    this.createdBy = createdBy;
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj)
+      return true;
+    if (!super.equals(obj))
+      return false;
+    if (getClass() != obj.getClass())
+      return false;
+    Notification other = (Notification) obj;
+    if (id == null) {
+      if (other.id != null)
+        return false;
+    } else if (!id.equals(other.id))
+      return false;
+    if (notificationData == null) {
+      if (other.notificationData != null)
+        return false;
+    } else if (!notificationData.equals(other.notificationData))
+      return false;
+    if (receiverUserId == null) {
+      if (other.receiverUserId != null)
+        return false;
+    } else if (!receiverUserId.equals(other.receiverUserId))
+      return false;
+    if (sourceId == null) {
+      if (other.sourceId != null)
+        return false;
+    } else if (!sourceId.equals(other.sourceId))
+      return false;
+    return true;
   }
 
-  private Long id;
-  private Long sourceId;
-  private Long receiverUserId;
-  private String notificationData;
-  private Long createdBy;
-
+  @Override
+  public String toString() {
+    return "Notification [id=" + id + ", sourceId=" + sourceId + ", receiverUserId=" + receiverUserId + ", notificationData=" + notificationData
+        + ", toString()=" + super.toString() + "]";
+  }
 }

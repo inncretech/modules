@@ -3,11 +3,12 @@ package com.inncretech.user.model;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.Transient;
 
 import com.inncretech.core.model.AbstractMutableEntity;
 
 @Entity
-public class User extends AbstractMutableEntity {
+public class UserProfile extends AbstractMutableEntity {
 
   @Column
   private String email;
@@ -200,7 +201,7 @@ public class User extends AbstractMutableEntity {
       return false;
     if (getClass() != obj.getClass())
       return false;
-    User other = (User) obj;
+    UserProfile other = (UserProfile) obj;
     if (email == null) {
       if (other.email != null)
         return false;

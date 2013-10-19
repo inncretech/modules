@@ -5,8 +5,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.inncretech.core.sharding.IdGenerator;
-import com.inncretech.core.sharding.ShardType;
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,9 +12,11 @@ import org.springframework.stereotype.Service;
 import com.inncretech.comment.dao.CommentDao;
 import com.inncretech.comment.model.Comment;
 import com.inncretech.comment.service.CommentService;
+import com.inncretech.core.sharding.IdGenerator;
 
 @Service
 public class CommentServiceImpl implements CommentService {
+
   @Autowired
   private CommentDao commentDao;
 

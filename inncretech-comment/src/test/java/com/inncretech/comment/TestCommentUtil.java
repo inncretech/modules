@@ -1,13 +1,12 @@
 package com.inncretech.comment;
 
-import com.inncretech.core.sharding.dao.GenericSourceShardDaoImpl;
 import org.hibernate.Query;
 import org.springframework.stereotype.Component;
 
 import com.inncretech.comment.model.Comment;
 import com.inncretech.core.sharding.ShardAware;
 import com.inncretech.core.sharding.ShardType;
-import com.inncretech.core.sharding.dao.AbstractShardAwareHibernateDao;
+import com.inncretech.core.sharding.dao.GenericSourceShardDaoImpl;
 
 @Component
 public class TestCommentUtil extends GenericSourceShardDaoImpl<Comment, Long> {

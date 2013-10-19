@@ -4,9 +4,6 @@ import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
 
-import com.inncretech.core.model.BaseEntity;
-import com.inncretech.core.model.IdEntity;
-import com.inncretech.core.sharding.ShardAware;
 import org.hibernate.Criteria;
 import org.hibernate.Query;
 import org.hibernate.Session;
@@ -15,6 +12,7 @@ import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.Example;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.inncretech.core.model.IdEntity;
 import com.inncretech.core.sharding.HibernateSessionFactoryManager;
 import com.inncretech.core.sharding.IdGenerator;
 import com.inncretech.core.sharding.ShardType;
@@ -126,8 +124,8 @@ public class AbstractShardAwareHibernateDao<T extends IdEntity, PK extends Seria
     SessionFactory sessionFactory = sessionFactoryManager.getSessionFactory(shardId);
     return sessionFactory.getCurrentSession();
   }
+  @SuppressWarnings("rawtypes")
   public Class getPersistentClass(){
     return clazz;
   }
-
 }

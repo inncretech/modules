@@ -12,13 +12,12 @@ public interface UserService {
   User get(Long userId);
 
   User createUser(User user);
-  
+
   @ShardAware(shardStrategy = "entityid", shardType = ShardType.USER)
   void activateNewUser(Long userId);
 
   @ShardAware(shardStrategy = "entityid", shardType = ShardType.USER)
-  void UpdateName(User user);
-
+  void updateName(User user);
 
   void updateFacebookInfo(String facebookId);
 

@@ -1,14 +1,10 @@
 package com.inncretech.user.service.impl;
 
-import com.inncretech.user.dao.UserForgotPasswordLookupDao;
-import com.inncretech.user.dao.UserLoginLookupDao;
-import com.inncretech.user.dao.impl.UserLoginLookupDaoImpl;
-import com.inncretech.user.model.*;
-
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.inncretech.core.model.RecordStatus;
 import com.inncretech.core.sharding.IdGenerator;
@@ -16,9 +12,14 @@ import com.inncretech.core.sharding.ShardAware;
 import com.inncretech.core.sharding.ShardType;
 import com.inncretech.user.dao.UserDao;
 import com.inncretech.user.dao.UserFPDao;
+import com.inncretech.user.dao.UserForgotPasswordLookupDao;
+import com.inncretech.user.dao.UserLoginLookupDao;
+import com.inncretech.user.model.User;
+import com.inncretech.user.model.UserForgotPassword;
+import com.inncretech.user.model.UserForgotPasswordLookup;
+import com.inncretech.user.model.UserLoginLookup;
 import com.inncretech.user.service.FacebookMemberService;
 import com.inncretech.user.service.UserService;
-import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class DefaultUserServiceImpl implements UserService {
@@ -45,12 +46,12 @@ public class DefaultUserServiceImpl implements UserService {
   private UserLoginLookupDao userLoginLookupDao;
 
   @Override
+  @ShardAware(shardStrategy = "entityid", shardType = ShardType.USER)
   public User get(Long userId) {
     return userDao.get(userId);
   }
-  
-  
-  public void activateNewUser(Long userId){
+
+  public void activateNewUser(Long userId) {
     User user = userDao.load(userId);
     userDao.activateUser(user);
   }
@@ -59,6 +60,7 @@ public class DefaultUserServiceImpl implements UserService {
     return null;
   }
 
+  @ShardAware(shardStrategy = "entityid", shardType = ShardType.USER)
   public User createUser(User user) {
     user.setRecordStatus(RecordStatus.ACTIVE.getId());
     user.setCreatedAt(new DateTime());
@@ -73,7 +75,7 @@ public class DefaultUserServiceImpl implements UserService {
   }
 
   @ShardAware(shardStrategy = "entityid", shardType = ShardType.USER)
-  public void UpdateName(User user) {
+  public void updateName(User user) {
     User readUser = userDao.get(user.getId());
     readUser.setFirstName(user.getFirstName());
     readUser.setLastName(user.getLastName());
@@ -82,7 +84,8 @@ public class DefaultUserServiceImpl implements UserService {
 
   }
 
-  private UserForgotPassword saveForgotPasswordRequest(Long userId, String token){
+  @ShardAware(shardStrategy = "entityid", shardType = ShardType.USER)
+  private UserForgotPassword saveForgotPasswordRequest(Long userId, String token) {
     UserForgotPassword ufp = new UserForgotPassword();
     ufp.setId(idGenerator.getNewIdOnUserShard(userId));
     ufp.setUserId(userId);
@@ -149,9 +152,9 @@ public class DefaultUserServiceImpl implements UserService {
   @Override
   public User authenticateUser(String userName, String password) {
     UserLoginLookup userLoginLookup = userLoginLookupDao.getUserLoginLookup(userName);
-    if(userLoginLookup !=null){
+    if (userLoginLookup != null) {
       User user = userDao.get(userLoginLookup.getUserId());
-      if(BCrypt.checkpw(password, user.getPassword()))
+      if (BCrypt.checkpw(password, user.getPassword()))
         return user;
     }
     return null;

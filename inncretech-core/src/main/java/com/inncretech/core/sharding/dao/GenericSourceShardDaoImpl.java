@@ -19,6 +19,7 @@ import java.util.List;
  * @author shade05
  * 
  */
+@SuppressWarnings("unchecked")
 public abstract class GenericSourceShardDaoImpl<T extends BaseEntity, PK extends Serializable> extends AbstractShardAwareHibernateDao<T, PK> implements GenericSourceShardDAO<T, PK> {
 
 	public GenericSourceShardDaoImpl(Class<T> type) {
@@ -38,20 +39,17 @@ public abstract class GenericSourceShardDaoImpl<T extends BaseEntity, PK extends
 	}
 
 	@Override
-	@SuppressWarnings("unchecked")
 	public T load(PK id) {
 		return super.load(id);
 	}
 
 	@Override
-	@SuppressWarnings("unchecked")
 	@ShardAware(shardStrategy = "entityid", shardType = ShardType.SOURCE)
 	public T get(PK id) {
 		return super.get(id);
 	}
 
 	@Override
-	@SuppressWarnings("unchecked")
 	@ShardAware(shardStrategy = "entityid", shardType = ShardType.SOURCE)
 	public PK save(T o) {
 		return super.save(o);
@@ -82,7 +80,6 @@ public abstract class GenericSourceShardDaoImpl<T extends BaseEntity, PK extends
 	}
 
 	@Override
-	@SuppressWarnings("unchecked")
 	@ShardAware(shardStrategy = "shardid", shardType = ShardType.SOURCE)
 	public List<T> findByCriteria(Integer shardId, Criterion... criterion) {
 		return super.findByCriteria(shardId, criterion);
@@ -101,10 +98,8 @@ public abstract class GenericSourceShardDaoImpl<T extends BaseEntity, PK extends
 	}
 
 	@Override
-	@SuppressWarnings("unchecked")
 	@ShardAware(shardStrategy = "entityid", shardType = ShardType.SOURCE)
 	public List<T> findByExample(Integer shardId, T exampleInstance, String... excludeProperty) {
-
 		return super.findByExample(shardId, exampleInstance, excludeProperty);
 	}
 
