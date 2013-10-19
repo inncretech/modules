@@ -7,19 +7,20 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Transient;
 
+import com.inncretech.core.model.AbstractMutableEntity;
 import com.inncretech.core.model.BaseEntity;
 
 @Entity
-public class FollowUser extends BaseEntity {
+public class FollowUser extends AbstractMutableEntity {
 
-  @Id
-  @Column
+	@Id
+	@Column
 	private Long id;
 
-  @Column
+	@Column
 	private Long userId; // sharded on userId
-   
-  @Column
+
+	@Column
 	private Long followerId;
 
 	public Long getId() {

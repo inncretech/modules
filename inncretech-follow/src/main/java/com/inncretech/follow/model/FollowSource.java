@@ -7,10 +7,11 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Transient;
 
+import com.inncretech.core.model.AbstractMutableEntity;
 import com.inncretech.core.model.BaseEntity;
 
 @Entity
-public class FollowSource extends BaseEntity {
+public class FollowSource extends AbstractMutableEntity {
 
   @Id
   @Column
@@ -20,7 +21,8 @@ public class FollowSource extends BaseEntity {
 	private Long sourceId;
 
   @Column
-	private Long followerId;
+	private Long followerId; // shard on user
+  
 
 	public Long getId() {
 		return id;
@@ -45,5 +47,7 @@ public class FollowSource extends BaseEntity {
 	public void setFollowerId(Long followerId) {
 		this.followerId = followerId;
 	}
+	
+
 
 }
