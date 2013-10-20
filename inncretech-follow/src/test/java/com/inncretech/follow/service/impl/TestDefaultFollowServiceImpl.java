@@ -21,7 +21,7 @@ import com.inncretech.follow.service.FollowService;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "/applicationcontext-follow.xml" })
-public class DefaultFollowServiceImplTest extends BaseTest {
+public class TestDefaultFollowServiceImpl extends BaseTest {
 
   @Autowired
   private FollowService followService;
