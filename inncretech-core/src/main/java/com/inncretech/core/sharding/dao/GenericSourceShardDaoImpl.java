@@ -19,7 +19,6 @@ import java.util.List;
  * @author shade05
  * 
  */
-@SuppressWarnings("unchecked")
 public abstract class GenericSourceShardDaoImpl<T extends BaseEntity, PK extends Serializable> extends AbstractShardAwareHibernateDao<T, PK> implements GenericSourceShardDAO<T, PK> {
 
 	public GenericSourceShardDaoImpl(Class<T> type) {

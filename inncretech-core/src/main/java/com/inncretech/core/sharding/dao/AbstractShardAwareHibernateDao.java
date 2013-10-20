@@ -19,11 +19,11 @@ import com.inncretech.core.sharding.ShardType;
 
 public class AbstractShardAwareHibernateDao<T extends IdEntity, PK extends Serializable> {
 
-  private Class<?> clazz = null;
+  private Class<T> clazz = null;
   
   private ShardType shardType = null;
 
-  public AbstractShardAwareHibernateDao(Class<?> clazz, ShardType shardType) {
+  public AbstractShardAwareHibernateDao(Class<T> clazz, ShardType shardType) {
     this.clazz = clazz;
     this.shardType = shardType;
   }
@@ -124,8 +124,8 @@ public class AbstractShardAwareHibernateDao<T extends IdEntity, PK extends Seria
     SessionFactory sessionFactory = sessionFactoryManager.getSessionFactory(shardId);
     return sessionFactory.getCurrentSession();
   }
-  @SuppressWarnings("rawtypes")
-  public Class getPersistentClass(){
+  
+  public Class<T> getPersistentClass(){
     return clazz;
   }
 }
