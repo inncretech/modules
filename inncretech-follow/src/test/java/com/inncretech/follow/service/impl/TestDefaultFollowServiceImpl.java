@@ -33,8 +33,9 @@ public class TestDefaultFollowServiceImpl extends BaseTest {
   public void unFollowUser( ){
   	Long userId = idGenerator.getNewUserId();
   	Long followerId = idGenerator.getNewUserId();
-  	followService.followUser(userId, followerId);
-  	FollowUser followUser = followService.unFollowUser(userId, followerId);
+  	FollowUser followUser = followService.followUser(userId, followerId);
+  	followUser = followService.unFollowUser(userId, followerId);
+  	//System.out.println(followUser.toString());
   	Assert.assertEquals(RecordStatus.INACTIVE.getId(),followUser.getRecordStatus().byteValue());
   }
   

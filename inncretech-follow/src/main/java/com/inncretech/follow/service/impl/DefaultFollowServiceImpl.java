@@ -97,19 +97,24 @@ public class DefaultFollowServiceImpl implements FollowService {
 
 	@Override
 	@ShardAware(shardStrategy = "entityid", shardType = ShardType.USER)
-	public void followUser(Long userId, Long followerId) {
+	public FollowUser followUser(Long userId, Long followerId) {
 
-		if (doesUserFollowAUser(userId, followerId)) {
-			return;
-		}
-		FollowUser followUser = null;
-		followUser = new FollowUser();
+//		if (doesUserFollowAUser(userId, followerId)) {
+//			return;
+//		}
+		
+		FollowUser followUser = new FollowUser();
 		followUser.setFollowerId(followerId);
 		followUser.setUserId(userId);
 		followUser.setId(idGenerator.getNewIdOnUserShard(userId));
+		followUser.setRecordStatus(RecordStatus.ACTIVE.getId());
 		followUser.setCreatedAt(new DateTime());
 		followUser.setCreatedBy(userId);
+		followUser.setUpdatedAt(new DateTime());
+		followUser.setUpdatedBy(userId);
 		followUserDao.save(followUser);
+		return followUser;
+		
 	}
 
 	@Override
