@@ -25,172 +25,172 @@ import com.inncretech.follow.service.FollowService;
 @Service
 public class DefaultFollowServiceImpl implements FollowService {
 
-  @Autowired
-  private ShardConfigDao shardConfigDao;
+	@Autowired
+	private ShardConfigDao shardConfigDao;
 
-  @Autowired
-  private HibernateSessionFactoryManager hibernateSessionFactoryManager;
+	@Autowired
+	private HibernateSessionFactoryManager hibernateSessionFactoryManager;
 
-  @Autowired
-  private FollowSourceDao followSourceDao;
+	@Autowired
+	private FollowSourceDao followSourceDao;
 
-  @Autowired
-  private FollowTagDao followTagDao;
+	@Autowired
+	private FollowTagDao followTagDao;
 
-  @Autowired
-  private FollowUserDao followUserDao;
+	@Autowired
+	private FollowUserDao followUserDao;
 
-  @Autowired
-  IdGenerator idGenerator;
+	@Autowired
+	IdGenerator idGenerator;
 
-  @Override
-  @ShardAware(shardStrategy = "entityid", shardType = ShardType.USER)
-  public void followTag(Long userId, Long tagId) {
+	@Override
+	@ShardAware(shardStrategy = "entityid", shardType = ShardType.USER)
+	public void followTag(Long userId, Long tagId) {
 
-    if (doesUserFollowTag(userId, tagId)) {
-      return;
-    }
-    FollowTag followTag = new FollowTag();
-    followTag.setId(idGenerator.getNewIdOnUserShard(userId));
-    followTag.setTagId(tagId);
-    followTag.setFollowerId(userId);
-    followTag.setRecordStatus(RecordStatus.ACTIVE.getId());
-    followTagDao.saveFollowTag(followTag);
+		if (doesUserFollowTag(userId, tagId)) {
+			return;
+		}
+		FollowTag followTag = new FollowTag();
+		followTag.setId(idGenerator.getNewIdOnUserShard(userId));
+		followTag.setTagId(tagId);
+		followTag.setFollowerId(userId);
+		followTag.setRecordStatus(RecordStatus.ACTIVE.getId());
+		followTagDao.saveFollowTag(followTag);
 
-  }
+	}
 
-  @Override
-  @ShardAware(shardStrategy = "entityid", shardType = ShardType.USER)
-  public boolean doesUserFollowTag(long userId, long tagId) {
-    return followTagDao.doesUserFollowTag(userId, tagId);
-  }
+	@Override
+	@ShardAware(shardStrategy = "entityid", shardType = ShardType.USER)
+	public boolean doesUserFollowTag(long userId, long tagId) {
+		return followTagDao.doesUserFollowTag(userId, tagId);
+	}
 
-  @Override
-  @ShardAware(shardStrategy = "entityid", shardType = ShardType.USER)
-  public boolean doesUserFollowAUser(long userId, long followerId) {
+	@Override
+	@ShardAware(shardStrategy = "entityid", shardType = ShardType.USER)
+	public boolean doesUserFollowAUser(long userId, long followerId) {
 
-    return followUserDao.doesUserFollowAUser(userId, followerId);
-  }
+		return followUserDao.doesUserFollowAUser(userId, followerId);
+	}
 
-  @Override
-  public List<FollowTag> getFollowersByTag(Long tagId) {
+	@Override
+	public List<FollowTag> getFollowersByTag(Long tagId) {
 
-    List<ShardConfig> shardConfigs = shardConfigDao.getAllShards(ShardType.USER.getType());
-    List<FollowTag> followersList = new ArrayList<FollowTag>();
+		List<ShardConfig> shardConfigs = shardConfigDao.getAllShards(ShardType.USER.getType());
+		List<FollowTag> followersList = new ArrayList<FollowTag>();
 
-    for (ShardConfig config : shardConfigs) {
-      followersList.addAll(followTagDao.getFollowersByTag(config.getId(), tagId));
-    }
+		for (ShardConfig config : shardConfigs) {
+			followersList.addAll(followTagDao.getFollowersByTag(config.getId(), tagId));
+		}
 
-    return followersList;
-  }
+		return followersList;
+	}
 
-  @Override
-  @ShardAware(shardStrategy = "entityid", shardType = ShardType.USER)
-  public List<FollowTag> getFollowedTags(Long userId) {
+	@Override
+	@ShardAware(shardStrategy = "entityid", shardType = ShardType.USER)
+	public List<FollowTag> getFollowedTags(Long userId) {
 
-    List<FollowTag> followedTagsList = new ArrayList<FollowTag>();
+		List<FollowTag> followedTagsList = new ArrayList<FollowTag>();
 
-    followedTagsList.addAll(followTagDao.getfollowedTagsByUser(userId));
-    return followedTagsList;
-  }
+		followedTagsList.addAll(followTagDao.getfollowedTagsByUser(userId));
+		return followedTagsList;
+	}
 
-  @Override
-  @ShardAware(shardStrategy = "entityid", shardType = ShardType.USER)
-  public void followUser(Long userId, Long followerId) {
+	@Override
+	@ShardAware(shardStrategy = "entityid", shardType = ShardType.USER)
+	public void followUser(Long userId, Long followerId) {
 
-    if (doesUserFollowAUser(userId, followerId)) {
-      return;
-    }
-    FollowUser followUser = null;
-    followUser = new FollowUser();
-    followUser.setFollowerId(followerId);
-    followUser.setUserId(userId);
-    followUser.setId(idGenerator.getNewIdOnUserShard(userId));
-    followUser.setCreatedAt(new DateTime());
-    followUser.setCreatedBy(userId);
-    followUserDao.saveFollowUser(followUser);
-  }
+		if (doesUserFollowAUser(userId, followerId)) {
+			return;
+		}
+		FollowUser followUser = null;
+		followUser = new FollowUser();
+		followUser.setFollowerId(followerId);
+		followUser.setUserId(userId);
+		followUser.setId(idGenerator.getNewIdOnUserShard(userId));
+		followUser.setCreatedAt(new DateTime());
+		followUser.setCreatedBy(userId);
+		followUserDao.save(followUser);
+	}
 
-  @Override
-  @ShardAware(shardStrategy = "entityid", shardType = ShardType.USER)
-  public List<FollowUser> getFollowersByUser(Long userId) {
+	@Override
+	@ShardAware(shardStrategy = "entityid", shardType = ShardType.USER)
+	public List<FollowUser> getFollowersByUser(Long userId) {
 
-    List<FollowUser> followersList = new ArrayList<FollowUser>();
-    followersList.addAll(followUserDao.getFollowersByUser(userId));
-    return followersList;
+		List<FollowUser> followersList = new ArrayList<FollowUser>();
+		followersList.addAll(followUserDao.getFollowersByUser(userId));
+		return followersList;
 
-  }
+	}
 
-  @Override
-  public List<FollowUser> getFollowedUsers(Long userId) {
-    List<ShardConfig> shardConfigs = shardConfigDao.getAllShards(ShardType.USER.getType());
-    List<FollowUser> followedUsersList = new ArrayList<FollowUser>();
-    for (ShardConfig config : shardConfigs) {
-      followedUsersList.addAll(followUserDao.getFollowedByUser(config.getId(), userId));
-    }
-    return followedUsersList;
-  }
+	@Override
+	public List<FollowUser> getFollowedUsers(Long userId) {
+		List<ShardConfig> shardConfigs = shardConfigDao.getAllShards(ShardType.USER.getType());
+		List<FollowUser> followedUsersList = new ArrayList<FollowUser>();
+		for (ShardConfig config : shardConfigs) {
+			followedUsersList.addAll(followUserDao.getFollowedByUser(config.getId(), userId));
+		}
+		return followedUsersList;
+	}
 
-  @Override
-  @ShardAware(shardStrategy = "entityid", shardType = ShardType.USER)
-  public void unFollowTag(Long userId, Long tagId) {
-    followTagDao.unfollowTag(userId, tagId);
+	@Override
+	@ShardAware(shardStrategy = "entityid", shardType = ShardType.USER)
+	public void unFollowTag(Long userId, Long tagId) {
+		followTagDao.unfollowTag(userId, tagId);
 
-  }
+	}
 
-  @Override
-  public void unFollowSource(Long sourceId, Long followerId) {
-    // TODO Auto-generated method stub
+	@Override
+	public void unFollowSource(Long sourceId, Long followerId) {
+		// TODO Auto-generated method stub
 
-  }
+	}
 
-  @Override
-  @ShardAware(shardStrategy = "entityid", shardType = ShardType.USER)
-  public void unFollowUser(Long userId, Long followerId) {
-    followUserDao.unfollowUser(userId, followerId);
+	@Override
+	@ShardAware(shardStrategy = "entityid", shardType = ShardType.USER)
+	public FollowUser unFollowUser(Long userId, Long followerId) {
+		return followUserDao.unfollowUser(userId, followerId);
+	}
 
-  }
+	@Override
+	public List<FollowSource> getFollowersBySource(Long sourceId) {
+		List<ShardConfig> shardConfigs = shardConfigDao.getAllShards(ShardType.SOURCE.getType());
+		List<FollowSource> sourcesList = new ArrayList<FollowSource>();
 
-  @Override
-  public List<FollowSource> getFollowersBySource(Long sourceId) {
-    List<ShardConfig> shardConfigs = shardConfigDao.getAllShards(ShardType.SOURCE.getType());
-    List<FollowSource> sourcesList = new ArrayList<FollowSource>();
+		for (ShardConfig config : shardConfigs) {
+			sourcesList.addAll(followSourceDao.getFollowersBySource(config.getId(), sourceId));
+		}
+		System.out.println("Size of Followers List by Source:" + sourcesList.size());
 
-    for (ShardConfig config : shardConfigs) {
-      sourcesList.addAll(followSourceDao.getFollowersBySource(config.getId(), sourceId));
-    }
-    System.out.println("Size of Followers List by Source:" + sourcesList.size());
+		return (sourcesList.size() > 0) ? sourcesList : null;
+	}
 
-    return (sourcesList.size() > 0) ? sourcesList : null;
-  }
+	@Override
+	public List<FollowSource> getFollowedSources(Long userId) {
+		List<ShardConfig> shardConfigs = shardConfigDao.getAllShards(ShardType.SOURCE.getType());
+		List<FollowSource> sourcesList = new ArrayList<FollowSource>();
 
-  @Override
-  public List<FollowSource> getFollowedSources(Long userId) {
-    List<ShardConfig> shardConfigs = shardConfigDao.getAllShards(ShardType.SOURCE.getType());
-    List<FollowSource> sourcesList = new ArrayList<FollowSource>();
+		for (ShardConfig config : shardConfigs) {
+			sourcesList.addAll(followSourceDao.getFollowedSources(config.getId(), userId));
+		}
 
-    for (ShardConfig config : shardConfigs) {
-      sourcesList.addAll(followSourceDao.getFollowedSources(config.getId(), userId));
-    }
+		return (sourcesList.size() > 0) ? sourcesList : null;
+	}
 
-    return (sourcesList.size() > 0) ? sourcesList : null;
-  }
+	@Override
+	@ShardAware(shardStrategy = "entityid", shardType = ShardType.SOURCE)
+	public void followSource(Long sourceId, Long followerId) {
+		FollowSource followSource = new FollowSource();
+		followSource.setFollowerId(followerId);
+		followSource.setSourceId(sourceId);
 
-  @Override
-  @ShardAware(shardStrategy = "entityid", shardType = ShardType.SOURCE)
-  public void followSource(Long sourceId, Long followerId) {
-    FollowSource followSource = new FollowSource();
-    followSource.setFollowerId(followerId);
-    followSource.setSourceId(sourceId);
+		followSourceDao.saveFollowSource(followSource);
 
-    followSourceDao.saveFollowSource(followSource);
+	}
 
-  }
-
-  @Override
+	@Override
   public boolean doesUserHasAFollower(long userId, long followerId) {
-    // TODO Auto-generated method stub
-    return false;
+	  // TODO Auto-generated method stub
+	  return false;
   }
+
 }

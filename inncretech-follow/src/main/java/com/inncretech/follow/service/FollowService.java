@@ -18,7 +18,7 @@ public interface FollowService {
 
 	void unFollowSource(Long sourceId, Long followerId);
 
-	void unFollowUser(Long userId, Long followerId);
+	FollowUser unFollowUser(Long userId, Long followerId);
 
 	List<FollowUser> getFollowersByUser(Long userId);
 	

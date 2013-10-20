@@ -1,5 +1,7 @@
 package com.inncretech.follow.service.impl;
 
+import junit.framework.Assert;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,7 +9,9 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.inncretech.core.BaseTest;
+import com.inncretech.core.model.RecordStatus;
 import com.inncretech.core.sharding.IdGenerator;
+import com.inncretech.follow.model.FollowUser;
 import com.inncretech.follow.service.FollowService;
 
 //TODO: Use IdgeneService.getNewSourceId() while passing the source id and user id to the service method.
@@ -25,6 +29,15 @@ public class DefaultFollowServiceImplTest extends BaseTest {
   @Autowired
   private IdGenerator idGenerator;
 
+  @Test
+  public void unFollowUser( ){
+  	Long userId = idGenerator.getNewUserId();
+  	Long followerId = idGenerator.getNewUserId();
+  	followService.followUser(userId, followerId);
+  	FollowUser followUser = followService.unFollowUser(userId, followerId);
+  	Assert.assertEquals(RecordStatus.INACTIVE.getId(),followUser.getRecordStatus().byteValue());
+  }
+  
   @Test
   public void testFollowTag() {
     followService.followTag(new Long(111), idGenerator.getNewUserId());
