@@ -5,19 +5,25 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 
 import com.inncretech.core.model.AbstractMutableEntity;
+import com.inncretech.core.model.RecordStatus;
+import org.hibernate.validator.constraints.NotEmpty;
 
 @Entity
 public class User extends AbstractMutableEntity {
 
+  @NotEmpty
   @Column
   private String email;
 
+  @NotEmpty
   @Column
   private String userName;
 
+  @NotEmpty
   @Column
   private String firstName;
 
+  @NotEmpty
   @Column
   private String lastName;
 
@@ -27,10 +33,66 @@ public class User extends AbstractMutableEntity {
   @Id
   private Long id;
 
+  @NotEmpty
   @Column
   private String password;
 
   @Column
+  private String passwordSalt;
+
+  @Column
+  private String masterKey;
+
+  public String getPasswordSalt() {
+    return passwordSalt;
+  }
+
+  public void setPasswordSalt(String passwordSalt) {
+    this.passwordSalt = passwordSalt;
+  }
+
+  public String getMasterKey() {
+    return masterKey;
+  }
+
+  public void setMasterKey(String masterKey) {
+    this.masterKey = masterKey;
+  }
+
+  public Boolean getFacebookLoginEnabled() {
+    return isFacebookLoginEnabled;
+  }
+
+  public void setFacebookLoginEnabled(Boolean facebookLoginEnabled) {
+    isFacebookLoginEnabled = facebookLoginEnabled;
+  }
+
+  public Boolean getPasswordloginEnabled() {
+    return isPasswordloginEnabled;
+  }
+
+  public void setPasswordloginEnabled(Boolean passwordloginEnabled) {
+    isPasswordloginEnabled = passwordloginEnabled;
+  }
+
+  public Boolean getTwitterLoginEnabled() {
+    return isTwitterLoginEnabled;
+  }
+
+  public void setTwitterLoginEnabled(Boolean twitterLoginEnabled) {
+    isTwitterLoginEnabled = twitterLoginEnabled;
+  }
+
+  public Boolean getGoogleLoginEnabled() {
+    return isGoogleLoginEnabled;
+  }
+
+  public void setGoogleLoginEnabled(Boolean googleLoginEnabled) {
+    isGoogleLoginEnabled = googleLoginEnabled;
+  }
+
+  @Column
+
   private String facebookId;
 
   @Column

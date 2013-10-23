@@ -2,6 +2,7 @@ package com.inncretech.user.service;
 
 import com.inncretech.core.sharding.ShardAware;
 import com.inncretech.core.sharding.ShardType;
+import com.inncretech.user.model.LoginResponse;
 import com.inncretech.user.model.User;
 import com.inncretech.user.model.UserForgotPassword;
 import org.springframework.transaction.annotation.Transactional;
@@ -35,4 +36,9 @@ public interface UserService {
   User authenticateFbUserLogin(String accessToken);
 
   User authenticateUser(String userName, String password);
+
+  LoginResponse generateAccessToken(String userName, String password , String deviceId);
+
+  @ShardAware(shardStrategy = "entityid", shardType = ShardType.USER)
+  User authenticateAccessToken(Long userId, String accessToken);
 }

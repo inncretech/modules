@@ -1,5 +1,7 @@
 package com.inncretech.user.service.impl;
 
+import com.inncretech.user.dao.*;
+import com.inncretech.user.model.*;
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCrypt;
@@ -10,16 +12,10 @@ import com.inncretech.core.model.RecordStatus;
 import com.inncretech.core.sharding.IdGenerator;
 import com.inncretech.core.sharding.ShardAware;
 import com.inncretech.core.sharding.ShardType;
-import com.inncretech.user.dao.UserDao;
-import com.inncretech.user.dao.UserFPDao;
-import com.inncretech.user.dao.UserForgotPasswordLookupDao;
-import com.inncretech.user.dao.UserLoginLookupDao;
-import com.inncretech.user.model.User;
-import com.inncretech.user.model.UserForgotPassword;
-import com.inncretech.user.model.UserForgotPasswordLookup;
-import com.inncretech.user.model.UserLoginLookup;
 import com.inncretech.user.service.FacebookMemberService;
 import com.inncretech.user.service.UserService;
+
+import javax.validation.Valid;
 
 @Service
 public class DefaultUserServiceImpl implements UserService {
@@ -45,6 +41,9 @@ public class DefaultUserServiceImpl implements UserService {
   @Autowired
   private UserLoginLookupDao userLoginLookupDao;
 
+  @Autowired
+  private UserAccessTokenDao userAccessTokenDao;
+
   @Override
   @ShardAware(shardStrategy = "entityid", shardType = ShardType.USER)
   public User get(Long userId) {
@@ -61,17 +60,18 @@ public class DefaultUserServiceImpl implements UserService {
   }
 
   @ShardAware(shardStrategy = "entityid", shardType = ShardType.USER)
-  public User createUser(User user) {
-    user.setRecordStatus(RecordStatus.ACTIVE.getId());
-    user.setCreatedAt(new DateTime());
-    user.setUpdatedAt(new DateTime());
+  public User createUser(@Valid User user) {
+    passwordService.initializeCryptoForNewUser(user);
     userDao.save(user);
-
-    UserLoginLookup userLoginLookup = new UserLoginLookup();
-    userLoginLookup.setUserId(user.getId());
-    userLoginLookup.setLogin(user.getEmail());
-    userLoginLookupDao.save(userLoginLookup);
+    saveUserLoginLookup(user.getId() , user.getEmail());
     return user;
+  }
+
+  private void saveUserLoginLookup(Long userId, String email){
+    UserLoginLookup userLoginLookup = new UserLoginLookup();
+    userLoginLookup.setUserId(userId);
+    userLoginLookup.setLogin(email);
+    userLoginLookupDao.save(userLoginLookup);
   }
 
   @ShardAware(shardStrategy = "entityid", shardType = ShardType.USER)
@@ -79,7 +79,6 @@ public class DefaultUserServiceImpl implements UserService {
     User readUser = userDao.get(user.getId());
     readUser.setFirstName(user.getFirstName());
     readUser.setLastName(user.getLastName());
-    readUser.setUpdatedAt(new DateTime());
     userDao.update(readUser);
 
   }
@@ -91,10 +90,6 @@ public class DefaultUserServiceImpl implements UserService {
     ufp.setUserId(userId);
     ufp.setRndString(token);
     ufp.setDateRndString(new DateTime());
-    ufp.setCreatedAt(new DateTime());
-    ufp.setUpdatedAt(new DateTime());
-    ufp.setCreatedBy(userId);
-    ufp.setUpdatedBy(userId);
     userFPDao.save(ufp);
 
     UserForgotPasswordLookup ufpLookup = new UserForgotPasswordLookup();
@@ -150,13 +145,43 @@ public class DefaultUserServiceImpl implements UserService {
   }
 
   @Override
-  public User authenticateUser(String userName, String password) {
+  public User authenticateUser(String userName, String password){
     UserLoginLookup userLoginLookup = userLoginLookupDao.getUserLoginLookup(userName);
     if (userLoginLookup != null) {
       User user = userDao.get(userLoginLookup.getUserId());
-      if (BCrypt.checkpw(password, user.getPassword()))
+      if (passwordService.checkPassword(password, user))
         return user;
     }
     return null;
+  }
+
+  public LoginResponse generateAccessToken(String userName, String password , String deviceId){
+    LoginResponse loginResponse = null;
+    User user = authenticateUser(userName, password);
+
+    if(user != null){
+      loginResponse = new LoginResponse();
+      UserAccessToken userAccessToken = passwordService.generateAccessToken(user, password, deviceId);
+
+      userAccessToken.setId(idGenerator.getNewIdOnUserShard(user.getId()));
+      userAccessTokenDao.save(userAccessToken);
+      loginResponse.setAccessToken(userAccessToken.getAccessToken());
+      loginResponse.setUser(user);
+    }
+
+    return loginResponse;
+  }
+
+  @ShardAware(shardStrategy = "entityid", shardType = ShardType.USER)
+  public User authenticateAccessToken(Long userId, String accessToken){
+    UserAccessToken userAccessToken = userAccessTokenDao.getUserAccessToken(userId, accessToken);
+    User user = null;
+
+    if(userAccessToken != null){
+      user = userDao.get(userAccessToken.getUserId());
+      passwordService.retrieveMasterKey(userAccessToken);
+    }
+
+    return user;
   }
 }

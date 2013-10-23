@@ -34,6 +34,10 @@ public abstract class AbstractMutableEntity extends AbstractImmutatableEntity {
   @Column
   private Byte recordStatus;
 
+  public AbstractMutableEntity(){
+    setRecordStatus(RecordStatus.ACTIVE.getId());
+  }
+
   /**
    * Return the value associated with the column: updatedAt.
    * 

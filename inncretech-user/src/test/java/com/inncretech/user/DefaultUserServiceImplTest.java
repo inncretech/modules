@@ -1,8 +1,10 @@
 package com.inncretech.user;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
+import com.inncretech.user.model.LoginResponse;
 import org.joda.time.DateTime;
 import org.junit.Before;
 import org.junit.Test;
@@ -32,17 +34,18 @@ public class DefaultUserServiceImplTest {
 
   @Before
   public void setUp() {
-    dbUtility.cleanUpdb(new String[] { "user", "user_forget_pwd", "user_profile" });
+    dbUtility.cleanUpdb(new String[] { "user", "user_forget_pwd", "user_profile", "user_login_lookup" });
   }
 
   @Test
   public void createUser() {
-    for (int i = 0; i < 5; i++) {
       User usr = createTestUser("Mahesh", "Kumar", "mmk@gmail.com", "mmk123", "mm111", "mmk@facebook", "mmk@twitter", "mmk@gooogle");
       User returnUser = userService.createUser(usr);
       assertTrue(returnUser.getId() > 0);
       assertEquals("Mahesh", returnUser.getFirstName());
-    }
+      assertNotNull(userService.authenticateUser("mmk@gmail.com", "mm111"));
+      LoginResponse loginResponse = userService.generateAccessToken("mmk@gmail.com", "mm111" , "s1");
+      assertNotNull(userService.authenticateAccessToken(usr.getId(), loginResponse.getAccessToken()));
   }
 
   @Test
