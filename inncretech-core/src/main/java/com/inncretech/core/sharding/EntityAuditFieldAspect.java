@@ -4,6 +4,7 @@ import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.annotation.Pointcut;
 import org.joda.time.DateTime;
+import org.joda.time.DateTimeZone;
 import org.springframework.stereotype.Component;
 
 import com.inncretech.core.model.AbstractImmutatableEntity;
@@ -20,14 +21,24 @@ public class EntityAuditFieldAspect {
   
   @Before("preStoreEntity() && args(abstractMutableEntity)")
   public void preStoreMutableEntity(AbstractMutableEntity abstractMutableEntity) {
-    abstractMutableEntity.setUpdatedAt(new DateTime());
+    abstractMutableEntity.setUpdatedAt(currentTimeWithoutFractionalSeconds());
   }
   
   @Before("preStoreEntity() && args(abstractImmutableEntity)")
   public void preStoreImmutableEntity(AbstractImmutatableEntity abstractImmutableEntity) {
     if (abstractImmutableEntity.getCreatedAt() == null) {
-      abstractImmutableEntity.setCreatedAt(new DateTime());
+      abstractImmutableEntity.setCreatedAt(currentTimeWithoutFractionalSeconds());
     }
+  }
+  
+  /**
+   * Current time that is compatible with <code>equals</code> before and
+   * after an object is persisted.
+   * 
+   * @return Current time in UTC without fractional seconds
+   */
+  private DateTime currentTimeWithoutFractionalSeconds() {
+    return new DateTime(DateTimeZone.UTC).secondOfMinute().roundFloorCopy();
   }
 
   @Pointcut("preSaveEntity() || preUpdateEntity() || preSaveOrUpdateEntity()")
