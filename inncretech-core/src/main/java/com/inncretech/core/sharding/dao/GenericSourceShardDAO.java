@@ -7,6 +7,7 @@ import java.util.Map;
 import com.inncretech.core.model.BaseEntity;
 import org.hibernate.Query;
 import org.hibernate.criterion.Criterion;
+import org.hibernate.criterion.DetachedCriteria;
 
 import com.inncretech.core.sharding.ShardAware;
 import com.inncretech.core.sharding.ShardType;
@@ -148,4 +149,7 @@ public interface GenericSourceShardDAO<T extends BaseEntity, PK extends Serializ
   Class<T> getPersistentClass();
 
   public Map<Integer, List<Long>> bucketizeEntites(List<Long> entityIds);
+  
+  @ShardAware(shardStrategy = "shardid", shardType = ShardType.SOURCE)
+  public List<T> findByCriteria(Integer shardId, DetachedCriteria detachedCriteria);
 }
