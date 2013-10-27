@@ -30,10 +30,15 @@ public class AbstractShardAwareHibernateDao<T extends IdEntity, PK extends Seria
   }
 
   @Autowired
-  private HibernateSessionFactoryManager sessionFactoryManager = null;
+  private ShardAwareDaoUtil shardAwareDaoUtil;
 
-  @Autowired
-  private IdGenerator idGenService = null;
+  public Session getCurrentSessionByShard(Integer shardId) {
+   return shardAwareDaoUtil.getCurrentSessionByShard(shardId);
+  }
+
+  public IdGenerator getIdGenService() {
+    return shardAwareDaoUtil.getIdGenService();
+  }
 
   public void delete(T persistentObject) {
     getSession(persistentObject.getId()).delete(persistentObject);
@@ -71,12 +76,12 @@ public class AbstractShardAwareHibernateDao<T extends IdEntity, PK extends Seria
   }
 
   public Query getQuery(Integer shardId, String s) {
-    return getCurrentSessionByShard(shardId).createQuery(s);
+    return shardAwareDaoUtil.getCurrentSessionByShard(shardId).createQuery(s);
   }
 
   @SuppressWarnings("unchecked")
   public List<T> findByCriteria(Integer shardId, Criterion... criterion) {
-    Criteria crit = getCurrentSessionByShard(shardId).createCriteria(clazz);
+    Criteria crit = shardAwareDaoUtil.getCurrentSessionByShard(shardId).createCriteria(clazz);
 
     for (Criterion c : criterion) {
       crit.add(c);
@@ -94,7 +99,7 @@ public class AbstractShardAwareHibernateDao<T extends IdEntity, PK extends Seria
 
   @SuppressWarnings("unchecked")
   public List<T> findByExample(Integer shardId, T exampleInstance, String... excludeProperty) {
-    Criteria crit = getCurrentSessionByShard(shardId).createCriteria(clazz);
+    Criteria crit = shardAwareDaoUtil.getCurrentSessionByShard(shardId).createCriteria(clazz);
     Example example = Example.create(exampleInstance);
     for (String exclude : excludeProperty) {
       example.excludeProperty(exclude);
@@ -103,26 +108,15 @@ public class AbstractShardAwareHibernateDao<T extends IdEntity, PK extends Seria
     return crit.list();
   }
 
-  public Session getCurrentSessionByShard(Integer shardId) {
-    SessionFactory sessionFactory = sessionFactoryManager.getSessionFactory(shardId);
-    return sessionFactory.getCurrentSession();
-  }
 
-  public Map<Integer, List<Long>> bucketizeEntites(List<Long> entityIds) {
-    return idGenService.bucketizeEntites(entityIds, getShardType());
-  }
-
-  public IdGenerator getIdGenService() {
-    return idGenService;
-  }
 
   public ShardType getShardType() {
     return shardType;
   }
 
   public Session getSession(Long entityId) {
-    Integer shardId = idGenService.getShardId(entityId, getShardType());
-    SessionFactory sessionFactory = sessionFactoryManager.getSessionFactory(shardId);
+    Integer shardId = shardAwareDaoUtil.getIdGenService().getShardId(entityId, getShardType());
+    SessionFactory sessionFactory = shardAwareDaoUtil.getSessionFactoryManager().getSessionFactory(shardId);
     return sessionFactory.getCurrentSession();
   }
   
@@ -130,8 +124,7 @@ public class AbstractShardAwareHibernateDao<T extends IdEntity, PK extends Seria
     return clazz;
   }
 
-  @SuppressWarnings("unchecked")
-  public List<T> findByCriteria(Integer shardId, DetachedCriteria detachedCriteria) {
-    return detachedCriteria.getExecutableCriteria(getCurrentSessionByShard(shardId)).list();
+  public Map<Integer, List<Long>> bucketizeEntites(List<Long> entityIds) {
+    return shardAwareDaoUtil.getIdGenService().bucketizeEntites(entityIds, getShardType());
   }
 }
