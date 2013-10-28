@@ -90,6 +90,7 @@ public abstract class GenericSourceShardDaoImpl<T extends BaseEntity, PK extends
     return super.findByCriteria(shardId, criterion);
   }
 
+  @SuppressWarnings("unchecked")
   @Override
   @ShardAware(shardStrategy = "shardid", shardType = ShardType.SOURCE)
   public List<T> findByCriteria(Integer shardId, DetachedCriteria detachedCriteria) {

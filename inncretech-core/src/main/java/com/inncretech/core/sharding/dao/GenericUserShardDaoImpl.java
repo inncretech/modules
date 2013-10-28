@@ -6,6 +6,7 @@ import com.inncretech.core.sharding.ShardAware;
 import com.inncretech.core.sharding.ShardType;
 import org.hibernate.Query;
 import org.hibernate.criterion.Criterion;
+import org.hibernate.criterion.DetachedCriteria;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.io.Serializable;
@@ -25,6 +26,9 @@ public abstract class GenericUserShardDaoImpl<T extends BaseEntity, PK extends S
 
   @Autowired
   private IdGenerator idGenerator;
+  
+  @Autowired
+  private MultiShardSourceDao multiShardSourceDao;
 
   public GenericUserShardDaoImpl(Class<T> type) {
     super(type , ShardType.USER);
@@ -105,5 +109,12 @@ public abstract class GenericUserShardDaoImpl<T extends BaseEntity, PK extends S
   @ShardAware(shardStrategy = "entityid", shardType = ShardType.USER)
   public List<T> findByExample(Integer shardId, T exampleInstance, String... excludeProperty) {
     return super.findByExample(shardId, exampleInstance, excludeProperty);
+  }
+  
+  @SuppressWarnings("unchecked")
+  @Override
+  @ShardAware(shardStrategy = "shardid", shardType = ShardType.SOURCE)
+  public List<T> findByCriteria(Integer shardId, DetachedCriteria detachedCriteria) {
+    return multiShardSourceDao.findByCriteria(shardId, detachedCriteria);
   }
 }
