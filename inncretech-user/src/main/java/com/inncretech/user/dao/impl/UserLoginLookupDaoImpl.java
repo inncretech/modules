@@ -1,6 +1,6 @@
 package com.inncretech.user.dao.impl;
 
-import com.inncretech.core.sharding.dao.GenericDAOImpl;
+import com.inncretech.core.sharding.dao.impl.GenericDAOImpl;
 import com.inncretech.user.dao.UserLoginLookupDao;
 import com.inncretech.user.model.UserLoginLookup;
 import org.hibernate.Query;

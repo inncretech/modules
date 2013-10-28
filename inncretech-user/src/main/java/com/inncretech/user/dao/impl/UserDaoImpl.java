@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 import com.inncretech.core.model.RecordStatus;
 import com.inncretech.core.sharding.ShardAware;
 import com.inncretech.core.sharding.ShardType;
-import com.inncretech.core.sharding.dao.GenericUserShardDaoImpl;
+import com.inncretech.core.sharding.dao.impl.GenericUserShardDaoImpl;
 import com.inncretech.user.dao.UserDao;
 import com.inncretech.user.model.User;
 

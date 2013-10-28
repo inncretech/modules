@@ -1,7 +1,7 @@
 package com.inncretech.user.dao.impl;
 
 
-import com.inncretech.core.sharding.dao.GenericUserShardDaoImpl;
+import com.inncretech.core.sharding.dao.impl.GenericUserShardDaoImpl;
 import com.inncretech.user.dao.UserAccessTokenDao;
 import com.inncretech.user.model.UserAccessToken;
 import org.hibernate.Query;

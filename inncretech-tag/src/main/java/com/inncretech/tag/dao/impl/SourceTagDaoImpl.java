@@ -3,7 +3,8 @@ package com.inncretech.tag.dao.impl;
 import java.util.List;
 
 import com.inncretech.core.model.RecordStatus;
-import com.inncretech.core.sharding.dao.GenericSourceShardDaoImpl;
+import com.inncretech.core.sharding.dao.impl.GenericSourceShardDaoImpl;
+
 import org.hibernate.Query;
 import org.springframework.stereotype.Component;
 

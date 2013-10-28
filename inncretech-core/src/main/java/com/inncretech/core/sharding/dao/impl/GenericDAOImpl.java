@@ -1,6 +1,8 @@
-package com.inncretech.core.sharding.dao;
+package com.inncretech.core.sharding.dao.impl;
 
 import com.inncretech.core.model.BaseEntity;
+import com.inncretech.core.sharding.dao.GenericDAO;
+
 import org.hibernate.Criteria;
 import org.hibernate.Query;
 import org.hibernate.Session;

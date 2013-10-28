@@ -1,8 +1,12 @@
-package com.inncretech.core.sharding.dao;
+package com.inncretech.core.sharding.dao.impl;
 
 import com.inncretech.core.model.BaseEntity;
 import com.inncretech.core.sharding.ShardAware;
 import com.inncretech.core.sharding.ShardType;
+import com.inncretech.core.sharding.dao.AbstractShardAwareHibernateDao;
+import com.inncretech.core.sharding.dao.GenericSourceShardDAO;
+import com.inncretech.core.sharding.dao.MultiShardSourceDao;
+
 import org.hibernate.Query;
 import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.DetachedCriteria;

@@ -5,7 +5,7 @@ import java.util.List;
 import org.hibernate.criterion.DetachedCriteria;
 import org.springframework.stereotype.Component;
 
-import com.inncretech.core.sharding.dao.GenericUserShardDaoImpl;
+import com.inncretech.core.sharding.dao.impl.GenericUserShardDaoImpl;
 import com.inncretech.source.dao.SourceUserShardDao;
 import com.inncretech.source.model.Source;
 

@@ -1,15 +1,12 @@
 package com.inncretech.core.sharding.dao;
 
-import com.inncretech.core.sharding.HibernateSessionFactoryManager;
-import com.inncretech.core.sharding.IdGenerator;
-import com.inncretech.core.sharding.ShardType;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.util.List;
-import java.util.Map;
+import com.inncretech.core.sharding.HibernateSessionFactoryManager;
+import com.inncretech.core.sharding.IdGenerator;
 
 @Component
 public class ShardAwareDaoUtil {

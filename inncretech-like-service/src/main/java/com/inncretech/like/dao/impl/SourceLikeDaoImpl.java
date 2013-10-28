@@ -10,8 +10,8 @@ import org.springframework.stereotype.Component;
 
 import com.inncretech.core.sharding.ShardAware;
 import com.inncretech.core.sharding.ShardType;
-import com.inncretech.core.sharding.dao.GenericSourceShardDaoImpl;
 import com.inncretech.core.sharding.dao.ShardConfigDao;
+import com.inncretech.core.sharding.dao.impl.GenericSourceShardDaoImpl;
 import com.inncretech.like.dao.SourceLikeDao;
 import com.inncretech.like.model.SourceLike;
 

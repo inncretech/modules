@@ -11,8 +11,8 @@ import com.inncretech.core.model.RecordStatus;
 import com.inncretech.core.sharding.HibernateSessionFactoryManager;
 import com.inncretech.core.sharding.ShardAware;
 import com.inncretech.core.sharding.ShardType;
-import com.inncretech.core.sharding.dao.GenericUserShardDaoImpl;
 import com.inncretech.core.sharding.dao.ShardConfigDao;
+import com.inncretech.core.sharding.dao.impl.GenericUserShardDaoImpl;
 import com.inncretech.follow.dao.FollowUserDao;
 import com.inncretech.follow.model.FollowUser;
 

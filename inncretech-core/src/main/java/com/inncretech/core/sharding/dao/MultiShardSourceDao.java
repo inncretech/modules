@@ -15,6 +15,7 @@ public class MultiShardSourceDao {
   @Autowired
   private ShardAwareDaoUtil shardAwareDaoUtil;
 
+  @SuppressWarnings("rawtypes")
   @ShardAware(shardStrategy = "shardid" , shardType = ShardType.SOURCE)
   public List findByCriteria(Integer shardId, DetachedCriteria detachedCriteria) {
     Session session = shardAwareDaoUtil.getCurrentSessionByShard(shardId);

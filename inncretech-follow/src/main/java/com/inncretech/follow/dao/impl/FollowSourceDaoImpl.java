@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 import com.inncretech.core.sharding.HibernateSessionFactoryManager;
 import com.inncretech.core.sharding.ShardAware;
 import com.inncretech.core.sharding.ShardType;
-import com.inncretech.core.sharding.dao.GenericSourceShardDaoImpl;
+import com.inncretech.core.sharding.dao.impl.GenericSourceShardDaoImpl;
 import com.inncretech.follow.dao.FollowSourceDao;
 import com.inncretech.follow.model.FollowSource;
 

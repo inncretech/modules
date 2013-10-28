@@ -9,7 +9,7 @@ import com.inncretech.comment.dao.CommentDao;
 import com.inncretech.comment.model.Comment;
 import com.inncretech.core.sharding.ShardAware;
 import com.inncretech.core.sharding.ShardType;
-import com.inncretech.core.sharding.dao.GenericSourceShardDaoImpl;
+import com.inncretech.core.sharding.dao.impl.GenericSourceShardDaoImpl;
 
 @SuppressWarnings("unchecked")
 @Component
