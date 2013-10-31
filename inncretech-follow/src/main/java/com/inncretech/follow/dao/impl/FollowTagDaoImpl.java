@@ -51,7 +51,7 @@ public class FollowTagDaoImpl extends GenericUserShardDaoImpl<FollowTag, Long> i
   }
 
   @SuppressWarnings("unchecked")
-  @ShardAware(shardStrategy = "shardid")
+  @ShardAware(shardStrategy = "entityid", shardType = ShardType.USER)
   public Collection<? extends FollowTag> getfollowedTagsByUser(Long userId) {
 
     Query query = getQuery(getIdGenService().getShardId(userId, ShardType.USER), "from FollowTag where followerId= :user_id");
@@ -83,12 +83,13 @@ public class FollowTagDaoImpl extends GenericUserShardDaoImpl<FollowTag, Long> i
 
   @ShardAware(shardStrategy = "entityid", shardType = ShardType.USER)
   public boolean doesUserFollowTag(long userId, long tagId) {
-    Query query = getQuery(getIdGenService().getShardId(userId, ShardType.USER), "from FollowUser where userId= :userId" + " and tagId= :tagId"
-        + " and record_status= :record_status");
+    Query query = getQuery(getIdGenService().getShardId(userId, ShardType.USER), "from FollowTag where followerId= :userId" + " and tagId= :tagId"
+        + " and recordStatus= :recordStatus");
 
     query.setParameter("userId", userId);
     query.setParameter("tagId", tagId);
     query.setParameter("recordStatus", RecordStatus.ACTIVE.getId());
+
     if (query.list().size() > 0)
       return true;
 

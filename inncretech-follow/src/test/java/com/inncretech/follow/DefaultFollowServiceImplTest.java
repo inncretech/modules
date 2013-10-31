@@ -24,7 +24,7 @@ public class DefaultFollowServiceImplTest extends BaseTest {
 
 	@Test
 	public void testFollowTag() {
-		followService.followTag(idGenerator.getNewUserId(), new Long("NULL"));
+		followService.followTag(idGenerator.getNewUserId(), new Long(1L));
 	}
 
 	@Test
