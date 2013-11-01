@@ -55,8 +55,11 @@ public class DefaultFollowServiceImpl implements FollowService {
 		followTag.setTagId(tagId);
 		followTag.setFollowerId(userId);
 		followTag.setRecordStatus(RecordStatus.ACTIVE.getId());
+		followTag.setUpdatedAt(new DateTime());
 		followTagDao.save(followTag);
 		return followTag;
+
+
 
 	}
 

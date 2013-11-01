@@ -41,6 +41,7 @@ public class FollowTagDaoImpl extends GenericUserShardDaoImpl<FollowTag, Long> i
     query.setParameter("recordStatus", RecordStatus.ACTIVE.getId());
 
 
+
     return query.list();
   }
 
@@ -64,6 +65,7 @@ public class FollowTagDaoImpl extends GenericUserShardDaoImpl<FollowTag, Long> i
 		}
 		return followersList;
 
+
 	}
 	
 	@SuppressWarnings("unchecked")
@@ -76,6 +78,8 @@ public class FollowTagDaoImpl extends GenericUserShardDaoImpl<FollowTag, Long> i
 		query.setParameter("recordStatus", RecordStatus.ACTIVE.getId());
 		return query.list();
 	}
+
+
 
 
 
