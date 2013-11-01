@@ -94,15 +94,15 @@ public class TestDefaultFollowServiceImpl extends BaseTest {
   	List<FollowTag> followTagList= followService.getFollowedTags(userId);
   	System.out.println("User follows number of tags (2): "+followTagList.size());
   	
-  	followTagList= followService.getFollowersByTag(tag2.getId());
-  	System.out.println("Followers by Tag (1)"+followTagList.size());
-  	followTagList= followService.getFollowersByTag(tag1.getId());
-  	System.out.println("Followers by Tag (2)"+followTagList.size());
-  	
-  	
-  	System.out.println("Number of followers by  a tagId: "+followTagList.size());
-  	System.out.println("Follower 1: "+followTagList.get(0).getFollowerId());
-  	System.out.println("Follower 2: "+followTagList.get(1).getFollowerId());
+//  	followTagList= followService.getFollowersByTag(tag2.getId());
+//  	System.out.println("Followers by Tag (1)"+followTagList.size());
+//  	followTagList= followService.getFollowersByTag(tag1.getId());
+//  	System.out.println("Followers by Tag (2)"+followTagList.size());
+//  	
+//  	
+//  	System.out.println("Number of followers by  a tagId: "+followTagList.size());
+//  	System.out.println("Follower 1: "+followTagList.get(0).getFollowerId());
+//  	System.out.println("Follower 2: "+followTagList.get(1).getFollowerId());
   	
   	followTag = followService.unFollowTag(userId, tag1.getId());
   	followTagList= followService.getFollowedTags(userId);
