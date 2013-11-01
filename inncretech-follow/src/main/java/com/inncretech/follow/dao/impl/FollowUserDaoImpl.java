@@ -22,8 +22,6 @@ public class FollowUserDaoImpl extends GenericUserShardDaoImpl<FollowUser, Long>
   @Autowired
   private ShardConfigDao shardConfigDao;
 
-  @Autowired
-  private HibernateSessionFactoryManager hibernateSessionFactoryManager;
 
   public FollowUserDaoImpl() {
     super(FollowUser.class);

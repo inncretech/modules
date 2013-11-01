@@ -8,13 +8,13 @@ import com.inncretech.follow.model.FollowUser;
 
 public interface FollowService {
 
-	void followTag(Long followerId, Long tagid);
+	FollowTag followTag(Long followerId, Long tagid);
 
 	void followSource(Long sourceId, Long followerId);
 
 	FollowUser followUser(Long userId, Long followerId);
 	
-	void unFollowTag(Long tagid, Long followerId);
+	FollowTag unFollowTag(Long tagid, Long followerId);
 
 	void unFollowSource(Long sourceId, Long followerId);
 

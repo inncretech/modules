@@ -31,8 +31,22 @@ public class DefaultTagServiceImplTest{
 
   @Test
   public void testTagSource() {
-    Tag tag = tagService.createTag("test1", 1L);
-    tagService.tagSource(idGenerator.getNewSourceId(), idGenerator.getNewUserId(), tag.getId());
+    Tag tag1 = tagService.createTag("test1", 1L);
+    Tag tag2 = tagService.createTag("test2", 1L);
+    Long sourceId = idGenerator.getNewSourceId();
+    tagService.tagSource(sourceId, idGenerator.getNewUserId(), tag1.getId());
+    tagService.tagSource(sourceId, idGenerator.getNewUserId(), tag2.getId());
+    List<Tag> tagList = tagService.getTagsOfSource(sourceId);
+    System.out.println(tagList.size());
+    System.out.println(tagList.get(0).getName());
+    System.out.println(tagList.get(1).getName());
+    tagService.removeTagFromSource(sourceId, tag1.getId());
+    tagList = tagService.getTagsOfSource(sourceId);
+    System.out.println(tagList.size());
+    System.out.println(tagList.get(0).getName());
+    Tag tag  = tagService.get(tagList.get(0).getId());
+    System.out.println(tag.getName());
+    System.out.println(tag.toString());
   }
 
   @Test
@@ -42,7 +56,9 @@ public class DefaultTagServiceImplTest{
 
   @Test
   public void testGetTagsCreatedByUser() {
-    tagService.getTagsCreatedByUser((long) 1);
+//  	 Tag tag = tagService.createTag("test1", 1L);
+//     List<Tag> taglist = tagService.getTagsCreatedByUser((long) 1);
+//     System.out.println(taglist.size());
   }
 
   @Test

@@ -45,17 +45,18 @@ public class DefaultFollowServiceImpl implements FollowService {
 
 	@Override
 	@ShardAware(shardStrategy = "entityid", shardType = ShardType.USER)
-	public void followTag(Long userId, Long tagId) {
+	public FollowTag followTag(Long userId, Long tagId) {
 
 		if (doesUserFollowTag(userId, tagId)) {
-			return;
+			return null;
 		}
 		FollowTag followTag = new FollowTag();
 		followTag.setId(idGenerator.getNewIdOnUserShard(userId));
 		followTag.setTagId(tagId);
 		followTag.setFollowerId(userId);
 		followTag.setRecordStatus(RecordStatus.ACTIVE.getId());
-		followTagDao.saveFollowTag(followTag);
+		followTagDao.save(followTag);
+		return followTag;
 
 	}
 
@@ -75,33 +76,25 @@ public class DefaultFollowServiceImpl implements FollowService {
 	@Override
 	public List<FollowTag> getFollowersByTag(Long tagId) {
 
-		List<ShardConfig> shardConfigs = shardConfigDao.getAllShards(ShardType.USER.getType());
-		List<FollowTag> followersList = new ArrayList<FollowTag>();
-
-		for (ShardConfig config : shardConfigs) {
-			followersList.addAll(followTagDao.getFollowersByTag(config.getId(), tagId));
-		}
-
-		return followersList;
+		return followTagDao.getFollowersByTag( tagId);
+		
 	}
 
 	@Override
 	@ShardAware(shardStrategy = "entityid", shardType = ShardType.USER)
 	public List<FollowTag> getFollowedTags(Long userId) {
 
-		List<FollowTag> followedTagsList = new ArrayList<FollowTag>();
-
-		followedTagsList.addAll(followTagDao.getfollowedTagsByUser(userId));
-		return followedTagsList;
+		return followTagDao.getFollowedTagsByUser(userId);
+		
 	}
 
 	@Override
 	@ShardAware(shardStrategy = "entityid", shardType = ShardType.USER)
 	public FollowUser followUser(Long userId, Long followerId) {
 
-//		if (doesUserFollowAUser(userId, followerId)) {
-//			return;
-//		}
+		if (doesUserFollowAUser(userId, followerId)) {
+			return null;
+		}
 		
 		FollowUser followUser = new FollowUser();
 		followUser.setFollowerId(followerId);
@@ -139,9 +132,8 @@ public class DefaultFollowServiceImpl implements FollowService {
 
 	@Override
 	@ShardAware(shardStrategy = "entityid", shardType = ShardType.USER)
-	public void unFollowTag(Long userId, Long tagId) {
-		followTagDao.unfollowTag(userId, tagId);
-
+	public FollowTag unFollowTag(Long userId, Long tagId) {
+		return followTagDao.unfollowTag(userId, tagId);
 	}
 
 	@Override
