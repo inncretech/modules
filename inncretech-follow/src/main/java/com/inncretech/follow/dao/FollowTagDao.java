@@ -12,8 +12,6 @@ public interface FollowTagDao  extends GenericUserShardDAO<FollowTag, Long> {
 
 	public List<FollowTag> getFollowersByTag(Long tagId);
 	
-	public List<FollowTag> getFollowersByTag(Integer shardId, Long tagId);
-
 	@ShardAware(shardStrategy = "entityid",shardType = ShardType.USER)
 	public List<FollowTag> getFollowedTagsByUser(Long userId);
 	

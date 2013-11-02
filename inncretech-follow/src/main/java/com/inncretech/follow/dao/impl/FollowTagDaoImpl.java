@@ -5,6 +5,8 @@ import java.util.List;
 
 import org.hibernate.Query;
 import org.hibernate.Session;
+import org.hibernate.criterion.DetachedCriteria;
+import org.hibernate.criterion.Property;
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -28,44 +30,16 @@ public class FollowTagDaoImpl extends GenericUserShardDaoImpl<FollowTag, Long> i
 		super(FollowTag.class);
 	}
 
-
-
-	@SuppressWarnings("unchecked")
-  @ShardAware(shardStrategy = "shardid")
-  public List<FollowTag> getFollowersByTag(Integer shardId, Long tagId) {
-
-		Session sess = getCurrentSessionByShard(shardId);
-    Query query = 
-    		sess.createQuery("from FollowTag where tagId= :tag_id and recordStatus= :recordStatus");
-    query.setParameter("tag_id", tagId);
-    query.setParameter("recordStatus", RecordStatus.ACTIVE.getId());
-
-
-
-    return query.list();
-  }
-
-
-
 	@SuppressWarnings("unchecked")
 	public List<FollowTag> getFollowersByTag(Long tagId) {
-
-		List<ShardConfig> shardConfigs = getAllShards();
-		List<FollowTag> followersList = new ArrayList<FollowTag>();
-
-		for (ShardConfig config : shardConfigs) {
-			
-			
-			
-			List<FollowTag> followTagList = getFollowersByTag(config.getId(),tagId);
-			
-
-			followersList.addAll(followTagList);
-
-		}
-		return followersList;
-
-
+    List<FollowTag> followTags = new ArrayList<FollowTag>();
+    List<ShardConfig> shardConfigs = getAllShards();
+    for (ShardConfig config : shardConfigs) {
+      DetachedCriteria detachedCriteria = DetachedCriteria.forClass(getPersistentClass())
+          .add(Property.forName("tagId").eq(tagId)).add(Property.forName("recordStatus").eq(RecordStatus.ACTIVE.getId()));
+      followTags.addAll(findByCriteria(config.getId(), detachedCriteria));
+    }
+    return followTags;
 	}
 	
 	@SuppressWarnings("unchecked")
