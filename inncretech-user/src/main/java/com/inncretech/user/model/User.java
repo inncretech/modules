@@ -4,9 +4,9 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
-import com.inncretech.core.model.AbstractMutableEntity;
-import com.inncretech.core.model.RecordStatus;
 import org.hibernate.validator.constraints.NotEmpty;
+
+import com.inncretech.core.model.AbstractMutableEntity;
 
 @Entity
 public class User extends AbstractMutableEntity {

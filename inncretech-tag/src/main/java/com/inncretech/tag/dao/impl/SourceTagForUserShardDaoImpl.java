@@ -2,32 +2,31 @@ package com.inncretech.tag.dao.impl;
 
 import java.util.List;
 
-import com.inncretech.core.model.RecordStatus;
-import com.inncretech.core.sharding.dao.impl.GenericSourceShardDaoImpl;
-
 import org.hibernate.Query;
 import org.springframework.stereotype.Component;
 
+import com.inncretech.core.model.RecordStatus;
 import com.inncretech.core.sharding.ShardAware;
 import com.inncretech.core.sharding.ShardType;
-import com.inncretech.tag.dao.SourceTagDao;
+import com.inncretech.core.sharding.dao.impl.GenericUserShardDaoImpl;
+import com.inncretech.tag.dao.SourceTagForUserShardDao;
 import com.inncretech.tag.model.SourceTag;
 import com.inncretech.tag.model.Tag;
 
 @Component
-public class SourceTagDaoImpl extends GenericSourceShardDaoImpl<SourceTag, Long> implements SourceTagDao {
+public class SourceTagForUserShardDaoImpl extends GenericUserShardDaoImpl<SourceTag, Long> implements SourceTagForUserShardDao {
 
-  public SourceTagDaoImpl() {
+  public SourceTagForUserShardDaoImpl() {
     super(SourceTag.class);
   }
 
-  @ShardAware(shardStrategy = "entityid", shardType = ShardType.SOURCE)
+  @ShardAware(shardStrategy = "entityid", shardType = ShardType.USER)
   public void saveSourceTag(SourceTag sourceTag) {
     save(sourceTag);
   }
 
   @SuppressWarnings("unchecked")
-  @ShardAware(shardStrategy = "entityid", shardType = ShardType.SOURCE)
+  @ShardAware(shardStrategy = "entityid", shardType = ShardType.USER)
   public List<SourceTag> getTagsOfSource(Long sourceId) {
     Query query = getQuery(getIdGenService().getShardId(sourceId, ShardType.SOURCE), "from SourceTag where sourceId= :sourceid"
         + " and record_status= :record_status");
@@ -41,7 +40,7 @@ public class SourceTagDaoImpl extends GenericSourceShardDaoImpl<SourceTag, Long>
     return null;
   }
 
-  @ShardAware(shardStrategy = "entityid", shardType = ShardType.SOURCE)
+  @ShardAware(shardStrategy = "entityid", shardType = ShardType.USER)
   public void removeTagFromSource(Long sourceId, Long tagId) {
     Query query = getQuery(getIdGenService().getShardId(sourceId, ShardType.SOURCE), "update SourceTag set record_status= :record_status"
         + " where source_id= :source_id" + " and tag_id= :tag_id");
@@ -49,6 +48,7 @@ public class SourceTagDaoImpl extends GenericSourceShardDaoImpl<SourceTag, Long>
     query.setParameter("source_id", sourceId);
     query.setParameter("tag_id", tagId);
     query.executeUpdate();
+
   }
 
 }
