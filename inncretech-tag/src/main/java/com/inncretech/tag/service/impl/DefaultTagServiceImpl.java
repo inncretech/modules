@@ -5,18 +5,17 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import com.inncretech.core.model.RecordStatus;
-import com.inncretech.core.sharding.IdGenerator;
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.inncretech.core.model.RecordStatus;
+import com.inncretech.core.sharding.IdGenerator;
 import com.inncretech.core.sharding.ShardAware;
 import com.inncretech.core.sharding.ShardType;
 import com.inncretech.tag.dao.SourceTagDao;
+import com.inncretech.tag.dao.SourceTagForUserShardDao;
 import com.inncretech.tag.dao.TagDao;
-import com.inncretech.tag.dao.impl.SourceTagDaoImpl;
-import com.inncretech.tag.dao.impl.TagDaoImpl;
 import com.inncretech.tag.model.SourceTag;
 import com.inncretech.tag.model.Tag;
 import com.inncretech.tag.service.TagService;
@@ -29,6 +28,9 @@ public class DefaultTagServiceImpl implements TagService {
 
   @Autowired
   private SourceTagDao sourceTagDao;
+  
+  @Autowired
+  private SourceTagForUserShardDao sourceTagForUserShardDao;
 
   @Autowired
   private IdGenerator idGenerator;
@@ -44,7 +46,7 @@ public class DefaultTagServiceImpl implements TagService {
   }
 
   @Override
-	public void tagSource(Long sourceId, Long userId, Long tagId) {
+	public void tagSourceInSourceShard(Long sourceId, Long userId, Long tagId) {
 		Tag readTag = tagDao.get(tagId);
 		SourceTag sourceTag = new SourceTag();
 		sourceTag.setId(idGenerator.getNewIdOnSourceShard(sourceId));
@@ -54,6 +56,18 @@ public class DefaultTagServiceImpl implements TagService {
 		sourceTag.setRecordStatus((RecordStatus.ACTIVE.getId()));
 		sourceTagDao.saveSourceTag(sourceTag);
 	}
+  
+  @Override
+  public void tagSourceInUserShard(Long sourceId, Long userId, Long tagId) {
+    Tag readTag = tagDao.get(tagId);
+    SourceTag sourceTag = new SourceTag();
+    sourceTag.setId(idGenerator.getNewIdOnSourceShard(sourceId));
+    sourceTag.setSourceId(sourceId);
+    sourceTag.setUserId(userId);
+    sourceTag.setTagId(readTag.getId());
+    sourceTag.setRecordStatus((RecordStatus.ACTIVE.getId()));
+    sourceTagForUserShardDao.saveSourceTag(sourceTag);
+  }
 
   @Override
   @ShardAware(shardStrategy = "entityid", shardType = ShardType.SOURCE)
@@ -73,9 +87,14 @@ public class DefaultTagServiceImpl implements TagService {
 
   @Override
   @ShardAware(shardStrategy = "entityid", shardType = ShardType.SOURCE)
-  public void removeTagFromSource(Long sourceId, Long tagId) {
+  public void removeTagFromSourceInSourceShard(Long sourceId, Long tagId) {
     sourceTagDao.removeTagFromSource(sourceId, tagId);
-
+  }
+  
+  @Override
+  @ShardAware(shardStrategy = "entityid", shardType = ShardType.USER)
+  public void removeTagFromSourceInUserShard(Long sourceId, Long tagId) {
+    sourceTagDao.removeTagFromSource(sourceId, tagId);
   }
 
   @Override

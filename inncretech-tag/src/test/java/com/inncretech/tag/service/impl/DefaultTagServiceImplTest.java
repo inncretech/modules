@@ -34,13 +34,13 @@ public class DefaultTagServiceImplTest{
     Tag tag1 = tagService.createTag("test1", 1L);
     Tag tag2 = tagService.createTag("test2", 1L);
     Long sourceId = idGenerator.getNewSourceId();
-    tagService.tagSource(sourceId, idGenerator.getNewUserId(), tag1.getId());
-    tagService.tagSource(sourceId, idGenerator.getNewUserId(), tag2.getId());
+    tagService.tagSourceInSourceShard(sourceId, idGenerator.getNewUserId(), tag1.getId());
+    tagService.tagSourceInSourceShard(sourceId, idGenerator.getNewUserId(), tag2.getId());
     List<Tag> tagList = tagService.getTagsOfSource(sourceId);
     System.out.println(tagList.size());
     System.out.println(tagList.get(0).getName());
     System.out.println(tagList.get(1).getName());
-    tagService.removeTagFromSource(sourceId, tag1.getId());
+    tagService.removeTagFromSourceInSourceShard(sourceId, tag1.getId());
     tagList = tagService.getTagsOfSource(sourceId);
     System.out.println(tagList.size());
     System.out.println(tagList.get(0).getName());
@@ -66,11 +66,11 @@ public class DefaultTagServiceImplTest{
     Tag tagOne = tagService.createTag("test2", 1L);
     Tag tagTwo = tagService.createTag("test3", 1L);
     Long sourceId = idGenerator.getNewSourceId();
-    tagService.tagSource(sourceId, tagOne.getCreatedBy(), tagOne.getId());
-    tagService.tagSource(sourceId, tagTwo.getCreatedBy(), tagTwo.getId());
+    tagService.tagSourceInSourceShard(sourceId, tagOne.getCreatedBy(), tagOne.getId());
+    tagService.tagSourceInSourceShard(sourceId, tagTwo.getCreatedBy(), tagTwo.getId());
     List<Tag> tags =  tagService.getTagsOfSource(sourceId);
     System.out.println("Initially, Number of tags "+ tags.size());
-    tagService.removeTagFromSource(sourceId,tagOne.getId());
+    tagService.removeTagFromSourceInSourceShard(sourceId,tagOne.getId());
     tags = tagService.getTagsOfSource(sourceId);
     System.out.println("Finally, Number of tags "+ tags.size());
   }
