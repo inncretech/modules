@@ -12,6 +12,12 @@ public interface UserService {
   @ShardAware(shardStrategy = "entityid", shardType = ShardType.USER)
   User get(Long userId);
 
+  User getUserByEmail(String email);
+
+  public Long getUserIdByEmail(String email);
+
+  User getUserByFacebookId(String facebookId);
+
   User createUser(User user);
 
   @ShardAware(shardStrategy = "entityid", shardType = ShardType.USER)

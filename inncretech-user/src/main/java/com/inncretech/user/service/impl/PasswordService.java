@@ -12,6 +12,7 @@ import org.joda.time.DateTime;
 import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.authentication.encoding.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import javax.crypto.KeyGenerator;
@@ -26,7 +27,7 @@ import java.security.spec.InvalidKeySpecException;
 import java.util.UUID;
 
 @Component
-public class PasswordService {
+public class PasswordService implements PasswordEncoder{
 
   @Value("${mastekey.salt:W0JANzQzNDE5NjA=}")
   private String masterKeySalt;
@@ -143,4 +144,17 @@ public class PasswordService {
   public String hasPassword(String password) {
     return BCrypt.hashpw(password, BCrypt.gensalt());
   }
+
+  @Override
+  public String encodePassword(String rawPass, Object salt) {
+    return null;
+  }
+
+  @Override
+  public boolean isPasswordValid(String encPass, String rawPass, Object salt) {
+    byte[] userSalt = Base64.decode((String)salt);
+    String hashedPassword = generateStrongPasswordHash(rawPass, userSalt);
+    return hashedPassword.equals(encPass);
+  }
+
 }

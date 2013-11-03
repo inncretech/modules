@@ -5,6 +5,7 @@ import com.inncretech.user.dao.UserLoginLookupDao;
 import com.inncretech.user.model.UserLoginLookup;
 import org.hibernate.Query;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -14,6 +15,7 @@ public class UserLoginLookupDaoImpl extends GenericDAOImpl<UserLoginLookup , Lon
     super(UserLoginLookup.class);
   }
 
+  @Transactional
   public UserLoginLookup getUserLoginLookup(String login){
     Query query = getQuery("from UserLoginLookup where login=:login");
     query.setParameter("login", login);

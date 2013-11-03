@@ -184,4 +184,27 @@ public class DefaultUserServiceImpl implements UserService {
 
     return user;
   }
+
+  @Override
+  public User getUserByEmail(String email) {
+    UserLoginLookup userLoginLookup = userLoginLookupDao.getUserLoginLookup(email);
+    if (userLoginLookup != null) {
+      User user = userDao.get(userLoginLookup.getUserId());
+    }
+    return null;
+  }
+
+  @Override
+  public Long getUserIdByEmail(String email) {
+    UserLoginLookup userLoginLookup = userLoginLookupDao.getUserLoginLookup(email);
+    if (userLoginLookup != null) {
+      return userLoginLookup.getUserId();
+    }
+    return null;
+  }
+
+  @Override
+  public User getUserByFacebookId(String facebookId) {
+    return null;
+  }
 }
