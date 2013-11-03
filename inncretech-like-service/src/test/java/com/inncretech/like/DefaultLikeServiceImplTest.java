@@ -34,14 +34,45 @@ public class DefaultLikeServiceImplTest extends BaseTest {
 
   @Autowired
   private IdGenerator idGenerator;
-
+  
   @Test
-  public void LikeSource() {
-
-    long srcID = idGenerator.getNewSourceId();
+  public void LikeSource(){
+  	
+  	long srcID = idGenerator.getNewSourceId();
     long usrID = idGenerator.getNewUserId();
     likeService.likeSource(srcID, LikeType.LIKE, usrID);
+    
+  }
 
+  @Test
+  public void miscTests() {
+
+    long srcID1 = idGenerator.getNewSourceId();
+    long srcID2 = idGenerator.getNewSourceId();
+    long srcID3 = idGenerator.getNewSourceId();
+    long srcID4 = idGenerator.getNewSourceId();
+    long usrID1 = idGenerator.getNewUserId();
+    long usrID2 = idGenerator.getNewUserId();
+    long usrID3 = idGenerator.getNewUserId();
+    likeService.likeSource(srcID1, LikeType.LIKE, usrID1);
+    likeService.likeSource(srcID2, LikeType.LIKE, usrID1);
+    likeService.likeSource(srcID3, LikeType.LIKE, usrID1);
+    likeService.likeSource(srcID4, LikeType.LIKE, usrID1);   
+    likeService.likeSource(srcID1, LikeType.UNLIKE, usrID1);
+    likeService.likeSource(srcID1, LikeType.LIKE, usrID1);
+    
+    List<SourceLike> sourceLikeList = likeService.getAllLikeByUser(usrID1);
+    System.out.println("Number in SourceLike (6) "+sourceLikeList.size());
+    
+    sourceLikeList = likeService.getAllLikesBySource(srcID1);
+    System.out.println("Number in SourceLike (3) "+sourceLikeList.size());
+
+   
+    likeService.likeSource(srcID2, LikeType.LIKE, usrID2);
+    likeService.likeSource(srcID2, LikeType.LIKE, usrID3);
+    likeService.likeSource(srcID2, LikeType.UNLIKE, usrID3);
+    sourceLikeList = likeService.getAllLikesBySource(srcID2);
+    System.out.println("Number in SourceLike (4) "+sourceLikeList.size());
   }
 
   @Test
@@ -77,8 +108,8 @@ public class DefaultLikeServiceImplTest extends BaseTest {
 
   }
 
-  @Before
-  public void setUp() {
-    dbUtility.cleanUpdb(new String[] { "like" });
-  }
+//  @Before
+//  public void setUp() {
+//    dbUtility.cleanUpdb(new String[] { "like" });
+//  }
 }
