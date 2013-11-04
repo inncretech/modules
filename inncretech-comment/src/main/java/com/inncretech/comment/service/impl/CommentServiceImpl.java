@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import com.inncretech.comment.dao.CommentDao;
 import com.inncretech.comment.model.Comment;
 import com.inncretech.comment.service.CommentService;
+import com.inncretech.core.model.RecordStatus;
 import com.inncretech.core.sharding.IdGenerator;
 
 @Service
@@ -32,6 +33,7 @@ public class CommentServiceImpl implements CommentService {
     comment.setCommentParentId(parentCommentId);
     comment.setSourceId(sourceId);
     comment.setCreatedAt(new DateTime());
+    comment.setRecordStatus(RecordStatus.ACTIVE.getId());
     commentDao.createComment(sourceId, comment);
     return comment;
   }
@@ -59,5 +61,22 @@ public class CommentServiceImpl implements CommentService {
         firstLevelComments.add(commentMap.get(commentId));
     }
     return firstLevelComments;
+  }
+
+	@Override
+  public Comment deleteComment(Comment comment) {	  	
+	  return commentDao.deleteComment(comment.getId());
+  }
+
+	@Override
+  public Comment editComment(Comment comment) {
+	  // TODO Auto-generated method stub
+	  return null;
+  }
+
+	@Override
+  public Comment flagCommentAsAbuse(Comment comment) {
+	  // TODO Auto-generated method stub
+	  return null;
   }
 }

@@ -11,9 +11,10 @@ import javax.persistence.Id;
 import javax.persistence.Transient;
 
 import com.inncretech.core.model.AbstractImmutatableEntity;
+import com.inncretech.core.model.AbstractMutableEntity;
 
 @Entity(name = "comment")
-public class Comment extends AbstractImmutatableEntity {
+public class Comment extends AbstractMutableEntity {
 
   @Id
   @Column

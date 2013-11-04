@@ -3,6 +3,7 @@ package com.inncretech.like.service.impl;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -46,14 +47,15 @@ public class DefaultLikeServiceImpl implements LikeService {
   }
 
   @Override
-  public void likeSource(Long srcID, LikeType likeType, Long createdBy) {
+  public SourceLike likeSource(Long srcID, LikeType likeType, Long createdBy) {
     SourceLike likeSrc = new SourceLike();
     likeSrc.setId(idGenerator.getNewIdOnSourceShard(srcID));
     likeSrc.setObjectId(srcID);
     likeSrc.setUserId(createdBy);
+    likeSrc.setCreatedAt(new DateTime());
     likeSrc.setLikeValue(likeType.getValue());
     srcLikeDao.likeObject(likeSrc);
-
+    return likeSrc;
   }
 
 }

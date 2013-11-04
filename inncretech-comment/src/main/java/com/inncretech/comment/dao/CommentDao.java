@@ -14,4 +14,9 @@ public interface CommentDao extends GenericSourceShardDAO<Comment, Long> {
 
   @ShardAware(shardStrategy = "entityid", shardType = ShardType.SOURCE)
   public List<Comment> getComments(Long sourceId);
+  
+  @ShardAware(shardStrategy = "entityid", shardType = ShardType.SOURCE)
+  public Comment deleteComment(Long commentId);
+  
+  
 }

@@ -31,7 +31,7 @@ public class ShardingAspect extends TransactionAspectSupport {
   }
 
   @Around("@annotation(txObject)")
-  public Object beforeStartTx(ProceedingJoinPoint jointPoint, ShardAware txObject) {
+  public Object beforeStartTx(ProceedingJoinPoint jointPoint, ShardAware txObject) throws Throwable {
     try {
       MethodSignature methodSignature = (MethodSignature) jointPoint.getSignature();
       Method method = methodSignature.getMethod();
@@ -43,7 +43,7 @@ public class ShardingAspect extends TransactionAspectSupport {
     } catch (Throwable ex) {
       ex.printStackTrace();
       completeTransactionAfterThrowing(TransactionAspectSupport.currentTransactionInfo(), ex);
-      throw new RuntimeException(ex);
+      throw ex;
     } finally {
       cleanupTransactionInfo(TransactionAspectSupport.currentTransactionInfo());
     }
