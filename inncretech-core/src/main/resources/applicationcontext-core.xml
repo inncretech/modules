@@ -21,7 +21,7 @@
               http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
               http://www.springframework.org/schema/util
               http://www.springframework.org/schema/util/spring-util-2.5.xsd">
-
+  <context:property-placeholder location="classpath:inncretech-core.${profile:dev}.properties"/>
   <bean id="core.datasource" name="core.datasource"
     class="com.mchange.v2.c3p0.ComboPooledDataSource" destroy-method="close">
     <property name="driverClass" value="com.mysql.jdbc.Driver" />
@@ -29,7 +29,7 @@
     <property name="user" value="${db.username:root}" />
     <property name="password" value="${db.password:root}" />
     <property name="preferredTestQuery" value="select 1" />
-    <property name="idleConnectionTestPeriod" value="${db.idle.test:7200}" />
+    <property name="idleConnectionTestPeriod" value="7200" />
   </bean>
 
   <bean id="dataSource"
