@@ -33,6 +33,8 @@ public class CommentServiceImpl implements CommentService {
     comment.setCommentParentId(parentCommentId);
     comment.setSourceId(sourceId);
     comment.setCreatedAt(new DateTime());
+    comment.setUpdatedAt(new DateTime());
+    comment.setUpdatedBy(createdBy);
     comment.setRecordStatus(RecordStatus.ACTIVE.getId());
     commentDao.createComment(sourceId, comment);
     return comment;
