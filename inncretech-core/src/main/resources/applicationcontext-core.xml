@@ -21,7 +21,7 @@
               http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
               http://www.springframework.org/schema/util
               http://www.springframework.org/schema/util/spring-util-2.5.xsd">
-  <context:property-placeholder location="classpath:inncretech-core.${profile:dev}.properties"/>
+  <context:property-placeholder location="classpath:inncretech-core.dev.properties"/>
   <bean id="core.datasource" name="core.datasource"
     class="com.mchange.v2.c3p0.ComboPooledDataSource" destroy-method="close">
     <property name="driverClass" value="com.mysql.jdbc.Driver" />
