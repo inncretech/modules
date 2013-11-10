@@ -30,4 +30,6 @@ public interface TagService {
   public void removeTagFromSourceInUserShard(Long sourceId, Long tagId);
 
   public void tagSourceInUserShard(Long sourceId, Long userId, Long tagId);
+
+  public List<Tag> getMatchingTags(String pattern, boolean exactMatch, boolean startWith);
 }

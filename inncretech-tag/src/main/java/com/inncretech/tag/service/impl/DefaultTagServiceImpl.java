@@ -106,4 +106,9 @@ public class DefaultTagServiceImpl implements TagService {
   public Tag get(Long tagId) {
     return tagDao.get(tagId);
   }
+
+  @Override
+  public List<Tag> getMatchingTags(String pattern, boolean exactMatch, boolean startWith) {
+    return tagDao.getMatchingTags(pattern, exactMatch, startWith);
+  }
 }
