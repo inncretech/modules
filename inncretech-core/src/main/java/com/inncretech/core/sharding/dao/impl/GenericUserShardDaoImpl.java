@@ -93,6 +93,12 @@ public abstract class GenericUserShardDaoImpl<T extends BaseEntity, PK extends S
 
   @Override
   @ShardAware(shardStrategy = "shardid", shardType = ShardType.USER)
+  public Query getQueryByShard(Integer shardId, String s) {
+    return super.getQuery(shardId, s);
+  }
+
+  @Override
+  @ShardAware(shardStrategy = "shardid", shardType = ShardType.USER)
   public List<T> findByCriteria(Integer shardId, Criterion... criterion) {
     return super.findByCriteria(shardId, criterion);
   }
