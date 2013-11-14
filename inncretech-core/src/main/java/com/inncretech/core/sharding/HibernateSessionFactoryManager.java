@@ -44,6 +44,9 @@ public class HibernateSessionFactoryManager {
   @Value("${hibernate.show_sql:true}")
   private String hibernateShowSql;
 
+  @Value("${hibernate.idleConnectionPeriod:7200}")
+  private Integer idleConenctionPeriod;
+
 
   public String getHibernateShowSql(){
       return hibernateShowSql;
@@ -113,6 +116,7 @@ public class HibernateSessionFactoryManager {
     props.setProperty("hibernate.hbm2ddl.auto", getHbm2ddlAuto());
     props.setProperty("hibernate.show_sql", getHibernateShowSql());
     props.setProperty("hibernate.hibernate.naming_strategy", "org.hibernate.cfg.ImprovedNamingStrategy");
+    props.setProperty("","");
     a.setHibernateProperties(props);
     a.afterPropertiesSet();
     return a;
@@ -125,6 +129,7 @@ public class HibernateSessionFactoryManager {
     targetSource.setDriverClass("com.mysql.jdbc.Driver");
     targetSource.setUser(getDbUsername());
     targetSource.setPassword(getDbPassword());
+    targetSource.setIdleConnectionTestPeriod(idleConenctionPeriod);
     source.setTargetDataSource(targetSource);
     return source;
   }
