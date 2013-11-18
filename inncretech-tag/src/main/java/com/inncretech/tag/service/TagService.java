@@ -32,4 +32,6 @@ public interface TagService {
   public void tagSourceInUserShard(Long sourceId, Long userId, Long tagId);
 
   public List<Tag> getMatchingTags(String pattern, boolean exactMatch, boolean startWith);
+
+  public Tag getTagWithName(String tagName);
 }

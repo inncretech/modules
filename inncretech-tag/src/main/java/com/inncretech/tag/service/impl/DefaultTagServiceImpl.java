@@ -111,4 +111,9 @@ public class DefaultTagServiceImpl implements TagService {
   public List<Tag> getMatchingTags(String pattern, boolean exactMatch, boolean startWith) {
     return tagDao.getMatchingTags(pattern, exactMatch, startWith);
   }
+
+  @Override
+  public Tag getTagWithName(String tagName) {
+    return tagDao.getTagWithName(tagName);
+  }
 }

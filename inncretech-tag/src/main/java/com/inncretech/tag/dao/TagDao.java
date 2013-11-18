@@ -15,4 +15,6 @@ public interface TagDao {
   public Tag get(Long tagId);
 
   public List<Tag> getMatchingTags(String pattern, boolean exactMatch, boolean startWith);
+
+  public Tag getTagWithName(String tagName);
 }
