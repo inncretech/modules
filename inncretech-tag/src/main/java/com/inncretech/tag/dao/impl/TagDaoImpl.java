@@ -67,9 +67,10 @@ public class TagDaoImpl implements TagDao {
   }
 
   @Override
+  @Transactional
   public Tag getTagWithName(String tagName) {
     Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Tag.class);
-    criteria.add(Restrictions.eq("tagName", tagName));
+    criteria.add(Restrictions.eq("name", tagName));
     return (Tag) criteria.uniqueResult();
   }
 }

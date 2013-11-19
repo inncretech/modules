@@ -18,7 +18,7 @@ import com.inncretech.tag.service.TagService;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "/applicationcontext-tag.xml" })
 @Service
-public class DefaultTagServiceImplTest{
+public class DefaultTagServiceImplTest {
 
   @Autowired
   private TagService tagService;
@@ -31,22 +31,24 @@ public class DefaultTagServiceImplTest{
 
   @Test
   public void testTagSource() {
+    String tag2Name = "test2-" + System.currentTimeMillis(); 
     Tag tag1 = tagService.createTag("test1", 1L);
-    Tag tag2 = tagService.createTag("test2", 1L);
+    Tag tag2 = tagService.createTag(tag2Name, 1L);
     Long sourceId = idGenerator.getNewSourceId();
     tagService.tagSourceInSourceShard(sourceId, idGenerator.getNewUserId(), tag1.getId());
     tagService.tagSourceInSourceShard(sourceId, idGenerator.getNewUserId(), tag2.getId());
     List<Tag> tagList = tagService.getTagsOfSource(sourceId);
-    System.out.println(tagList.size());
-    System.out.println(tagList.get(0).getName());
-    System.out.println(tagList.get(1).getName());
+    Assert.state(tagList.size() == 2);
+    Assert.state(tagList.get(0).getName() != null);
+    Assert.state(tagList.get(1).getName() != null);
     tagService.removeTagFromSourceInSourceShard(sourceId, tag1.getId());
     tagList = tagService.getTagsOfSource(sourceId);
-    System.out.println(tagList.size());
-    System.out.println(tagList.get(0).getName());
-    Tag tag  = tagService.get(tagList.get(0).getId());
-    System.out.println(tag.getName());
-    System.out.println(tag.toString());
+    Assert.state(tagList.size() == 1);
+    Assert.state(tagList.get(0).getName().equals(tag2Name));
+    Tag tag = tagService.get(tagList.get(0).getId());
+    Assert.state(tag.getName().equals(tag2Name));
+    Tag tagSearchedWithName = tagService.getTagWithName(tag2Name);
+    Assert.state(tagSearchedWithName.getName().equals(tag2Name));
   }
 
   @Test
@@ -56,9 +58,9 @@ public class DefaultTagServiceImplTest{
 
   @Test
   public void testGetTagsCreatedByUser() {
-//  	 Tag tag = tagService.createTag("test1", 1L);
-//     List<Tag> taglist = tagService.getTagsCreatedByUser((long) 1);
-//     System.out.println(taglist.size());
+    // Tag tag = tagService.createTag("test1", 1L);
+    // List<Tag> taglist = tagService.getTagsCreatedByUser((long) 1);
+    // System.out.println(taglist.size());
   }
 
   @Test
@@ -68,11 +70,11 @@ public class DefaultTagServiceImplTest{
     Long sourceId = idGenerator.getNewSourceId();
     tagService.tagSourceInSourceShard(sourceId, tagOne.getCreatedBy(), tagOne.getId());
     tagService.tagSourceInSourceShard(sourceId, tagTwo.getCreatedBy(), tagTwo.getId());
-    List<Tag> tags =  tagService.getTagsOfSource(sourceId);
-    System.out.println("Initially, Number of tags "+ tags.size());
-    tagService.removeTagFromSourceInSourceShard(sourceId,tagOne.getId());
+    List<Tag> tags = tagService.getTagsOfSource(sourceId);
+    System.out.println("Initially, Number of tags " + tags.size());
+    tagService.removeTagFromSourceInSourceShard(sourceId, tagOne.getId());
     tags = tagService.getTagsOfSource(sourceId);
-    System.out.println("Finally, Number of tags "+ tags.size());
+    System.out.println("Finally, Number of tags " + tags.size());
   }
 
   @Test
