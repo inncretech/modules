@@ -1,12 +1,13 @@
 package com.inncretech.notification.service;
 
-import com.inncretech.core.sharding.ShardAware;
-import com.inncretech.core.sharding.ShardType;
+import java.util.List;
+
 import com.inncretech.notification.model.Notification;
 
 public interface NotificationService {
   
-  @ShardAware(shardStrategy = "entityid", shardType = ShardType.SOURCE)
-  void handleEvent(Notification notification);
+  public void handleEvent(Notification notification);
+  
+  public List<Notification> getNotificationByUserId(Long userId, int offset, int limit, boolean read);
 
 }
