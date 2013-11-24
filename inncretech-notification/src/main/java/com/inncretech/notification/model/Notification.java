@@ -7,10 +7,10 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Transient;
 
-import com.inncretech.core.model.AbstractImmutatableEntity;
+import com.inncretech.core.model.AbstractMutableEntity;
 
 @Entity
-public class Notification extends AbstractImmutatableEntity {
+public class Notification extends AbstractMutableEntity {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
