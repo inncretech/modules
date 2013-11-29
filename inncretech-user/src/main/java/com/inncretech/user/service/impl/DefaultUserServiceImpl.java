@@ -1,5 +1,6 @@
 package com.inncretech.user.service.impl;
 
+import com.inncretech.core.exception.ApplicationException;
 import com.inncretech.user.dao.*;
 import com.inncretech.user.model.*;
 import org.joda.time.DateTime;
@@ -61,10 +62,18 @@ public class DefaultUserServiceImpl implements UserService {
 
   @ShardAware(shardStrategy = "entityid", shardType = ShardType.USER)
   public User createUser(@Valid User user) {
+    checkEmailId(user.getEmail());
     passwordService.initializeCryptoForNewUser(user);
     userDao.save(user);
     saveUserLoginLookup(user.getId() , user.getEmail());
     return user;
+  }
+
+  private void checkEmailId(String email){
+    UserLoginLookup userLoginLookup = userLoginLookupDao.getUserLoginLookup(email);
+    if(userLoginLookup !=null){
+      throw new ApplicationException("INPUT_VALIDATION_FAILED", "Email id already taken");
+    }
   }
 
   private void saveUserLoginLookup(Long userId, String email){
