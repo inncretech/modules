@@ -19,7 +19,7 @@ import com.inncretech.core.sharding.ShardType;
 public class AbstractShardAwareHibernateDao<T extends IdEntity, PK extends Serializable> {
 
   private Class<T> clazz = null;
-  
+
   private ShardType shardType = null;
 
   public AbstractShardAwareHibernateDao(Class<T> clazz, ShardType shardType) {
@@ -31,7 +31,7 @@ public class AbstractShardAwareHibernateDao<T extends IdEntity, PK extends Seria
   private ShardAwareDaoUtil shardAwareDaoUtil;
 
   public Session getCurrentSessionByShard(Integer shardId) {
-   return shardAwareDaoUtil.getCurrentSessionByShard(shardId);
+    return shardAwareDaoUtil.getCurrentSessionByShard(shardId);
   }
 
   public IdGenerator getIdGenService() {
@@ -87,6 +87,16 @@ public class AbstractShardAwareHibernateDao<T extends IdEntity, PK extends Seria
     return crit.list();
   }
 
+  @SuppressWarnings("unchecked")
+  public List<T> findByCriteria(Integer shardId, Integer offset, Integer limit, Criterion... criterion) {
+    Criteria crit = shardAwareDaoUtil.getCurrentSessionByShard(shardId).createCriteria(clazz);
+
+    for (Criterion c : criterion) {
+      crit.add(c);
+    }
+    return crit.setFirstResult(offset).setMaxResults(limit).list();
+  }
+
   public List<T> findAll(Integer shardId) {
     return findByCriteria(shardId);
   }
@@ -106,8 +116,6 @@ public class AbstractShardAwareHibernateDao<T extends IdEntity, PK extends Seria
     return crit.list();
   }
 
-
-
   public ShardType getShardType() {
     return shardType;
   }
@@ -117,8 +125,8 @@ public class AbstractShardAwareHibernateDao<T extends IdEntity, PK extends Seria
     SessionFactory sessionFactory = shardAwareDaoUtil.getSessionFactoryManager().getSessionFactory(shardId);
     return sessionFactory.getCurrentSession();
   }
-  
-  public Class<T> getPersistentClass(){
+
+  public Class<T> getPersistentClass() {
     return clazz;
   }
 

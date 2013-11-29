@@ -1,11 +1,14 @@
 package com.inncretech.notification.service;
 
+import java.util.List;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.util.Assert;
 
 import com.inncretech.core.sharding.IdGenerator;
 import com.inncretech.core.test.TestUtil;
@@ -37,7 +40,25 @@ public class DefaultNotificationServiceImplTest {
     notify.setNotificationData("TestNotify");
     notify.setSourceId(srcID);
     notify.setCreatedBy(usrID);
+    notify.setIsRead(false);
+    notify.setReceiverUserId(idGenerator.getNewUserId());
     notifyService.handleEvent(notify);
+  }
+
+  @Test
+  public void getNotificationsForUserId() {
+    Notification notify = new Notification();
+    Long srcID = idGenerator.getNewSourceId();
+    Long usrID = idGenerator.getNewUserId();
+    Long recieverUserId = idGenerator.getNewUserId();
+    notify.setNotificationData("TestNotify");
+    notify.setSourceId(srcID);
+    notify.setCreatedBy(usrID);
+    notify.setReceiverUserId(recieverUserId);
+    notify.setIsRead(false);
+    notifyService.handleEvent(notify);
+    List<Notification> notifications = notifyService.getNotificationByUserId(recieverUserId, 0, 1, false);
+    Assert.state(notifications.size() == 1);
   }
 
   @Before
