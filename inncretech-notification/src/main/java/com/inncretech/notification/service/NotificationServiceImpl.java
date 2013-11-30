@@ -29,7 +29,7 @@ public class NotificationServiceImpl implements NotificationService {
   }
 
   @Override
-  @ShardAware(shardStrategy = "entityid", shardType = ShardType.SOURCE)
+  @ShardAware(shardStrategy = "entityid", shardType = ShardType.USER)
   public List<Notification> getNotificationByUserId(Long userId, int offset, int limit, boolean read) {
     return notificationDao.getNotificationByUserId(userId, offset, limit, read);
   }

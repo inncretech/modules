@@ -2,6 +2,7 @@ package com.inncretech.notification.dao.impl;
 
 import java.util.List;
 
+import com.inncretech.core.sharding.dao.impl.GenericUserShardDaoImpl;
 import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Component;
@@ -12,7 +13,7 @@ import com.inncretech.notification.dao.NotificationDao;
 import com.inncretech.notification.model.Notification;
 
 @Component
-public class NotificationDaoImpl extends GenericSourceShardDaoImpl<Notification, Long> implements NotificationDao {
+public class NotificationDaoImpl extends GenericUserShardDaoImpl<Notification, Long> implements NotificationDao {
 
   public NotificationDaoImpl() {
     super(Notification.class);
