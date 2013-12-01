@@ -1,5 +1,7 @@
 package com.inncretech.user.service;
 
+import java.util.List;
+
 import com.inncretech.core.sharding.ShardAware;
 import com.inncretech.core.sharding.ShardType;
 import com.inncretech.user.model.LoginResponse;
@@ -47,4 +49,6 @@ public interface UserService {
 
   @ShardAware(shardStrategy = "entityid", shardType = ShardType.USER)
   User authenticateAccessToken(Long userId, String accessToken);
+
+  List<User> getMatchingUsers(String pattern, Boolean exactMatch, Boolean startWith);
 }

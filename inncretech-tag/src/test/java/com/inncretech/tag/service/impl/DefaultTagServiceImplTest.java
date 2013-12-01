@@ -31,8 +31,9 @@ public class DefaultTagServiceImplTest {
 
   @Test
   public void testTagSource() {
-    String tag2Name = "test2-" + System.currentTimeMillis(); 
-    Tag tag1 = tagService.createTag("test1", 1L);
+    String tag1Name = "test1-" + System.currentTimeMillis();
+    String tag2Name = "test2-" + System.currentTimeMillis();
+    Tag tag1 = tagService.createTag(tag1Name, 1L);
     Tag tag2 = tagService.createTag(tag2Name, 1L);
     Long sourceId = idGenerator.getNewSourceId();
     tagService.tagSourceInSourceShard(sourceId, idGenerator.getNewUserId(), tag1.getId());
@@ -65,8 +66,10 @@ public class DefaultTagServiceImplTest {
 
   @Test
   public void testRemoveTagFromSource() {
-    Tag tagOne = tagService.createTag("test2", 1L);
-    Tag tagTwo = tagService.createTag("test3", 1L);
+    String tag1Name = "test2-" + System.currentTimeMillis();
+    String tag2Name = "test3-" + System.currentTimeMillis();
+    Tag tagOne = tagService.createTag(tag1Name, 1L);
+    Tag tagTwo = tagService.createTag(tag2Name, 1L);
     Long sourceId = idGenerator.getNewSourceId();
     tagService.tagSourceInSourceShard(sourceId, tagOne.getCreatedBy(), tagOne.getId());
     tagService.tagSourceInSourceShard(sourceId, tagTwo.getCreatedBy(), tagTwo.getId());
@@ -85,7 +88,5 @@ public class DefaultTagServiceImplTest {
       System.out.println();
     }
     Assert.notEmpty(tags);
-
   }
-
 }

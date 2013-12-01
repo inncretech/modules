@@ -2,8 +2,6 @@ package com.inncretech.notification.model;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Transient;
 
@@ -13,8 +11,6 @@ import com.inncretech.core.model.AbstractMutableEntity;
 public class Notification extends AbstractMutableEntity {
 
   @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
-  @Column
   private Long id;
 
   @Column
@@ -28,6 +24,9 @@ public class Notification extends AbstractMutableEntity {
 
   @Column
   private Boolean isRead;
+  
+  @Column
+  private Integer type;
 
   @Transient
   public Long getShardedColumnValue() {
@@ -75,6 +74,14 @@ public class Notification extends AbstractMutableEntity {
   public void setIsRead(Boolean isRead) {
     this.isRead = isRead;
   }
+  
+  public Integer getType() {
+    return type;
+  }
+
+  public void setType(Integer type) {
+    this.type = type;
+  }
 
   @Override
   public int hashCode() {
@@ -85,6 +92,7 @@ public class Notification extends AbstractMutableEntity {
     result = prime * result + ((notificationData == null) ? 0 : notificationData.hashCode());
     result = prime * result + ((receiverUserId == null) ? 0 : receiverUserId.hashCode());
     result = prime * result + ((sourceId == null) ? 0 : sourceId.hashCode());
+    result = prime * result + ((type == null) ? 0 : type.hashCode());
     return result;
   }
 
@@ -122,12 +130,17 @@ public class Notification extends AbstractMutableEntity {
         return false;
     } else if (!sourceId.equals(other.sourceId))
       return false;
+    if (type == null) {
+      if (other.type != null)
+        return false;
+    } else if (!type.equals(other.type))
+      return false;
     return true;
   }
 
   @Override
   public String toString() {
     return "Notification [id=" + id + ", sourceId=" + sourceId + ", receiverUserId=" + receiverUserId + ", notificationData=" + notificationData
-        + ", isRead=" + isRead + ", toString()=" + super.toString() + "]";
+        + ", isRead=" + isRead + ", type=" + type + ", toString()=" + super.toString() + "]";
   }
 }

@@ -4,6 +4,8 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
+import java.util.List;
+
 import com.inncretech.user.model.LoginResponse;
 import org.joda.time.DateTime;
 import org.junit.Before;
@@ -46,6 +48,8 @@ public class DefaultUserServiceImplTest {
       assertNotNull(userService.authenticateUser("mmk@gmail.com", "mm111"));
       LoginResponse loginResponse = userService.generateAccessToken("mmk@gmail.com", "mm111" , "s1");
       assertNotNull(userService.authenticateAccessToken(usr.getId(), loginResponse.getAccessToken()));
+      List<User> users = userService.getMatchingUsers("Mahesh", true, true);
+      assertTrue(users.size() >= 0);
   }
 
   @Test

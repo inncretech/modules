@@ -1,8 +1,11 @@
 package com.inncretech.user.service.impl;
 
+import java.util.List;
+
 import com.inncretech.core.exception.ApplicationException;
 import com.inncretech.user.dao.*;
 import com.inncretech.user.model.*;
+
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCrypt;
@@ -215,5 +218,10 @@ public class DefaultUserServiceImpl implements UserService {
   @Override
   public User getUserByFacebookId(String facebookId) {
     return null;
+  }
+
+  @Override
+  public List<User> getMatchingUsers(String pattern, Boolean exactMatch, Boolean startWith) {
+    return userDao.getMatchingUsers(pattern, exactMatch, startWith);
   }
 }
