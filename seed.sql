@@ -18,11 +18,11 @@
 --
 -- Table structure for table `id_entry`
 --
-drop database userdb1;
-drop database userdb2;
-drop database sourcedb1;
-drop database sourcedb2;
-drop database masterdb;
+drop database if exists userdb1;
+drop database if exists userdb2;
+drop database if exists sourcedb1;
+drop database if exists sourcedb2;
+drop database if exists masterdb;
 
 create database userdb1;
 create database userdb2;
@@ -30,7 +30,7 @@ create database sourcedb1;
 create database sourcedb2;
 create database masterdb;
 
-use database masterdb;
+use masterdb;
 
 DROP TABLE IF EXISTS `id_entry`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
