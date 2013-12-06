@@ -51,4 +51,6 @@ public interface UserService {
   User authenticateAccessToken(Long userId, String accessToken);
 
   List<User> getMatchingUsers(String pattern, Boolean exactMatch, Boolean startWith);
+
+  void expireAccessToken(Long userId , String accessToken);
 }

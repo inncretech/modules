@@ -224,4 +224,12 @@ public class DefaultUserServiceImpl implements UserService {
   public List<User> getMatchingUsers(String pattern, Boolean exactMatch, Boolean startWith) {
     return userDao.getMatchingUsers(pattern, exactMatch, startWith);
   }
+
+  public void expireAccessToken(Long userId , String accessToken){
+    UserAccessToken userAccessToken = userAccessTokenDao.getUserAccessToken(userId, accessToken);
+    if(userAccessToken !=null){
+      userAccessToken.setRecordStatus(RecordStatus.INACTIVE.getId());
+      userAccessTokenDao.save(userAccessToken);
+    }
+  }
 }
