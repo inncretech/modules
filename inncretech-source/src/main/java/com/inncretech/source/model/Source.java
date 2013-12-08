@@ -3,10 +3,8 @@ package com.inncretech.source.model;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.Transient;
 
 import com.inncretech.core.model.AbstractImmutatableEntity;
-
 
 @Entity
 public class Source extends AbstractImmutatableEntity {

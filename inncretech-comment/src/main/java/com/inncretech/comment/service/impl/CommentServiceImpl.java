@@ -5,7 +5,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,6 +13,7 @@ import com.inncretech.comment.model.Comment;
 import com.inncretech.comment.service.CommentService;
 import com.inncretech.core.model.RecordStatus;
 import com.inncretech.core.sharding.IdGenerator;
+import com.inncretech.core.util.DateTimeUtils;
 
 @Service
 public class CommentServiceImpl implements CommentService {
@@ -32,8 +32,8 @@ public class CommentServiceImpl implements CommentService {
     comment.setCommentText(commentText);
     comment.setCommentParentId(parentCommentId);
     comment.setSourceId(sourceId);
-    comment.setCreatedAt(new DateTime());
-    comment.setUpdatedAt(new DateTime());
+    comment.setCreatedAt(DateTimeUtils.currentTimeWithoutFractionalSeconds());
+    comment.setUpdatedAt(DateTimeUtils.currentTimeWithoutFractionalSeconds());
     comment.setUpdatedBy(createdBy);
     comment.setRecordStatus(RecordStatus.ACTIVE.getId());
     commentDao.createComment(sourceId, comment);

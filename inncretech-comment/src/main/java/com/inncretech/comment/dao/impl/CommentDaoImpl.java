@@ -3,7 +3,6 @@ package com.inncretech.comment.dao.impl;
 import java.util.List;
 
 import org.hibernate.Query;
-import org.joda.time.DateTime;
 import org.springframework.stereotype.Component;
 
 import com.inncretech.comment.dao.CommentDao;
@@ -12,6 +11,7 @@ import com.inncretech.core.model.RecordStatus;
 import com.inncretech.core.sharding.ShardAware;
 import com.inncretech.core.sharding.ShardType;
 import com.inncretech.core.sharding.dao.impl.GenericSourceShardDaoImpl;
+import com.inncretech.core.util.DateTimeUtils;
 
 @SuppressWarnings("unchecked")
 @Component
@@ -50,7 +50,7 @@ public class CommentDaoImpl extends GenericSourceShardDaoImpl<Comment, Long> imp
     Comment comment = (Comment) query.uniqueResult();
     
     comment.setRecordStatus(RecordStatus.INACTIVE.getId());
-    comment.setUpdatedAt(new DateTime());
+    comment.setUpdatedAt(DateTimeUtils.currentTimeWithoutFractionalSeconds());
     comment.setUpdatedBy(comment.getCreatedBy());
     update(comment);
     return comment;

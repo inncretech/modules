@@ -1,7 +1,6 @@
 package com.inncretech.user.service.impl;
 
 import org.springframework.security.authentication.dao.SaltSource;
-import org.springframework.security.core.userdetails.AuthenticationUserDetailsService;
 import org.springframework.security.core.userdetails.UserDetails;
 
 /**

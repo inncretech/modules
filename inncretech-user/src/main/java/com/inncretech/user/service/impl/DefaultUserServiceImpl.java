@@ -2,24 +2,31 @@ package com.inncretech.user.service.impl;
 
 import java.util.List;
 
-import com.inncretech.core.exception.ApplicationException;
-import com.inncretech.user.dao.*;
-import com.inncretech.user.model.*;
+import javax.validation.Valid;
 
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.inncretech.core.exception.ApplicationException;
 import com.inncretech.core.model.RecordStatus;
 import com.inncretech.core.sharding.IdGenerator;
 import com.inncretech.core.sharding.ShardAware;
 import com.inncretech.core.sharding.ShardType;
+import com.inncretech.user.dao.UserAccessTokenDao;
+import com.inncretech.user.dao.UserDao;
+import com.inncretech.user.dao.UserFPDao;
+import com.inncretech.user.dao.UserForgotPasswordLookupDao;
+import com.inncretech.user.dao.UserLoginLookupDao;
+import com.inncretech.user.model.LoginResponse;
+import com.inncretech.user.model.User;
+import com.inncretech.user.model.UserAccessToken;
+import com.inncretech.user.model.UserForgotPassword;
+import com.inncretech.user.model.UserForgotPasswordLookup;
+import com.inncretech.user.model.UserLoginLookup;
 import com.inncretech.user.service.FacebookMemberService;
 import com.inncretech.user.service.UserService;
-
-import javax.validation.Valid;
 
 @Service
 public class DefaultUserServiceImpl implements UserService {
@@ -201,7 +208,7 @@ public class DefaultUserServiceImpl implements UserService {
   public User getUserByEmail(String email) {
     UserLoginLookup userLoginLookup = userLoginLookupDao.getUserLoginLookup(email);
     if (userLoginLookup != null) {
-      User user = userDao.get(userLoginLookup.getUserId());
+      return userDao.get(userLoginLookup.getUserId());
     }
     return null;
   }

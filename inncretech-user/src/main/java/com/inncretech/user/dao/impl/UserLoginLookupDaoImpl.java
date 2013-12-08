@@ -20,6 +20,7 @@ public class UserLoginLookupDaoImpl extends GenericDAOImpl<UserLoginLookup , Lon
     Query query = getQuery("from UserLoginLookup where login=:login");
     query.setParameter("login", login);
     UserLoginLookup userLoginLookup =null;
+    @SuppressWarnings("unchecked")
     List<UserLoginLookup> results = query.list();
     if(results.size() > 0)
       userLoginLookup = results.get(0);

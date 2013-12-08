@@ -3,7 +3,6 @@ package com.inncretech.like.service.impl;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -11,6 +10,7 @@ import com.inncretech.core.sharding.IdGenerator;
 import com.inncretech.core.sharding.ShardType;
 import com.inncretech.core.sharding.dao.ShardConfigDao;
 import com.inncretech.core.sharding.model.ShardConfig;
+import com.inncretech.core.util.DateTimeUtils;
 import com.inncretech.like.dao.SourceLikeDao;
 import com.inncretech.like.model.LikeType;
 import com.inncretech.like.model.SourceLike;
@@ -52,7 +52,7 @@ public class DefaultLikeServiceImpl implements LikeService {
     likeSrc.setId(idGenerator.getNewIdOnSourceShard(srcID));
     likeSrc.setObjectId(srcID);
     likeSrc.setUserId(createdBy);
-    likeSrc.setCreatedAt(new DateTime());
+    likeSrc.setCreatedAt(DateTimeUtils.currentTimeWithoutFractionalSeconds());
     likeSrc.setLikeValue(likeType.getValue());
     srcLikeDao.likeObject(likeSrc);
     return likeSrc;

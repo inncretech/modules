@@ -5,13 +5,9 @@ import javax.persistence.Column;
 import javax.persistence.MappedSuperclass;
 import javax.persistence.Version;
 
-import org.hibernate.annotations.Parameter;
 import org.hibernate.annotations.Type;
-import org.hibernate.annotations.TypeDef;
 import org.joda.time.DateTime;
 
-@TypeDef(name = "myDateTime", typeClass = org.jadira.usertype.dateandtime.joda.PersistentDateTime.class, parameters = {
-    @Parameter(value = "UTC", name = "databaseZone"), @Parameter(value = "UTC", name = "javaZone") })
 @MappedSuperclass
 public abstract class AbstractMutableEntity extends AbstractImmutatableEntity {
 
@@ -20,7 +16,7 @@ public abstract class AbstractMutableEntity extends AbstractImmutatableEntity {
    */
   private static final long serialVersionUID = 1L;
 	
-  @Type(type="myDateTime")
+  @Type(type="updatedTime")
   @Basic(optional = false)
   @Column(name = "updated_at", nullable = false)
   private DateTime updatedAt;

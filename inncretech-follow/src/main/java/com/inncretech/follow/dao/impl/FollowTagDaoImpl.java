@@ -4,10 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.hibernate.Query;
-import org.hibernate.Session;
 import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.Property;
-import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -17,6 +15,7 @@ import com.inncretech.core.sharding.ShardType;
 import com.inncretech.core.sharding.dao.ShardConfigDao;
 import com.inncretech.core.sharding.dao.impl.GenericUserShardDaoImpl;
 import com.inncretech.core.sharding.model.ShardConfig;
+import com.inncretech.core.util.DateTimeUtils;
 import com.inncretech.follow.dao.FollowTagDao;
 import com.inncretech.follow.model.FollowTag;
 
@@ -30,7 +29,6 @@ public class FollowTagDaoImpl extends GenericUserShardDaoImpl<FollowTag, Long> i
 		super(FollowTag.class);
 	}
 
-	@SuppressWarnings("unchecked")
 	public List<FollowTag> getFollowersByTag(Long tagId) {
     List<FollowTag> followTags = new ArrayList<FollowTag>();
     List<ShardConfig> shardConfigs = getAllShards();
@@ -86,7 +84,7 @@ public class FollowTagDaoImpl extends GenericUserShardDaoImpl<FollowTag, Long> i
 		FollowTag followTag = (FollowTag) query.uniqueResult();
 
 		followTag.setRecordStatus(RecordStatus.INACTIVE.getId());
-		followTag.setUpdatedAt(new DateTime());
+		followTag.setUpdatedAt(DateTimeUtils.currentTimeWithoutFractionalSeconds());
 		followTag.setUpdatedBy(userId);
 		update(followTag);
 		return followTag;

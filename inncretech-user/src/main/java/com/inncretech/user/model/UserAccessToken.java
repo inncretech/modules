@@ -28,7 +28,7 @@ public class UserAccessToken extends AbstractMutableEntity{
   @Column
   private String deviceId;
 
-  @Type(type="myDateTime")
+  @Type(type="updatedTime")
   @Basic(optional = false)
   @Column
   private DateTime expiryAt;

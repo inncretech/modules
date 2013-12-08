@@ -51,4 +51,8 @@ public class SourceTagDaoImpl extends GenericSourceShardDaoImpl<SourceTag, Long>
     query.executeUpdate();
   }
 
+  @Override
+  public List<SourceTag> getSourcesAssociatedWithTag(Long tagId) {
+    return null;
+  }
 }

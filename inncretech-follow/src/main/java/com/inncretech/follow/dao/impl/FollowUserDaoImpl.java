@@ -3,16 +3,15 @@ package com.inncretech.follow.dao.impl;
 import java.util.List;
 
 import org.hibernate.Query;
-import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.inncretech.core.model.RecordStatus;
-import com.inncretech.core.sharding.HibernateSessionFactoryManager;
 import com.inncretech.core.sharding.ShardAware;
 import com.inncretech.core.sharding.ShardType;
 import com.inncretech.core.sharding.dao.ShardConfigDao;
 import com.inncretech.core.sharding.dao.impl.GenericUserShardDaoImpl;
+import com.inncretech.core.util.DateTimeUtils;
 import com.inncretech.follow.dao.FollowUserDao;
 import com.inncretech.follow.model.FollowUser;
 
@@ -55,7 +54,7 @@ public class FollowUserDaoImpl extends GenericUserShardDaoImpl<FollowUser, Long>
     query.setParameter("followerId", followerId);
     FollowUser followUser = (FollowUser) query.uniqueResult();
     followUser.setRecordStatus(RecordStatus.INACTIVE.getId());
-    followUser.setUpdatedAt(new DateTime());
+    followUser.setUpdatedAt(DateTimeUtils.currentTimeWithoutFractionalSeconds());
     followUser.setUpdatedBy(userId);
     update(followUser);
     return followUser;

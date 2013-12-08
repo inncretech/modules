@@ -3,7 +3,6 @@ package com.inncretech.follow.service.impl;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,6 +13,7 @@ import com.inncretech.core.sharding.ShardAware;
 import com.inncretech.core.sharding.ShardType;
 import com.inncretech.core.sharding.dao.ShardConfigDao;
 import com.inncretech.core.sharding.model.ShardConfig;
+import com.inncretech.core.util.DateTimeUtils;
 import com.inncretech.follow.dao.FollowSourceDao;
 import com.inncretech.follow.dao.FollowTagDao;
 import com.inncretech.follow.dao.FollowUserDao;
@@ -55,7 +55,7 @@ public class DefaultFollowServiceImpl implements FollowService {
 		followTag.setTagId(tagId);
 		followTag.setFollowerId(userId);
 		followTag.setRecordStatus(RecordStatus.ACTIVE.getId());
-		followTag.setUpdatedAt(new DateTime());
+		followTag.setUpdatedAt(DateTimeUtils.currentTimeWithoutFractionalSeconds());
 		followTagDao.save(followTag);
 		return followTag;
 
@@ -104,9 +104,9 @@ public class DefaultFollowServiceImpl implements FollowService {
 		followUser.setUserId(userId);
 		followUser.setId(idGenerator.getNewIdOnUserShard(userId));
 		followUser.setRecordStatus(RecordStatus.ACTIVE.getId());
-		followUser.setCreatedAt(new DateTime());
+		followUser.setCreatedAt(DateTimeUtils.currentTimeWithoutFractionalSeconds());
 		followUser.setCreatedBy(userId);
-		followUser.setUpdatedAt(new DateTime());
+		followUser.setUpdatedAt(DateTimeUtils.currentTimeWithoutFractionalSeconds());
 		followUser.setUpdatedBy(userId);
 		followUserDao.save(followUser);
 		return followUser;

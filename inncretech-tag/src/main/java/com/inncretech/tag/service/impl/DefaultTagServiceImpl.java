@@ -5,7 +5,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,6 +12,7 @@ import com.inncretech.core.model.RecordStatus;
 import com.inncretech.core.sharding.IdGenerator;
 import com.inncretech.core.sharding.ShardAware;
 import com.inncretech.core.sharding.ShardType;
+import com.inncretech.core.util.DateTimeUtils;
 import com.inncretech.tag.dao.SourceTagDao;
 import com.inncretech.tag.dao.SourceTagForUserShardDao;
 import com.inncretech.tag.dao.TagDao;
@@ -40,7 +40,7 @@ public class DefaultTagServiceImpl implements TagService {
     Tag t = new Tag();
     t.setName(tagName);
     t.setCreatedBy(userId);
-    t.setCreatedAt(new DateTime());
+    t.setCreatedAt(DateTimeUtils.currentTimeWithoutFractionalSeconds());
     tagDao.createTag(t);
     return t;
   }
@@ -115,5 +115,10 @@ public class DefaultTagServiceImpl implements TagService {
   @Override
   public Tag getTagWithName(String tagName) {
     return tagDao.getTagWithName(tagName);
+  }
+
+  @Override
+  public List<SourceTag> getSourcesAssociatedWithTag(Long tagId) {
+    return sourceTagDao.getSourcesAssociatedWithTag(tagId);
   }
 }

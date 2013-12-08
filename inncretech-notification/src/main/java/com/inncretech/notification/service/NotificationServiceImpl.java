@@ -2,13 +2,13 @@ package com.inncretech.notification.service;
 
 import java.util.List;
 
-import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.inncretech.core.sharding.IdGenerator;
 import com.inncretech.core.sharding.ShardAware;
 import com.inncretech.core.sharding.ShardType;
+import com.inncretech.core.util.DateTimeUtils;
 import com.inncretech.notification.dao.NotificationDao;
 import com.inncretech.notification.model.Notification;
 
@@ -23,7 +23,7 @@ public class NotificationServiceImpl implements NotificationService {
 
   @Override
   public void handleEvent(Notification notification) {
-    notification.setCreatedAt(new DateTime());
+    notification.setCreatedAt(DateTimeUtils.currentTimeWithoutFractionalSeconds());
     notification.setId(idGenerator.getNewIdOnUserShard(notification.getReceiverUserId()));
     notificationDao.save(notification);
   }

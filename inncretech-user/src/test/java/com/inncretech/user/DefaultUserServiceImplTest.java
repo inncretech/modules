@@ -17,6 +17,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.inncretech.core.sharding.IdGenerator;
 import com.inncretech.core.test.TestUtil;
+import com.inncretech.core.util.DateTimeUtils;
 import com.inncretech.user.model.User;
 import com.inncretech.user.model.UserForgotPassword;
 import com.inncretech.user.service.UserService;
@@ -88,9 +89,9 @@ public class DefaultUserServiceImplTest {
     usr.setFacebookId(facebookId);
     usr.setTwitterId(twitterId);
     usr.setGoogleId(googleId);
-    usr.setCreatedAt(new DateTime());
+    usr.setCreatedAt(DateTimeUtils.currentTimeWithoutFractionalSeconds());
     usr.setCreatedBy(0L);
-    usr.setUpdatedAt(new DateTime());
+    usr.setUpdatedAt(DateTimeUtils.currentTimeWithoutFractionalSeconds());
     return usr;
 
   }

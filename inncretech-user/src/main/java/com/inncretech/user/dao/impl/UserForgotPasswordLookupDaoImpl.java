@@ -19,6 +19,7 @@ public class UserForgotPasswordLookupDaoImpl extends GenericDAOImpl<UserForgotPa
   public Long getUserId(String forgotPasswordKey) {
     Query query = getQuery("from UserForgotPasswordLookup where key= :key ");
     query.setString("key", forgotPasswordKey);
+    @SuppressWarnings("unchecked")
     List<UserForgotPasswordLookup> results = query.list();
     Long userId = null;
     if (results.size() > 0)
