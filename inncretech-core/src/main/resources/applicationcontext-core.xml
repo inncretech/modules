@@ -29,7 +29,7 @@
     <property name="user" value="${db.username:root}" />
     <property name="password" value="${db.password:root}" />
     <property name="preferredTestQuery" value="select 1" />
-    <property name="idleConnectionTestPeriod" value="7200" />
+    <property name="idleConnectionTestPeriod" value="${hibernate.idleConnectionPeriod:7200}" />
   </bean>
 
   <bean id="dataSource"

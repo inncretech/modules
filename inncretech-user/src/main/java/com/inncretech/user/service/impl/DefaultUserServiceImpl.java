@@ -225,6 +225,7 @@ public class DefaultUserServiceImpl implements UserService {
     return userDao.getMatchingUsers(pattern, exactMatch, startWith);
   }
 
+  @ShardAware(shardStrategy = "entityid", shardType = ShardType.USER)
   public void expireAccessToken(Long userId , String accessToken){
     UserAccessToken userAccessToken = userAccessTokenDao.getUserAccessToken(userId, accessToken);
     if(userAccessToken !=null){

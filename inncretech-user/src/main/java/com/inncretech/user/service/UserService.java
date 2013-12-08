@@ -52,5 +52,6 @@ public interface UserService {
 
   List<User> getMatchingUsers(String pattern, Boolean exactMatch, Boolean startWith);
 
+  @ShardAware(shardStrategy = "entityid", shardType = ShardType.USER)
   void expireAccessToken(Long userId , String accessToken);
 }
