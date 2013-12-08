@@ -25,7 +25,7 @@ public class UserAccessTokenDaoImpl extends GenericUserShardDaoImpl<UserAccessTo
     Query query = getQuery(userId, "from UserAccessToken where userId=:userId and accessToken=:accessToken and recordStatus != :recordStatus");
     query.setParameter("userId", userId);
     query.setParameter("accessToken", accessToken);
-    query.setParameter("recordStatus", RecordStatus.INACTIVE);
+    query.setParameter("recordStatus", RecordStatus.INACTIVE.getId());
     UserAccessToken userAccessToken = null;
     @SuppressWarnings("unchecked")
     List<UserAccessToken> result = query.list();
