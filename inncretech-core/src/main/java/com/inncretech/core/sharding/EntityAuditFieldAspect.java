@@ -21,7 +21,7 @@ public class EntityAuditFieldAspect {
 
   @Before("preStoreEntity() && args(abstractMutableEntity)")
   public void preStoreMutableEntity(AbstractMutableEntity abstractMutableEntity) {
-    if (abstractMutableEntity.getCreatedAt() == null) {
+    if (abstractMutableEntity.getUpdatedAt() == null) {
       abstractMutableEntity.setUpdatedAt(currentTimeWithoutFractionalSeconds());
     }
   }
