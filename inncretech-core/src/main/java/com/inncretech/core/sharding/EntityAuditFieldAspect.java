@@ -18,22 +18,24 @@ import com.inncretech.core.model.AbstractMutableEntity;
 @Aspect
 @Component
 public class EntityAuditFieldAspect {
-  
+
   @Before("preStoreEntity() && args(abstractMutableEntity)")
   public void preStoreMutableEntity(AbstractMutableEntity abstractMutableEntity) {
-    abstractMutableEntity.setUpdatedAt(currentTimeWithoutFractionalSeconds());
+    if (abstractMutableEntity.getCreatedAt() == null) {
+      abstractMutableEntity.setUpdatedAt(currentTimeWithoutFractionalSeconds());
+    }
   }
-  
+
   @Before("preStoreEntity() && args(abstractImmutableEntity)")
   public void preStoreImmutableEntity(AbstractImmutatableEntity abstractImmutableEntity) {
     if (abstractImmutableEntity.getCreatedAt() == null) {
       abstractImmutableEntity.setCreatedAt(currentTimeWithoutFractionalSeconds());
     }
   }
-  
+
   /**
-   * Current time that is compatible with <code>equals</code> before and
-   * after an object is persisted.
+   * Current time that is compatible with <code>equals</code> before and after
+   * an object is persisted.
    * 
    * @return Current time in UTC without fractional seconds
    */
@@ -42,15 +44,19 @@ public class EntityAuditFieldAspect {
   }
 
   @Pointcut("preSaveEntity() || preUpdateEntity() || preSaveOrUpdateEntity()")
-  public void preStoreEntity() { }
-  
+  public void preStoreEntity() {
+  }
+
   @Pointcut("execution(public * save(..))")
-  public void preSaveEntity() { }
-  
+  public void preSaveEntity() {
+  }
+
   @Pointcut("execution(public * update(..))")
-  public void preUpdateEntity() { }
-  
+  public void preUpdateEntity() {
+  }
+
   @Pointcut("execution(public * saveOrUpdate(..))")
-  public void preSaveOrUpdateEntity() { }
-  
+  public void preSaveOrUpdateEntity() {
+  }
+
 }

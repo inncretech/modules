@@ -2,7 +2,6 @@ package com.inncretech.user.model;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
 import org.hibernate.annotations.Type;
@@ -23,7 +22,7 @@ public class UserForgotPassword extends AbstractMutableEntity{
   @Column
   private String rndString;
 
-  @Type(type="myDateTime")
+  @Type(type="updatedTime")
   @Column
   private DateTime dateRndString;
 

@@ -5,10 +5,14 @@ import com.inncretech.core.model.RecordStatus;
 import com.inncretech.core.sharding.dao.impl.GenericUserShardDaoImpl;
 import com.inncretech.user.dao.UserAccessTokenDao;
 import com.inncretech.user.model.UserAccessToken;
+import java.util.List;
+
 import org.hibernate.Query;
 import org.springframework.stereotype.Component;
 
-import java.util.List;
+import com.inncretech.core.sharding.dao.impl.GenericUserShardDaoImpl;
+import com.inncretech.user.dao.UserAccessTokenDao;
+import com.inncretech.user.model.UserAccessToken;
 
 @Component
 public class UserAccessTokenDaoImpl extends GenericUserShardDaoImpl<UserAccessToken, Long> implements UserAccessTokenDao{
@@ -23,6 +27,7 @@ public class UserAccessTokenDaoImpl extends GenericUserShardDaoImpl<UserAccessTo
     query.setParameter("accessToken", accessToken);
     query.setParameter("recordStatus", RecordStatus.INACTIVE);
     UserAccessToken userAccessToken = null;
+    @SuppressWarnings("unchecked")
     List<UserAccessToken> result = query.list();
     if(result.size() > 0){
       userAccessToken = result.get(0);

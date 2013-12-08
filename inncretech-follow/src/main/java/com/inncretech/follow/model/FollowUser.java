@@ -2,13 +2,9 @@ package com.inncretech.follow.model;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.Transient;
 
 import com.inncretech.core.model.AbstractMutableEntity;
-import com.inncretech.core.model.BaseEntity;
 
 @Entity
 public class FollowUser extends AbstractMutableEntity {

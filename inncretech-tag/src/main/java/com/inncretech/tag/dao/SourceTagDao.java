@@ -22,4 +22,7 @@ public interface SourceTagDao {
 	@ShardAware(shardStrategy = "entityid", shardType = ShardType.SOURCE)
 	public void removeTagFromSource(Long sourceId, Long tagId) ;
 
+
+  public List<SourceTag> getSourcesAssociatedWithTag(Long tagId);
+
 }

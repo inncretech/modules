@@ -1,12 +1,12 @@
 package com.inncretech.source.service.impl;
 
-import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.inncretech.core.sharding.IdGenerator;
 import com.inncretech.core.sharding.ShardAware;
 import com.inncretech.core.sharding.ShardType;
+import com.inncretech.core.util.DateTimeUtils;
 import com.inncretech.source.dao.SourceUserShardDao;
 import com.inncretech.source.model.Source;
 import com.inncretech.source.service.SourceUserShardService;
@@ -23,7 +23,7 @@ public class DefaultSourceUserShardServiceImpl implements SourceUserShardService
   @Override
   @ShardAware(shardStrategy = "entityid", shardType = ShardType.USER)
   public Source create(Source source) {
-    source.setCreatedAt(new DateTime());
+    source.setCreatedAt(DateTimeUtils.currentTimeWithoutFractionalSeconds());
     return sourceUserShardDao.createSource(source);
   }
 

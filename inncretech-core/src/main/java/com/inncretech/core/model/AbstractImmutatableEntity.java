@@ -9,7 +9,7 @@ import org.hibernate.annotations.TypeDef;
 import org.joda.time.DateTime;
 
 
-@TypeDef(name = "myDateTime", typeClass = org.jadira.usertype.dateandtime.joda.PersistentDateTime.class, parameters = {
+@TypeDef(name = "updatedTime", typeClass = org.jadira.usertype.dateandtime.joda.PersistentDateTime.class, parameters = {
   @Parameter(value = "UTC", name = "databaseZone"), @Parameter(value = "UTC", name = "javaZone") })
 @MappedSuperclass
 public abstract class AbstractImmutatableEntity extends BaseEntity {
@@ -19,7 +19,7 @@ public abstract class AbstractImmutatableEntity extends BaseEntity {
    */
   private static final long serialVersionUID = 1L;
 
-  @Type(type="myDateTime")
+  @Type(type="updatedTime")
   @Column()
   private DateTime createdAt;
 
@@ -99,6 +99,6 @@ public abstract class AbstractImmutatableEntity extends BaseEntity {
 
   @Override
   public String toString() {
-    return super.toString() + " [AbstractImmutatableEntity [createdAt=" + createdAt + ", createdBy=" + createdBy;
+    return super.toString() + " [AbstractImmutatableEntity [createdAt=" + createdAt + ", createdBy=" + createdBy + "]]";
   }
 }
