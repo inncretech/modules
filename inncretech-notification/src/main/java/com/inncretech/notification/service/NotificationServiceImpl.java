@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 import com.inncretech.core.sharding.IdGenerator;
 import com.inncretech.core.sharding.ShardAware;
 import com.inncretech.core.sharding.ShardType;
-import com.inncretech.core.util.DateTimeUtils;
 import com.inncretech.notification.dao.NotificationDao;
 import com.inncretech.notification.model.Notification;
 
@@ -23,8 +22,6 @@ public class NotificationServiceImpl implements NotificationService {
 
   @Override
   public void handleEvent(Notification notification) {
-    notification.setCreatedAt(DateTimeUtils.currentTimeWithoutFractionalSeconds());
-    notification.setId(idGenerator.getNewIdOnUserShard(notification.getReceiverUserId()));
     notificationDao.save(notification);
   }
 
@@ -34,4 +31,8 @@ public class NotificationServiceImpl implements NotificationService {
     return notificationDao.getNotificationByUserId(userId, offset, limit, read);
   }
 
+  @Override
+  public void markRead(Long notificationId, Long userId) {
+    notificationDao.markRead(notificationId, userId);
+  }
 }

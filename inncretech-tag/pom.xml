@@ -32,7 +32,6 @@
     <dependency>
       <groupId>org.jadira.usertype</groupId>
       <artifactId>usertype.core</artifactId>
-      <version>3.0.0.GA</version>
     </dependency>
   </dependencies>
 </project>

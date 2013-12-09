@@ -35,10 +35,8 @@ public class DefaultNotificationServiceImplTest {
   @Test
   public void createNotification() {
     Notification notify = new Notification();
-    long srcID = idGenerator.getNewSourceId();
     long usrID = idGenerator.getNewUserId();
     notify.setNotificationData("TestNotify");
-    notify.setSourceId(srcID);
     notify.setCreatedBy(usrID);
     notify.setIsRead(false);
     notify.setReceiverUserId(idGenerator.getNewUserId());
@@ -48,11 +46,9 @@ public class DefaultNotificationServiceImplTest {
   @Test
   public void getNotificationsForUserId() {
     Notification notify = new Notification();
-    Long srcID = idGenerator.getNewSourceId();
     Long usrID = idGenerator.getNewUserId();
     Long recieverUserId = idGenerator.getNewUserId();
     notify.setNotificationData("TestNotify");
-    notify.setSourceId(srcID);
     notify.setCreatedBy(usrID);
     notify.setReceiverUserId(recieverUserId);
     notify.setIsRead(false);

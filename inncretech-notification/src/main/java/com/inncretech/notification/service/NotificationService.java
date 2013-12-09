@@ -9,6 +9,8 @@ import com.inncretech.notification.model.Notification;
 public interface NotificationService {
   
   public void handleEvent(Notification notification);
+  
+  public void markRead(Long notificationId, Long userId);
 
   @ShardAware(shardStrategy = "entityid", shardType = ShardType.USER)
   public List<Notification> getNotificationByUserId(Long userId, int offset, int limit, boolean read);

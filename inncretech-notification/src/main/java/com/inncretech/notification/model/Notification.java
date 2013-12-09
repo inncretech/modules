@@ -3,7 +3,6 @@ package com.inncretech.notification.model;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.Transient;
 
 import com.inncretech.core.model.AbstractMutableEntity;
 
@@ -12,9 +11,6 @@ public class Notification extends AbstractMutableEntity {
 
   @Id
   private Long id;
-
-  @Column
-  private Long sourceId;
 
   @Column
   private Long receiverUserId;
@@ -28,25 +24,12 @@ public class Notification extends AbstractMutableEntity {
   @Column
   private Integer type;
 
-  @Transient
-  public Long getShardedColumnValue() {
-    return getSourceId();
-  }
-
   public Long getId() {
     return id;
   }
 
   public void setId(Long id) {
     this.id = id;
-  }
-
-  public Long getSourceId() {
-    return sourceId;
-  }
-
-  public void setSourceId(Long sourceId) {
-    this.sourceId = sourceId;
   }
 
   @Column
@@ -91,7 +74,6 @@ public class Notification extends AbstractMutableEntity {
     result = prime * result + ((isRead == null) ? 0 : isRead.hashCode());
     result = prime * result + ((notificationData == null) ? 0 : notificationData.hashCode());
     result = prime * result + ((receiverUserId == null) ? 0 : receiverUserId.hashCode());
-    result = prime * result + ((sourceId == null) ? 0 : sourceId.hashCode());
     result = prime * result + ((type == null) ? 0 : type.hashCode());
     return result;
   }
@@ -125,11 +107,6 @@ public class Notification extends AbstractMutableEntity {
         return false;
     } else if (!receiverUserId.equals(other.receiverUserId))
       return false;
-    if (sourceId == null) {
-      if (other.sourceId != null)
-        return false;
-    } else if (!sourceId.equals(other.sourceId))
-      return false;
     if (type == null) {
       if (other.type != null)
         return false;
@@ -140,7 +117,7 @@ public class Notification extends AbstractMutableEntity {
 
   @Override
   public String toString() {
-    return "Notification [id=" + id + ", sourceId=" + sourceId + ", receiverUserId=" + receiverUserId + ", notificationData=" + notificationData
+    return "Notification [id=" + id + ", receiverUserId=" + receiverUserId + ", notificationData=" + notificationData
         + ", isRead=" + isRead + ", type=" + type + ", toString()=" + super.toString() + "]";
   }
 }
