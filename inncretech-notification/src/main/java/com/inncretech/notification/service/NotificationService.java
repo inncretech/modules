@@ -12,7 +12,6 @@ public interface NotificationService {
   
   public void markRead(Long notificationId, Long userId);
 
-  @ShardAware(shardStrategy = "entityid", shardType = ShardType.USER)
-  public List<Notification> getNotificationByUserId(Long userId, int offset, int limit, boolean read);
+  public List<Notification> getNotificationsByUserId(Long userId, int offset, int limit, boolean read);
 
 }
