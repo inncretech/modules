@@ -31,7 +31,9 @@ public class NotificationDaoImpl extends GenericUserShardDaoImpl<Notification, L
     Integer shardId = getIdGenService().getShardId(userId, ShardType.USER);
     Criterion criterion = Restrictions.eq("receiverUserId", userId);
     Criterion readCondition = Restrictions.eq("isRead", read);
-    return findByCriteria(shardId, offset, limit, criterion, readCondition);
+    Criterion readNullCondition = Restrictions.eq("isRead", null);
+    Criterion finalCriterion = Restrictions.or(readCondition, readNullCondition);
+    return findByCriteria(shardId, offset, limit, criterion, finalCriterion);
   }
 
   @Override
