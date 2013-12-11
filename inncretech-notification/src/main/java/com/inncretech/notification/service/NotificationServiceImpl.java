@@ -21,8 +21,10 @@ public class NotificationServiceImpl implements NotificationService {
   private IdGenerator idGenerator;
 
   @Override
-  public void handleEvent(Notification notification) {
-    notificationDao.save(notification);
+  public Notification save(Notification notification) {
+    Long id = notificationDao.save(notification);
+    notification.setId(id);
+    return notification;
   }
 
   @Override
