@@ -1,4 +1,4 @@
-package com.inncretech.comment;
+package com.inncretech.comment.service;
 
 import org.hibernate.Query;
 import org.springframework.stereotype.Component;

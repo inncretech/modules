@@ -65,20 +65,20 @@ public class CommentServiceImpl implements CommentService {
     return firstLevelComments;
   }
 
-	@Override
-  public Comment deleteComment(Comment comment) {	  	
-	  return commentDao.deleteComment(comment.getId());
+  @Override
+  public Comment deleteComment(Comment comment) {
+    return commentDao.deleteComment(comment.getId());
   }
 
-	@Override
+  @Override
   public Comment editComment(Comment comment) {
-	  // TODO Auto-generated method stub
-	  return null;
+    // TODO Auto-generated method stub
+    return null;
   }
 
-	@Override
+  @Override
   public Comment flagCommentAsAbuse(Comment comment) {
-	  // TODO Auto-generated method stub
-	  return null;
+    // TODO Auto-generated method stub
+    return null;
   }
 }
