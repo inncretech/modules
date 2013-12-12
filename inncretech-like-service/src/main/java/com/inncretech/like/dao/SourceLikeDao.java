@@ -10,13 +10,16 @@ import com.inncretech.like.model.SourceLike;
 public interface SourceLikeDao extends GenericSourceShardDAO<SourceLike, Long> {
 
   @ShardAware(shardStrategy = "entityid", shardType = ShardType.SOURCE)
-  public List<SourceLike> getAllLikes(Long objectId);
+  public List<SourceLike> getAllLikes(Long sourceId);
 
   @ShardAware(shardStrategy = "shardid")
   public List<SourceLike> getAllLikesByUser(Integer shardId, Long userID);
 
-  public List<SourceLike> getAllLikes(List<Long> objectIds);
+  @ShardAware(shardStrategy = "entityid", shardType = ShardType.SOURCE)
+  List<SourceLike> getAllLikesByUser(Integer shardId, Long userID, Boolean like);
+
+  public List<SourceLike> getAllLikes(List<Long> sourceIds);
 
   @ShardAware(shardStrategy = "entityid", shardType = ShardType.SOURCE)
-  public SourceLike likeObject(SourceLike obj);
+  public SourceLike likeObject(SourceLike sourceLike);
 }

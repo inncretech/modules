@@ -45,6 +45,17 @@ public class DefaultLikeServiceImpl implements LikeService {
 
     return allSourceLikes;
   }
+  
+  @Override
+  public List<SourceLike> getAllLikeByUser(Long userId, Boolean like) {
+    List<SourceLike> allSourceLikes = new ArrayList<SourceLike>();
+    List<ShardConfig> allShards = shardConfigDao.getAllShards(ShardType.SOURCE.getType());
+    for (ShardConfig config : allShards) {
+      allSourceLikes.addAll(srcLikeDao.getAllLikesByUser(config.getId(), userId, like));
+    }
+
+    return allSourceLikes;
+  }
 
   @Override
   public SourceLike likeSource(Long srcID, LikeType likeType, Long createdBy) {
