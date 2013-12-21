@@ -97,7 +97,7 @@ public class PasswordService implements PasswordEncoder{
 
   private StandardPBEStringEncryptor getEncryptor(String password) {
     StandardPBEStringEncryptor standardPBEStringEncryptor = new StandardPBEStringEncryptor();
-    standardPBEStringEncryptor.setProvider(new BouncyCastleProvider());
+    standardPBEStringEncryptor.setProvider(Security.getProvider(BouncyCastleProvider.PROVIDER_NAME));
     standardPBEStringEncryptor.setAlgorithm("PBEWITHSHA256AND256BITAES-CBC-BC");
     standardPBEStringEncryptor.setPassword(password);
     return standardPBEStringEncryptor;
