@@ -55,13 +55,13 @@ public class TagDaoImpl implements TagDao {
   public List<Tag> getMatchingTags(String pattern, boolean exact, boolean startWith) {
     Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Tag.class);
     if (exact) {
-      criteria.add(Restrictions.eq("tagName", pattern));
+      criteria.add(Restrictions.eq("name", pattern));
     } else if (startWith) {
       pattern = pattern + "%";
-      criteria.add(Restrictions.ilike("tagName", pattern));
+      criteria.add(Restrictions.ilike("name", pattern));
     } else {
       pattern = "%" + pattern + "%";
-      criteria.add(Restrictions.ilike("tagName", pattern));
+      criteria.add(Restrictions.ilike("name", pattern));
     }
     return criteria.list();
   }
