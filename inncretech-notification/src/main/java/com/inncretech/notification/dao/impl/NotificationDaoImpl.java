@@ -10,6 +10,7 @@ import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Component;
 
+import com.inncretech.core.sharding.ShardAware;
 import com.inncretech.core.sharding.ShardType;
 import com.inncretech.core.sharding.dao.impl.GenericUserShardDaoImpl;
 import com.inncretech.core.util.DateTimeUtils;
@@ -25,16 +26,21 @@ public class NotificationDaoImpl extends GenericUserShardDaoImpl<Notification, L
   }
 
   @Override
-  public List<Notification> getNotificationByUserId(Long userId, Integer offset, Integer limit, Boolean read) {
+  @ShardAware(shardStrategy = "entityid", shardType = ShardType.USER)
+  public List<Notification> getNotificationsByUserId(Long userId, Integer offset, Integer limit, Boolean read) {
     Integer shardId = getIdGenService().getShardId(userId, ShardType.USER);
     Criterion criterion = Restrictions.eq("receiverUserId", userId);
     Criterion readCondition = Restrictions.eq("isRead", read);
-    return findByCriteria(shardId, offset, limit, criterion, readCondition);
+    Criterion readNullCondition = Restrictions.eq("isRead", null);
+    Criterion finalCriterion = Restrictions.or(readCondition, readNullCondition);
+    return findByCriteria(shardId, offset, limit, criterion, finalCriterion);
   }
 
   @Override
+  @ShardAware(shardStrategy = "entityid", shardType = ShardType.USER)
   public void markRead(Long notificationId, Long userId) {
-    Query query = getSession(notificationId).getNamedQuery("updateReadQuery");
+    Query query = getSession(notificationId).createQuery(
+        "update Notification set isRead = true, updatedBy = :updatedBy, updatedAt = :updatedAt where id = :id");
     query.setParameter("id", notificationId);
     query.setParameter("updatedAt", DateTimeUtils.currentTimeWithoutFractionalSeconds());
     query.setParameter("updatedBy", userId);

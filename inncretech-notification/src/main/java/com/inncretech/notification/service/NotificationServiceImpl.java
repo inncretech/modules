@@ -21,14 +21,16 @@ public class NotificationServiceImpl implements NotificationService {
   private IdGenerator idGenerator;
 
   @Override
-  public void handleEvent(Notification notification) {
-    notificationDao.save(notification);
+  public Notification save(Notification notification) {
+    Long id = notificationDao.save(notification);
+    notification.setId(id);
+    return notification;
   }
 
   @Override
   @ShardAware(shardStrategy = "entityid", shardType = ShardType.USER)
-  public List<Notification> getNotificationByUserId(Long userId, int offset, int limit, boolean read) {
-    return notificationDao.getNotificationByUserId(userId, offset, limit, read);
+  public List<Notification> getNotificationsByUserId(Long userId, int offset, int limit, boolean read) {
+    return notificationDao.getNotificationsByUserId(userId, offset, limit, read);
   }
 
   @Override

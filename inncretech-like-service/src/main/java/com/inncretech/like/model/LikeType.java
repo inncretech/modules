@@ -1,18 +1,16 @@
 package com.inncretech.like.model;
 
 public enum LikeType {
-  
-  LIKE((byte)1), UNLIKE((byte)-1);
-  
-  private byte likeValue;
-  
-  private LikeType(byte likeValue)
-  {
+
+  LIKE(1), UNLIKE(-1);
+
+  private Integer likeValue;
+
+  private LikeType(Integer likeValue) {
     this.likeValue = likeValue;
   }
-  
-  public byte getValue()
-  {
+
+  public Integer getValue() {
     return likeValue;
   }
 

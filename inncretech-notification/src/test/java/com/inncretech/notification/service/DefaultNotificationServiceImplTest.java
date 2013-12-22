@@ -40,7 +40,7 @@ public class DefaultNotificationServiceImplTest {
     notify.setCreatedBy(usrID);
     notify.setIsRead(false);
     notify.setReceiverUserId(idGenerator.getNewUserId());
-    notifyService.handleEvent(notify);
+    notifyService.save(notify);
   }
 
   @Test
@@ -52,8 +52,8 @@ public class DefaultNotificationServiceImplTest {
     notify.setCreatedBy(usrID);
     notify.setReceiverUserId(recieverUserId);
     notify.setIsRead(false);
-    notifyService.handleEvent(notify);
-    List<Notification> notifications = notifyService.getNotificationByUserId(recieverUserId, 0, 1, false);
+    notifyService.save(notify);
+    List<Notification> notifications = notifyService.getNotificationsByUserId(recieverUserId, 0, 1, false);
     Assert.state(notifications.size() == 1);
   }
 

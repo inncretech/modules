@@ -1,4 +1,4 @@
-package com.inncretech.like;
+package com.inncretech.like.service.impl;
 
 import static org.junit.Assert.assertEquals;
 
@@ -29,18 +29,18 @@ public class DefaultLikeServiceImplTest extends BaseTest {
   private TestUtil dbUtility;
 
   @Autowired
-  SourceLikeDao srcDAO;
+  SourceLikeDao sourceLikeDao;
 
   @Autowired
   private IdGenerator idGenerator;
-  
+
   @Test
-  public void LikeSource(){
-  	
-  	long srcID = idGenerator.getNewSourceId();
+  public void LikeSource() {
+
+    long srcID = idGenerator.getNewSourceId();
     long usrID = idGenerator.getNewUserId();
     likeService.likeSource(srcID, LikeType.LIKE, usrID);
-    
+
   }
 
   @Test
@@ -56,22 +56,21 @@ public class DefaultLikeServiceImplTest extends BaseTest {
     likeService.likeSource(srcID1, LikeType.LIKE, usrID1);
     likeService.likeSource(srcID2, LikeType.LIKE, usrID1);
     likeService.likeSource(srcID3, LikeType.LIKE, usrID1);
-    likeService.likeSource(srcID4, LikeType.LIKE, usrID1);   
+    likeService.likeSource(srcID4, LikeType.LIKE, usrID1);
     likeService.likeSource(srcID1, LikeType.UNLIKE, usrID1);
     likeService.likeSource(srcID1, LikeType.LIKE, usrID1);
-    
-    List<SourceLike> sourceLikeList = likeService.getAllLikeByUser(usrID1);
-    System.out.println("Number in SourceLike (6) "+sourceLikeList.size());
-    
-    sourceLikeList = likeService.getAllLikesBySource(srcID1);
-    System.out.println("Number in SourceLike (3) "+sourceLikeList.size());
 
-   
+    List<SourceLike> sourceLikeList = likeService.getAllLikeByUser(usrID1);
+    System.out.println("Number in SourceLike (6) " + sourceLikeList.size());
+
+    sourceLikeList = likeService.getAllLikesBySource(srcID1);
+    System.out.println("Number in SourceLike (3) " + sourceLikeList.size());
+
     likeService.likeSource(srcID2, LikeType.LIKE, usrID2);
     likeService.likeSource(srcID2, LikeType.LIKE, usrID3);
     likeService.likeSource(srcID2, LikeType.UNLIKE, usrID3);
     sourceLikeList = likeService.getAllLikesBySource(srcID2);
-    System.out.println("Number in SourceLike (4) "+sourceLikeList.size());
+    System.out.println("Number in SourceLike (4) " + sourceLikeList.size());
   }
 
   @Test
@@ -85,13 +84,11 @@ public class DefaultLikeServiceImplTest extends BaseTest {
 
   @Test
   public void getLikeByObj() {
-
     long srcID = idGenerator.getNewSourceId();
     long usrID = idGenerator.getNewUserId();
     likeService.likeSource(srcID, LikeType.UNLIKE, usrID);
     List<SourceLike> lstSourceLike = likeService.getAllLikesBySource(srcID);
-
-    assertEquals((byte) -1, (byte) lstSourceLike.get(0).getLikeValue());
+    assertEquals(-1, lstSourceLike.get(0).getLikeValue().intValue());
 
   }
 
@@ -102,13 +99,7 @@ public class DefaultLikeServiceImplTest extends BaseTest {
     long usrID = idGenerator.getNewUserId();
     likeService.likeSource(srcID, LikeType.UNLIKE, usrID);
     List<SourceLike> lstSourceLike = likeService.getAllLikeByUser(usrID);
-
-    assertEquals((byte) -1, (byte) lstSourceLike.get(0).getLikeValue());
+    assertEquals(-1, lstSourceLike.get(0).getLikeValue().intValue());
 
   }
-
-//  @Before
-//  public void setUp() {
-//    dbUtility.cleanUpdb(new String[] { "like" });
-//  }
 }
