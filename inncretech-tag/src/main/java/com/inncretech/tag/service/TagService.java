@@ -4,7 +4,6 @@ import java.util.List;
 
 import com.inncretech.core.sharding.ShardAware;
 import com.inncretech.core.sharding.ShardType;
-import com.inncretech.tag.model.SourceTag;
 import com.inncretech.tag.model.Tag;
 
 public interface TagService {
@@ -36,5 +35,5 @@ public interface TagService {
 
   public Tag getTagWithName(String tagName);
 
-  public List<SourceTag> getSourcesAssociatedWithTag(Long tagId);
+  public List<Long> getSourcesAssociatedWithTag(Long tagId);
 }

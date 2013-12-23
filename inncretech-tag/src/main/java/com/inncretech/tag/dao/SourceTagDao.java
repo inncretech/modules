@@ -23,6 +23,6 @@ public interface SourceTagDao {
 	public void removeTagFromSource(Long sourceId, Long tagId) ;
 
 
-  public List<SourceTag> getSourcesAssociatedWithTag(Long tagId);
+  public List<Long> getSourcesAssociatedWithTag(Long tagId);
 
 }

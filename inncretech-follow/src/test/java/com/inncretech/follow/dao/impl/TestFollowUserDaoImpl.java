@@ -12,7 +12,6 @@ import org.springframework.util.Assert;
 import com.inncretech.core.model.RecordStatus;
 import com.inncretech.core.sharding.IdGenerator;
 import com.inncretech.core.util.DateTimeUtils;
-import com.inncretech.follow.dao.FollowSourceDao;
 import com.inncretech.follow.dao.FollowUserDao;
 import com.inncretech.follow.model.FollowUser;
 

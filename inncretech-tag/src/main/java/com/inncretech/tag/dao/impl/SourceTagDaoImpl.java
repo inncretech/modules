@@ -1,21 +1,29 @@
 package com.inncretech.tag.dao.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 
-import com.inncretech.core.model.RecordStatus;
-import com.inncretech.core.sharding.dao.impl.GenericSourceShardDaoImpl;
-
 import org.hibernate.Query;
+import org.hibernate.criterion.DetachedCriteria;
+import org.hibernate.criterion.Property;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import com.inncretech.core.model.RecordStatus;
 import com.inncretech.core.sharding.ShardAware;
 import com.inncretech.core.sharding.ShardType;
+import com.inncretech.core.sharding.dao.ShardConfigDao;
+import com.inncretech.core.sharding.dao.impl.GenericSourceShardDaoImpl;
+import com.inncretech.core.sharding.model.ShardConfig;
 import com.inncretech.tag.dao.SourceTagDao;
 import com.inncretech.tag.model.SourceTag;
 import com.inncretech.tag.model.Tag;
 
 @Component
 public class SourceTagDaoImpl extends GenericSourceShardDaoImpl<SourceTag, Long> implements SourceTagDao {
+
+  @Autowired
+  private ShardConfigDao shardConfigDao;
 
   public SourceTagDaoImpl() {
     super(SourceTag.class);
@@ -52,7 +60,18 @@ public class SourceTagDaoImpl extends GenericSourceShardDaoImpl<SourceTag, Long>
   }
 
   @Override
-  public List<SourceTag> getSourcesAssociatedWithTag(Long tagId) {
-    return null;
+  public List<Long> getSourcesAssociatedWithTag(Long tagId) {
+    List<ShardConfig> shardConfigs = shardConfigDao.getAllShards(ShardType.SOURCE.getType());
+    List<Long> sourceIds = new ArrayList<Long>();
+    for (ShardConfig config : shardConfigs) {
+      DetachedCriteria detachedCriteria = DetachedCriteria.forClass(getPersistentClass()).add(Property.forName("tagId").eq(tagId))
+          .add(Property.forName("recordStatus").eq(RecordStatus.ACTIVE.getId()));
+      List<SourceTag> sourceTags = findByCriteria(config.getId(), detachedCriteria);
+      for (SourceTag sourceTag : sourceTags) {
+        sourceIds.add(sourceTag.getSourceId());
+      }
+    }
+
+    return sourceIds;
   }
 }

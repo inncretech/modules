@@ -118,7 +118,7 @@ public class DefaultTagServiceImpl implements TagService {
   }
 
   @Override
-  public List<SourceTag> getSourcesAssociatedWithTag(Long tagId) {
+  public List<Long> getSourcesAssociatedWithTag(Long tagId) {
     return sourceTagDao.getSourcesAssociatedWithTag(tagId);
   }
 }
