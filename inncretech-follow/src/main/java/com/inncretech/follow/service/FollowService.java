@@ -6,6 +6,7 @@ import com.inncretech.follow.model.FollowSource;
 import com.inncretech.follow.model.FollowTag;
 import com.inncretech.follow.model.FollowUser;
 
+@Deprecated
 public interface FollowService {
 
 	FollowTag followTag(Long followerId, Long tagid);
@@ -21,9 +22,7 @@ public interface FollowService {
 	FollowUser unFollowUser(Long userId, Long followerId);
 
 	List<FollowUser> getFollowersByUser(Long userId);
-	
-	List<FollowUser> getFollowedUsers(Long userId);
-	
+		
 	List<FollowTag> getFollowersByTag(Long tagId);
 	
 	List<FollowTag> getFollowedTags(Long userId);
