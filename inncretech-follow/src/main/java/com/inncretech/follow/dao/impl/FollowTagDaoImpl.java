@@ -30,26 +30,34 @@ public class FollowTagDaoImpl extends GenericUserShardDaoImpl<FollowTag, Long> i
     super(FollowTag.class);
   }
 
-  public List<FollowTag> getFollowersByTag(Long tagId) {
-    List<FollowTag> followTags = new ArrayList<FollowTag>();
+  public List<Long> getFollowersByTag(Long tagId) {
+    List<Long> followerUserIds = new ArrayList<Long>();
     List<ShardConfig> shardConfigs = getAllShards();
     for (ShardConfig config : shardConfigs) {
       DetachedCriteria detachedCriteria = DetachedCriteria.forClass(getPersistentClass()).add(Property.forName("tagId").eq(tagId))
           .add(Property.forName("recordStatus").eq(RecordStatus.ACTIVE.getId()));
-      followTags.addAll(findByCriteria(config.getId(), detachedCriteria));
+      List<FollowTag> followTags = (List<FollowTag>)findByCriteria(config.getId(), detachedCriteria); 
+      for (FollowTag followTag : followTags) {
+        followerUserIds.add(followTag.getFollowerId());
+      }
     }
-    return followTags;
+    return followerUserIds;
   }
 
   @SuppressWarnings("unchecked")
   @ShardAware(shardStrategy = "entityid", shardType = ShardType.USER)
-  public List<FollowTag> getFollowedTagsByUser(Long userId) {
+  public List<Long> getFollowedTagsByUser(Long userId) {
 
     Query query = getQuery(getIdGenService().getShardId(userId, ShardType.USER),
         "from FollowTag where followerId= :user_id and recordStatus= :recordStatus");
     query.setParameter("user_id", userId);
     query.setParameter("recordStatus", RecordStatus.ACTIVE.getId());
-    return query.list();
+    List<FollowTag> followTags = (List<FollowTag>) query.list();
+    List<Long> tagIds = new ArrayList<Long>();
+    for (FollowTag followTag : followTags) {
+      tagIds.add(followTag.getTagId());
+    }
+    return tagIds;
   }
 
   @ShardAware(shardStrategy = "entityid", shardType = ShardType.USER)

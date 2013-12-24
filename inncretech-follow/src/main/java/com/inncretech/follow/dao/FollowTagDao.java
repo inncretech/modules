@@ -9,10 +9,10 @@ import com.inncretech.follow.model.FollowTag;
 
 public interface FollowTagDao extends GenericUserShardDAO<FollowTag, Long> {
 
-  public List<FollowTag> getFollowersByTag(Long tagId);
+  public List<Long> getFollowersByTag(Long tagId);
 
   @ShardAware(shardStrategy = "entityid", shardType = ShardType.USER)
-  public List<FollowTag> getFollowedTagsByUser(Long userId);
+  public List<Long> getFollowedTagsByUser(Long userId);
 
   @ShardAware(shardStrategy = "entityid", shardType = ShardType.USER)
   public FollowTag unfollowTag(Long userId, Long tagId);
