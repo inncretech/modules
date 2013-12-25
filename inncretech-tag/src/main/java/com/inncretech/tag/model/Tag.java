@@ -7,10 +7,10 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
-import com.inncretech.core.model.AbstractImmutatableEntity;
+import com.inncretech.core.model.AbstractMutableEntity;
 
 @Entity
-public class Tag extends AbstractImmutatableEntity {
+public class Tag extends AbstractMutableEntity {
 
   @Id
   @Basic(optional = false)
@@ -23,6 +23,9 @@ public class Tag extends AbstractImmutatableEntity {
   
   @Column
   private String imageUrl;
+  
+  @Column
+  private Long totalFollowers;
   
   public Long getId() {
     return id;
@@ -47,6 +50,14 @@ public class Tag extends AbstractImmutatableEntity {
   public void setImageUrl(String imageUrl) {
     this.imageUrl = imageUrl;
   }
+  
+  public Long getTotalFollowers() {
+    return totalFollowers;
+  }
+
+  public void setTotalFollowers(Long totalFollowers) {
+    this.totalFollowers = totalFollowers;
+  }
 
   @Override
   public int hashCode() {
@@ -55,6 +66,7 @@ public class Tag extends AbstractImmutatableEntity {
     result = prime * result + ((id == null) ? 0 : id.hashCode());
     result = prime * result + ((imageUrl == null) ? 0 : imageUrl.hashCode());
     result = prime * result + ((name == null) ? 0 : name.hashCode());
+    result = prime * result + ((totalFollowers == null) ? 0 : totalFollowers.hashCode());
     return result;
   }
 
@@ -82,11 +94,18 @@ public class Tag extends AbstractImmutatableEntity {
         return false;
     } else if (!name.equals(other.name))
       return false;
+    if (totalFollowers == null) {
+      if (other.totalFollowers != null)
+        return false;
+    } else if (!totalFollowers.equals(other.totalFollowers))
+      return false;
     return true;
   }
 
   @Override
   public String toString() {
-    return "Tag [id=" + id + ", name=" + name + ", imageUrl=" + imageUrl + "]";
+    return "Tag [id=" + id + ", name=" + name + ", imageUrl=" + imageUrl + ", totalFollowers=" + totalFollowers + ", toString()=" + super.toString()
+        + "]";
   }
 }
+  

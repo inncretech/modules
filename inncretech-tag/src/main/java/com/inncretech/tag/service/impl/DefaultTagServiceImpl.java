@@ -41,6 +41,8 @@ public class DefaultTagServiceImpl implements TagService {
     t.setName(tagName);
     t.setCreatedBy(userId);
     t.setCreatedAt(DateTimeUtils.currentTimeWithoutFractionalSeconds());
+    t.setUpdatedAt(DateTimeUtils.currentTimeWithoutFractionalSeconds());
+    t.setUpdatedBy(userId);
     tagDao.createTag(t);
     return t;
   }
