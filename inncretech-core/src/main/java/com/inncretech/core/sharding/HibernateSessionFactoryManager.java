@@ -129,6 +129,8 @@ public class HibernateSessionFactoryManager {
     targetSource.setDriverClass("com.mysql.jdbc.Driver");
     targetSource.setUser(getDbUsername());
     targetSource.setPassword(getDbPassword());
+    targetSource.setMinPoolSize(1);
+    targetSource.setMaxPoolSize(3);
     targetSource.setIdleConnectionTestPeriod(idleConenctionPeriod);
     source.setTargetDataSource(targetSource);
     return source;
