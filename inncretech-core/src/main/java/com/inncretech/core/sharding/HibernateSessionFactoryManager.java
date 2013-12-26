@@ -116,6 +116,7 @@ public class HibernateSessionFactoryManager {
     props.setProperty("hibernate.hbm2ddl.auto", getHbm2ddlAuto());
     props.setProperty("hibernate.show_sql", getHibernateShowSql());
     props.setProperty("hibernate.hibernate.naming_strategy", "org.hibernate.cfg.ImprovedNamingStrategy");
+    props.setProperty("hibernate.connection.release_mode", "after_transaction");
     props.setProperty("","");
     a.setHibernateProperties(props);
     a.afterPropertiesSet();
