@@ -130,7 +130,7 @@ public class HibernateSessionFactoryManager {
     targetSource.setUser(getDbUsername());
     targetSource.setPassword(getDbPassword());
     targetSource.setMinPoolSize(1);
-    targetSource.setMaxPoolSize(3);
+    targetSource.setMaxPoolSize(7);
     targetSource.setIdleConnectionTestPeriod(idleConenctionPeriod);
     source.setTargetDataSource(targetSource);
     return source;
