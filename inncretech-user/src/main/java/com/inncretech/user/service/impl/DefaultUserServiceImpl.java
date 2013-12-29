@@ -101,6 +101,18 @@ public class DefaultUserServiceImpl implements UserService {
     userDao.update(readUser);
 
   }
+  @ShardAware(shardStrategy = "entityid", shardType = ShardType.USER)
+  public void updateEmail(Long userId, String email){
+    User readUser = userDao.get(userId);
+    readUser.setEmail(email);
+
+    UserLoginLookup userLoginLookup = new UserLoginLookup();
+    userLoginLookup.setLogin(email);
+    userLoginLookup.setUserId(userId);
+    userLoginLookupDao.save(userLoginLookup);
+
+    userDao.update(readUser);
+  }
 
   @ShardAware(shardStrategy = "entityid", shardType = ShardType.USER)
   private UserForgotPassword saveForgotPasswordRequest(Long userId, String token) {
@@ -130,6 +142,7 @@ public class DefaultUserServiceImpl implements UserService {
   public void resetPassword(Long userId, String pwd) {
     User readUser = userDao.get(userId);
     readUser.setPassword(pwd);
+    passwordService.initializeCryptoForNewUser(readUser);
     userDao.update(readUser);
   }
 

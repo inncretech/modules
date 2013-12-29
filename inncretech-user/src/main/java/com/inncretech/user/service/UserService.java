@@ -28,6 +28,9 @@ public interface UserService {
   @ShardAware(shardStrategy = "entityid", shardType = ShardType.USER)
   void updateName(User user);
 
+  @ShardAware(shardStrategy = "entityid", shardType = ShardType.USER)
+  void updateEmail(Long userId, String email);
+
   void updateFacebookInfo(String facebookId);
 
   @Transactional
