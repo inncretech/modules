@@ -40,7 +40,7 @@ public interface UserService {
   void resetPassword(Long userId, String Pwd);
 
   @Transactional
-  boolean validateRandomString(String randomString);
+  User validateRandomString(String randomString);
 
   User signupFacebookUser(String accessToken);
 

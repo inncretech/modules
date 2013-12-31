@@ -148,15 +148,15 @@ public class DefaultUserServiceImpl implements UserService {
 
   @Override
   @Transactional
-  public boolean validateRandomString(String randomString) {
+  public User validateRandomString(String randomString) {
     DateTime dt = new DateTime();
     UserForgotPassword ufp = new UserForgotPassword();
     ufp.setRndString(randomString);
     ufp = userFPDao.getDateForRandomString(ufp);
     if (dt.getMillis() - ufp.getDateRndString().getMillis() < 86400) {
-      return true;
+      return get(ufp.getUserId());
     } else
-      return false;
+      return null;
   }
 
   @Override
