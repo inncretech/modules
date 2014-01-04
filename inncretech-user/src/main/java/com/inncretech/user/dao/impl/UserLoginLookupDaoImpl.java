@@ -27,4 +27,12 @@ public class UserLoginLookupDaoImpl extends GenericDAOImpl<UserLoginLookup , Lon
 
     return userLoginLookup;
   }
+
+  @Transactional
+  public List<UserLoginLookup> getUserLoginLookups(List<String> logins){
+    Query query = getQuery("from UserLoginLookup where login in (:logins)");
+    query.setParameterList("logins", logins);
+    UserLoginLookup userLoginLookup =null;
+    return query.list();
+  }
 }

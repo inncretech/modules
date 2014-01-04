@@ -7,6 +7,7 @@ import com.inncretech.core.sharding.ShardType;
 import com.inncretech.user.model.LoginResponse;
 import com.inncretech.user.model.User;
 import com.inncretech.user.model.UserForgotPassword;
+import com.inncretech.user.model.UserLoginLookup;
 import org.springframework.transaction.annotation.Transactional;
 
 public interface UserService {
@@ -57,4 +58,6 @@ public interface UserService {
 
   @ShardAware(shardStrategy = "entityid", shardType = ShardType.USER)
   void expireAccessToken(Long userId , String accessToken);
+
+  public List<UserLoginLookup> searchUsersByEmails(List<String> emails);
 }

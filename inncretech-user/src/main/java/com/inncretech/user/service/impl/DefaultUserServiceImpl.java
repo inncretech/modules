@@ -1,6 +1,9 @@
 package com.inncretech.user.service.impl;
 
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.validation.Valid;
 
@@ -224,6 +227,11 @@ public class DefaultUserServiceImpl implements UserService {
       return userDao.get(userLoginLookup.getUserId());
     }
     return null;
+  }
+
+  @Override
+  public List<UserLoginLookup> searchUsersByEmails(List<String> emails) {
+    return userLoginLookupDao.getUserLoginLookups(emails);
   }
 
   @Override
