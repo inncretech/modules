@@ -18,7 +18,7 @@ public interface FollowTagDao extends GenericUserShardDAO<FollowTag, Long> {
   public FollowTag unfollowTag(Long userId, Long tagId);
 
   @ShardAware(shardStrategy = "entityid", shardType = ShardType.USER)
-  public boolean doesUserFollowTag(Long userId, Long tagId);
+  public Boolean doesUserFollowTag(Long userId, Long tagId);
 
   @ShardAware(shardStrategy = "entityid", shardType = ShardType.USER)
   public FollowTag getFollowTag(Long userId, Long tagId);

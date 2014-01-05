@@ -101,12 +101,12 @@ public class FollowTagDaoImpl extends GenericUserShardDaoImpl<FollowTag, Long> i
 
   @Override
   @ShardAware(shardStrategy = "entityid", shardType = ShardType.USER)
-  public boolean doesUserFollowTag(Long followerId, Long tagId) {
+  public Boolean doesUserFollowTag(Long followerId, Long tagId) {
     Integer shardId = getIdGenService().getShardId(followerId, ShardType.USER);
     Session sess = getCurrentSessionByShard(shardId);
     Query query = sess.createQuery("from FollowTag where followerId= :followerId and tagId = :tagId and recordStatus=:recordStatus").setParameter("tagId", tagId)
         .setParameter("followerId", followerId).setParameter("recordStatus", RecordStatus.ACTIVE.getId());
-    return (query.uniqueResult() != null) ? true : false;
+    return (query.uniqueResult() != null) ? Boolean.TRUE : Boolean.FALSE;
   }
 
   @Override

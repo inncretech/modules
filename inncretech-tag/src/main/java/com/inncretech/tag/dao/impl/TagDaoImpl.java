@@ -28,7 +28,7 @@ public class TagDaoImpl implements TagDao {
 
   @SuppressWarnings("unchecked")
   @Transactional
-  public List<Tag> getAllTags(int offset, int maxLimit) {
+  public List<Tag> getAllTags(Integer offset, Integer maxLimit) {
     Query q = sessionFactory.getCurrentSession().createQuery("from Tag");
     q.setFirstResult(offset);
     q.setMaxResults(maxLimit);
@@ -52,7 +52,7 @@ public class TagDaoImpl implements TagDao {
 
   @SuppressWarnings("unchecked")
   @Override
-  public List<Tag> getMatchingTags(String pattern, boolean exact, boolean startWith) {
+  public List<Tag> getMatchingTags(String pattern, Boolean exact, Boolean startWith) {
     Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Tag.class);
     if (exact) {
       criteria.add(Restrictions.eq("name", pattern));
