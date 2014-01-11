@@ -44,6 +44,9 @@ public class TestNotificationDaoImpl {
     Assert.state(points.get(0).getId().equals(pointId));
     points = notificationDao.getNotificationsByUserId(userId, 0, 10, Boolean.FALSE);
     Assert.state(points.size() == 0);
+    points = notificationDao.getNotificationsByUserId(userId, 0, 10, null);
+    Assert.state(points.size() == 1);
+
   }
 
   private Notification createNotification() {
