@@ -108,6 +108,7 @@ public class DefaultUserServiceImpl implements UserService {
   public void updateEmail(Long userId, String email){
     User readUser = userDao.get(userId);
     readUser.setEmail(email);
+    userLoginLookupDao.deactiveEmail(userId);
 
     UserLoginLookup userLoginLookup = new UserLoginLookup();
     userLoginLookup.setLogin(email);

@@ -1,6 +1,7 @@
 package com.inncretech.user.model;
 
 import com.inncretech.core.model.AbstractImmutatableEntity;
+import com.inncretech.core.model.AbstractMutableEntity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -8,7 +9,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
 @Entity
-public class UserLoginLookup extends AbstractImmutatableEntity{
+public class UserLoginLookup extends AbstractMutableEntity{
 
   @Id
   @GeneratedValue

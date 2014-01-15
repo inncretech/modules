@@ -1,5 +1,6 @@
 package com.inncretech.user.dao.impl;
 
+import com.inncretech.core.model.RecordStatus;
 import com.inncretech.core.sharding.dao.impl.GenericDAOImpl;
 import com.inncretech.user.dao.UserLoginLookupDao;
 import com.inncretech.user.model.UserLoginLookup;
@@ -17,8 +18,9 @@ public class UserLoginLookupDaoImpl extends GenericDAOImpl<UserLoginLookup , Lon
 
   @Transactional
   public UserLoginLookup getUserLoginLookup(String login){
-    Query query = getQuery("from UserLoginLookup where login=:login");
+    Query query = getQuery("from UserLoginLookup where login=:login and recordStatus != :recordStatus");
     query.setParameter("login", login);
+    query.setParameter("recordStatus", RecordStatus.INACTIVE.getId());
     UserLoginLookup userLoginLookup =null;
     @SuppressWarnings("unchecked")
     List<UserLoginLookup> results = query.list();
@@ -26,6 +28,14 @@ public class UserLoginLookupDaoImpl extends GenericDAOImpl<UserLoginLookup , Lon
       userLoginLookup = results.get(0);
 
     return userLoginLookup;
+  }
+
+  @Transactional
+  public void deactiveEmail(Long userId){
+    Query query = getQuery("update UserLoginLookup set recordStatus= :recordStatus where userId=:userId");
+    query.setParameter("userId", userId);
+    query.setParameter("recordStatus", RecordStatus.INACTIVE.getId());
+    query.executeUpdate();
   }
 
   @Transactional

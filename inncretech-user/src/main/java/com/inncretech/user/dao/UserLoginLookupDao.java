@@ -12,5 +12,8 @@ public interface UserLoginLookupDao extends GenericDAO<UserLoginLookup , Long>{
   UserLoginLookup getUserLoginLookup(String login);
 
   @Transactional
+  void deactiveEmail(Long userId);
+
+  @Transactional
   List<UserLoginLookup> getUserLoginLookups(List<String> logins);
 }
