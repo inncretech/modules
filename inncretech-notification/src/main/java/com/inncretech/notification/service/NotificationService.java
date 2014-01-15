@@ -10,6 +10,6 @@ public interface NotificationService {
   
   public void markRead(Long notificationId, Long userId);
 
-  public List<Notification> getNotificationsByUserId(Long userId, int offset, int limit, boolean read);
+  public List<Notification> getNotificationsByUserId(Long userId, Integer offset, Integer limit, Boolean read);
 
 }
