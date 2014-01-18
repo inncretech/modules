@@ -4,6 +4,7 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
+@Deprecated
 public enum NotificationType {
 
   LIKE(1), UNLIKE(2), PIN(3), PROMOTE(4), COMMENT(5);

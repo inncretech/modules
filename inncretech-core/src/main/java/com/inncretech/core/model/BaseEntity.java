@@ -20,6 +20,8 @@ import java.io.Serializable;
 import javax.persistence.MappedSuperclass;
 import javax.persistence.Transient;
 
+import org.codehaus.jackson.annotate.JsonIgnore;
+
 /**
  * Base class to derive entity classes from.
  * 
@@ -69,6 +71,7 @@ public abstract class BaseEntity implements IdEntity, Serializable {
    * @return Defining class.
    */
   @Transient
+  @JsonIgnore
   public Class<?> getClassType() {
     return this.getClass();
   }
