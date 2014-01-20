@@ -13,24 +13,29 @@ import org.bouncycastle.util.encoders.Base64;
 import org.jasypt.encryption.pbe.StandardPBEStringEncryptor;
 import org.joda.time.DateTime;
 import org.mindrot.jbcrypt.BCrypt;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.encoding.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import com.inncretech.user.model.User;
 import com.inncretech.user.model.UserAccessToken;
+import com.inncretech.user.service.EncryptDecryptService;
 
 @Component
-public class PasswordService implements PasswordEncoder{
+public class PasswordService implements PasswordEncoder {
 
   @Value("${mastekey.salt:W0JANzQzNDE5NjA=}")
   private String masterKeySalt;
+
+  @Autowired
+  private EncryptDecryptService encryptDecryptService;
 
   public PasswordService() {
     Security.addProvider(new BouncyCastleProvider());
   }
 
-  private  byte[] getSalt() {
+  private byte[] getSalt() {
     try {
       SecureRandom sr = SecureRandom.getInstance("SHA1PRNG");
       byte[] salt = new byte[16];
@@ -41,7 +46,7 @@ public class PasswordService implements PasswordEncoder{
     }
   }
 
-  private  String generateStrongPasswordHash(String password, byte[] salt) {
+  private String generateStrongPasswordHash(String password, byte[] salt) {
     try {
       int iterations = 1000;
       char[] chars = password.toCharArray();
@@ -108,7 +113,9 @@ public class PasswordService implements PasswordEncoder{
   }
 
   public String generateResetPasswordToken() {
-    return new String(Base64.encode(UUID.randomUUID().toString().getBytes()));
+    // return new
+    // String(Base64.encode(UUID.randomUUID().toString().getBytes()));
+    return encryptDecryptService.encrypt(UUID.randomUUID().toString());
   }
 
   public void initializeCryptoForNewUser(User user) {
@@ -146,7 +153,7 @@ public class PasswordService implements PasswordEncoder{
 
   @Override
   public boolean isPasswordValid(String encPass, String rawPass, Object salt) {
-    byte[] userSalt = Base64.decode((String)salt);
+    byte[] userSalt = Base64.decode((String) salt);
     String hashedPassword = generateStrongPasswordHash(rawPass, userSalt);
     return hashedPassword.equals(encPass);
   }
