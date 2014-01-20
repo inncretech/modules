@@ -1,4 +1,4 @@
-package com.inncretech.user;
+package com.inncretech.user.service.impl;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -6,8 +6,6 @@ import static org.junit.Assert.assertTrue;
 
 import java.util.List;
 
-import com.inncretech.user.model.LoginResponse;
-import org.joda.time.DateTime;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -18,8 +16,8 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import com.inncretech.core.sharding.IdGenerator;
 import com.inncretech.core.test.TestUtil;
 import com.inncretech.core.util.DateTimeUtils;
+import com.inncretech.user.model.LoginResponse;
 import com.inncretech.user.model.User;
-import com.inncretech.user.model.UserForgotPassword;
 import com.inncretech.user.service.UserService;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -31,7 +29,7 @@ public class DefaultUserServiceImplTest {
 
   @Autowired
   private TestUtil dbUtility;
-  
+
   @Autowired
   private IdGenerator idGenerator;
 
@@ -42,15 +40,15 @@ public class DefaultUserServiceImplTest {
 
   @Test
   public void createUser() {
-      User usr = createTestUser("Mahesh", "Kumar", "mmk@gmail.com", "mmk123", "mm111", "mmk@facebook", "mmk@twitter", "mmk@gooogle");
-      User returnUser = userService.createUser(usr);
-      assertTrue(returnUser.getId() > 0);
-      assertEquals("Mahesh", returnUser.getFirstName());
-      assertNotNull(userService.authenticateUser("mmk@gmail.com", "mm111"));
-      LoginResponse loginResponse = userService.generateAccessToken("mmk@gmail.com", "mm111" , "s1");
-      assertNotNull(userService.authenticateAccessToken(usr.getId(), loginResponse.getAccessToken()));
-      List<User> users = userService.getMatchingUsers("Mahesh", true, true);
-      assertTrue(users.size() >= 0);
+    User usr = createTestUser("Mahesh", "Kumar", "mmk@gmail.com", "mmk123", "mm111", "mmk@facebook", "mmk@twitter", "mmk@gooogle");
+    User returnUser = userService.createUser(usr);
+    assertTrue(returnUser.getId() > 0);
+    assertEquals("Mahesh", returnUser.getFirstName());
+    assertNotNull(userService.authenticateUser("mmk@gmail.com", "mm111"));
+    LoginResponse loginResponse = userService.generateAccessToken("mmk@gmail.com", "mm111", "s1");
+    assertNotNull(userService.authenticateAccessToken(usr.getId(), loginResponse.getAccessToken()));
+    List<User> users = userService.getMatchingUsers("Mahesh", true, true);
+    assertTrue(users.size() >= 0);
   }
 
   @Test
@@ -74,8 +72,8 @@ public class DefaultUserServiceImplTest {
   public void validateRandString() {
     User usr = createTestUser("Mahesh", "Kumar", "mmk@gmail.com", "mmk123", "mm111", "mmk@facebook", "mmk@twitter", "mmk@gooogle");
     userService.createUser(usr);
-    UserForgotPassword ufp = userService.forgotPassword(usr.getId());
-    assertEquals(true, userService.validateRandomString(ufp.getRndString()));
+    String randomString = userService.forgotPassword(usr.getId());
+    assertEquals(true, userService.validateRandomString(randomString));
   }
 
   User createTestUser(String fName, String lName, String eMail, String uName, String password, String facebookId, String twitterId, String googleId) {
