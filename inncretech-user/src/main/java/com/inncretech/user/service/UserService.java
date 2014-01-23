@@ -2,13 +2,13 @@ package com.inncretech.user.service;
 
 import java.util.List;
 
+import org.springframework.transaction.annotation.Transactional;
+
 import com.inncretech.core.sharding.ShardAware;
 import com.inncretech.core.sharding.ShardType;
 import com.inncretech.user.model.LoginResponse;
 import com.inncretech.user.model.User;
-import com.inncretech.user.model.UserForgotPassword;
 import com.inncretech.user.model.UserLoginLookup;
-import org.springframework.transaction.annotation.Transactional;
 
 public interface UserService {
 
@@ -35,13 +35,13 @@ public interface UserService {
   void updateFacebookInfo(String facebookId);
 
   @Transactional
-  UserForgotPassword forgotPassword(Long userID);
+  String forgotPassword(Long userID);
 
   @ShardAware(shardStrategy = "entityid", shardType = ShardType.USER)
   void resetPassword(Long userId, String Pwd);
 
   @Transactional
-  User validateRandomString(String randomString);
+  Boolean validateRandomString(String randomString);
 
   User signupFacebookUser(String accessToken);
 

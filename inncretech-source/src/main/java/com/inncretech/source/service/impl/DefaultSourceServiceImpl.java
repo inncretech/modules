@@ -23,14 +23,9 @@ public class DefaultSourceServiceImpl implements SourceService {
   @Override
   @ShardAware(shardStrategy = "entityid", shardType = ShardType.SOURCE)
   public Source create(Source source) {
-	source.setCreatedAt(new DateTime ()); 
-    return sourceDao.createSource(source);
-  }
-
-  @Override
-  @ShardAware(shardStrategy = "entityid", shardType = ShardType.SOURCE)
-  public void delete(Long sourceId) {
-	  //TODO
+    source.setCreatedAt(new DateTime());
+    sourceDao.save(source);
+    return source;
   }
 
   @Override
@@ -38,4 +33,10 @@ public class DefaultSourceServiceImpl implements SourceService {
   public Source get(Long sourceId) {
     return sourceDao.get(sourceId);
   }
+
+  @Override
+  @ShardAware(shardStrategy = "entityid", shardType = ShardType.SOURCE)
+  public void delete(Long sourceId) {
+  }
+
 }

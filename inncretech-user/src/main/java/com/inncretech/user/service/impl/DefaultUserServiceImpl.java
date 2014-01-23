@@ -1,9 +1,6 @@
 package com.inncretech.user.service.impl;
 
-import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import javax.validation.Valid;
 
@@ -78,18 +75,18 @@ public class DefaultUserServiceImpl implements UserService {
     checkEmailId(user.getEmail());
     passwordService.initializeCryptoForNewUser(user);
     userDao.save(user);
-    saveUserLoginLookup(user.getId() , user.getEmail());
+    saveUserLoginLookup(user.getId(), user.getEmail());
     return user;
   }
 
-  private void checkEmailId(String email){
+  private void checkEmailId(String email) {
     UserLoginLookup userLoginLookup = userLoginLookupDao.getUserLoginLookup(email);
-    if(userLoginLookup !=null){
+    if (userLoginLookup != null) {
       throw new ApplicationException("INPUT_VALIDATION_FAILED", "Email id already taken");
     }
   }
 
-  private void saveUserLoginLookup(Long userId, String email){
+  private void saveUserLoginLookup(Long userId, String email) {
     UserLoginLookup userLoginLookup = new UserLoginLookup();
     userLoginLookup.setUserId(userId);
     userLoginLookup.setLogin(email);
@@ -104,8 +101,9 @@ public class DefaultUserServiceImpl implements UserService {
     userDao.update(readUser);
 
   }
+
   @ShardAware(shardStrategy = "entityid", shardType = ShardType.USER)
-  public void updateEmail(Long userId, String email){
+  public void updateEmail(Long userId, String email) {
     User readUser = userDao.get(userId);
     readUser.setEmail(email);
     userLoginLookupDao.deactiveEmail(userId);
@@ -120,11 +118,18 @@ public class DefaultUserServiceImpl implements UserService {
 
   @ShardAware(shardStrategy = "entityid", shardType = ShardType.USER)
   private UserForgotPassword saveForgotPasswordRequest(Long userId, String token) {
+    DateTime dateTime = new DateTime();
     UserForgotPassword ufp = new UserForgotPassword();
     ufp.setId(idGenerator.getNewIdOnUserShard(userId));
     ufp.setUserId(userId);
     ufp.setRndString(token);
     ufp.setDateRndString(new DateTime());
+    ufp.setCreatedAt(dateTime);
+    ufp.setCreatedBy(userId);
+    ufp.setDateRndString(dateTime);
+    ufp.setRecordStatus(RecordStatus.ACTIVE.getId());
+    ufp.setUpdatedAt(dateTime);
+    ufp.setUpdatedBy(userId);
     userFPDao.save(ufp);
 
     UserForgotPasswordLookup ufpLookup = new UserForgotPasswordLookup();
@@ -136,9 +141,10 @@ public class DefaultUserServiceImpl implements UserService {
 
   @Override
   @Transactional
-  public UserForgotPassword forgotPassword(Long userId) {
+  public String forgotPassword(Long userId) {
     String rndVal = passwordService.generateResetPasswordToken();
-    return saveForgotPasswordRequest(userId, rndVal);
+    saveForgotPasswordRequest(userId, rndVal);
+    return rndVal;
   }
 
   @Override
@@ -152,15 +158,15 @@ public class DefaultUserServiceImpl implements UserService {
 
   @Override
   @Transactional
-  public User validateRandomString(String randomString) {
+  public Boolean validateRandomString(String randomString) {
     DateTime dt = new DateTime();
     UserForgotPassword ufp = new UserForgotPassword();
     ufp.setRndString(randomString);
     ufp = userFPDao.getDateForRandomString(ufp);
     if (dt.getMillis() - ufp.getDateRndString().getMillis() < 86400) {
-      return get(ufp.getUserId());
+      return Boolean.TRUE;
     } else
-      return null;
+      return Boolean.FALSE;
   }
 
   @Override
@@ -181,7 +187,7 @@ public class DefaultUserServiceImpl implements UserService {
   }
 
   @Override
-  public User authenticateUser(String userName, String password){
+  public User authenticateUser(String userName, String password) {
     UserLoginLookup userLoginLookup = userLoginLookupDao.getUserLoginLookup(userName);
     if (userLoginLookup != null) {
       User user = userDao.get(userLoginLookup.getUserId());
@@ -191,11 +197,11 @@ public class DefaultUserServiceImpl implements UserService {
     return null;
   }
 
-  public LoginResponse generateAccessToken(String userName, String password , String deviceId){
+  public LoginResponse generateAccessToken(String userName, String password, String deviceId) {
     LoginResponse loginResponse = null;
     User user = authenticateUser(userName, password);
 
-    if(user != null){
+    if (user != null) {
       loginResponse = new LoginResponse();
       UserAccessToken userAccessToken = passwordService.generateAccessToken(user, password, deviceId);
 
@@ -209,11 +215,11 @@ public class DefaultUserServiceImpl implements UserService {
   }
 
   @ShardAware(shardStrategy = "entityid", shardType = ShardType.USER)
-  public User authenticateAccessToken(Long userId, String accessToken){
+  public User authenticateAccessToken(Long userId, String accessToken) {
     UserAccessToken userAccessToken = userAccessTokenDao.getUserAccessToken(userId, accessToken);
     User user = null;
 
-    if(userAccessToken != null){
+    if (userAccessToken != null) {
       user = userDao.get(userAccessToken.getUserId());
       passwordService.retrieveMasterKey(userAccessToken);
     }
@@ -255,9 +261,9 @@ public class DefaultUserServiceImpl implements UserService {
   }
 
   @ShardAware(shardStrategy = "entityid", shardType = ShardType.USER)
-  public void expireAccessToken(Long userId , String accessToken){
+  public void expireAccessToken(Long userId, String accessToken) {
     UserAccessToken userAccessToken = userAccessTokenDao.getUserAccessToken(userId, accessToken);
-    if(userAccessToken !=null){
+    if (userAccessToken != null) {
       userAccessToken.setRecordStatus(RecordStatus.INACTIVE.getId());
       userAccessTokenDao.save(userAccessToken);
     }
