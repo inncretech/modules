@@ -6,8 +6,5 @@ import com.inncretech.core.sharding.dao.GenericSourceShardDAO;
 import com.inncretech.source.model.Source;
 
 @Component
-public interface SourceDao extends GenericSourceShardDAO<Source, Long>{
-
-	
-	public Source createSource(Source source);
+public interface SourceDao extends GenericSourceShardDAO<Source, Long> {
 }
