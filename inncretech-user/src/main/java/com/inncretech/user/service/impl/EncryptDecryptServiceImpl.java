@@ -19,6 +19,10 @@ public class EncryptDecryptServiceImpl implements EncryptDecryptService {
 
   private StandardPBEStringEncryptor standardPBEStringEncryptor;
 
+  public EncryptDecryptServiceImpl() {
+    Security.addProvider(new BouncyCastleProvider());
+  }
+  
   @PostConstruct
   public void init() {
     KeyGenerator generator;
