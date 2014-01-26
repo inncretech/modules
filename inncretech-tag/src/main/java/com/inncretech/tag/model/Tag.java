@@ -17,20 +17,20 @@ public class Tag extends AbstractMutableEntity {
   @GeneratedValue(strategy = GenerationType.AUTO)
   @Column(name = "id", nullable = false)
   private Long id;
-  
+
   @Column
   private String name;
-  
+
   @Column
-  private String imageUrl;
-  
+  private Long imageId;
+
   @Column
   private Long totalFollowers;
-  
+
   public Long getId() {
     return id;
   }
-  
+
   public void setId(Long id) {
     this.id = id;
   }
@@ -43,14 +43,6 @@ public class Tag extends AbstractMutableEntity {
     this.name = name;
   }
 
-  public String getImageUrl() {
-    return imageUrl;
-  }
-
-  public void setImageUrl(String imageUrl) {
-    this.imageUrl = imageUrl;
-  }
-  
   public Long getTotalFollowers() {
     return totalFollowers;
   }
@@ -64,7 +56,7 @@ public class Tag extends AbstractMutableEntity {
     final int prime = 31;
     int result = super.hashCode();
     result = prime * result + ((id == null) ? 0 : id.hashCode());
-    result = prime * result + ((imageUrl == null) ? 0 : imageUrl.hashCode());
+    result = prime * result + ((imageId == null) ? 0 : imageId.hashCode());
     result = prime * result + ((name == null) ? 0 : name.hashCode());
     result = prime * result + ((totalFollowers == null) ? 0 : totalFollowers.hashCode());
     return result;
@@ -84,10 +76,10 @@ public class Tag extends AbstractMutableEntity {
         return false;
     } else if (!id.equals(other.id))
       return false;
-    if (imageUrl == null) {
-      if (other.imageUrl != null)
+    if (imageId == null) {
+      if (other.imageId != null)
         return false;
-    } else if (!imageUrl.equals(other.imageUrl))
+    } else if (!imageId.equals(other.imageId))
       return false;
     if (name == null) {
       if (other.name != null)
@@ -104,8 +96,15 @@ public class Tag extends AbstractMutableEntity {
 
   @Override
   public String toString() {
-    return "Tag [id=" + id + ", name=" + name + ", imageUrl=" + imageUrl + ", totalFollowers=" + totalFollowers + ", toString()=" + super.toString()
+    return "Tag [id=" + id + ", name=" + name + ", imageId=" + imageId + ", totalFollowers=" + totalFollowers + ", toString()=" + super.toString()
         + "]";
   }
+
+  public Long getImageId() {
+    return imageId;
+  }
+
+  public void setImageId(Long imageId) {
+    this.imageId = imageId;
+  }
 }
-  
