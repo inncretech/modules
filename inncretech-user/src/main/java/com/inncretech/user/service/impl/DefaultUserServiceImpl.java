@@ -1,6 +1,7 @@
 package com.inncretech.user.service.impl;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.validation.Valid;
 
@@ -59,6 +60,11 @@ public class DefaultUserServiceImpl implements UserService {
   @ShardAware(shardStrategy = "entityid", shardType = ShardType.USER)
   public User get(Long userId) {
     return userDao.get(userId);
+  }
+
+  public Map<Long, User> get(List<Long> userIds){
+
+    return userDao.get(userIds);
   }
 
   public void activateNewUser(Long userId) {

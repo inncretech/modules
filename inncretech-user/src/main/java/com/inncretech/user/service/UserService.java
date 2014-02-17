@@ -1,6 +1,7 @@
 package com.inncretech.user.service;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.transaction.annotation.Transactional;
 
@@ -14,6 +15,8 @@ public interface UserService {
 
   @ShardAware(shardStrategy = "entityid", shardType = ShardType.USER)
   User get(Long userId);
+
+  public Map<Long, User> get(List<Long> userIds);
 
   User getUserByEmail(String email);
 
