@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.Map;
 
 /**
  * A generic Hibernate Data Access Object. This implementation assumes that

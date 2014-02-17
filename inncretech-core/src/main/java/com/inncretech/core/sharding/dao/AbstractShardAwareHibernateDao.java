@@ -1,6 +1,7 @@
 package com.inncretech.core.sharding.dao;
 
 import java.io.Serializable;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -54,6 +55,18 @@ public class AbstractShardAwareHibernateDao<T extends IdEntity, PK extends Seria
   @SuppressWarnings("unchecked")
   public T get(PK id) {
     return (T) getSession((Long) id).get(this.clazz, id);
+  }
+
+  public  Map<Long, T> get(List<Long> ids){
+    Map<Integer, List<Long>> entityBucket = bucketizeEntites(ids);
+    Map<Long, T> result = new HashMap<Long, T>();
+    for(Map.Entry<Integer, List<Long>> entry : entityBucket.entrySet()){
+      List<T> entities = shardAwareDaoUtil.getEntities(entry.getKey(), clazz.getName() , entry.getValue());
+      for(T entity : entities){
+        result.put(entity.getId() , entity);
+      }
+    }
+    return result;
   }
 
   @SuppressWarnings("unchecked")
