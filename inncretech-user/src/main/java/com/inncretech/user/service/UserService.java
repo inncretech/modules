@@ -50,7 +50,7 @@ public interface UserService {
 
   User authenticateFbUserLogin(String accessToken);
 
-  User authenticateUser(String userName, String password);
+  User authenticateUserByEmail(String userName, String password);
 
   LoginResponse generateAccessToken(String userName, String password , String deviceId);
 
@@ -63,4 +63,6 @@ public interface UserService {
   void expireAccessToken(Long userId , String accessToken);
 
   public List<UserLoginLookup> searchUsersByEmails(List<String> emails);
+
+  Long getUserIdByLoginId(String loginId);
 }

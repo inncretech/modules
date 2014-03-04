@@ -44,7 +44,7 @@ public class DefaultUserServiceImplTest {
     User returnUser = userService.createUser(usr);
     assertTrue(returnUser.getId() > 0);
     assertEquals("Mahesh", returnUser.getFirstName());
-    assertNotNull(userService.authenticateUser("mmk@gmail.com", "mm111"));
+    assertNotNull(userService.authenticateUserByEmail("mmk@gmail.com", "mm111"));
     LoginResponse loginResponse = userService.generateAccessToken("mmk@gmail.com", "mm111", "s1");
     assertNotNull(userService.authenticateAccessToken(usr.getId(), loginResponse.getAccessToken()));
     List<User> users = userService.getMatchingUsers("Mahesh", true, true);

@@ -9,11 +9,14 @@ import java.util.List;
 public interface UserLoginLookupDao extends GenericDAO<UserLoginLookup , Long>{
 
   @Transactional
-  UserLoginLookup getUserLoginLookup(String login);
+  UserLoginLookup getUserLoginLookupByEmail(String login);
 
   @Transactional
   void deactiveEmail(Long userId);
 
   @Transactional
   List<UserLoginLookup> getUserLoginLookups(List<String> logins);
+
+  @Transactional
+  UserLoginLookup getUserLoginLookupByLoginId(String loginId);
 }

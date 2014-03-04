@@ -17,9 +17,9 @@ public class UserLoginLookupDaoImpl extends GenericDAOImpl<UserLoginLookup , Lon
   }
 
   @Transactional
-  public UserLoginLookup getUserLoginLookup(String login){
-    Query query = getQuery("from UserLoginLookup where login=:login and recordStatus != :recordStatus");
-    query.setParameter("login", login);
+  public UserLoginLookup getUserLoginLookupByEmail(String email){
+    Query query = getQuery("from UserLoginLookup where email=:email and recordStatus != :recordStatus");
+    query.setParameter("email", email);
     query.setParameter("recordStatus", RecordStatus.INACTIVE.getId());
     UserLoginLookup userLoginLookup =null;
     @SuppressWarnings("unchecked")
@@ -39,10 +39,26 @@ public class UserLoginLookupDaoImpl extends GenericDAOImpl<UserLoginLookup , Lon
   }
 
   @Transactional
+  @SuppressWarnings({ "unused", "unchecked" })
   public List<UserLoginLookup> getUserLoginLookups(List<String> logins){
     Query query = getQuery("from UserLoginLookup where login in (:logins)");
     query.setParameterList("logins", logins);
     UserLoginLookup userLoginLookup =null;
     return query.list();
+  }
+
+  @Override
+  @Transactional
+  public UserLoginLookup getUserLoginLookupByLoginId(String loginId) {
+    Query query = getQuery("from UserLoginLookup where loginId=:loginId and recordStatus != :recordStatus");
+    query.setParameter("loginId", loginId);
+    query.setParameter("recordStatus", RecordStatus.INACTIVE.getId());
+    UserLoginLookup userLoginLookup =null;
+    @SuppressWarnings("unchecked")
+    List<UserLoginLookup> results = query.list();
+    if(results.size() > 0)
+      userLoginLookup = results.get(0);
+
+    return userLoginLookup;
   }
 }

@@ -63,8 +63,8 @@ public class DefaultUserServiceImpl implements UserService {
   }
 
   public Map<Long, User> get(List<Long> userIds){
-
-    return userDao.get(userIds);
+    //return userDao.get(userIds);
+    return null;
   }
 
   public void activateNewUser(Long userId) {
@@ -79,23 +79,32 @@ public class DefaultUserServiceImpl implements UserService {
   @ShardAware(shardStrategy = "entityid", shardType = ShardType.USER)
   public User createUser(@Valid User user) {
     checkEmailId(user.getEmail());
+    checkLoginId(user.getUserName());
     passwordService.initializeCryptoForNewUser(user);
     userDao.save(user);
-    saveUserLoginLookup(user.getId(), user.getEmail());
+    saveUserLoginLookup(user.getId(), user.getEmail(), user.getUserName());
     return user;
   }
 
   private void checkEmailId(String email) {
-    UserLoginLookup userLoginLookup = userLoginLookupDao.getUserLoginLookup(email);
+    UserLoginLookup userLoginLookup = userLoginLookupDao.getUserLoginLookupByEmail(email);
     if (userLoginLookup != null) {
       throw new ApplicationException("INPUT_VALIDATION_FAILED", "Email id already taken");
     }
   }
+  
+  private void checkLoginId(String loginId) {
+    UserLoginLookup userLoginLookup = userLoginLookupDao.getUserLoginLookupByLoginId(loginId);
+    if (userLoginLookup != null) {
+      throw new ApplicationException("INPUT_VALIDATION_FAILED", "Login id already taken");
+    }
+  }
 
-  private void saveUserLoginLookup(Long userId, String email) {
+  private void saveUserLoginLookup(Long userId, String email, String loginId) {
     UserLoginLookup userLoginLookup = new UserLoginLookup();
     userLoginLookup.setUserId(userId);
-    userLoginLookup.setLogin(email);
+    userLoginLookup.setEmail(email);
+    userLoginLookup.setLoginId(loginId);
     userLoginLookupDao.save(userLoginLookup);
   }
 
@@ -115,7 +124,8 @@ public class DefaultUserServiceImpl implements UserService {
     userLoginLookupDao.deactiveEmail(userId);
 
     UserLoginLookup userLoginLookup = new UserLoginLookup();
-    userLoginLookup.setLogin(email);
+    userLoginLookup.setEmail(email);
+    userLoginLookup.setLoginId(readUser.getUserName());
     userLoginLookup.setUserId(userId);
     userLoginLookupDao.save(userLoginLookup);
 
@@ -193,8 +203,8 @@ public class DefaultUserServiceImpl implements UserService {
   }
 
   @Override
-  public User authenticateUser(String userName, String password) {
-    UserLoginLookup userLoginLookup = userLoginLookupDao.getUserLoginLookup(userName);
+  public User authenticateUserByEmail(String email, String password) {
+    UserLoginLookup userLoginLookup = userLoginLookupDao.getUserLoginLookupByEmail(email);
     if (userLoginLookup != null) {
       User user = userDao.get(userLoginLookup.getUserId());
       if (passwordService.checkPassword(password, user))
@@ -205,7 +215,7 @@ public class DefaultUserServiceImpl implements UserService {
 
   public LoginResponse generateAccessToken(String userName, String password, String deviceId) {
     LoginResponse loginResponse = null;
-    User user = authenticateUser(userName, password);
+    User user = authenticateUserByEmail(userName, password);
 
     if (user != null) {
       loginResponse = new LoginResponse();
@@ -235,7 +245,7 @@ public class DefaultUserServiceImpl implements UserService {
 
   @Override
   public User getUserByEmail(String email) {
-    UserLoginLookup userLoginLookup = userLoginLookupDao.getUserLoginLookup(email);
+    UserLoginLookup userLoginLookup = userLoginLookupDao.getUserLoginLookupByEmail(email);
     if (userLoginLookup != null) {
       return userDao.get(userLoginLookup.getUserId());
     }
@@ -249,7 +259,16 @@ public class DefaultUserServiceImpl implements UserService {
 
   @Override
   public Long getUserIdByEmail(String email) {
-    UserLoginLookup userLoginLookup = userLoginLookupDao.getUserLoginLookup(email);
+    UserLoginLookup userLoginLookup = userLoginLookupDao.getUserLoginLookupByEmail(email);
+    if (userLoginLookup != null) {
+      return userLoginLookup.getUserId();
+    }
+    return null;
+  }
+  
+  @Override
+  public Long getUserIdByLoginId(String loginId) {
+    UserLoginLookup userLoginLookup = userLoginLookupDao.getUserLoginLookupByLoginId(loginId);
     if (userLoginLookup != null) {
       return userLoginLookup.getUserId();
     }
