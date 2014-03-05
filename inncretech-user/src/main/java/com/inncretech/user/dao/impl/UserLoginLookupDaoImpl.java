@@ -41,7 +41,7 @@ public class UserLoginLookupDaoImpl extends GenericDAOImpl<UserLoginLookup , Lon
   @Transactional
   @SuppressWarnings({ "unused", "unchecked" })
   public List<UserLoginLookup> getUserLoginLookups(List<String> logins){
-    Query query = getQuery("from UserLoginLookup where login in (:logins)");
+    Query query = getQuery("from UserLoginLookup where loginId in (:logins)");
     query.setParameterList("logins", logins);
     UserLoginLookup userLoginLookup =null;
     return query.list();
