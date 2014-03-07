@@ -63,8 +63,7 @@ public class DefaultUserServiceImpl implements UserService {
   }
 
   public Map<Long, User> get(List<Long> userIds){
-    //return userDao.get(userIds);
-    return null;
+    return userDao.get(userIds);
   }
 
   public void activateNewUser(Long userId) {
