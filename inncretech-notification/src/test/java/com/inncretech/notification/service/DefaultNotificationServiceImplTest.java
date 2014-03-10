@@ -6,6 +6,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.util.Assert;
@@ -53,7 +54,8 @@ public class DefaultNotificationServiceImplTest {
     notify.setReceiverUserId(recieverUserId);
     notify.setIsRead(false);
     notifyService.save(notify);
-    List<Notification> notifications = notifyService.getNotificationsByUserId(recieverUserId, 0, 1, false);
+    PageRequest pageRequest = new PageRequest(0, 20);
+    List<Notification> notifications = notifyService.getNotificationsByUserId(recieverUserId, false, pageRequest);
     Assert.state(notifications.size() == 1);
   }
 

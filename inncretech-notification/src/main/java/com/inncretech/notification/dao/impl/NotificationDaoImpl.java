@@ -8,6 +8,7 @@ import javax.persistence.NamedNativeQuery;
 import org.hibernate.Query;
 import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.Restrictions;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 
 import com.inncretech.core.sharding.ShardAware;
@@ -27,7 +28,7 @@ public class NotificationDaoImpl extends GenericUserShardDaoImpl<Notification, L
 
   @Override
   @ShardAware(shardStrategy = "entityid", shardType = ShardType.USER)
-  public List<Notification> getNotificationsByUserId(Long userId, Integer offset, Integer limit, Boolean read) {
+  public List<Notification> getNotificationsByUserId(Long userId, Boolean read, Pageable pageable) {
     Integer shardId = getIdGenService().getShardId(userId, ShardType.USER);
     Criterion criterion = Restrictions.eq("receiverUserId", userId);
     Criterion readCriterion = null;
@@ -35,18 +36,28 @@ public class NotificationDaoImpl extends GenericUserShardDaoImpl<Notification, L
       readCriterion = Restrictions.eq("isRead", read);
     }
     if (readCriterion != null) {
-      return findByCriteria(shardId, offset, limit, criterion, readCriterion);
+      return findByCriteria(shardId, pageable.getPageNumber() * pageable.getPageSize(), pageable.getPageSize(), criterion, readCriterion);
     } else {
-      return findByCriteria(shardId, offset, limit, criterion);
+      return findByCriteria(shardId, pageable.getPageNumber() * pageable.getPageSize(), pageable.getPageSize(), criterion);
     }
   }
 
   @Override
   @ShardAware(shardStrategy = "entityid", shardType = ShardType.USER)
-  public void markRead(Long notificationId, Long userId) {
+  public void markRead(Long userId, Long notificationId) {
     Query query = getSession(notificationId).createQuery(
         "update Notification set isRead = true, updatedBy = :updatedBy, updatedAt = :updatedAt where id = :id");
     query.setParameter("id", notificationId);
+    query.setParameter("updatedAt", DateTimeUtils.currentTimeWithoutFractionalSeconds());
+    query.setParameter("updatedBy", userId);
+    query.executeUpdate();
+  }
+
+  @Override
+  @ShardAware(shardStrategy = "entityid", shardType = ShardType.USER)
+  public void markAllRead(Long userId) {
+    Query query = getSession(userId).createQuery(
+        "update Notification set isRead = true, updatedBy = :updatedBy, updatedAt = :updatedAt where isRead = null");
     query.setParameter("updatedAt", DateTimeUtils.currentTimeWithoutFractionalSeconds());
     query.setParameter("updatedBy", userId);
     query.executeUpdate();

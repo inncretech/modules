@@ -3,6 +3,7 @@ package com.inncretech.notification.service;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.inncretech.core.sharding.IdGenerator;
@@ -29,12 +30,17 @@ public class NotificationServiceImpl implements NotificationService {
 
   @Override
   @ShardAware(shardStrategy = "entityid", shardType = ShardType.USER)
-  public List<Notification> getNotificationsByUserId(Long userId, Integer offset, Integer limit, Boolean read) {
-    return notificationDao.getNotificationsByUserId(userId, offset, limit, read);
+  public List<Notification> getNotificationsByUserId(Long userId, Boolean read, Pageable pageable) {
+    return notificationDao.getNotificationsByUserId(userId, read, pageable);
   }
 
   @Override
-  public void markRead(Long notificationId, Long userId) {
-    notificationDao.markRead(notificationId, userId);
+  public void markRead(Long userId, Long notificationId) {
+    notificationDao.markRead(userId, notificationId);
+  }
+  
+  @Override
+  public void markAllRead(Long userId) {
+    notificationDao.markAllRead(userId);
   }
 }

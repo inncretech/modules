@@ -5,6 +5,7 @@ import java.util.List;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.util.Assert;
@@ -35,16 +36,17 @@ public class TestNotificationDaoImpl {
     notification.setUpdatedBy(userId);
     Long pointId = notificationDao.save(notification);
     Assert.state(pointId > 0);
-    List<Notification> points = notificationDao.getNotificationsByUserId(userId, 0, 10, Boolean.FALSE);
+    PageRequest pageRequest = new PageRequest(0, 20);
+    List<Notification> points = notificationDao.getNotificationsByUserId(userId, Boolean.FALSE, pageRequest);
     Assert.state(points.size() == 1);
     Assert.state(points.get(0).getId().equals(pointId));
     notificationDao.markRead(pointId, userId);
-    points = notificationDao.getNotificationsByUserId(userId, 0, 10, Boolean.TRUE);
+    points = notificationDao.getNotificationsByUserId(userId, Boolean.TRUE, pageRequest);
     Assert.state(points.size() == 1);
     Assert.state(points.get(0).getId().equals(pointId));
-    points = notificationDao.getNotificationsByUserId(userId, 0, 10, Boolean.FALSE);
+    points = notificationDao.getNotificationsByUserId(userId, Boolean.FALSE, pageRequest);
     Assert.state(points.size() == 0);
-    points = notificationDao.getNotificationsByUserId(userId, 0, 10, null);
+    points = notificationDao.getNotificationsByUserId(userId, null, pageRequest);
     Assert.state(points.size() == 1);
 
   }
