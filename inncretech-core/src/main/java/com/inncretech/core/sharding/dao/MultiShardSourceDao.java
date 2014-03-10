@@ -21,4 +21,10 @@ public class MultiShardSourceDao {
     Session session = shardAwareDaoUtil.getCurrentSessionByShard(shardId);
     return detachedCriteria.getExecutableCriteria(session).list();
   }
+  
+  @ShardAware(shardStrategy = "shardid" , shardType = ShardType.SOURCE)
+  public Object findOneByCriteria(Integer shardId, DetachedCriteria detachedCriteria) {
+    Session session = shardAwareDaoUtil.getCurrentSessionByShard(shardId);
+    return detachedCriteria.getExecutableCriteria(session).uniqueResult();
+  }
 }

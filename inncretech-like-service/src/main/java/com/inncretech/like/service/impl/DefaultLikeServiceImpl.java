@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.inncretech.core.sharding.IdGenerator;
+import com.inncretech.core.sharding.ShardAware;
 import com.inncretech.core.sharding.ShardType;
 import com.inncretech.core.sharding.dao.ShardConfigDao;
 import com.inncretech.core.sharding.model.ShardConfig;
@@ -45,7 +46,7 @@ public class DefaultLikeServiceImpl implements LikeService {
 
     return allSourceLikes;
   }
-  
+
   @Override
   public List<SourceLike> getAllLikeByUser(Long userId, Boolean like) {
     List<SourceLike> allSourceLikes = new ArrayList<SourceLike>();
@@ -55,6 +56,12 @@ public class DefaultLikeServiceImpl implements LikeService {
     }
 
     return allSourceLikes;
+  }
+
+  @Override
+  @ShardAware(shardStrategy = "entityid", shardType = ShardType.SOURCE)
+  public SourceLike doesUserLikeSource(Long sourceId, Long userId) {
+    return srcLikeDao.doesUserLikeSource(sourceId, userId);
   }
 
   @Override
@@ -69,4 +76,9 @@ public class DefaultLikeServiceImpl implements LikeService {
     return likeSrc;
   }
 
+  @Override
+  @ShardAware(shardStrategy = "entityid", shardType = ShardType.SOURCE)
+  public void updateLikeSource(SourceLike sourceLike) {
+    srcLikeDao.update(sourceLike);
+  }
 }
