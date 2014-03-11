@@ -57,7 +57,7 @@ public class NotificationDaoImpl extends GenericUserShardDaoImpl<Notification, L
   @ShardAware(shardStrategy = "entityid", shardType = ShardType.USER)
   public void markAllRead(Long userId) {
     Query query = getSession(userId).createQuery(
-        "update Notification set isRead = true, updatedBy = :updatedBy, updatedAt = :updatedAt where isRead = null");
+        "update Notification set isRead = true, updatedBy = :updatedBy, updatedAt = :updatedAt where isRead = false");
     query.setParameter("updatedAt", DateTimeUtils.currentTimeWithoutFractionalSeconds());
     query.setParameter("updatedBy", userId);
     query.executeUpdate();
