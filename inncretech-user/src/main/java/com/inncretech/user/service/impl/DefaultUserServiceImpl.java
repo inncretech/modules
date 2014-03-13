@@ -88,7 +88,9 @@ public class DefaultUserServiceImpl implements UserService {
   private void checkEmailId(String email) {
     UserLoginLookup userLoginLookup = userLoginLookupDao.getUserLoginLookupByEmail(email);
     if (userLoginLookup != null) {
-      throw new ApplicationException("INPUT_VALIDATION_FAILED", "Email id already taken");
+      throw new ApplicationException("INPUT_VALIDATION_FAILED",
+    		  "The email address you entered has already been registered."
+    		  + " Please check the address or click \"Forgot Password\".");
     }
   }
   
