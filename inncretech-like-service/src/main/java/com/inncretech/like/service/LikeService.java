@@ -20,4 +20,10 @@ public interface LikeService {
   @ShardAware(shardStrategy = "entityid", shardType = ShardType.SOURCE)
   List<SourceLike> getAllLikeByUser(Long userId);
 
+  @ShardAware(shardStrategy = "entityid", shardType = ShardType.SOURCE)
+  SourceLike doesUserLikeSource(Long sourceId, Long userId);
+
+  @ShardAware(shardStrategy = "entityid", shardType = ShardType.SOURCE)
+  void updateLikeSource(SourceLike sourceLike);
+
 }

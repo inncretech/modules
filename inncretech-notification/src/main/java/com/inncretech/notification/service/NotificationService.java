@@ -2,14 +2,18 @@ package com.inncretech.notification.service;
 
 import java.util.List;
 
+import org.springframework.data.domain.Pageable;
+
 import com.inncretech.notification.model.Notification;
 
 public interface NotificationService {
-  
-  public Notification save(Notification notification);
-  
-  public void markRead(Long notificationId, Long userId);
 
-  public List<Notification> getNotificationsByUserId(Long userId, Integer offset, Integer limit, Boolean read);
+  public Notification save(Notification notification);
+
+  public void markRead(Long userId, Long notificationId);
+
+  public void markAllRead(Long userId);
+
+  public List<Notification> getNotificationsByUserId(Long userId, Boolean read, Pageable pageable);
 
 }

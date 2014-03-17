@@ -151,4 +151,8 @@ public interface GenericSourceShardDAO<T extends BaseEntity, PK extends Serializ
   public Map<Integer, List<Long>> bucketizeEntites(List<Long> entityIds);
   
   public List<T> findByCriteria(Integer shardId, DetachedCriteria detachedCriteria);
+
+  public T findOneByCriteria(Integer shardId, DetachedCriteria detachedCriteria);
+
+  List<T> findByCriteria(Integer shardId, DetachedCriteria detachedCriteria, Integer maxResults);
 }

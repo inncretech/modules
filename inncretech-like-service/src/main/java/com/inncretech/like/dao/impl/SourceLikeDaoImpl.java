@@ -55,6 +55,15 @@ public class SourceLikeDaoImpl extends GenericSourceShardDaoImpl<SourceLike, Lon
     return result;
   }
 
+  @Override
+  @ShardAware(shardStrategy = "entityid", shardType = ShardType.SOURCE)
+  public SourceLike doesUserLikeSource(Long sourceId, Long userId) {
+    int shardId = getIdGenService().getShardId(sourceId, ShardType.SOURCE);
+    DetachedCriteria detachedCriteria = DetachedCriteria.forClass(getPersistentClass()).add(Property.forName("objectId").eq(sourceId))
+        .add(Property.forName("userId").eq(userId));
+    return findOneByCriteria(shardId, detachedCriteria);
+  }
+
   @ShardAware(shardStrategy = "entityid", shardType = ShardType.SOURCE)
   public SourceLike likeObject(SourceLike obj) {
     save(obj);

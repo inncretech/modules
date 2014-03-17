@@ -16,9 +16,22 @@ public class MultiShardSourceDao {
   private ShardAwareDaoUtil shardAwareDaoUtil;
 
   @SuppressWarnings("rawtypes")
-  @ShardAware(shardStrategy = "shardid" , shardType = ShardType.SOURCE)
+  @ShardAware(shardStrategy = "shardid", shardType = ShardType.SOURCE)
   public List findByCriteria(Integer shardId, DetachedCriteria detachedCriteria) {
     Session session = shardAwareDaoUtil.getCurrentSessionByShard(shardId);
     return detachedCriteria.getExecutableCriteria(session).list();
+  }
+
+  @SuppressWarnings("rawtypes")
+  @ShardAware(shardStrategy = "shardid", shardType = ShardType.SOURCE)
+  public List findByCriteria(Integer shardId, DetachedCriteria detachedCriteria, Integer maxResults) {
+    Session session = shardAwareDaoUtil.getCurrentSessionByShard(shardId);
+    return detachedCriteria.getExecutableCriteria(session).setMaxResults(maxResults).list();
+  }
+
+  @ShardAware(shardStrategy = "shardid", shardType = ShardType.SOURCE)
+  public Object findOneByCriteria(Integer shardId, DetachedCriteria detachedCriteria) {
+    Session session = shardAwareDaoUtil.getCurrentSessionByShard(shardId);
+    return detachedCriteria.getExecutableCriteria(session).uniqueResult();
   }
 }

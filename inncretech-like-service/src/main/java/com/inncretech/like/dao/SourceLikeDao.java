@@ -22,4 +22,7 @@ public interface SourceLikeDao extends GenericSourceShardDAO<SourceLike, Long> {
 
   @ShardAware(shardStrategy = "entityid", shardType = ShardType.SOURCE)
   public SourceLike likeObject(SourceLike sourceLike);
+
+  @ShardAware(shardStrategy = "entityid", shardType = ShardType.SOURCE)
+  public SourceLike doesUserLikeSource(Long sourceId, Long userId);
 }
