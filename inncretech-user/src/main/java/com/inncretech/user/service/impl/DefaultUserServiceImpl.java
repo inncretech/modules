@@ -131,7 +131,7 @@ public class DefaultUserServiceImpl implements UserService {
     userDao.update(readUser);
   }
 
-  @ShardAware(shardStrategy = "entityid", shardType = ShardType.USER)
+  @Transactional
   private UserForgotPassword saveForgotPasswordRequest(Long userId, String token) {
     DateTime dateTime = new DateTime();
     UserForgotPassword ufp = new UserForgotPassword();
@@ -146,11 +146,6 @@ public class DefaultUserServiceImpl implements UserService {
     ufp.setUpdatedAt(dateTime);
     ufp.setUpdatedBy(userId);
     userFPDao.save(ufp);
-
-    UserForgotPasswordLookup ufpLookup = new UserForgotPasswordLookup();
-    ufpLookup.setFortgotPasswordKey(token);
-    ufpLookup.setUserId(userId);
-    userForgotPasswordLookupDao.saveOrUpdate(ufpLookup);
     return ufp;
   }
 
@@ -177,11 +172,35 @@ public class DefaultUserServiceImpl implements UserService {
     DateTime dt = new DateTime();
     UserForgotPassword ufp = new UserForgotPassword();
     ufp.setRndString(randomString);
-    ufp = userFPDao.getDateForRandomString(ufp);
+    ufp = userFPDao.getDateForRandomString(randomString);
     if (dt.getMillis() - ufp.getDateRndString().getMillis() < 86400) {
       return Boolean.TRUE;
     } else
       return Boolean.FALSE;
+  }
+
+  @Override
+  @Transactional
+  public User validateForgotPasswordTokenString(String randomString) {
+    DateTime dt = new DateTime();
+    UserForgotPassword ufp = userFPDao.getDateForRandomString(randomString);
+    if(ufp == null )
+      return null;
+
+    if (dt.getMillis() - ufp.getDateRndString().getMillis() < 86400) {
+      return get(ufp.getUserId());
+    } else
+      return null;
+  }
+
+  @Override
+  @Transactional
+  public void deactivateForgotPasswordTokens(Long userId) {
+    List<UserForgotPassword> result = userFPDao.getByUserId(userId);
+    for(UserForgotPassword ufp : result){
+      ufp.setRecordStatus(RecordStatus.INACTIVE.getId());
+      userFPDao.save(ufp);
+    }
   }
 
   @Override

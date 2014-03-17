@@ -46,6 +46,9 @@ public interface UserService {
   @Transactional
   Boolean validateRandomString(String randomString);
 
+  @Transactional
+  User validateForgotPasswordTokenString(String randomString);
+
   User signupFacebookUser(String accessToken);
 
   User authenticateFbUserLogin(String accessToken);
@@ -65,4 +68,7 @@ public interface UserService {
   public List<UserLoginLookup> searchUsersByEmails(List<String> emails);
 
   Long getUserIdByLoginId(String loginId);
+
+  @Transactional
+  public void deactivateForgotPasswordTokens(Long userId);
 }
