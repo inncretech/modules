@@ -2,17 +2,16 @@ package com.inncretech.user.dao.impl;
 
 
 import com.inncretech.core.model.RecordStatus;
+import com.inncretech.core.sharding.ShardAware;
+import com.inncretech.core.sharding.ShardType;
 import com.inncretech.core.sharding.dao.impl.GenericUserShardDaoImpl;
 import com.inncretech.user.dao.UserAccessTokenDao;
 import com.inncretech.user.model.UserAccessToken;
+
 import java.util.List;
 
 import org.hibernate.Query;
 import org.springframework.stereotype.Component;
-
-import com.inncretech.core.sharding.dao.impl.GenericUserShardDaoImpl;
-import com.inncretech.user.dao.UserAccessTokenDao;
-import com.inncretech.user.model.UserAccessToken;
 
 @Component
 public class UserAccessTokenDaoImpl extends GenericUserShardDaoImpl<UserAccessToken, Long> implements UserAccessTokenDao{
@@ -34,5 +33,14 @@ public class UserAccessTokenDaoImpl extends GenericUserShardDaoImpl<UserAccessTo
     }
 
     return userAccessToken;
+  }
+  
+  @Override
+  @ShardAware(shardStrategy = "entityid", shardType = ShardType.USER)
+  public void inactivateUserAccessTokens(Long userId) {
+    Query query = getQuery(userId, "update UserAccessToken set recordStatus = :recordStatus where userId = :userId");
+    query.setParameter("recordStatus", RecordStatus.INACTIVE.getId());
+    query.setParameter("userId", userId);
+    query.executeUpdate();
   }
 }

@@ -4,6 +4,7 @@ import com.inncretech.core.model.RecordStatus;
 import com.inncretech.core.sharding.dao.impl.GenericDAOImpl;
 import com.inncretech.user.dao.UserLoginLookupDao;
 import com.inncretech.user.model.UserLoginLookup;
+
 import org.hibernate.Query;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -61,4 +62,14 @@ public class UserLoginLookupDaoImpl extends GenericDAOImpl<UserLoginLookup , Lon
 
     return userLoginLookup;
   }
+  
+  @Override
+  @Transactional
+  public UserLoginLookup getUserLoginLookupByUserId(Long userId) {
+    Query query = getQuery("from UserLoginLookup where userId = :userId and recordStatus = :recordStatus");
+    query.setParameter("userId", userId);
+    query.setParameter("recordStatus", RecordStatus.ACTIVE.getId());
+    return (UserLoginLookup)query.uniqueResult();
+  }
+  
 }

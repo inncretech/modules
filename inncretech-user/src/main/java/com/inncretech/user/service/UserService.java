@@ -71,4 +71,7 @@ public interface UserService {
 
   @Transactional
   public void deactivateForgotPasswordTokens(Long userId);
+  
+  @ShardAware(shardStrategy = "entityid", shardType = ShardType.USER)
+  public void expireAllAccessTokensForUser(Long userId);
 }
