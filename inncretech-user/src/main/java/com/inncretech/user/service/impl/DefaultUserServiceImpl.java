@@ -24,7 +24,6 @@ import com.inncretech.user.model.LoginResponse;
 import com.inncretech.user.model.User;
 import com.inncretech.user.model.UserAccessToken;
 import com.inncretech.user.model.UserForgotPassword;
-import com.inncretech.user.model.UserForgotPasswordLookup;
 import com.inncretech.user.model.UserLoginLookup;
 import com.inncretech.user.service.FacebookMemberService;
 import com.inncretech.user.service.UserService;
@@ -312,5 +311,11 @@ public class DefaultUserServiceImpl implements UserService {
       userAccessToken.setRecordStatus(RecordStatus.INACTIVE.getId());
       userAccessTokenDao.save(userAccessToken);
     }
+  }
+  
+  @Override
+  @ShardAware(shardStrategy = "entityid", shardType = ShardType.USER)
+  public void expireAllAccessTokensForUser(Long userId) {
+    userAccessTokenDao.inactivateUserAccessTokens(userId);
   }
 }

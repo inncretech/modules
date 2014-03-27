@@ -19,4 +19,7 @@ public interface UserLoginLookupDao extends GenericDAO<UserLoginLookup , Long>{
 
   @Transactional
   UserLoginLookup getUserLoginLookupByLoginId(String loginId);
+  
+  @Transactional
+  UserLoginLookup getUserLoginLookupByUserId(Long userId);
 }
