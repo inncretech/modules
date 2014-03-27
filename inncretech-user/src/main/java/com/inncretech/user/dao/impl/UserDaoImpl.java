@@ -3,6 +3,8 @@ package com.inncretech.user.dao.impl;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.inncretech.core.sharding.ShardAware;
+import org.hibernate.Query;
 import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.Property;
 import org.hibernate.criterion.Restrictions;
@@ -53,5 +55,13 @@ public class UserDaoImpl extends GenericUserShardDaoImpl<User, Long> implements 
       users.addAll(findByCriteria(config.getId(), detachedCriteria));
     }
     return users;
+  }
+
+  @ShardAware(shardStrategy = "shardid", shardType = ShardType.USER)
+  public List<User> getUsersInShard(Integer shardId, Integer offset , Integer pageSize){
+    Query q = getQuery(shardId, "from User ");
+    q.setFirstResult(offset);
+    q.setMaxResults(pageSize);
+    return q.list();
   }
 }
