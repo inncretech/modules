@@ -36,9 +36,9 @@ public class NotificationDaoImpl extends GenericUserShardDaoImpl<Notification, L
       readCriterion = Restrictions.eq("isRead", read);
     }
     if (readCriterion != null) {
-      return findByCriteria(shardId, pageable.getPageNumber() * pageable.getPageSize(), pageable.getPageSize(), criterion, readCriterion);
+      return findByCriteria(shardId, pageable, criterion, readCriterion);
     } else {
-      return findByCriteria(shardId, pageable.getPageNumber() * pageable.getPageSize(), pageable.getPageSize(), criterion);
+      return findByCriteria(shardId, pageable, criterion);
     }
   }
 

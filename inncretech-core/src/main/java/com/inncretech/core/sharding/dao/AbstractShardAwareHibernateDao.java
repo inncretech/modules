@@ -2,6 +2,7 @@ package com.inncretech.core.sharding.dao;
 
 import java.io.Serializable;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -11,7 +12,11 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.Example;
+import org.hibernate.criterion.Order;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Direction;
 
 import com.inncretech.core.model.IdEntity;
 import com.inncretech.core.sharding.IdGenerator;
@@ -108,6 +113,28 @@ public class AbstractShardAwareHibernateDao<T extends IdEntity, PK extends Seria
       crit.add(c);
     }
     return crit.setFirstResult(offset).setMaxResults(limit).list();
+  }
+  
+  @SuppressWarnings("unchecked")
+  public List<T> findByCriteria(Integer shardId, Pageable pageable, Criterion... criterion) {
+    Criteria crit = shardAwareDaoUtil.getCurrentSessionByShard(shardId).createCriteria(clazz);
+
+    for (Criterion c : criterion) {
+      crit.add(c);
+    }
+    Sort sort = pageable.getSort();
+    if (sort != null) {
+      Iterator<org.springframework.data.domain.Sort.Order> iterator = sort.iterator();
+      while (iterator.hasNext()) {
+        org.springframework.data.domain.Sort.Order next = iterator.next();
+        if (next.getDirection() == Direction.ASC) {
+          crit.addOrder(Order.asc(next.getProperty()));
+        } else {
+          crit.addOrder(Order.desc(next.getProperty()));
+        }
+      }
+    }
+    return crit.setFirstResult(pageable.getPageNumber() * pageable.getPageSize()).setMaxResults(pageable.getPageSize()).list();
   }
 
   public List<T> findAll(Integer shardId) {
