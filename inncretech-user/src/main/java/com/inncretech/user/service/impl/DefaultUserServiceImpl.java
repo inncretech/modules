@@ -174,7 +174,7 @@ public class DefaultUserServiceImpl implements UserService {
     UserForgotPassword ufp = new UserForgotPassword();
     ufp.setRndString(randomString);
     ufp = userFPDao.getDateForRandomString(randomString);
-    if (dt.getMillis() - ufp.getDateRndString().getMillis() < 86400) {
+    if (ufp != null && (dt.getMillis() - ufp.getDateRndString().getMillis() < 86400000)) {
       return Boolean.TRUE;
     } else
       return Boolean.FALSE;
@@ -188,7 +188,7 @@ public class DefaultUserServiceImpl implements UserService {
     if(ufp == null )
       return null;
 
-    if (dt.getMillis() - ufp.getDateRndString().getMillis() < 86400) {
+    if (dt.getMillis() - ufp.getDateRndString().getMillis() < 86400000) {
       return get(ufp.getUserId());
     } else
       return null;
