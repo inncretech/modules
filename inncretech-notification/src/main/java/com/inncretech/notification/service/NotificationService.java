@@ -16,4 +16,5 @@ public interface NotificationService {
 
   public List<Notification> getNotificationsByUserId(Long userId, Boolean read, Pageable pageable);
 
+  public Long getTotalNotificationsForUser(Long userId, Boolean read);
 }

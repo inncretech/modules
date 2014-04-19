@@ -5,8 +5,10 @@ import java.util.List;
 import javax.persistence.NamedNativeQueries;
 import javax.persistence.NamedNativeQuery;
 
+import org.hibernate.Criteria;
 import org.hibernate.Query;
 import org.hibernate.criterion.Criterion;
+import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
@@ -61,5 +63,16 @@ public class NotificationDaoImpl extends GenericUserShardDaoImpl<Notification, L
     query.setParameter("updatedAt", DateTimeUtils.currentTimeWithoutFractionalSeconds());
     query.setParameter("updatedBy", userId);
     query.executeUpdate();
+  }
+
+  @Override
+  @ShardAware(shardStrategy = "entityid", shardType = ShardType.USER)
+  public Long getTotalNotificationsForUser(Long userId, Boolean read) {
+    Criteria criteria = getSession(userId).createCriteria(getPersistentClass()).setProjection(Projections.rowCount());
+    criteria.add(Restrictions.eq("receiverUserId", userId));
+    if (read != null) {
+      criteria.add(Restrictions.eq("isRead", read));
+    }
+    return (Long) criteria.uniqueResult();
   }
 }

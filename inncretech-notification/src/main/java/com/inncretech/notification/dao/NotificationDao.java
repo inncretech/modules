@@ -19,4 +19,7 @@ public interface NotificationDao extends GenericUserShardDAO<Notification, Long>
 
   @ShardAware(shardStrategy = "entityid", shardType = ShardType.USER)
   void markAllRead(Long userId);
+
+  @ShardAware(shardStrategy = "entityid", shardType = ShardType.USER)
+  Long getTotalNotificationsForUser(Long userId, Boolean read);
 }

@@ -27,6 +27,12 @@ public class NotificationServiceImpl implements NotificationService {
     notification.setId(id);
     return notification;
   }
+  
+  @Override
+  @ShardAware(shardStrategy = "entityid", shardType = ShardType.USER)
+  public Long getTotalNotificationsForUser(Long userId, Boolean read) {
+    return notificationDao.getTotalNotificationsForUser(userId, read);
+  }
 
   @Override
   @ShardAware(shardStrategy = "entityid", shardType = ShardType.USER)
