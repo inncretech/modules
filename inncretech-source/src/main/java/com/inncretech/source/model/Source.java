@@ -3,11 +3,15 @@ package com.inncretech.source.model;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.Version;
 
-import com.inncretech.core.model.AbstractImmutatableEntity;
+import org.hibernate.annotations.SQLDelete;
+
+import com.inncretech.core.model.BaseEntity;
 
 @Entity
-public class Source extends AbstractImmutatableEntity {
+@SQLDelete(sql = "UPDATE source SET record_status = 0, version_id = version_id + 1 where id = ? and version_id = ?")
+public class Source extends BaseEntity {
 
   @Id
   @Column
@@ -24,6 +28,12 @@ public class Source extends AbstractImmutatableEntity {
 
   @Column
   private Long magazineId;
+
+  @Version
+  private Long versionId;
+
+  @Column
+  private Byte recordStatus;
 
   public Long getId() {
     return id;
@@ -57,15 +67,33 @@ public class Source extends AbstractImmutatableEntity {
     this.magazineId = magazineId;
   }
 
+  public Long getVersionId() {
+    return versionId;
+  }
+
+  public void setVersionId(Long versionId) {
+    this.versionId = versionId;
+  }
+
+  public Byte getRecordStatus() {
+    return recordStatus;
+  }
+
+  public void setRecordStatus(Byte recordStatus) {
+    this.recordStatus = recordStatus;
+  }
+
   @Override
   public int hashCode() {
     final int prime = 31;
     int result = super.hashCode();
     result = prime * result + ((id == null) ? 0 : id.hashCode());
     result = prime * result + ((magazineId == null) ? 0 : magazineId.hashCode());
+    result = prime * result + ((recordStatus == null) ? 0 : recordStatus.hashCode());
     result = prime * result + ((score == null) ? 0 : score.hashCode());
     result = prime * result + ((sourceType == null) ? 0 : sourceType.hashCode());
     result = prime * result + ((sourceUri == null) ? 0 : sourceUri.hashCode());
+    result = prime * result + ((versionId == null) ? 0 : versionId.hashCode());
     return result;
   }
 
@@ -88,6 +116,11 @@ public class Source extends AbstractImmutatableEntity {
         return false;
     } else if (!magazineId.equals(other.magazineId))
       return false;
+    if (recordStatus == null) {
+      if (other.recordStatus != null)
+        return false;
+    } else if (!recordStatus.equals(other.recordStatus))
+      return false;
     if (score == null) {
       if (other.score != null)
         return false;
@@ -103,12 +136,17 @@ public class Source extends AbstractImmutatableEntity {
         return false;
     } else if (!sourceUri.equals(other.sourceUri))
       return false;
+    if (versionId == null) {
+      if (other.versionId != null)
+        return false;
+    } else if (!versionId.equals(other.versionId))
+      return false;
     return true;
   }
 
   @Override
   public String toString() {
     return "Source [id=" + id + ", sourceUri=" + sourceUri + ", score=" + score + ", sourceType=" + sourceType + ", magazineId=" + magazineId
-        + ", toString()=" + super.toString() + "]";
+        + ", versionId=" + versionId + ", recordStatus=" + recordStatus + "]";
   }
 }
