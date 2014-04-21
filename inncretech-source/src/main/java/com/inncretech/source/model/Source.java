@@ -6,6 +6,8 @@ import javax.persistence.Id;
 import javax.persistence.Version;
 
 import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.Type;
+import org.joda.time.DateTime;
 
 import com.inncretech.core.model.BaseEntity;
 
@@ -34,6 +36,13 @@ public class Source extends BaseEntity {
 
   @Column
   private Byte recordStatus;
+
+  @Type(type = "updatedTime")
+  private DateTime updatedAt;
+
+  @Type(type = "updatedTime")
+  @Column()
+  private DateTime createdAt;
 
   public Long getId() {
     return id;
@@ -83,16 +92,34 @@ public class Source extends BaseEntity {
     this.recordStatus = recordStatus;
   }
 
+  public DateTime getUpdatedAt() {
+    return updatedAt;
+  }
+
+  public void setUpdatedAt(DateTime updatedAt) {
+    this.updatedAt = updatedAt;
+  }
+
+  public DateTime getCreatedAt() {
+    return createdAt;
+  }
+
+  public void setCreatedAt(DateTime createdAt) {
+    this.createdAt = createdAt;
+  }
+
   @Override
   public int hashCode() {
     final int prime = 31;
     int result = super.hashCode();
+    result = prime * result + ((createdAt == null) ? 0 : createdAt.hashCode());
     result = prime * result + ((id == null) ? 0 : id.hashCode());
     result = prime * result + ((magazineId == null) ? 0 : magazineId.hashCode());
     result = prime * result + ((recordStatus == null) ? 0 : recordStatus.hashCode());
     result = prime * result + ((score == null) ? 0 : score.hashCode());
     result = prime * result + ((sourceType == null) ? 0 : sourceType.hashCode());
     result = prime * result + ((sourceUri == null) ? 0 : sourceUri.hashCode());
+    result = prime * result + ((updatedAt == null) ? 0 : updatedAt.hashCode());
     result = prime * result + ((versionId == null) ? 0 : versionId.hashCode());
     return result;
   }
@@ -106,6 +133,11 @@ public class Source extends BaseEntity {
     if (getClass() != obj.getClass())
       return false;
     Source other = (Source) obj;
+    if (createdAt == null) {
+      if (other.createdAt != null)
+        return false;
+    } else if (!createdAt.equals(other.createdAt))
+      return false;
     if (id == null) {
       if (other.id != null)
         return false;
@@ -136,6 +168,11 @@ public class Source extends BaseEntity {
         return false;
     } else if (!sourceUri.equals(other.sourceUri))
       return false;
+    if (updatedAt == null) {
+      if (other.updatedAt != null)
+        return false;
+    } else if (!updatedAt.equals(other.updatedAt))
+      return false;
     if (versionId == null) {
       if (other.versionId != null)
         return false;
@@ -147,6 +184,6 @@ public class Source extends BaseEntity {
   @Override
   public String toString() {
     return "Source [id=" + id + ", sourceUri=" + sourceUri + ", score=" + score + ", sourceType=" + sourceType + ", magazineId=" + magazineId
-        + ", versionId=" + versionId + ", recordStatus=" + recordStatus + "]";
+        + ", versionId=" + versionId + ", recordStatus=" + recordStatus + ", updatedAt=" + updatedAt + ", createdAt=" + createdAt + "]";
   }
 }

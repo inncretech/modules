@@ -27,7 +27,12 @@ public class SourceServiceTest extends BaseTest {
     s.setId(idGenerator.getNewSourceId());
     s.setSourceType(1);
     s.setSourceUri("testsource1");
-   
+
     sourceService.create(s);
+  }
+
+  @Test
+  public void testDeteletSource() {
+    sourceService.delete(2494036148209320961L);
   }
 }
