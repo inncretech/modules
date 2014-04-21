@@ -153,6 +153,9 @@ public class PasswordService implements PasswordEncoder {
 
   @Override
   public boolean isPasswordValid(String encPass, String rawPass, Object salt) {
+    if (salt == null) {
+      return false;
+    }
     byte[] userSalt = Base64.decode((String) salt);
     String hashedPassword = generateStrongPasswordHash(rawPass, userSalt);
     return hashedPassword.equals(encPass);
