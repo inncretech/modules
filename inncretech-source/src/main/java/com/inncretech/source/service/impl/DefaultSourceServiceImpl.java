@@ -41,6 +41,11 @@ public class DefaultSourceServiceImpl implements SourceService {
     return sourceDao.get(sourceId);
   }
 
+  @ShardAware(shardStrategy = "entityid", shardType = ShardType.SOURCE)
+  public void update(Source source) {
+    sourceDao.update(source);
+  }
+
   @Override
   @ShardAware(shardStrategy = "entityid", shardType = ShardType.SOURCE)
   public void delete(Long sourceId) {

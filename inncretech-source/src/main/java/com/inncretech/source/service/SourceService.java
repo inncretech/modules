@@ -14,6 +14,9 @@ public interface SourceService {
   Source create(Source source);
   
   @ShardAware(shardStrategy="entityid", shardType= ShardType.SOURCE)
+  void update(Source source);
+  
+  @ShardAware(shardStrategy="entityid", shardType= ShardType.SOURCE)
   void delete(Long sourceId);
   
   @ShardAware(shardStrategy="entityid", shardType= ShardType.SOURCE)
