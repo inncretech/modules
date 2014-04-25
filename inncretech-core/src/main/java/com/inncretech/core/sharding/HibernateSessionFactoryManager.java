@@ -28,6 +28,9 @@ public class HibernateSessionFactoryManager {
   
   @Autowired
   private ShardConfigDao shardConfigDao;
+  
+  @Value("${db.masterdb.jdbcurl}")
+  private String jdbcUrl;
 
   @Value("${db.username:root}")
   private String dbUsername;
@@ -48,6 +51,10 @@ public class HibernateSessionFactoryManager {
   private Integer idleConenctionPeriod;
 
 
+  public String getJdbcUrl() {
+    return jdbcUrl;
+  }
+  
   public String getHibernateShowSql(){
       return hibernateShowSql;
   }
