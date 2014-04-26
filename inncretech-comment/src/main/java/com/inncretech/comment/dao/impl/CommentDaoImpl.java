@@ -30,7 +30,7 @@ public class CommentDaoImpl extends GenericSourceShardDaoImpl<Comment, Long> imp
   @ShardAware(shardStrategy = "entityid", shardType = ShardType.SOURCE)
   public List<Comment> getComments(Long sourceId) {
     Query query = getQuery(getIdGenService().getShardId(sourceId, ShardType.SOURCE), 
-    		"from comment where sourceId = :sourceId and recordStatus = :recordStatus");
+    		"from comment where sourceId = :sourceId and recordStatus = :recordStatus order by createdAt");
   	query.setParameter("sourceId", sourceId);
 		query.setParameter("recordStatus", RecordStatus.ACTIVE.getId());
     return query.list();
