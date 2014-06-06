@@ -1,5 +1,7 @@
 package com.inncretech.user.service.impl;
 
+import com.inncretech.user.dao.UserLoginLookupDao;
+import com.inncretech.user.model.UserLoginLookup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.facebook.api.FacebookProfile;
 import org.springframework.social.facebook.api.UserOperations;
@@ -19,6 +21,9 @@ public class FacebookMemberServiceImpl implements FacebookMemberService {
   UserDao userDao;
 
   @Autowired
+  UserLoginLookupDao userLoginLookupDao;
+
+  @Autowired
   private ShardConfigDao shardConfigDao;
 
   @Autowired
@@ -34,8 +39,11 @@ public class FacebookMemberServiceImpl implements FacebookMemberService {
     User resultUser = null;
     if (user == null) {
       resultUser = createMemberFromFacebookProfile(profile);
+      saveUserLoginLookup(resultUser.getId(), resultUser.getEmail(), resultUser.getUserName());
       return resultUser;
     } else {
+      user.setFacebookId(profile.getId());
+      userDao.saveOrUpdate(user);
       return user;
     }
   }
@@ -54,6 +62,14 @@ public class FacebookMemberServiceImpl implements FacebookMemberService {
     }
   }
 
+  private void saveUserLoginLookup(Long userId, String email, String loginId) {
+    UserLoginLookup userLoginLookup = new UserLoginLookup();
+    userLoginLookup.setUserId(userId);
+    userLoginLookup.setEmail(email);
+    userLoginLookup.setLoginId(loginId);
+    userLoginLookupDao.save(userLoginLookup);
+  }
+
   private User createMemberFromFacebookProfile(FacebookProfile profile) {
     User user = new User();
     user.setEmail(profile.getEmail());
@@ -62,6 +78,7 @@ public class FacebookMemberServiceImpl implements FacebookMemberService {
     user.setLastName(profile.getLastName());
     user.setFacebookId(profile.getId());
     user.setUserName(profile.getUsername());
+    user.setPassword(profile.getEmail() + System.currentTimeMillis());
     userDao.save(user);
     return user;
   }
