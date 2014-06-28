@@ -210,8 +210,12 @@ public class DefaultUserServiceImpl implements UserService {
   }
 
   @Override
-  public User signupFacebookUser(String accessToken) {
-    User user = fbMemberService.signupFacebookUser(accessToken);
+  public User signupFacebookUser(String userName, String accessToken) {
+    Long userId = getUserIdByLoginId(userName);
+    if(userId != null){
+      throw new ApplicationException("USER_NAME_EXIST", "Username already exist");
+    }
+    User user = fbMemberService.signupFacebookUser(userName, accessToken);
     return user;
   }
 

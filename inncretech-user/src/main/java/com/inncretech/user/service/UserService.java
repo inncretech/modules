@@ -49,7 +49,7 @@ public interface UserService {
   @Transactional
   User validateForgotPasswordTokenString(String randomString);
 
-  User signupFacebookUser(String accessToken);
+  User signupFacebookUser(String userName, String accessToken);
 
   User authenticateFbUserLogin(String accessToken);
 

@@ -14,6 +14,8 @@ import com.inncretech.user.dao.UserDao;
 import com.inncretech.user.model.User;
 import com.inncretech.user.service.FacebookMemberService;
 
+import java.util.Random;
+
 @Service
 public class FacebookMemberServiceImpl implements FacebookMemberService {
 
@@ -30,7 +32,23 @@ public class FacebookMemberServiceImpl implements FacebookMemberService {
   private IdGenerator idGenerator;
 
   @Override
-  public User signupFacebookUser(String accessToken) {
+  public User checkFacebookUserAlreadySignedUp(String accessToken) {
+    FacebookTemplate fbTemplate = new FacebookTemplate(accessToken);
+    UserOperations userOperation = fbTemplate.userOperations();
+    FacebookProfile profile = userOperation.getUserProfile();
+    String emailId = profile.getEmail();
+    User user = getUserByEmail(emailId);
+    if (user == null) {
+     return null;
+    } else {
+      user.setFacebookId(profile.getId());
+      userDao.saveOrUpdate(user);
+      return user;
+    }
+  }
+
+  @Override
+  public User signupFacebookUser(String userName, String accessToken) {
     FacebookTemplate fbTemplate = new FacebookTemplate(accessToken);
     UserOperations userOperation = fbTemplate.userOperations();
     FacebookProfile profile = userOperation.getUserProfile();
@@ -38,7 +56,7 @@ public class FacebookMemberServiceImpl implements FacebookMemberService {
     User user = getUserByEmail(emailId);
     User resultUser = null;
     if (user == null) {
-      resultUser = createMemberFromFacebookProfile(profile);
+      resultUser = createMemberFromFacebookProfile(userName, profile);
       saveUserLoginLookup(resultUser.getId(), resultUser.getEmail(), resultUser.getUserName());
       return resultUser;
     } else {
@@ -70,14 +88,14 @@ public class FacebookMemberServiceImpl implements FacebookMemberService {
     userLoginLookupDao.save(userLoginLookup);
   }
 
-  private User createMemberFromFacebookProfile(FacebookProfile profile) {
+  private User createMemberFromFacebookProfile(String userName, FacebookProfile profile) {
     User user = new User();
     user.setEmail(profile.getEmail());
     user.setId(idGenerator.getNewUserId());
     user.setFirstName(profile.getFirstName());
     user.setLastName(profile.getLastName());
     user.setFacebookId(profile.getId());
-    user.setUserName(profile.getUsername());
+    user.setUserName(userName);
     user.setPassword(profile.getEmail() + System.currentTimeMillis());
     userDao.save(user);
     return user;
