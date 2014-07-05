@@ -22,6 +22,7 @@ public class FacebookMemberServiceImpl implements FacebookMemberService {
   @Autowired
   UserDao userDao;
 
+
   @Autowired
   UserLoginLookupDao userLoginLookupDao;
 
@@ -102,6 +103,10 @@ public class FacebookMemberServiceImpl implements FacebookMemberService {
   }
 
   public User getUserByEmail(String emailID) {
+    UserLoginLookup userLoginLookup = userLoginLookupDao.getUserLoginLookupByEmail(emailID);
+    if (userLoginLookup != null) {
+      return userDao.get(userLoginLookup.getUserId());
+    }
     return null;
   }
 }
