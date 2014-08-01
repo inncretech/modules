@@ -154,22 +154,28 @@ public class CatalogueDozerMapper {
 		return categoryIds;
 	}
 
-	public void mapBeanToDTO(Product product, ProductDTO productDTO) {
+	public void mapProductToProductDTO(Product product, ProductDTO productDTO) {
 		mapproductDTOToProduct(product, productDTO);
 		productDTO.setCategoryIds(convertProductCategoryIdIntoProductDTO(product));
 		productDTO.setItemDTOs(convertItemToItemDTO(product));
 		productDTO.setImageDTOs(convertProductImageToImageDTO(product));
 	}
 
-	public void mapDTOToDBBean(ProductDTO productDTO, Product product) {
+	public void mapProductDTOToProduct(ProductDTO productDTO, Product product) {
 		ProductDTOToProduct(productDTO, product);
 		mapProductCatagoriesToProduct(productDTO, product);
 		mapImageDTOToProduct(productDTO, product);
 		mapItemDTOToProduct(productDTO, product);
 	}
 
-	public void mapProductBeansToProductDTOs() {
-		
+	public void createProductDTOsFromProducts(List<Product> products) {
+		List<ProductDTO> productDTOs = null;
+		if (products != null && !products.isEmpty()) {
+			productDTOs = new ArrayList<ProductDTO>(products.size());
+			for (Product product : products) {
+
+			}
+		}
 	}
 
 }

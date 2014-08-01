@@ -17,6 +17,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.inncretech.catalogue.constants.Status;
+import com.inncretech.catalogue.db.repository.ProductRepository;
 import com.inncretech.catalogue.dto.ImageDTO;
 import com.inncretech.catalogue.dto.ItemDTO;
 import com.inncretech.catalogue.dto.ProductDTO;
@@ -33,6 +34,9 @@ public class ProductServiceImplTest {
 	@Autowired
 	ProductService productService;
 
+	@Autowired
+	ProductRepository productRepository;
+	
 	@Test
 	@Transactional
 	@Rollback(false)
@@ -95,7 +99,8 @@ public class ProductServiceImplTest {
 	@Test
 	public void getProductByProductId() throws InvalidArgumentException, ProductNotFoundException,
 			InternalServiceException {
-		// productService.getProductByProductId(1l);
+		productRepository.findOne(1l);
+		//Assert.assertNotNull(productService.getProductByProductId(1l));
 	}
 
 	@Test

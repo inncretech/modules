@@ -43,10 +43,10 @@ public class ProductServiceImpl implements ProductService {
 		validator.doValidate(productDTO);
 		try {
 			Product product = new Product();
-			mapper.mapDTOToDBBean(productDTO, product);
+			mapper.mapProductDTOToProduct(productDTO, product);
 			productRepository.save(product);
 			ProductDTO resultProductDTO = new ProductDTO();
-			mapper.mapBeanToDTO(product, resultProductDTO);
+			mapper.mapProductToProductDTO(product, resultProductDTO);
 			return resultProductDTO;
 		} catch (Exception exception) {
 			throw new InternalServiceException();
@@ -66,10 +66,9 @@ public class ProductServiceImpl implements ProductService {
 		}
 		try {
 			ProductDTO productDTO = new ProductDTO();
-			mapper.mapBeanToDTO(product, productDTO);
+			mapper.mapProductToProductDTO(product, productDTO);
 			return productDTO;
 		} catch (Exception exception) {
-			exception.printStackTrace();
 			throw new InternalServiceException();
 		}
 	}
@@ -85,7 +84,7 @@ public class ProductServiceImpl implements ProductService {
 		while (productsItr.hasNext()) {
 			Product product = productsItr.next();
 			ProductDTO productDTO = new ProductDTO();
-			mapper.mapBeanToDTO(product, productDTO);
+			mapper.mapProductToProductDTO(product, productDTO);
 			productList.add(productDTO);
 		}
 		return productList;
