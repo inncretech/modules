@@ -1,4 +1,4 @@
-package com.tastetablet.merchant.constants;
+package com.inncretech.merchant.constants;
 
 public interface UrlConstants {
 	String PRODUCT_ID="{productId}";

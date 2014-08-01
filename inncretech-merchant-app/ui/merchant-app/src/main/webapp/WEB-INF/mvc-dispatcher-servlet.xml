@@ -37,9 +37,9 @@
 
 
 
-	<context:component-scan base-package="com.tastetablet.merchant.ui.controller" />
-	<context:component-scan base-package="com.tastetablet.merchant.mapper" />
-	<context:component-scan base-package="com.tastetablet.merchant.services.proxy" />
+	<context:component-scan base-package="com.inncretech.merchant.ui.controller" />
+	<context:component-scan base-package="com.inncretech.merchant.mapper" />
+	<context:component-scan base-package="com.inncretech.merchant.services.proxy" />
 	
 	<import resource="classpath:service.xml" />
 	<import resource="classpath:application-profiles.xml" />

@@ -1,4 +1,4 @@
-package com.tastetablet.merchant.ui.bean;
+package com.inncretech.merchant.ui.bean;
 
 /**
  * Created by avinash on 29/7/14.

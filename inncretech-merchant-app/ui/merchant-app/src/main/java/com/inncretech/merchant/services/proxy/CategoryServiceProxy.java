@@ -1,4 +1,4 @@
-package com.tastetablet.merchant.services.proxy;
+package com.inncretech.merchant.services.proxy;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 
 import com.inncretech.catalogue.dto.CategoryNode;
 import com.inncretech.catalogue.service.CategoryService;
-import com.tastetablet.merchant.ui.bean.CategoryBean;
+import com.inncretech.merchant.ui.bean.CategoryBean;
 
 @Service
 public class CategoryServiceProxy {

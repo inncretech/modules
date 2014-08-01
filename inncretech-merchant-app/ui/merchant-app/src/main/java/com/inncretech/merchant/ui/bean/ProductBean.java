@@ -1,4 +1,4 @@
-package com.tastetablet.merchant.ui.bean;
+package com.inncretech.merchant.ui.bean;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -10,7 +10,7 @@ import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-import com.tastetablet.merchant.constants.Status;
+import com.inncretech.merchant.constants.Status;
 
 public class ProductBean implements Serializable {
 

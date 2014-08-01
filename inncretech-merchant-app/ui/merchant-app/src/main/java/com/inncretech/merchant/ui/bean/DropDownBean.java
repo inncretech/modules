@@ -1,4 +1,4 @@
-package com.tastetablet.merchant.ui.bean;
+package com.inncretech.merchant.ui.bean;
 
 import java.util.Map;
 

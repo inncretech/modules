@@ -1,4 +1,4 @@
-package com.tastetablet.merchant.mapper;
+package com.inncretech.merchant.mapper;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -15,11 +15,11 @@ import com.inncretech.catalogue.constants.Status;
 import com.inncretech.catalogue.dto.ImageDTO;
 import com.inncretech.catalogue.dto.ItemDTO;
 import com.inncretech.catalogue.dto.ProductDTO;
-import com.tastetablet.merchant.services.proxy.CategoryServiceProxy;
-import com.tastetablet.merchant.ui.bean.CategoryBean;
-import com.tastetablet.merchant.ui.bean.ItemBean;
-import com.tastetablet.merchant.ui.bean.OriginCountry;
-import com.tastetablet.merchant.ui.bean.ProductBean;
+import com.inncretech.merchant.services.proxy.CategoryServiceProxy;
+import com.inncretech.merchant.ui.bean.CategoryBean;
+import com.inncretech.merchant.ui.bean.ItemBean;
+import com.inncretech.merchant.ui.bean.OriginCountry;
+import com.inncretech.merchant.ui.bean.ProductBean;
 
 @Component
 public class ProdutDataMapper {
@@ -97,7 +97,7 @@ public class ProdutDataMapper {
 		productBean.setEndDate(productDTO.getEndDate());
 
 		productBean.setIsActive(true);
-		productBean.setStatus(com.tastetablet.merchant.constants.Status.valueOf(Status.ACTIVE.toString()));
+		productBean.setStatus(com.inncretech.merchant.constants.Status.valueOf(Status.ACTIVE.toString()));
 		productBean.setCreateDate(new Date());
 
 		if (productDTO.getCategoryIds() != null && !productDTO.getCategoryIds().isEmpty()) {

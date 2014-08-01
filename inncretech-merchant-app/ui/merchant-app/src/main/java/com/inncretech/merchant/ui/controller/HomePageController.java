@@ -1,4 +1,4 @@
-package com.tastetablet.merchant.ui.controller;
+package com.inncretech.merchant.ui.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;

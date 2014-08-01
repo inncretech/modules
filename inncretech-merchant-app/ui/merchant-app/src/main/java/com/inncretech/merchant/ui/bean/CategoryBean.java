@@ -1,4 +1,4 @@
-package com.tastetablet.merchant.ui.bean;
+package com.inncretech.merchant.ui.bean;
 
 import java.io.Serializable;
 import java.util.Map;
