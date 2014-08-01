@@ -77,10 +77,11 @@ public class DefaultUserServiceImpl implements UserService {
   @ShardAware(shardStrategy = "entityid", shardType = ShardType.USER)
   public User createUser(@Valid User user) {
     checkEmailId(user.getEmail());
+    checkTwitterId(user.getTwitterId());
     checkLoginId(user.getUserName());
     passwordService.initializeCryptoForNewUser(user);
     userDao.save(user);
-    saveUserLoginLookup(user.getId(), user.getEmail(), user.getUserName());
+    saveUserLoginLookup(user.getId(), user.getEmail(), user.getUserName(), user.getTwitterId());
     return user;
   }
 
@@ -92,6 +93,17 @@ public class DefaultUserServiceImpl implements UserService {
     		  + " Please check the address or click \"Forgot Password\".");
     }
   }
+
+  private void checkTwitterId(String twitterid) {
+    if(twitterid != null) {
+      UserLoginLookup userLoginLookup = userLoginLookupDao.getUserLoginLookupByTwitterId(twitterid);
+      if (userLoginLookup != null) {
+        throw new ApplicationException("INPUT_VALIDATION_FAILED",
+            "The Twitter Id you entered has already been registered."
+                + " Please check the address or click \"Forgot Password\".");
+      }
+    }
+  }
   
   private void checkLoginId(String loginId) {
     UserLoginLookup userLoginLookup = userLoginLookupDao.getUserLoginLookupByLoginId(loginId);
@@ -100,11 +112,12 @@ public class DefaultUserServiceImpl implements UserService {
     }
   }
 
-  private void saveUserLoginLookup(Long userId, String email, String loginId) {
+  private void saveUserLoginLookup(Long userId, String email, String loginId, String twitterId) {
     UserLoginLookup userLoginLookup = new UserLoginLookup();
     userLoginLookup.setUserId(userId);
     userLoginLookup.setEmail(email);
     userLoginLookup.setLoginId(loginId);
+    userLoginLookup.setTwitterId(twitterId);
     userLoginLookupDao.save(userLoginLookup);
   }
 
@@ -300,6 +313,15 @@ public class DefaultUserServiceImpl implements UserService {
 
   @Override
   public User getUserByFacebookId(String facebookId) {
+    return null;
+  }
+
+  @Override
+  public User getUserByTwitterId(String twitterId) {
+    UserLoginLookup userLoginLookup = userLoginLookupDao.getUserLoginLookupByTwitterId(twitterId);
+    if(userLoginLookup != null){
+      return userDao.get(userLoginLookup.getUserId());
+    }
     return null;
   }
 

@@ -30,6 +30,19 @@ public class UserLoginLookupDaoImpl extends GenericDAOImpl<UserLoginLookup , Lon
 
     return userLoginLookup;
   }
+  @Transactional
+  public UserLoginLookup getUserLoginLookupByTwitterId(String twitterId){
+    Query query = getQuery("from UserLoginLookup where twitterId=:twitterId and recordStatus != :recordStatus");
+    query.setParameter("twitterId", twitterId);
+    query.setParameter("recordStatus", RecordStatus.INACTIVE.getId());
+    UserLoginLookup userLoginLookup =null;
+    @SuppressWarnings("unchecked")
+    List<UserLoginLookup> results = query.list();
+    if(results.size() > 0)
+      userLoginLookup = results.get(0);
+
+    return userLoginLookup;
+  }
 
   @Transactional
   public void deactiveEmail(Long userId){

@@ -24,6 +24,17 @@ public class UserLoginLookup extends AbstractMutableEntity {
   @Column
   private Long userId;
 
+  @Column
+  private String twitterId;
+
+  public String getTwitterId() {
+    return twitterId;
+  }
+
+  public void setTwitterId(String twitterId) {
+    this.twitterId = twitterId;
+  }
+
   @Override
   public Long getId() {
     return id;

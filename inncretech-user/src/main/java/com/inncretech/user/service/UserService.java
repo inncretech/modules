@@ -74,4 +74,7 @@ public interface UserService {
   
   @ShardAware(shardStrategy = "entityid", shardType = ShardType.USER)
   public void expireAllAccessTokensForUser(Long userId);
+
+  @Transactional
+  User getUserByTwitterId(String twitterId);
 }
