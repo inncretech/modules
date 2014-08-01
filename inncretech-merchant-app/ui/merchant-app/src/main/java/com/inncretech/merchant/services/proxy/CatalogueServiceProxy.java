@@ -1,4 +1,4 @@
-package com.tastetablet.merchant.services.proxy;
+package com.inncretech.merchant.services.proxy;
 
 import java.util.List;
 

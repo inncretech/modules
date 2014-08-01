@@ -1,4 +1,4 @@
-package com.tastetablet.merchant.ui.controller;
+package com.inncretech.merchant.ui.controller;
 
 import java.util.List;
 
@@ -9,9 +9,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.tastetablet.merchant.constants.UrlConstants;
-import com.tastetablet.merchant.services.proxy.CategoryServiceProxy;
-import com.tastetablet.merchant.ui.bean.CategoryBean;
+import com.inncretech.merchant.constants.UrlConstants;
+import com.inncretech.merchant.services.proxy.CategoryServiceProxy;
+import com.inncretech.merchant.ui.bean.CategoryBean;
 
 @Controller
 public class CategoryController {

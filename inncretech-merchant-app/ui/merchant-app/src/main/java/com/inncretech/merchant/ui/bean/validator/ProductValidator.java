@@ -1,10 +1,10 @@
-package com.tastetablet.merchant.ui.bean.validator;
+package com.inncretech.merchant.ui.bean.validator;
 
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 
-import com.tastetablet.merchant.ui.bean.ProductBean;
+import com.inncretech.merchant.ui.bean.ProductBean;
 
 @Component
 public class ProductValidator implements Validator {

@@ -1,4 +1,4 @@
-package com.tastetablet.merchant.ui.controller;
+package com.inncretech.merchant.ui.controller;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -29,12 +29,12 @@ import com.inncretech.catalogue.dto.ProductDTO;
 import com.inncretech.catalogue.exceptions.InternalServiceException;
 import com.inncretech.catalogue.exceptions.InvalidArgumentException;
 import com.inncretech.catalogue.exceptions.ProductNotFoundException;
-import com.tastetablet.merchant.constants.UrlConstants;
-import com.tastetablet.merchant.mapper.ProdutDataMapper;
-import com.tastetablet.merchant.services.proxy.CatalogueServiceProxy;
-import com.tastetablet.merchant.services.proxy.CategoryServiceProxy;
-import com.tastetablet.merchant.ui.bean.DropDownBean;
-import com.tastetablet.merchant.ui.bean.ProductBean;
+import com.inncretech.merchant.constants.UrlConstants;
+import com.inncretech.merchant.mapper.ProdutDataMapper;
+import com.inncretech.merchant.services.proxy.CatalogueServiceProxy;
+import com.inncretech.merchant.services.proxy.CategoryServiceProxy;
+import com.inncretech.merchant.ui.bean.DropDownBean;
+import com.inncretech.merchant.ui.bean.ProductBean;
 
 @Controller
 public class ProductController {
