@@ -23,12 +23,12 @@ public interface ProductService {
 	ProductDTO addItemToProduct(Long productId, ItemDTO itemDTO) throws InvalidArgumentException,
 			ProductNotFoundException, InternalServiceException;
 
-	Boolean deleteItems(List<Long> itemIds) throws InvalidArgumentException, InternalServiceException;
+	void deleteItems(List<Long> itemIds) throws InvalidArgumentException, InternalServiceException;
 
-	Boolean markProductsInActive(List<Long> productIds) throws InvalidArgumentException, InternalServiceException;
+	void markProductsInActive(List<Long> productIds) throws InvalidArgumentException, InternalServiceException;
 
-	Boolean markProductsActive(List<Long> productIds) throws InvalidArgumentException, InternalServiceException;
+	void markProductsActive(List<Long> productIds) throws InvalidArgumentException, InternalServiceException;
 
-	Boolean markProductsDeleted(List<Long> productIds) throws InvalidArgumentException, InternalServiceException;
+	void markProductsDeleted(List<Long> productIds) throws InvalidArgumentException, InternalServiceException;
 
 }

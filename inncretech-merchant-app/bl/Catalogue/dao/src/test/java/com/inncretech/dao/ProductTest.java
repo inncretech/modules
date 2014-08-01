@@ -1,4 +1,4 @@
-package dao;
+package com.inncretech.dao;
 
 import java.util.ArrayList;
 import java.util.Date;

@@ -1,6 +1,5 @@
 package com.inncretech.catalogue.service.impl;
 
-
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -13,7 +12,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
+import com.inncretech.catalogue.db.beans.Item;
 import com.inncretech.catalogue.db.beans.Product;
+import com.inncretech.catalogue.db.repository.ItemRepository;
 import com.inncretech.catalogue.db.repository.ProductRepository;
 import com.inncretech.catalogue.dto.ItemDTO;
 import com.inncretech.catalogue.dto.ProductDTO;
@@ -31,6 +32,9 @@ public class ProductServiceImpl implements ProductService {
 	private ProductRepository productRepository;
 
 	@Autowired
+	private ItemRepository itemRepository;
+
+	@Autowired
 	private ProductServiceValidator validator;
 
 	@Autowired
@@ -41,16 +45,16 @@ public class ProductServiceImpl implements ProductService {
 	public ProductDTO addProduct(ProductDTO productDTO) throws InvalidArgumentException, InternalServiceException {
 
 		validator.doValidate(productDTO);
+		Product product = new Product();
+		mapper.mapProductDTOToProduct(productDTO, product);
 		try {
-			Product product = new Product();
-			mapper.mapProductDTOToProduct(productDTO, product);
 			productRepository.save(product);
-			ProductDTO resultProductDTO = new ProductDTO();
-			mapper.mapProductToProductDTO(product, resultProductDTO);
-			return resultProductDTO;
 		} catch (Exception exception) {
 			throw new InternalServiceException();
 		}
+		ProductDTO resultProductDTO = new ProductDTO();
+		mapper.mapProductToProductDTO(product, resultProductDTO);
+		return resultProductDTO;
 	}
 
 	@Override
@@ -63,14 +67,12 @@ public class ProductServiceImpl implements ProductService {
 			product = productRepository.getOne(productId);
 		} catch (EntityNotFoundException entityNotFoundException) {
 			throw new ProductNotFoundException();
-		}
-		try {
-			ProductDTO productDTO = new ProductDTO();
-			mapper.mapProductToProductDTO(product, productDTO);
-			return productDTO;
 		} catch (Exception exception) {
 			throw new InternalServiceException();
 		}
+		ProductDTO productDTO = new ProductDTO();
+		mapper.mapProductToProductDTO(product, productDTO);
+		return productDTO;
 	}
 
 	@Override
@@ -105,30 +107,31 @@ public class ProductServiceImpl implements ProductService {
 
 	@Override
 	@Transactional
-	public Boolean deleteItems(List<Long> itemIds) throws InvalidArgumentException, InternalServiceException {
+	public void deleteItems(List<Long> itemIds) throws InvalidArgumentException, InternalServiceException {
 		validator.doValidateItemList(itemIds);
-		List<Product> products = productRepository.findProductByItemsItemIds(itemIds);
-		
-		return null;
+		try {
+			List<Item> items = itemRepository.findByItemIds(itemIds);
+			for (Item item : items) {
+				item.setIsActive(false);
+			}
+		} catch (Exception exception) {
+			throw new InternalServiceException();
+		}
 	}
 
 	@Override
-	public Boolean markProductsInActive(List<Long> productIds) throws InvalidArgumentException,
-			InternalServiceException {
+	public void markProductsInActive(List<Long> productIds) throws InvalidArgumentException, InternalServiceException {
 		// TODO Auto-generated method stub
-		return null;
 	}
 
 	@Override
-	public Boolean markProductsActive(List<Long> productIds) throws InvalidArgumentException, InternalServiceException {
+	public void markProductsActive(List<Long> productIds) throws InvalidArgumentException, InternalServiceException {
 		// TODO Auto-generated method stub
-		return null;
 	}
 
 	@Override
-	public Boolean markProductsDeleted(List<Long> productIds) throws InvalidArgumentException, InternalServiceException {
+	public void markProductsDeleted(List<Long> productIds) throws InvalidArgumentException, InternalServiceException {
 		// TODO Auto-generated method stub
-		return null;
 	}
 
 }

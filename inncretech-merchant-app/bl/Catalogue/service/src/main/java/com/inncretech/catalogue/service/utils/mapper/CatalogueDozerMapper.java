@@ -173,7 +173,9 @@ public class CatalogueDozerMapper {
 		if (products != null && !products.isEmpty()) {
 			productDTOs = new ArrayList<ProductDTO>(products.size());
 			for (Product product : products) {
-
+				ProductDTO productDTO = new ProductDTO();
+				mapProductToProductDTO(product, productDTO);
+				productDTOs.add(productDTO);
 			}
 		}
 	}
