@@ -65,13 +65,13 @@ public class Product extends BaseEntity implements Serializable {
 	@Column(name = "title")
 	private String title;
 
-	@OneToMany(cascade = CascadeType.ALL, mappedBy = "product", fetch = FetchType.EAGER)
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "product", fetch = FetchType.LAZY)
 	private List<Item> items;
 
-	@OneToMany(cascade = CascadeType.ALL, targetEntity = ProductImage.class, mappedBy = "product", fetch = FetchType.EAGER)
+	@OneToMany(cascade = CascadeType.ALL, targetEntity = ProductImage.class, mappedBy = "product", fetch = FetchType.LAZY)
 	private List<ProductImage> productImages;
 
-	@OneToMany(cascade = CascadeType.ALL, mappedBy = "productCategoryCompositeKey.product", fetch = FetchType.EAGER)
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "productCategoryCompositeKey.product", fetch = FetchType.LAZY)
 	List<ProductCategory> productCategories;
 
 	public Product() {
