@@ -1,0 +1,227 @@
+@charset "UTF-8";
+/* CSS Document */
+#body_content {
+	margin: auto;
+	background: #fff;
+	box-shadow: 0px 2px 6px #e1e1e1;
+	padding: 10px 25px;
+}
+
+.toprow {
+	/* height: 90px; */
+	border-bottom: 1px solid #e5e5e5;
+}
+
+.tastetablet_logo {
+	width: 150px;
+}
+
+.right_links {
+	margin-top: 30px;
+}
+
+.right_links span {
+	color: #333;
+}
+
+.login_screen {
+	height: 350px;
+	width: 350px;
+	margin: auto;
+	border-radius: 8px 8px 0 0;
+	box-shadow: 0 2px 6px #dcdee1;
+}
+
+.login_screen p {
+	font-size: 15px;
+	text-align: center;
+	line-height: 40px;
+	background: #f3f7f9;
+	border-bottom: 1px solid #e0edf6;
+}
+
+.fotterow {
+	border-top: 1px solid #e5e5e5;
+	padding-top: 10px;
+	text-align: center;
+	font-size: 12px;
+	color: #808080;
+}
+
+/* /*=======  MISC srtylings ============ */
+.float_right {
+	float: right;
+}
+
+.float_left {
+	float: left;
+}
+
+.xtra-mar_btm {
+	margin-bottom: 25px;
+}
+
+.xtra_height {
+	height: 100px;
+}
+
+.text_area {
+	margin-bottom: 100px;
+}
+
+/*=========   FORM ELEMENT STYLING =============*/
+input,button,select,textarea {
+	font-family: "Trebuchet MS", Helvetica, Arial, sans-serif;
+}
+
+select,textarea,input[type="text"],input[type="email"],input[type="password"],.uneditable-input
+	{
+	color: #6a6a6a;
+	display: inline-block;
+	font-size: 14px;
+	height: 30px;
+	line-height: 20px;
+	margin-bottom: 10px;
+	padding: 4px 6px;
+	vertical-align: middle;
+	border-radius: 4px 4px 4px 4px;
+	background-color: #fefefe;
+	border: 1px solid #d0e3f1;
+	box-shadow: 0 0 5px rgba(0, 0, 0, 0.075) inset;
+	transition: border 0.2s linear 0s, box-shadow 0.2s linear 0s;
+}
+
+.uneditable-input,.uneditable-textarea {
+	display: inline-block;
+	margin-bottom: 0;
+	vertical-align: middle;
+	cursor: not-allowed;
+	height: 30px;
+	line-height: 30px;
+	color: #cccccc;
+	background: #fbfbfb;
+}
+
+input:focus,textarea:focus {
+	border-color: rgba(82, 168, 236, 0.8);
+	box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1) inset, 0 0 8px
+		rgba(82, 168, 236, 0.6);
+	outline: 0 none;
+}
+
+.control-group.error input,.control-group.error select,.control-group.error textarea
+	{
+	border-color: #f78b8b;
+	box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset;
+}
+
+.control-group.error input:focus,.control-group.error select:focus,.control-group.error textarea:focus
+	{
+	border-color: #f78b8b;
+	box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset;
+}
+
+label {
+	display: block;
+	margin-bottom: 5px;
+}
+
+label,input,button,select,textarea {
+	font-size: 14px;
+	font-weight: normal;
+	line-height: 20px;
+}
+
+label,select,button,input[type="button"],input[type="reset"],input[type="submit"],input[type="radio"],input[type="checkbox"]
+	{
+	cursor: pointer;
+}
+
+.rhs_labels {
+	float: left;
+	line-height: 40px;
+	margin-right: 10px;
+}
+
+.title-select {
+	display: inline-block;
+	font-size: 13px;
+	margin: 10px 5px 0 0;
+	opacity: 0;
+	padding: 20px 0 3px;
+	position: absolute;
+	width: 65px;
+	z-index: 10;
+}
+
+.custom_select {
+	/*background:url(imgs/custom-select-leftbg.png) no-repeat left;
+    border: medium none;*/
+	vertical-align: middle;
+	border-radius: 4px 4px 4px 4px;
+	background-color: #fefefe;
+	transition: border 0.2s linear 0s, box-shadow 0.2s linear 0s;
+	display: inline-block;
+	float: left;
+	margin-right: 15px;
+	position: relative;
+	width: 65px;
+	height: 38px;
+}
+
+.custom_select-dd {
+	background: none repeat scroll 0 0 transparent;
+	border: medium none;
+	display: inline-block;
+	height: 18px;
+	left: 0;
+	margin: 3px 0;
+	overflow: hidden;
+	padding: 8px 5px 6px 10px;
+	position: inherit;
+	top: 0;
+	width: auto;
+}
+
+.custom_select-dropcap {
+	background: url(imgs/custom-select-bg.png) no-repeat right;
+	height: 34px;
+	padding: 3px 1px;
+	position: absolute;
+	left: 25px;
+	top: 0;
+	width: 37px;
+}
+
+select {
+	height: 25px;
+	margin-top: 10px;
+	width: 175px;
+}
+
+textarea {
+	height: 75px;
+	width: 450px !important;
+}
+
+.add_item {
+	width: 28px;
+	background: url(imgs/arrow-add_remove.png) no-repeat scroll 0 0
+		transparent;
+	cursor: pointer;
+	height: 33px;
+	position: absolute;
+	top: 8px;
+}
+
+#toTop {
+    padding: 5px 3px;
+    background: #51a351;
+    color: #ffffff;
+    position: fixed;
+    bottom: 90px;
+    right: 10px;
+    display: none;
+    cursor: pointer;
+    z-index: 1000;
+}

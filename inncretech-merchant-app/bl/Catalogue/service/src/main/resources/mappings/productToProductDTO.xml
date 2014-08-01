@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mappings xmlns="http://dozer.sourceforge.net" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://dozer.sourceforge.net
+          http://dozer.sourceforge.net/schema/beanmapping.xsd">
+
+	<mapping map-id="image-map">
+		<class-a>com.tastetablet.catalogue.dto.ImageDTO</class-a>
+		<class-b>com.tastetablet.catalogue.db.beans.ProductImage</class-b>
+		<!-- All field names are same in both classes. -->
+	</mapping>
+
+	<mapping>
+		<class-a>com.tastetablet.catalogue.dto.ProductDTO</class-a>
+		<class-b>com.tastetablet.catalogue.db.beans.Product</class-b>
+		<!-- All field names are same in both classes. -->
+
+		<field map-id="item-map">
+			<a>itemDTOs</a>
+			<b>items</b>
+		</field>
+
+		<field map-id="image-map">
+			<a>imageDTOs</a>
+			<b>productImages</b>
+		</field>
+
+	</mapping>
+
+</mappings> 

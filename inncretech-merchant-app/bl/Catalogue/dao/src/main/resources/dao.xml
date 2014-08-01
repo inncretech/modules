@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:jpa="http://www.springframework.org/schema/data/jpa"
+	xsi:schemaLocation="
+		http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/tx
+		http://www.springframework.org/schema/tx/spring-tx.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context.xsd
+        http://www.springframework.org/schema/aop 
+        http://www.springframework.org/schema/aop/spring-aop.xsd http://www.springframework.org/schema/data/jpa
+         http://www.springframework.org/schema/data/jpa/spring-jpa.xsd">
+
+	<context:annotation-config />
+	<context:component-scan base-package="com.tastetablet.catalogue.db.beans" />
+	<bean
+		class="org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor" />
+	<bean id="catalogueDataSourceWrite" class="com.mchange.v2.c3p0.ComboPooledDataSource"
+		destroy-method="close">
+		<property name="driverClass" value="${driverClass}" />
+		<property name="jdbcUrl" value="${catalogue.write.jdbcUrl}" />
+		<property name="user" value="${catalogue.write.user}" />
+		<property name="password" value="${catalogue.write.password}" />
+		<property name="initialPoolSize" value="${catalogue.write.initialPoolSize}" />
+		<property name="minPoolSize" value="${catalogue.write.minPoolSize}" />
+		<property name="maxPoolSize" value="${catalogue.write.maxPoolSize}" />
+		<property name="acquireIncrement" value="${catalogue.write.acquireIncrement}" />
+		<property name="maxIdleTime" value="${catalogue.write.maxIdleTime}" />
+
+		<!-- Recovery from DB outage -->
+		<property name="testConnectionOnCheckin" value="${catalogue.write.testConnectionOnCheckin}" />
+		<property name="acquireRetryAttempts" value="${catalogue.write.acquireRetryAttempts}" />
+		<property name="acquireRetryDelay" value="${catalogue.write.acquireRetryDelay}" />
+		<property name="idleConnectionTestPeriod" value="${catalogue.write.idleConnectionTestPeriod}" />
+		<property name="preferredTestQuery" value="select 1" />
+		<property name="maxStatementsPerConnection"
+			value="${catalogue.write.maxStatementsPerConnection}" />
+
+	</bean>
+
+
+
+	<bean id="catalogueEntityManagerFactoryWrite"
+		class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+		<property name="dataSource" ref="catalogueDataSourceWrite" />
+		<property name="persistenceUnitName" value="cataloguePersistUnitWrite" />
+		<property name="packagesToScan" value="com.tastetablet.catalogue.db.beans" />
+		<property name="jpaVendorAdapter">
+			<bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">
+				<property name="databasePlatform" value="org.hibernate.dialect.MySQL5Dialect" />
+				<property name="showSql" value="true"></property>
+				<property name="generateDdl" value="true" />
+			</bean>
+		</property>
+	</bean>
+
+
+	<tx:annotation-driven transaction-manager="catalogueTransactionManager" />
+
+	<jpa:repositories base-package="com.tastetablet.catalogue.db.repository"
+		entity-manager-factory-ref="catalogueEntityManagerFactoryWrite"
+		transaction-manager-ref="catalogueTransactionManager">
+	</jpa:repositories>
+
+	<bean id="catalogueTransactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
+		<property name="entityManagerFactory" ref="catalogueEntityManagerFactoryWrite" />
+	</bean>
+</beans>
