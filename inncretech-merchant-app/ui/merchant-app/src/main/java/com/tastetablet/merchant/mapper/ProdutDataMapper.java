@@ -11,10 +11,10 @@ import javax.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.tastetablet.catalogue.constants.Status;
-import com.tastetablet.catalogue.dto.ImageDTO;
-import com.tastetablet.catalogue.dto.ItemDTO;
-import com.tastetablet.catalogue.dto.ProductDTO;
+import com.inncretech.catalogue.constants.Status;
+import com.inncretech.catalogue.dto.ImageDTO;
+import com.inncretech.catalogue.dto.ItemDTO;
+import com.inncretech.catalogue.dto.ProductDTO;
 import com.tastetablet.merchant.services.proxy.CategoryServiceProxy;
 import com.tastetablet.merchant.ui.bean.CategoryBean;
 import com.tastetablet.merchant.ui.bean.ItemBean;

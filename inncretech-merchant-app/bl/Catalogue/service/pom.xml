@@ -2,19 +2,19 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
-		<groupId>com.tastetablet</groupId>
+		<groupId>com.inncretech</groupId>
 		<artifactId>Catalogue</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
 	<artifactId>service</artifactId>
 	<dependencies>
 		<dependency>
-			<groupId>com.tastetablet</groupId>
+			<groupId>com.inncretech</groupId>
 			<artifactId>dao</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
 		<dependency>
-			<groupId>com.tastetablet</groupId>
+			<groupId>com.inncretech</groupId>
 			<artifactId>dto</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>

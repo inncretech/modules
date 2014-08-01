@@ -10,14 +10,14 @@
         http://www.springframework.org/schema/context/spring-context.xsd">
 
 	<context:annotation-config />
-	<context:component-scan base-package="com.tastetablet.catalogue" />
+	<context:component-scan base-package="com.inncretech.catalogue" />
 	<import resource="classpath:dao.xml" />
 
 	<bean id="validator"
 		class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean" />
 
 	<bean
-		class="com.tastetablet.catalogue.service.utils.mapper.CatalogueDozerMapper" />
+		class="com.inncretech.catalogue.service.utils.mapper.CatalogueDozerMapper" />
 
 	<bean id="dozerMapper" class="org.dozer.DozerBeanMapper">
 		<property name="mappingFiles">

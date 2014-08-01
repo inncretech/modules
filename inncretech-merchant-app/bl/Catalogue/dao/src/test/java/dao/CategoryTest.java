@@ -9,10 +9,10 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import com.tastetablet.catalogue.db.beans.Category;
-import com.tastetablet.catalogue.db.beans.CategoryRelationship;
-import com.tastetablet.catalogue.db.repository.CategoryRelationshipRepository;
-import com.tastetablet.catalogue.db.repository.CategoryRepository;
+import com.inncretech.catalogue.db.beans.Category;
+import com.inncretech.catalogue.db.beans.CategoryRelationship;
+import com.inncretech.catalogue.db.repository.CategoryRelationshipRepository;
+import com.inncretech.catalogue.db.repository.CategoryRepository;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "classpath:/application-profiles.xml", "classpath:/dao.xml" })

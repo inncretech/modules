@@ -15,7 +15,7 @@
          http://www.springframework.org/schema/data/jpa/spring-jpa.xsd">
 
 	<context:annotation-config />
-	<context:component-scan base-package="com.tastetablet.catalogue.db.beans" />
+	<context:component-scan base-package="com.inncretech.catalogue.db.beans" />
 	<bean
 		class="org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor" />
 	<bean id="catalogueDataSourceWrite" class="com.mchange.v2.c3p0.ComboPooledDataSource"
@@ -47,7 +47,7 @@
 		class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
 		<property name="dataSource" ref="catalogueDataSourceWrite" />
 		<property name="persistenceUnitName" value="cataloguePersistUnitWrite" />
-		<property name="packagesToScan" value="com.tastetablet.catalogue.db.beans" />
+		<property name="packagesToScan" value="com.inncretech.catalogue.db.beans" />
 		<property name="jpaVendorAdapter">
 			<bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">
 				<property name="databasePlatform" value="org.hibernate.dialect.MySQL5Dialect" />
@@ -60,7 +60,7 @@
 
 	<tx:annotation-driven transaction-manager="catalogueTransactionManager" />
 
-	<jpa:repositories base-package="com.tastetablet.catalogue.db.repository"
+	<jpa:repositories base-package="com.inncretech.catalogue.db.repository"
 		entity-manager-factory-ref="catalogueEntityManagerFactoryWrite"
 		transaction-manager-ref="catalogueTransactionManager">
 	</jpa:repositories>

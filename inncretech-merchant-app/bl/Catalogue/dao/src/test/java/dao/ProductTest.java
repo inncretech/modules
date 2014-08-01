@@ -15,14 +15,14 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import com.tastetablet.catalogue.db.beans.Category;
-import com.tastetablet.catalogue.db.beans.Item;
-import com.tastetablet.catalogue.db.beans.Product;
-import com.tastetablet.catalogue.db.beans.ProductCategory;
-import com.tastetablet.catalogue.db.beans.ProductImage;
-import com.tastetablet.catalogue.db.enums.Status;
-import com.tastetablet.catalogue.db.repository.CategoryRepository;
-import com.tastetablet.catalogue.db.repository.ProductRepository;
+import com.inncretech.catalogue.db.beans.Category;
+import com.inncretech.catalogue.db.beans.Item;
+import com.inncretech.catalogue.db.beans.Product;
+import com.inncretech.catalogue.db.beans.ProductCategory;
+import com.inncretech.catalogue.db.beans.ProductImage;
+import com.inncretech.catalogue.db.enums.Status;
+import com.inncretech.catalogue.db.repository.CategoryRepository;
+import com.inncretech.catalogue.db.repository.ProductRepository;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "classpath:/application-profiles.xml", "classpath:/dao.xml" })
@@ -31,17 +31,29 @@ public class ProductTest {
 
 	@Autowired
 	private ProductRepository productRepository;
-	
+
 	@Autowired
 	private CategoryRepository categoryRepository;
 
 	@Transactional
 	@Test
-	public void testGetProduct(){
-//		Product product = productRepository.getOne(90L);
-//		Assert.assertNull(product);
+	public void testGetProductByItemIds() {
+		List<Long> items = new ArrayList<Long>();
+		items.add(1l);
+		List<Product> products = productRepository.findProductByItemsItemIds(items);
+		Assert.assertNotNull(products);
+		for (Product product : products) {
+			System.out.println(product.getTitle());
+		}
 	}
-	
+
+	@Transactional
+	@Test
+	public void testGetProduct() {
+		// Product product = productRepository.getOne(90L);
+		// Assert.assertNull(product);
+	}
+
 	@Transactional
 	@Rollback(false)
 	@Test
@@ -58,17 +70,17 @@ public class ProductTest {
 		product.setTitle("Test Title");
 
 		List<ProductCategory> categoriesProductCategories = new ArrayList<ProductCategory>();
-		
+
 		ProductCategory productCategory = new ProductCategory();
-		
+
 		productCategory.setProduct(product);
 		Category category = categoryRepository.findOne(1);
 		productCategory.setCategory(category);
-		
+
 		categoriesProductCategories.add(productCategory);
-		
+
 		product.setProductCategories(categoriesProductCategories);
-		
+
 		List<ProductImage> productImagesList = new ArrayList<ProductImage>();
 
 		ProductImage defaultProductImage = new ProductImage();
@@ -88,9 +100,9 @@ public class ProductTest {
 		item.setProduct(product);
 		List<Item> itemsList = new ArrayList<Item>();
 		itemsList.add(item);
-		
+
 		product.setItems(itemsList);
-		
+
 		productRepository.save(product);
 
 		Assert.assertNotNull(product);
@@ -101,4 +113,5 @@ public class ProductTest {
 			Assert.assertNotNull(image.getImageId());
 		}
 	}
+
 }

@@ -5,12 +5,12 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.tastetablet.catalogue.dto.ItemDTO;
-import com.tastetablet.catalogue.dto.ProductDTO;
-import com.tastetablet.catalogue.exceptions.InternalServiceException;
-import com.tastetablet.catalogue.exceptions.InvalidArgumentException;
-import com.tastetablet.catalogue.exceptions.ProductNotFoundException;
-import com.tastetablet.catalogue.service.ProductService;
+import com.inncretech.catalogue.dto.ItemDTO;
+import com.inncretech.catalogue.dto.ProductDTO;
+import com.inncretech.catalogue.exceptions.InternalServiceException;
+import com.inncretech.catalogue.exceptions.InvalidArgumentException;
+import com.inncretech.catalogue.exceptions.ProductNotFoundException;
+import com.inncretech.catalogue.service.ProductService;
 
 @Service
 public class CatalogueServiceProxy {

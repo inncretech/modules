@@ -25,10 +25,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.RequestContextHolder;
 
-import com.tastetablet.catalogue.dto.ProductDTO;
-import com.tastetablet.catalogue.exceptions.InternalServiceException;
-import com.tastetablet.catalogue.exceptions.InvalidArgumentException;
-import com.tastetablet.catalogue.exceptions.ProductNotFoundException;
+import com.inncretech.catalogue.dto.ProductDTO;
+import com.inncretech.catalogue.exceptions.InternalServiceException;
+import com.inncretech.catalogue.exceptions.InvalidArgumentException;
+import com.inncretech.catalogue.exceptions.ProductNotFoundException;
 import com.tastetablet.merchant.constants.UrlConstants;
 import com.tastetablet.merchant.mapper.ProdutDataMapper;
 import com.tastetablet.merchant.services.proxy.CatalogueServiceProxy;

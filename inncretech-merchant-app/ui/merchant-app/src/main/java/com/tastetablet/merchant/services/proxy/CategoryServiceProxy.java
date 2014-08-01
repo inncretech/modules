@@ -8,8 +8,8 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.tastetablet.catalogue.dto.CategoryNode;
-import com.tastetablet.catalogue.service.CategoryService;
+import com.inncretech.catalogue.dto.CategoryNode;
+import com.inncretech.catalogue.service.CategoryService;
 import com.tastetablet.merchant.ui.bean.CategoryBean;
 
 @Service
