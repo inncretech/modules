@@ -95,7 +95,7 @@ public class DefaultUserServiceImpl implements UserService {
   }
 
   private void checkTwitterId(String twitterid) {
-    if(twitterid != null) {
+    if(twitterid != null && twitterid.trim().length() > 0) {
       UserLoginLookup userLoginLookup = userLoginLookupDao.getUserLoginLookupByTwitterId(twitterid);
       if (userLoginLookup != null) {
         throw new ApplicationException("INPUT_VALIDATION_FAILED",
