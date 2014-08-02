@@ -29,13 +29,13 @@ public class CatalogueDozerMapper {
 			product.setCreateDate(productDTO.getCreateDate());
 			product.setDescription(productDTO.getDescription());
 			product.setEndDate(productDTO.getEndDate());
-			product.setIsActive(productDTO.getIsActive());
 			product.setMerchantId(productDTO.getMerchantId());
 			product.setOriginCountry(productDTO.getOriginCountry());
 			product.setProductId(productDTO.getProductId());
 			product.setStartDate(productDTO.getStartDate());
 			product.setStatus(Status.valueOf(productDTO.getStatus().toString()));
 			product.setTitle(productDTO.getTitle());
+			product.setProductId(productDTO.getProductId());
 		}
 	}
 
@@ -68,23 +68,27 @@ public class CatalogueDozerMapper {
 		product.setProductImages(productImages);
 	}
 
+	public Item convertItemDTOIntoItem(ItemDTO itemDTO) {
+		Item item = new Item();
+		item.setColor(itemDTO.getColor());
+		item.setHeight(itemDTO.getHeight());
+		item.setTitle(itemDTO.getItemTitle());
+		item.setLength(itemDTO.getLength());
+		item.setMrp(itemDTO.getMrp());
+		item.setQuantity(itemDTO.getQuantity());
+		item.setOfferPrice(itemDTO.getRetailPrice());
+		item.setSku(itemDTO.getSku());
+		item.setWeight(itemDTO.getWeight());
+		item.setWidth(itemDTO.getWidth());
+		item.setIsActive(itemDTO.getIsActive());
+		return item;
+	}
+
 	void mapItemDTOToProduct(ProductDTO productDTO, Product product) {
 		List<Item> items = new ArrayList<Item>();
 		if (productDTO.getItemDTOs() != null && !productDTO.getItemDTOs().isEmpty()) {
 			for (ItemDTO itemDTO : productDTO.getItemDTOs()) {
-				Item item = new Item();
-				item.setProduct(product);
-				item.setColor(itemDTO.getColor());
-				item.setHeight(itemDTO.getHeight());
-				item.setTitle(itemDTO.getItemTitle());
-				item.setLength(itemDTO.getLength());
-				item.setMrp(itemDTO.getMrp());
-				item.setQuantity(itemDTO.getQuantity());
-				item.setOfferPrice(itemDTO.getRetailPrice());
-				item.setSku(itemDTO.getSku());
-				item.setWeight(itemDTO.getWeight());
-				item.setWidth(itemDTO.getWidth());
-				item.setIsActive(itemDTO.getIsActive());
+				Item item = convertItemDTOIntoItem(itemDTO);
 				item.setProduct(product);
 				items.add(item);
 			}
@@ -97,7 +101,6 @@ public class CatalogueDozerMapper {
 			productDTO.setCreateDate(product.getCreateDate());
 			productDTO.setDescription(product.getDescription());
 			productDTO.setEndDate(product.getEndDate());
-			productDTO.setIsActive(product.getIsActive());
 			productDTO.setMerchantId(product.getMerchantId());
 			productDTO.setOriginCountry(product.getOriginCountry());
 			productDTO.setProductId(product.getProductId());
@@ -107,24 +110,28 @@ public class CatalogueDozerMapper {
 		}
 	}
 
+	public ItemDTO convertItemIntoItemDTO(Item item) {
+		ItemDTO itemDTO = new ItemDTO();
+		itemDTO.setItemId(item.getItemId());
+		itemDTO.setColor(item.getColor());
+		itemDTO.setHeight(item.getHeight());
+		itemDTO.setItemTitle(item.getTitle());
+		itemDTO.setLength(item.getLength());
+		itemDTO.setMrp(item.getMrp());
+		itemDTO.setQuantity(item.getQuantity());
+		itemDTO.setRetailPrice(item.getOfferPrice());
+		itemDTO.setSku(item.getSku());
+		itemDTO.setWeight(item.getWeight());
+		itemDTO.setIsActive(item.getIsActive());
+		itemDTO.setWidth(item.getWidth());
+		return itemDTO;
+	}
+
 	List<ItemDTO> convertItemToItemDTO(Product product) {
 		List<ItemDTO> itemDTOs = new ArrayList<ItemDTO>();
 		if (product.getItems() != null && !product.getItems().isEmpty()) {
 			for (Item item : product.getItems()) {
-				ItemDTO itemDTO = new ItemDTO();
-				itemDTO.setItemId(item.getItemId());
-				itemDTO.setColor(item.getColor());
-				itemDTO.setHeight(item.getHeight());
-				itemDTO.setItemTitle(item.getTitle());
-				itemDTO.setLength(item.getLength());
-				itemDTO.setMrp(item.getMrp());
-				itemDTO.setQuantity(item.getQuantity());
-				itemDTO.setRetailPrice(item.getOfferPrice());
-				itemDTO.setSku(item.getSku());
-				itemDTO.setWeight(item.getWeight());
-				itemDTO.setIsActive(item.getIsActive());
-				itemDTO.setWidth(item.getWidth());
-				itemDTOs.add(itemDTO);
+				itemDTOs.add(convertItemIntoItemDTO(item));
 			}
 		}
 		return itemDTOs;

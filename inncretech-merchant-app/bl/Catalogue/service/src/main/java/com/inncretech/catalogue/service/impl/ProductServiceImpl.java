@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import com.inncretech.catalogue.db.beans.Item;
 import com.inncretech.catalogue.db.beans.Product;
+import com.inncretech.catalogue.db.enums.Status;
 import com.inncretech.catalogue.db.repository.ItemRepository;
 import com.inncretech.catalogue.db.repository.ProductRepository;
 import com.inncretech.catalogue.dto.ItemDTO;
@@ -40,43 +41,35 @@ public class ProductServiceImpl implements ProductService {
 	@Autowired
 	private CatalogueDozerMapper mapper;
 
-	@Override
 	@Transactional
+	@Override
 	public ProductDTO addProduct(ProductDTO productDTO) throws InvalidArgumentException, InternalServiceException {
 
-		validator.doValidate(productDTO);
+		validator.doValidateProductDTO(productDTO);
 		Product product = new Product();
 		mapper.mapProductDTOToProduct(productDTO, product);
-		try {
+		try {System.out.println("product.getProductId() >>>>>>" + product.getProductId());
 			productRepository.save(product);
 		} catch (Exception exception) {
 			throw new InternalServiceException();
-		}
+		}System.out.println("product.getProductId() >>>>>>" + productDTO.getProductId());
 		ProductDTO resultProductDTO = new ProductDTO();
 		mapper.mapProductToProductDTO(product, resultProductDTO);
 		return resultProductDTO;
 	}
 
-	@Override
 	@Transactional
+	@Override
 	public ProductDTO getProductByProductId(Long productId) throws InvalidArgumentException, ProductNotFoundException,
 			InternalServiceException {
-		validator.doValidateProductId(productId);
-		Product product = null;
-		try {
-			product = productRepository.getOne(productId);
-		} catch (EntityNotFoundException entityNotFoundException) {
-			throw new ProductNotFoundException();
-		} catch (Exception exception) {
-			throw new InternalServiceException();
-		}
+		Product product = getProductDBModelByProductId(productId);
 		ProductDTO productDTO = new ProductDTO();
 		mapper.mapProductToProductDTO(product, productDTO);
 		return productDTO;
 	}
 
-	@Override
 	@Transactional
+	@Override
 	public List<ProductDTO> getActiveProducts(int limit, int offset) throws InvalidArgumentException,
 			InternalServiceException {
 		List<ProductDTO> productList = new ArrayList<ProductDTO>();
@@ -92,46 +85,89 @@ public class ProductServiceImpl implements ProductService {
 		return productList;
 	}
 
-	@Override
 	@Transactional
+	@Override
 	public ProductDTO updateProduct(ProductDTO productDTO) throws InvalidArgumentException, ProductNotFoundException,
 			InternalServiceException {
+		validator.doValidateProductDTO(productDTO);
+		// Product product = new Product();
+		// mapper.mapProductDTOToProduct(productDTO, product);
+		//
 		return null;
 	}
 
+	@Transactional
 	@Override
 	public ProductDTO addItemToProduct(Long productId, ItemDTO itemDTO) throws InvalidArgumentException,
 			ProductNotFoundException, InternalServiceException {
-		return null;
+		validator.doValidateItemDTO(itemDTO);
+		Product product = getProductDBModelByProductId(productId);
+		Item item = mapper.convertItemDTOIntoItem(itemDTO);
+		item.setProduct(product);
+		product.getItems().add(item);
+		ProductDTO productDTO = new ProductDTO();
+		mapper.mapProductToProductDTO(product, productDTO);
+		return productDTO;
 	}
 
-	@Override
 	@Transactional
+	@Override
 	public void deleteItems(List<Long> itemIds) throws InvalidArgumentException, InternalServiceException {
-		validator.doValidateItemList(itemIds);
+		validator.doValidateListOfLong(itemIds);
 		try {
-			List<Item> items = itemRepository.findByItemIds(itemIds);
-			for (Item item : items) {
-				item.setIsActive(false);
-			}
+			itemRepository.deleteItemsByItemIds(itemIds);
 		} catch (Exception exception) {
 			throw new InternalServiceException();
 		}
 	}
 
+	@Transactional
 	@Override
 	public void markProductsInActive(List<Long> productIds) throws InvalidArgumentException, InternalServiceException {
-		// TODO Auto-generated method stub
+		setProductsStatus(Status.INACTIVE, productIds);
 	}
 
+	@Transactional
 	@Override
 	public void markProductsActive(List<Long> productIds) throws InvalidArgumentException, InternalServiceException {
-		// TODO Auto-generated method stub
+		setProductsStatus(Status.ACTIVE, productIds);
 	}
 
 	@Override
 	public void markProductsDeleted(List<Long> productIds) throws InvalidArgumentException, InternalServiceException {
-		// TODO Auto-generated method stub
+		validator.doValidateListOfLong(productIds);
+		try {
+			productRepository.markProductDeletedByProductIds(productIds);
+		} catch (Exception exception) {
+			throw new InternalServiceException();
+		}
 	}
 
+	void setProductsStatus(Status status, List<Long> productIds) throws InvalidArgumentException,
+			InternalServiceException {
+		validator.doValidateListOfLong(productIds);
+		Iterable<Product> iterable = null;
+		try {
+			iterable = productRepository.findAll(productIds);
+		} catch (Exception exception) {
+			throw new InternalServiceException();
+		}
+		Iterator<Product> iterator = iterable.iterator();
+		while (iterator.hasNext()) {
+			Product product = iterator.next();
+			product.setStatus(status);
+		}
+	}
+
+	Product getProductDBModelByProductId(Long productId) throws InvalidArgumentException, ProductNotFoundException,
+			InternalServiceException {
+		validator.doValidateProductId(productId);
+		try {
+			return productRepository.getOne(productId);
+		} catch (EntityNotFoundException entityNotFoundException) {
+			throw new ProductNotFoundException();
+		} catch (Exception exception) {
+			throw new InternalServiceException();
+		}
+	}
 }

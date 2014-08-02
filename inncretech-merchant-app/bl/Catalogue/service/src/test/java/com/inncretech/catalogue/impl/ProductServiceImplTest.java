@@ -36,7 +36,7 @@ public class ProductServiceImplTest {
 
 	@Autowired
 	ProductRepository productRepository;
-	
+
 	@Test
 	@Transactional
 	@Rollback(false)
@@ -50,7 +50,6 @@ public class ProductServiceImplTest {
 		productDTO.setMerchantId(12l);
 		productDTO.setStartDate(new Date());
 		productDTO.setTitle("Title");
-		productDTO.setIsActive(true);
 		productDTO.setStatus(Status.ACTIVE);
 
 		List<Integer> categoriesList = new ArrayList<Integer>();
@@ -100,11 +99,57 @@ public class ProductServiceImplTest {
 	public void getProductByProductId() throws InvalidArgumentException, ProductNotFoundException,
 			InternalServiceException {
 		productRepository.findOne(1l);
-		//Assert.assertNotNull(productService.getProductByProductId(1l));
+		// Assert.assertNotNull(productService.getProductByProductId(1l));
 	}
 
 	@Test
 	public void getAllProduct() throws InvalidArgumentException, ProductNotFoundException, InternalServiceException {
 		productService.getActiveProducts(1, 10);
 	}
+
+	@Test
+	@Transactional
+	@Rollback(false)
+	public void testDeleteItems() {
+		List<Long> itemIds = new ArrayList<Long>();
+		itemIds.add(2l);
+		try {
+			productService.deleteItems(itemIds);
+		} catch (InvalidArgumentException e) {
+			Assert.fail(e.getMessage());
+		} catch (InternalServiceException e) {
+			Assert.fail(e.getMessage());
+		}
+	}
+	
+	@Test
+	@Transactional
+	@Rollback(false)
+	public void testInavtiveProducts() {
+		List<Long> productIds = new ArrayList<Long>();
+		productIds.add(1l);
+		try {
+			productService.markProductsInActive(productIds);
+		} catch (InvalidArgumentException e) {
+			Assert.fail(e.getMessage());
+		} catch (InternalServiceException e) {
+			Assert.fail(e.getMessage());
+		}
+	}
+	
+	@Test
+	@Transactional
+	@Rollback(false)
+	public void testAvtiveProducts() {
+		List<Long> productIds = new ArrayList<Long>();
+		productIds.add(2l);
+		try {
+			productService.markProductsActive(productIds);
+		} catch (InvalidArgumentException e) {
+			Assert.fail(e.getMessage());
+		} catch (InternalServiceException e) {
+			Assert.fail(e.getMessage());
+		}
+	}
+	
 }

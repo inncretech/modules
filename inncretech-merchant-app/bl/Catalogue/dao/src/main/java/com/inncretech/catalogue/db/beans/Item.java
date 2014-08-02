@@ -13,6 +13,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.Type;
+
 /**
  * The persistent class for the item database table.
  * 
@@ -34,6 +36,7 @@ public class Item implements Serializable {
 	@Column(name = "height")
 	private Double height;
 
+	@Type(type = "org.hibernate.type.NumericBooleanType")
 	@Column(name = "is_active")
 	private Boolean isActive;
 

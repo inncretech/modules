@@ -61,10 +61,8 @@ public class ProductTest {
 		Product product = new Product();
 		product.setDescription("Test id Description");
 		product.setEndDate(new Date());
-		product.setIsActive(true);
 		product.setMerchantId(1l);
 		product.setOriginCountry(1);
-		product.setIsActive(true);
 		product.setStartDate(new Date());
 		product.setStatus(Status.ACTIVE);
 		product.setTitle("Test Title");
@@ -97,6 +95,7 @@ public class ProductTest {
 
 		Item item = new Item();
 		item.setColor("red");
+		item.setIsActive(true);
 		item.setProduct(product);
 		List<Item> itemsList = new ArrayList<Item>();
 		itemsList.add(item);

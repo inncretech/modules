@@ -15,6 +15,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
+import javax.persistence.PrePersist;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -46,8 +47,8 @@ public class Product extends BaseEntity implements Serializable {
 	private Date endDate;
 
 	@Type(type = "org.hibernate.type.NumericBooleanType")
-	@Column(name = "is_active")
-	private Boolean isActive;
+	@Column(name = "is_deleted")
+	private Boolean isDeleted;
 
 	@Column(name = "merchant_id")
 	private Long merchantId;
@@ -109,12 +110,12 @@ public class Product extends BaseEntity implements Serializable {
 		this.endDate = endDate;
 	}
 
-	public Boolean getIsActive() {
-		return isActive;
+	public Boolean getIsDeleted() {
+		return isDeleted;
 	}
 
-	public void setIsActive(Boolean isActive) {
-		this.isActive = isActive;
+	public void setIsDeleted(Boolean isDeleted) {
+		this.isDeleted = isDeleted;
 	}
 
 	public Long getMerchantId() {
@@ -173,12 +174,17 @@ public class Product extends BaseEntity implements Serializable {
 		this.productImages = productImages;
 	}
 
+	@PrePersist
+	protected void onCreate() {
+		super.onCreate();
+		isDeleted = false;
+	}
+
 	@Override
 	public String toString() {
 		return "Product [productId=" + productId + ", description=" + description + ", endDate=" + endDate
-				+ ", isActive=" + isActive + ", merchantId=" + merchantId + ", originCountry=" + originCountry
-				+ ", startDate=" + startDate + ", status=" + status + ", title=" + title + ", itemsList=" + items
-				+ ", productCategories=" + productCategories + ", productImages=" + productImages + "]";
+				+ ", isDeleted=" + isDeleted + ", merchantId=" + merchantId + ", originCountry=" + originCountry
+				+ ", startDate=" + startDate + ", status=" + status + ", title=" + title + ", items=" + items
+				+ ", productImages=" + productImages + ", productCategories=" + productCategories + "]";
 	}
-
 }

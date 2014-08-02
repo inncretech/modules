@@ -43,7 +43,7 @@ public class ProductItemValidatorTest {
 		List<String> errorCodes = null;
 
 		try {
-			productValidator.doValidate(productDTO);
+			productValidator.doValidateProductDTO(productDTO);
 		} catch (InvalidArgumentException e) {
 			errorCodes = e.getErrorCodes();
 		}
@@ -73,7 +73,7 @@ public class ProductItemValidatorTest {
 		productDTO.setImageDTOs(imageDTOList);
 		
 		try {
-			productValidator.doValidate(productDTO);
+			productValidator.doValidateProductDTO(productDTO);
 		} catch (InvalidArgumentException e) {
 			errorCodes = e.getErrorCodes();
 		}
@@ -97,7 +97,7 @@ public class ProductItemValidatorTest {
 		itemDTOList.add(itemDTO);
 		productDTO.setItemDTOs(itemDTOList);
 		try {
-			productValidator.doValidate(productDTO);
+			productValidator.doValidateProductDTO(productDTO);
 		} catch (InvalidArgumentException e) {
 			errorCodes = e.getErrorCodes();
 		}

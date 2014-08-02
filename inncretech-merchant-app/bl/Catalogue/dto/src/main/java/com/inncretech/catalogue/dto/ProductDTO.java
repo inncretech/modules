@@ -28,8 +28,6 @@ public class ProductDTO implements Serializable {
 	@NotNull(message = "end date is null")
 	private Date endDate;
 
-	private Boolean isActive;
-
 	@NotNull(message = "merchant id is null")
 	private Long merchantId;
 
@@ -86,14 +84,6 @@ public class ProductDTO implements Serializable {
 
 	public void setEndDate(Date endDate) {
 		this.endDate = endDate;
-	}
-
-	public Boolean getIsActive() {
-		return isActive;
-	}
-
-	public void setIsActive(Boolean isActive) {
-		this.isActive = isActive;
 	}
 
 	public Long getMerchantId() {
@@ -163,9 +153,9 @@ public class ProductDTO implements Serializable {
 	@Override
 	public String toString() {
 		return "ProductDTO [productId=" + productId + ", description=" + description + ", createDate=" + createDate
-				+ ", endDate=" + endDate + ", isActive=" + isActive + ", merchantId=" + merchantId + ", originCountry="
-				+ originCountry + ", startDate=" + startDate + ", status=" + status + ", title=" + title
-				+ ", itemDTOs=" + itemDTOs + ", categoryIds=" + categoryIds + ", imageDTOs=" + imageDTOs + "]";
+				+ ", endDate=" + endDate + ", merchantId=" + merchantId + ", originCountry=" + originCountry
+				+ ", startDate=" + startDate + ", status=" + status + ", title=" + title + ", itemDTOs=" + itemDTOs
+				+ ", categoryIds=" + categoryIds + ", imageDTOs=" + imageDTOs + "]";
 	}
 
 }
