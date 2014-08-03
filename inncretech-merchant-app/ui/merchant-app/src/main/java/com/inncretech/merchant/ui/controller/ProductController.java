@@ -92,7 +92,7 @@ public class ProductController {
 	@RequestMapping(value = UrlConstants.EDIt_PRODUCT_PAGE, method = { RequestMethod.POST })
 	public String editProduct(@Valid @ModelAttribute("productBean") ProductBean productBean,
 			final BindingResult bindingResult, Model model, final @PathVariable("productId") Long productId) {
-		String redirectURL = null;
+		String redirectURL = UrlConstants.ADD_PRODUCT_PAGE;
 		RequestAttributes requestAttributes = RequestContextHolder.currentRequestAttributes();
 		ProductDTO productDTO = null;
 

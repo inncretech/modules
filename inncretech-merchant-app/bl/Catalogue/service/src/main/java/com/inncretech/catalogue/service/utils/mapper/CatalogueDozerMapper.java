@@ -70,6 +70,7 @@ public class CatalogueDozerMapper {
 
 	public Item convertItemDTOIntoItem(ItemDTO itemDTO) {
 		Item item = new Item();
+		item.setItemId(itemDTO.getItemId());
 		item.setColor(itemDTO.getColor());
 		item.setHeight(itemDTO.getHeight());
 		item.setTitle(itemDTO.getItemTitle());

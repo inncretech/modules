@@ -5,14 +5,8 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring"%>
-<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
-<%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
-<%@ taglib uri="http://www.springframework.org/tags" prefix="spring"%>
 <html lang="en">
 <jsp:include page="header.jsp" />
-<script type="text/javascript"
-	src="<c:url value="/resources/js/categorytreecreation.js"/>"></script>
 <body>
 	<div class="container">
 		<jsp:include page="topNav.jsp" />
@@ -29,9 +23,6 @@
 					</div>
 				</div>
 
-
-
-
 				<div class="control-group">
 					<label for="description" class="control-label">Product
 						Description</label>
@@ -42,66 +33,6 @@
 					</div>
 				</div>
 
-				<div class="control-group">
-					<label for="price" class="control-label">Price</label>
-					<div class="input-append" style="padding-left: 20px;">
-						<form:input path="priceBean.mrp" placeholder="Enter Retail Price"
-							required="true" autocomplete="off"
-							title="Please Enter Retail Price" cssClass="input-large" type="number"/>
-					</div>
-					<div class="input-append">
-						<form:input path="priceBean.sellingPrice"
-							placeholder="Enter Selling Price" required="true"
-							autocomplete="off" title="Please Enter Selling Price"
-							cssClass="input-large" type="number"/>
-					</div>
-				</div>
-
-				<div class="control-group">
-					<label for="stock.quantity" class="control-label">Stock
-						Quantity</label>
-					<div class="controls">
-						<form:input path="stock.quantity" placeholder="Product Quantity"
-							required="true" autocomplete="off" title="Please Enter Quantity"
-							cssClass="span2" type="number"/>
-					</div>
-				</div>
-
-				<div class="control-group">
-					<label for="sku" class="control-label">SKU or ProductID</label>
-					<div class="controls">
-						<form:input path="sku" placeholder="Enter SKU" required="true"
-							autocomplete="off" title="Please Enter SKU" cssClass="span2" />
-					</div>
-				</div>
-
-				<div class="control-group">
-					<label for="weight" class="control-label">Dimension &
-						Weight </label>
-					<div class="input-append" style="padding-left: 20px;">
-						<form:input path="dimensionsAndWeight.weight"
-							placeholder="Enter Weight" required="true" autocomplete="off"
-							title="Please Enter Product Weight" cssClass="input-small" type="number"/>
-					</div>
-
-					<div class="input-append">
-						<form:input path="dimensionsAndWeight.width"
-							placeholder="Enter Width" required="true" autocomplete="off"
-							title="Please Enter Product Width" cssClass="input-small" type="number"/>
-					</div>
-
-					<div class="input-append">
-						<form:input path="dimensionsAndWeight.length"
-							placeholder="Enter Length" required="true" autocomplete="off"
-							title="Please Enter Product Length" cssClass="input-small" type="number"/>
-					</div>
-
-					<div class="input-append">
-						<form:input path="dimensionsAndWeight.height"
-							placeholder="Enter Height" required="true" autocomplete="off"
-							title="Please Enter Product Height" cssClass="input-small" type="number"/>
-					</div>
-				</div>
 
 				<div class="control-group">
 					<label class="control-label" for="startDateFrom">Start
@@ -143,6 +74,7 @@
 						</form:select>
 					</div>
 				</div>
+				<c:import url="item.jsp" />
 				<div class="control-group">
 					<div class="controls">
 						<button type="submit" class="btn btn-primary" id="select_all">Submit</button>
@@ -154,6 +86,26 @@
 
 	</div>
 	<script type="text/javascript">
+		function rowAdded(rowElement) {
+			$(rowElement).find("input").val('');
+		}
+		function rowRemoved(rowElement) {
+		}
+		
+		$(document).ready(function() {
+			//comobo box
+		   	var config = {
+			rowClass : 'itemClass',
+		   	addRowId : 'addItems',
+		  	removeRowClass : 'removeItem',
+		  	formId : 'productBean',
+		  	rowContainerId : 'itemsContainer',
+		   	indexedPropertyName : 'items',
+		   	indexedPropertyMemberNames : 'title,priceBean.mrp,priceBean.sellingPrice,sku,stock.quantity,dimensionsAndWeight.weight,dimensionsAndWeight.length,dimensionsAndWeight.width,dimensionsAndWeight.height',
+			rowAddedListener : rowAdded,
+		 };
+		    new DynamicListHelper(config);
+		});
 		$(document)
 				.ready(
 						function() {

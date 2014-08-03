@@ -44,8 +44,6 @@ public class ProdutDataMapper {
 
 		productDTO.setStartDate(productBean.getStartDate());
 		productDTO.setEndDate(productBean.getEndDate());
-
-		productDTO.setIsActive(true);
 		productDTO.setStatus(Status.ACTIVE);
 		productDTO.setCreateDate(new Date());
 		productDTO.setOriginCountry(productBean.getOriginCountry().getCountryId());
@@ -60,20 +58,21 @@ public class ProdutDataMapper {
 
 		List<ItemDTO> itemDTOs = new ArrayList<ItemDTO>();
 		if (productBean.getItems() != null && !productBean.getItems().isEmpty()) {
-			// TODO
-		} else {
-			ItemDTO itemDTO = new ItemDTO();
-			itemDTO.setItemTitle(productBean.getTitle());
-			itemDTO.setHeight(productBean.getDimensionsAndWeight().getHeight());
-			itemDTO.setWeight(productBean.getDimensionsAndWeight().getWeight());
-			itemDTO.setWidth(productBean.getDimensionsAndWeight().getWidth());
-			itemDTO.setLength(productBean.getDimensionsAndWeight().getLength());
-			itemDTO.setMrp(productBean.getPriceBean().getMrp());
-			itemDTO.setRetailPrice(productBean.getPriceBean().getSellingPrice());
-			itemDTO.setSku(productBean.getSku());
-			itemDTO.setQuantity(productBean.getStock().getQuantity());
-			itemDTO.setIsActive(true);
-			itemDTOs.add(itemDTO);
+			for (ItemBean itemBean : productBean.getItems()) {
+				ItemDTO itemDTO = new ItemDTO();
+				itemDTO.setItemId(itemBean.getItemId());
+				itemDTO.setItemTitle(itemBean.getTitle());
+				itemDTO.setHeight(itemBean.getDimensionsAndWeight().getHeight());
+				itemDTO.setWeight(itemBean.getDimensionsAndWeight().getWeight());
+				itemDTO.setWidth(itemBean.getDimensionsAndWeight().getWidth());
+				itemDTO.setLength(itemBean.getDimensionsAndWeight().getLength());
+				itemDTO.setMrp(itemBean.getPriceBean().getMrp());
+				itemDTO.setRetailPrice(itemBean.getPriceBean().getSellingPrice());
+				itemDTO.setSku(itemBean.getSku());
+				itemDTO.setQuantity(itemBean.getStock().getQuantity());
+				itemDTO.setIsActive(true);
+				itemDTOs.add(itemDTO);
+			}
 		}
 		List<ImageDTO> imageDTOs = new ArrayList<ImageDTO>();
 		ImageDTO imageDTO = new ImageDTO();
@@ -120,9 +119,9 @@ public class ProdutDataMapper {
 
 		if (productDTO.getItemDTOs() != null && !productDTO.getItemDTOs().isEmpty()) {
 			List<ItemBean> items = new ArrayList<ItemBean>();
-			populateProductDefaultDimesionandWeight(productBean, productDTO.getItemDTOs().get(0));
 			for (ItemDTO itemDTO : productDTO.getItemDTOs()) {
 				ItemBean itemBean = new ItemBean();
+				itemBean.setItemId(itemDTO.getItemId());
 				itemBean.setTitle(itemDTO.getItemTitle());
 				itemBean.getDimensionsAndWeight().setHeight(itemDTO.getHeight());
 				itemBean.getDimensionsAndWeight().setWeight(itemDTO.getWeight());
@@ -135,25 +134,10 @@ public class ProdutDataMapper {
 				items.add(itemBean);
 			}
 			productBean.setItems(items);
-		} else {
-
-		}
-		productBean.setMerchantId(1l);
+		} 
+		productBean.setMerchantId(productDTO.getMerchantId());
 
 		return productBean;
-	}
-
-	private static void populateProductDefaultDimesionandWeight(ProductBean productBean, ItemDTO itemDTO) {
-		productBean.getDimensionsAndWeight().setHeight(itemDTO.getHeight());
-		productBean.getDimensionsAndWeight().setWeight(itemDTO.getWeight());
-		productBean.getDimensionsAndWeight().setWidth(itemDTO.getWidth());
-		productBean.getDimensionsAndWeight().setLength(itemDTO.getLength());
-		productBean.getPriceBean().setMrp(itemDTO.getMrp());
-		productBean.getPriceBean().setSellingPrice(itemDTO.getRetailPrice());
-		productBean.setSku(itemDTO.getSku());
-
-		productBean.getStock().setQuantity(itemDTO.getQuantity());
-
 	}
 
 }

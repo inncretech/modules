@@ -43,18 +43,9 @@ public class ProductBean implements Serializable {
 
 	private List<ItemBean> items = new ArrayList<ItemBean>();
 
-	@Valid
-	private PriceBean priceBean = new PriceBean();
-
-	private DimensionsAndWeight dimensionsAndWeight = new DimensionsAndWeight();
-
-	private String sku;
-
 	@NotNull(message = "Min one category need to be selected")
 	@Size(min = 1, message = "Min one category need to be selected")
 	private List<Integer> categoryIds;
-
-	private Stock stock=new Stock();
 
 	@NotNull(message = "product title is null")
 	@Size(min = 5, max = 100, message = "product title should be min 5 and max 100 chars")
@@ -159,54 +150,12 @@ public class ProductBean implements Serializable {
 		this.items = items;
 	}
 
-	public PriceBean getPriceBean() {
-		return priceBean;
-	}
-
-	public void setPriceBean(PriceBean priceBean) {
-		this.priceBean = priceBean;
-	}
-
-	public DimensionsAndWeight getDimensionsAndWeight() {
-		return dimensionsAndWeight;
-	}
-
-	public void setDimensionsAndWeight(DimensionsAndWeight dimensionsAndWeight) {
-		this.dimensionsAndWeight = dimensionsAndWeight;
-	}
-
-	public String getSku() {
-		return sku;
-	}
-
-	public void setSku(String sku) {
-		this.sku = sku;
-	}
-
-	public Stock getStock() {
-		return stock;
-	}
-
-	public void setStock(Stock stock) {
-		this.stock = stock;
-	}
-
 	public Map<Integer, List<CategoryBean>> getCategoryIdToCategoryBeanList() {
 		return categoryIdToCategoryBeanList;
 	}
 
 	public void setCategoryIdToCategoryBeanList(Map<Integer, List<CategoryBean>> categoryIdToCategoryBeanList) {
 		this.categoryIdToCategoryBeanList = categoryIdToCategoryBeanList;
-	}
-
-	@Override
-	public String toString() {
-		return "ProductBean [productId=" + productId + ", description=" + description + ", createDate=" + createDate
-				+ ", endDate=" + endDate + ", isActive=" + isActive + ", merchantId=" + merchantId + ", originCountry="
-				+ originCountry + ", startDate=" + startDate + ", status=" + status + ", items=" + items
-				+ ", priceBean=" + priceBean + ", dimensionsAndWeight=" + dimensionsAndWeight + ", sku=" + sku
-				+ ", categoryIds=" + categoryIds + ", stock=" + stock + ", title=" + title + ", categoryIdToCategoryBeanList="
-				+ categoryIdToCategoryBeanList + "]";
 	}
 
 }

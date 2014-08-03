@@ -42,21 +42,20 @@ public class CatalogueServiceProxy {
 		return productService.addItemToProduct(productId, itemDTO);
 	}
 
-	public Boolean deleteItems(List<Long> itemIds) throws InvalidArgumentException, InternalServiceException {
-		return productService.deleteItems(itemIds);
+	public void deleteItems(List<Long> itemIds) throws InvalidArgumentException, InternalServiceException {
+		productService.deleteItems(itemIds);
 	}
 
-	public Boolean markProductsInActive(List<Long> productIds) throws InvalidArgumentException,
-			InternalServiceException {
-		return productService.markProductsInActive(productIds);
+	public void markProductsInActive(List<Long> productIds) throws InvalidArgumentException, InternalServiceException {
+		productService.markProductsInActive(productIds);
 	}
 
-	public Boolean markProductsActive(List<Long> productIds) throws InvalidArgumentException, InternalServiceException {
-		return productService.markProductsActive(productIds);
+	public void markProductsActive(List<Long> productIds) throws InvalidArgumentException, InternalServiceException {
+		productService.markProductsActive(productIds);
 	}
 
-	public Boolean markProductsDeleted(List<Long> productIds) throws InvalidArgumentException, InternalServiceException {
-		return productService.markProductsDeleted(productIds);
+	public void markProductsDeleted(List<Long> productIds) throws InvalidArgumentException, InternalServiceException {
+		productService.markProductsDeleted(productIds);
 	}
 
 }

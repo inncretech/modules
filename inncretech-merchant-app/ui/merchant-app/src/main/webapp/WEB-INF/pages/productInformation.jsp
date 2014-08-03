@@ -68,7 +68,7 @@
 					
 					<tr>
 						<td>Product Stock Quantity</td>
-						<td>${productBean.stock.quantity}</td>
+						<td>${productBean.items[0].stock.quantity}</td>
 					</tr>
 
 

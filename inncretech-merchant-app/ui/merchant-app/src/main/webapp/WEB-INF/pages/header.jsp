@@ -22,7 +22,7 @@
 	rel="stylesheet" type="text/css" />
 <link rel="stylesheet"
 	href="<c:url value="/resources/css/bootstrap.css"/>" type="text/css">
-	<link rel="stylesheet"
+<link rel="stylesheet"
 	href="<c:url value="/resources/css/datepicker.css"/>" type="text/css">
 
 
@@ -38,7 +38,7 @@
 	src="<c:url value="/resources/js/jquery.dataTables.js"/>"></script>
 <script type="text/javascript"
 	src="<c:url value="/resources/js/bootstrap-combobox.js"/>"></script>
-	<script type="text/javascript"
+<script type="text/javascript"
 	src="<c:url value="/resources/js/bootstrap-datepicker.js"/>"></script>
 
 
@@ -55,5 +55,6 @@
 	src="<c:url value="/resources/js/jquery.form.js"/>"></script>
 <script type="text/javascript"
 	src="<c:url value="/resources/js/bootstrap-button.js"/>"></script>
-
+<script type="text/javascript"
+	src="<c:url value="/resources/js/categorytreecreation.js"/>"></script>
 </head>

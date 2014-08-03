@@ -98,16 +98,16 @@ function DynamicListHelper(config) {
 
 	function prepFormForSubmit() {
 		var memberArray = config.indexedPropertyMemberNames.split(',');
-		
 		for ( var i in memberArray) {
-			var className = '.DynamicListHelper_' + $.trim(memberArray[i]);
+			var className = '.DynamicListHelper_' + $.trim(memberArray[i].replace(".","\\."));
 			var index = 0;
 			$(className).each(
 					function() {
+						console.log($(this));
 						$(this).attr(
 								'name',
 								config.indexedPropertyName + "[" + index + "]."
-										+ $.trim(memberArray[i]));
+										+ $.trim(memberArray[i].replace("\\.",".")));
 						index++;
 					});
 		}
