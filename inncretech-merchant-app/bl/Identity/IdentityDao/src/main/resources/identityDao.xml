@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:jpa="http://www.springframework.org/schema/data/jpa"
+	xsi:schemaLocation="
+		http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/tx
+		http://www.springframework.org/schema/tx/spring-tx.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context.xsd
+        http://www.springframework.org/schema/aop 
+        http://www.springframework.org/schema/aop/spring-aop.xsd http://www.springframework.org/schema/data/jpa
+         http://www.springframework.org/schema/data/jpa/spring-jpa.xsd">
+
+	<context:annotation-config />
+
+	<bean
+		class="org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor" />
+
+	<bean id="identityDataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource"
+		destroy-method="close">
+		<property name="driverClass" value="${driverClass}" />
+		<property name="jdbcUrl" value="${identity.jdbcUrl}" />
+		<property name="user" value="${identity.user}" />
+		<property name="password" value="${identity.password}" />
+		<property name="initialPoolSize" value="${identity.initialPoolSize}" />
+		<property name="minPoolSize" value="${identity.minPoolSize}" />
+		<property name="maxPoolSize" value="${identity.maxPoolSize}" />
+		<property name="acquireIncrement" value="${identity.acquireIncrement}" />
+		<property name="maxIdleTime" value="${identity.maxIdleTime}" />
+
+		<!-- Recovery from DB outage -->
+		<property name="testConnectionOnCheckin" value="${identity.testConnectionOnCheckin}" />
+		<property name="acquireRetryAttempts" value="${identity.acquireRetryAttempts}" />
+		<property name="acquireRetryDelay" value="${identity.acquireRetryDelay}" />
+		<property name="idleConnectionTestPeriod" value="${identity.idleConnectionTestPeriod}" />
+		<property name="preferredTestQuery" value="select 1" />
+		<property name="maxStatementsPerConnection" value="${identity.maxStatementsPerConnection}" />
+
+	</bean>
+
+
+
+	<bean id="identityEntityManagerFactory"
+		class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+		<property name="dataSource" ref="identityDataSource" />
+		<property name="persistenceUnitName" value="identityPersistUnit" />
+		<property name="packagesToScan" value="com.inncretech.identity.db.beans" />
+		<property name="jpaVendorAdapter">
+			<bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">
+				<property name="databasePlatform" value="org.hibernate.dialect.MySQL5Dialect" />
+				<property name="showSql" value="true"></property>
+				<property name="generateDdl" value="true" />
+			</bean>
+		</property>
+	</bean>
+
+
+	<tx:annotation-driven transaction-manager="identityTransactionManager" />
+
+	<jpa:repositories base-package="com.inncretech.identity.db.repository"
+		entity-manager-factory-ref="identityEntityManagerFactory"
+		transaction-manager-ref="identityTransactionManager">
+	</jpa:repositories>
+
+	<bean id="identityTransactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
+		<property name="entityManagerFactory" ref="identityEntityManagerFactory" />
+	</bean>
+</beans>

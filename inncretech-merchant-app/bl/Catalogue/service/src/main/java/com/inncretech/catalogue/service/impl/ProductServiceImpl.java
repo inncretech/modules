@@ -48,11 +48,11 @@ public class ProductServiceImpl implements ProductService {
 		validator.doValidateProductDTO(productDTO);
 		Product product = new Product();
 		mapper.mapProductDTOToProduct(productDTO, product);
-		try {System.out.println("product.getProductId() >>>>>>" + product.getProductId());
+		try {
 			productRepository.save(product);
 		} catch (Exception exception) {
 			throw new InternalServiceException();
-		}System.out.println("product.getProductId() >>>>>>" + productDTO.getProductId());
+		}
 		ProductDTO resultProductDTO = new ProductDTO();
 		mapper.mapProductToProductDTO(product, resultProductDTO);
 		return resultProductDTO;
