@@ -57,4 +57,6 @@
 	src="<c:url value="/resources/js/bootstrap-button.js"/>"></script>
 <script type="text/javascript"
 	src="<c:url value="/resources/js/categorytreecreation.js"/>"></script>
+	<script type="text/javascript"
+	src="<c:url value="/resources/js/angular.js"/>"></script>
 </head>

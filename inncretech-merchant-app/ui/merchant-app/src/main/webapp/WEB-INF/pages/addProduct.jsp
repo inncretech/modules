@@ -5,9 +5,18 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring"%>
-<html lang="en">
+<%@ taglib prefix="f" uri="http://www.inncretech.com/functions"%>
+
+<html lang="en" ng-app="productApp">
 <jsp:include page="header.jsp" />
-<body>
+<script type="text/javascript"
+	src="<c:url value="/resources/js/controller.js"/>"></script>
+<script type="text/javascript">
+var product=${f:convertToJson(productBean)};
+var countryMap =${f:convertToJson(dropDownBean.countryMap)};
+var blankItem=${f:getItemBlankJsonObject()};
+</script>
+<body ng-controller="ProductController">
 	<div class="container">
 		<jsp:include page="topNav.jsp" />
 		<form:form commandName="productBean" cssClass="form-horizontal">
@@ -16,7 +25,7 @@
 				<div class="control-group">
 					<label for="title" class="control-label">Product Title</label>
 					<div class="controls">
-						<form:input path="title" type="text"
+						<input type="text" name="title" ng-model="product.title"
 							placeholder="Enter Product Title" required="true"
 							autocomplete="off" title="Please Enter Product Title"
 							cssClass="input-xlarge" />
@@ -27,9 +36,10 @@
 					<label for="description" class="control-label">Product
 						Description</label>
 					<div class="controls">
-						<form:textarea path="description" placeholder="Enter Description"
-							required="true" autocomplete="off"
-							title="Please Enter Description" cssClass="span3" />
+						<textarea rows="3" cols="10" name="description"
+							placeholder="Enter Description" required="true"
+							autocomplete="off" title="Please Enter Description"
+							cssClass="span3" ng-model="product.description"></textarea>
 					</div>
 				</div>
 
@@ -39,15 +49,18 @@
 						Date(From/To): </label>
 					<div class="input-append date" id="dp3"
 						data-date-format="dd-mm-yyyy" style="padding-left: 20px;">
-						<form:input path="startDate" class="span2"
-							placeholder="dd-mm-yyyy" readonly="true" />
-						<span class="add-on"><i class="icon-calendar"></i></span>
+						<input type="text" name="startDate" class="span2"
+							placeholder="dd-mm-yyyy" readonly="true"
+							ng-model="product.startDate" /> <span class="add-on"><i
+							class="icon-calendar"></i></span>
+
 					</div>
 					<div class="input-append date" id="dp13"
 						data-date-format="dd-mm-yyyy" style="padding-left: 20px;">
-						<form:input path="endDate" class="span2" placeholder="dd-mm-yyyy"
-							readonly="true" />
-						<span class="add-on"><i class="icon-calendar"></i></span>
+						<input type="text" name="endDate" class="span2"
+							placeholder="dd-mm-yyyy" readonly="true"
+							ng-model="product.endDate" /> <span class="add-on"><i
+							class="icon-calendar"></i></span>
 					</div>
 				</div>
 				<div class="control-group">
@@ -57,7 +70,8 @@
 						<div id="cateogryDropDown"></div>
 						<div id="cateogry"></div>
 						<div>
-							<form:select path="categoryIds" cssStyle="display:none;"></form:select>
+							<select name="categoryIds" id="categoryIds"
+								style="display:none;" multiple="multiple"></select>
 						</div>
 					</div>
 				</div>
@@ -67,11 +81,12 @@
 						Country <span style="color: #FF0000;">*</span>:
 					</label>
 					<div class="controls">
-						<form:select path="originCountry.countryId" required="true"
-							title="Please Select Origin Country">
-							<form:option value="" label="---Select Origin Country ----"></form:option>
-							<form:options items="${dropDownBean.countryMap}"></form:options>
-						</form:select>
+						<select ng-model="product.originCountry.countryId"
+							name="originCountry.countryId"
+							ng-Options="id as value for (id,value) in countryMap"
+							required="true" title="Please Select Origin Country">
+							<option value="">---Select Origin Country ----</option>
+						</select>
 					</div>
 				</div>
 				<c:import url="item.jsp" />
