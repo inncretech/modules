@@ -4,9 +4,9 @@ import java.util.List;
 
 import com.inncretech.catalogue.dto.ItemDTO;
 import com.inncretech.catalogue.dto.ProductDTO;
-import com.inncretech.catalogue.exceptions.InternalServiceException;
-import com.inncretech.catalogue.exceptions.InvalidArgumentException;
 import com.inncretech.catalogue.exceptions.ProductNotFoundException;
+import com.inncretech.common.exceptions.InternalServiceException;
+import com.inncretech.common.exceptions.InvalidArgumentException;
 
 public interface ProductService {
 

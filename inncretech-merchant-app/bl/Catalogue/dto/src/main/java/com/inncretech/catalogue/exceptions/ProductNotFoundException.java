@@ -2,6 +2,8 @@ package com.inncretech.catalogue.exceptions;
 
 import java.util.List;
 
+import com.inncretech.common.exceptions.GenericException;
+
 public class ProductNotFoundException extends GenericException {
 
 	/**

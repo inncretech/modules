@@ -1,4 +1,4 @@
-package com.inncretech.catalogue.exceptions;
+package com.inncretech.common.exceptions;
 
 import java.util.List;
 

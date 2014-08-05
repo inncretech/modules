@@ -1,4 +1,4 @@
-package com.inncretech.catalogue.exceptions;
+package com.inncretech.common.exceptions;
 
 import java.util.List;
 
@@ -40,17 +40,12 @@ public class GenericException extends Exception {
 		this.errorCodes = errorCodes;
 	}
 
-	public GenericException(String message, Throwable cause,
-			List<String> errorCodes) {
+	public GenericException(String message, Throwable cause, List<String> errorCodes) {
 		super(message, cause);
 		this.errorCodes = errorCodes;
 	}
 
 	public List<String> getErrorCodes() {
 		return errorCodes;
-	}
-
-	public void setErrorCodes(List<String> errorCodes) {
-		this.errorCodes = errorCodes;
 	}
 }

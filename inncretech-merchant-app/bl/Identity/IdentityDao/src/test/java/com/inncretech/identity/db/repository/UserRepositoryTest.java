@@ -33,7 +33,6 @@ public class UserRepositoryTest {
 	@Test
 	public void testAddUser() {
 		Role role = roleRepository.getOne("admin123");
-		role.setRoleDescription("testing");
 		Assert.assertNotNull(role);
 		User user = new User();
 		user.setUserName("transient12");

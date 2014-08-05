@@ -2,20 +2,19 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.inncretech</groupId>
-	<artifactId>Identity</artifactId>
+	<artifactId>CommonLib</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<packaging>pom</packaging>
-	<modules>
-		<module>IdentityDao</module>
-		<module>IdentityDTO</module>
-		<module>IdentityService</module>
-	</modules>
 
 	<dependencies>
 		<dependency>
-			<groupId>com.inncretech</groupId>
-			<artifactId>CommonLib</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
+			<groupId>javax.validation</groupId>
+			<artifactId>validation-api</artifactId>
+			<version>1.0.0.GA</version>
+		</dependency>
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-validator</artifactId>
+			<version>4.3.1.Final</version>
 		</dependency>
 	</dependencies>
 </project>

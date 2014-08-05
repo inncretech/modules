@@ -21,10 +21,10 @@ import com.inncretech.catalogue.db.repository.ProductRepository;
 import com.inncretech.catalogue.dto.ImageDTO;
 import com.inncretech.catalogue.dto.ItemDTO;
 import com.inncretech.catalogue.dto.ProductDTO;
-import com.inncretech.catalogue.exceptions.InternalServiceException;
-import com.inncretech.catalogue.exceptions.InvalidArgumentException;
 import com.inncretech.catalogue.exceptions.ProductNotFoundException;
 import com.inncretech.catalogue.service.ProductService;
+import com.inncretech.common.exceptions.InternalServiceException;
+import com.inncretech.common.exceptions.InvalidArgumentException;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ActiveProfiles("dev")

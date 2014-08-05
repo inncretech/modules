@@ -17,8 +17,8 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import com.inncretech.catalogue.dto.ImageDTO;
 import com.inncretech.catalogue.dto.ItemDTO;
 import com.inncretech.catalogue.dto.ProductDTO;
-import com.inncretech.catalogue.exceptions.InvalidArgumentException;
 import com.inncretech.catalogue.validators.ProductServiceValidator;
+import com.inncretech.common.exceptions.InvalidArgumentException;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ActiveProfiles("dev")

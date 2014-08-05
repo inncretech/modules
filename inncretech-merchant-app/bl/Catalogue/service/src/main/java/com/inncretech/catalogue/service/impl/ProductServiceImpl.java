@@ -19,12 +19,12 @@ import com.inncretech.catalogue.db.repository.ItemRepository;
 import com.inncretech.catalogue.db.repository.ProductRepository;
 import com.inncretech.catalogue.dto.ItemDTO;
 import com.inncretech.catalogue.dto.ProductDTO;
-import com.inncretech.catalogue.exceptions.InternalServiceException;
-import com.inncretech.catalogue.exceptions.InvalidArgumentException;
 import com.inncretech.catalogue.exceptions.ProductNotFoundException;
 import com.inncretech.catalogue.service.ProductService;
 import com.inncretech.catalogue.service.utils.mapper.CatalogueDozerMapper;
 import com.inncretech.catalogue.validators.ProductServiceValidator;
+import com.inncretech.common.exceptions.InternalServiceException;
+import com.inncretech.common.exceptions.InvalidArgumentException;
 
 @Service
 public class ProductServiceImpl implements ProductService {

@@ -13,7 +13,7 @@ import org.springframework.stereotype.Component;
 import com.inncretech.catalogue.constants.ErrorCodes;
 import com.inncretech.catalogue.dto.ItemDTO;
 import com.inncretech.catalogue.dto.ProductDTO;
-import com.inncretech.catalogue.exceptions.InvalidArgumentException;
+import com.inncretech.common.exceptions.InvalidArgumentException;
 
 @Component
 public class ProductServiceValidator {
