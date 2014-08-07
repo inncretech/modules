@@ -26,9 +26,9 @@ import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.RequestContextHolder;
 
 import com.inncretech.catalogue.dto.ProductDTO;
-import com.inncretech.catalogue.exceptions.InternalServiceException;
-import com.inncretech.catalogue.exceptions.InvalidArgumentException;
 import com.inncretech.catalogue.exceptions.ProductNotFoundException;
+import com.inncretech.common.exceptions.InternalServiceException;
+import com.inncretech.common.exceptions.InvalidArgumentException;
 import com.inncretech.merchant.constants.UrlConstants;
 import com.inncretech.merchant.mapper.ProdutDataMapper;
 import com.inncretech.merchant.services.proxy.CatalogueServiceProxy;

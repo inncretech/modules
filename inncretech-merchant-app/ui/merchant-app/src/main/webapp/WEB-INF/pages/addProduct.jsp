@@ -1,4 +1,5 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<%@page import="java.util.Date"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
@@ -10,7 +11,7 @@
 <html lang="en" ng-app="productApp">
 <jsp:include page="header.jsp" />
 <script type="text/javascript"
-	src="<c:url value="/resources/js/controller.js"/>"></script>
+	src="<c:url value="/resources/js/controller.js?<%=new Date() %>"/>"></script>
 <script type="text/javascript">
 var product=${f:convertToJson(productBean)};
 var countryMap =${f:convertToJson(dropDownBean.countryMap)};
@@ -97,7 +98,7 @@ var blankItem=${f:getItemBlankJsonObject()};
 				</div>
 			</fieldset>
 		</form:form>
-
+		<c:import url="addItem.jsp"/>
 
 	</div>
 	<script type="text/javascript">

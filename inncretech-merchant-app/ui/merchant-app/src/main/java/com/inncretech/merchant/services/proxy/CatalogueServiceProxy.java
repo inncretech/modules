@@ -7,10 +7,10 @@ import org.springframework.stereotype.Service;
 
 import com.inncretech.catalogue.dto.ItemDTO;
 import com.inncretech.catalogue.dto.ProductDTO;
-import com.inncretech.catalogue.exceptions.InternalServiceException;
-import com.inncretech.catalogue.exceptions.InvalidArgumentException;
 import com.inncretech.catalogue.exceptions.ProductNotFoundException;
 import com.inncretech.catalogue.service.ProductService;
+import com.inncretech.common.exceptions.InternalServiceException;
+import com.inncretech.common.exceptions.InvalidArgumentException;
 
 @Service
 public class CatalogueServiceProxy {

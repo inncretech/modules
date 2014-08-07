@@ -10,33 +10,28 @@
 		<div class="control-group">
 			<label for="title" class="control-label">Item Title</label>
 			<div class="controls">
-				<input type="text" placeholder="Enter Product Title" required="true"
-					autocomplete="off" title="Please Enter Product Title"
-					cssClass="input-xlarge" name="items[{{$index}}].title"
-					ng-model="item.title" />
-					<input type="hidden" name="items[{{$index}}].itemId"
-					ng-model="item.itemId" ng-value="item.itemId"/>
+				<span class="input-xlarge uneditable-input">{{item.title}}</span> <input
+					type="hidden" name="items[{{$index}}].title" ng-model="item.title"
+					ng-value="item.title" /> <input type="hidden"
+					name="items[{{$index}}].itemId" ng-model="item.itemId"
+					ng-value="item.itemId" />
 			</div>
 		</div>
-
-
-
-
 		<div class="control-group">
-			<label for="price" class="control-label">Price</label>
-			
-			<div class="input-append" style="padding-left: 20px;">
-			
-				<input type="text" name="items[{{$index}}].priceBean.mrp"
-					placeholder="Enter Retail Price" required="true" autocomplete="off"
-					title="Please Enter Retail Price" cssClass="span2" type="number"
-					min="0" max="1000000" ng-model="item.priceBean.mrp"/>
+			<label for="price" class="control-label">MRP</label>
+			<div class="controls">
+				<span class="input-xlarge uneditable-input">{{item.priceBean.mrp}}</span>
+				<input type="hidden" name="items[{{$index}}].priceBean.mrp"
+					ng-model="item.priceBean.mrp" ng-value="item.priceBean.mrp" />
 			</div>
-			<div class="input-append">
-				<input type="text" name="items[{{$index}}].priceBean.sellingPrice"
-					placeholder="Enter Selling Price" required="true"
-					autocomplete="off" title="Please Enter Selling Price"
-					cssClass="span2" type="number" min="0" max="1000000" ng-model="item.priceBean.sellingPrice"/>
+		</div>
+		<div class="control-group">
+			<label for="price" class="control-label">Selling Price</label>
+			<div class="controls">
+				<span class="input-xlarge uneditable-input">{{item.priceBean.sellingPrice}}</span>
+				<input type="hidden" name="items[{{$index}}].priceBean.sellingPrice"
+					ng-value="item.priceBean.sellingPrice"
+					ng-model="item.priceBean.sellingPrice" />
 			</div>
 		</div>
 
@@ -44,62 +39,62 @@
 			<label for="stock.quantity" class="control-label">Stock
 				Quantity</label>
 			<div class="controls">
-				<input type="text" name="items[{{$index}}].stock.quantity"
-					placeholder="Product Quantity" required="true" autocomplete="off"
-					title="Please Enter Quantity" cssClass="span2" type="number"
-					min="0" max="10000" ng-model="item.stock.quantity" />
+				<span class="input-xlarge uneditable-input">{{item.stock.quantity}}</span>
+				<input type="hidden" name="items[{{$index}}].stock.quantity"
+					ng-model="item.stock.quantity" ng-value="item.stock.quantity" />
 			</div>
 		</div>
 
 		<div class="control-group">
 			<label for="sku" class="control-label">SKU or ProductID</label>
 			<div class="controls">
-				<input type="text" name="items[{{$index}}].sku" placeholder="Enter SKU"
-					required="true" autocomplete="off" title="Please Enter SKU"
-					cssClass="span2"ng-model="item.sku" />
+				<span class="input-xlarge uneditable-input">{{item.sku}}</span> <input
+					type="hidden" name="items[{{$index}}].sku" ng-model="item.sku"
+					ng-value="item.sku" />
 			</div>
 		</div>
 
 		<div class="control-group">
 			<label for="weight" class="control-label"> Weight </label>
 			<div class="input-append" style="padding-left: 20px;">
-				<input type="text" name="items[{{$index}}].dimensionsAndWeight.weight"
-					placeholder="Enter Weight" required="true" autocomplete="off"
-					title="Please Enter Product Weight" cssClass="input-small"
-					type="number" min="0" max="10000" ng-model="item.priceBean.sellingPrice"/>
+				<span class="input-xlarge uneditable-input">{{item.dimensionsAndWeight.weight}}</span>
+				<input type="hidden"
+					name="items[{{$index}}].dimensionsAndWeight.weight"
+					ng-model="item.dimensionsAndWeight.weight"
+					ng-value="item.dimensionsAndWeight.weight" />
 			</div>
 			<div class="input-append">
-				<input type="text" name="items[{{$index}}].dimensionsAndWeight.length"
-					placeholder="Enter Length" required="true" autocomplete="off"
-					title="Please Enter Product Length" cssClass="input-small"
-					type="number" min="0" max="10000" ng-model="item.dimensionsAndWeight.length"/>
+				<span class="input-xlarge uneditable-input">{{item.dimensionsAndWeight.length}}</span>
+				<input type="hidden"
+					name="items[{{$index}}].dimensionsAndWeight.length"
+					ng-model="item.dimensionsAndWeight.length"
+					ng-value="item.dimensionsAndWeight.length" />
 			</div>
 		</div>
 		<div class="control-group">
 			<label for="width" class="control-label"> Dimension</label>
 
 			<div class="input-append" style="padding-left: 20px;">
-				<input type="text" name="items[{{$index}}].dimensionsAndWeight.width"
-					placeholder="Enter Width" required="true" autocomplete="off"
-					title="Please Enter Product Width" cssClass="input-small"
-					type="number" min="0" max="10000" ng-model="item.dimensionsAndWeight.width"/>
+				<span class="input-xlarge uneditable-input">{{item.dimensionsAndWeight.width}}</span>
+				<input type="hidden"
+					name="items[{{$index}}].dimensionsAndWeight.width"
+					ng-model="item.dimensionsAndWeight.width"
+					ng-value="item.dimensionsAndWeight.width" />
 			</div>
 
 
 
 			<div class="input-append">
-				<input type="text" name="items[{{$index}}].dimensionsAndWeight.height"
-					placeholder="Enter Height" required="true" autocomplete="off"
-					title="Please Enter Product Height" cssClass="input-small"
-					type="number" min="0" max="10000" ng-model="item.dimensionsAndWeight.height" />
+				<span class="input-xlarge uneditable-input">{{item.dimensionsAndWeight.height}}</span>
+				<input type="hidden"
+					name="items[{{$index}}].dimensionsAndWeight.height"
+					ng-model="item.dimensionsAndWeight.height"
+					ng-value="item.dimensionsAndWeight.height" />
 			</div>
 		</div>
-		<input type="button"
-					ng-click="remove($index)" value="Remove Rows" />
+		<input type="button" ng-click="remove($index)" value="Remove Rows" />
+		<a href="#myModal" class="btn btn-sucess" data-toggle="modal"
+			ng-click="editItem($index)" role="button">Edit Data</a>
 	</div>
 </div>
-<input type="button" ng-click="add()" value="Add More Rows" />
-
-
-
 
