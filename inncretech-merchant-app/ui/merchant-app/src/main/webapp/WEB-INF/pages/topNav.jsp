@@ -9,17 +9,15 @@
 		<ul class="nav nav-pills">
 
 
-			<li class="dropdown "><a class="dropdown-toggle" href="/">
-					Merchant Panel </a></li>
+			<li class="dropdown "><a class="dropdown-toggle" href="/"> Merchant Panel </a></li>
 
-			<li class="dropdown"><a class="dropdown-toggle"
-				data-toggle="dropdown" href="#"> Products<b class="caret"></b>
+			<li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">
+					Products<b class="caret"></b>
 			</a>
 				<ul class="dropdown-menu">
 					<li><a href="/addProduct">Add A Product</a></li>
 					<li><a href="/listProducts">All Products</a></li>
-				</ul>
-			</li>
+				</ul></li>
 		</ul>
 	</div>
 </div>

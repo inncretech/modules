@@ -10,7 +10,7 @@
 		<div class="control-group">
 			<label for="title" class="control-label">Item Title</label>
 			<div class="controls">
-				<span class="input-xlarge uneditable-input">{{item.title}}</span> <input
+				<span class="input-medium uneditable-input">{{item.title}}</span> <input
 					type="hidden" name="items[{{$index}}].title" ng-model="item.title"
 					ng-value="item.title" /> <input type="hidden"
 					name="items[{{$index}}].itemId" ng-model="item.itemId"
@@ -20,7 +20,7 @@
 		<div class="control-group">
 			<label for="price" class="control-label">MRP</label>
 			<div class="controls">
-				<span class="input-xlarge uneditable-input">{{item.priceBean.mrp}}</span>
+				<span class="input-medium uneditable-input">{{item.priceBean.mrp}}</span>
 				<input type="hidden" name="items[{{$index}}].priceBean.mrp"
 					ng-model="item.priceBean.mrp" ng-value="item.priceBean.mrp" />
 			</div>
@@ -28,7 +28,7 @@
 		<div class="control-group">
 			<label for="price" class="control-label">Selling Price</label>
 			<div class="controls">
-				<span class="input-xlarge uneditable-input">{{item.priceBean.sellingPrice}}</span>
+				<span class="input-medium uneditable-input">{{item.priceBean.sellingPrice}}</span>
 				<input type="hidden" name="items[{{$index}}].priceBean.sellingPrice"
 					ng-value="item.priceBean.sellingPrice"
 					ng-model="item.priceBean.sellingPrice" />
@@ -39,7 +39,7 @@
 			<label for="stock.quantity" class="control-label">Stock
 				Quantity</label>
 			<div class="controls">
-				<span class="input-xlarge uneditable-input">{{item.stock.quantity}}</span>
+				<span class="input-medium uneditable-input">{{item.stock.quantity}}</span>
 				<input type="hidden" name="items[{{$index}}].stock.quantity"
 					ng-model="item.stock.quantity" ng-value="item.stock.quantity" />
 			</div>
@@ -48,7 +48,7 @@
 		<div class="control-group">
 			<label for="sku" class="control-label">SKU or ProductID</label>
 			<div class="controls">
-				<span class="input-xlarge uneditable-input">{{item.sku}}</span> <input
+				<span class="input-medium uneditable-input">{{item.sku}}</span> <input
 					type="hidden" name="items[{{$index}}].sku" ng-model="item.sku"
 					ng-value="item.sku" />
 			</div>
@@ -57,14 +57,14 @@
 		<div class="control-group">
 			<label for="weight" class="control-label"> Weight </label>
 			<div class="input-append" style="padding-left: 20px;">
-				<span class="input-xlarge uneditable-input">{{item.dimensionsAndWeight.weight}}</span>
+				<span class="input-medium uneditable-input">{{item.dimensionsAndWeight.weight}}</span>
 				<input type="hidden"
 					name="items[{{$index}}].dimensionsAndWeight.weight"
 					ng-model="item.dimensionsAndWeight.weight"
 					ng-value="item.dimensionsAndWeight.weight" />
 			</div>
 			<div class="input-append">
-				<span class="input-xlarge uneditable-input">{{item.dimensionsAndWeight.length}}</span>
+				<span class="input-medium uneditable-input">{{item.dimensionsAndWeight.length}}</span>
 				<input type="hidden"
 					name="items[{{$index}}].dimensionsAndWeight.length"
 					ng-model="item.dimensionsAndWeight.length"
@@ -75,7 +75,7 @@
 			<label for="width" class="control-label"> Dimension</label>
 
 			<div class="input-append" style="padding-left: 20px;">
-				<span class="input-xlarge uneditable-input">{{item.dimensionsAndWeight.width}}</span>
+				<span class="input-medium uneditable-input">{{item.dimensionsAndWeight.width}}</span>
 				<input type="hidden"
 					name="items[{{$index}}].dimensionsAndWeight.width"
 					ng-model="item.dimensionsAndWeight.width"
@@ -85,7 +85,7 @@
 
 
 			<div class="input-append">
-				<span class="input-xlarge uneditable-input">{{item.dimensionsAndWeight.height}}</span>
+				<span class="input-medium uneditable-input">{{item.dimensionsAndWeight.height}}</span>
 				<input type="hidden"
 					name="items[{{$index}}].dimensionsAndWeight.height"
 					ng-model="item.dimensionsAndWeight.height"

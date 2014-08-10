@@ -11,8 +11,7 @@
 
 	</c:otherwise>
 </c:choose>
-<div class="alert alert-success"
-	style="display: ${displaySuccessMessage}" id="successMessage">
+<div class="alert alert-success" style="display: ${displaySuccessMessage}" id="successMessage">
 	<button type="button" class="close" data-dismiss="alert">&times;</button>
 	<c:forEach var="success" items="${success}">
 		<spring:message code="${success}" text="${success}" />
