@@ -71,7 +71,7 @@ var countryMap =${f:convertToJson(dropDownBean.countryMap)};
                     <a href="#myModal" class="btn btn-sucess" data-toggle="modal" role="button">Add More Items</a>
                     <div class="control-group">
                          <div class="controls">
-                              <button type="submit" class="btn btn-primary" id="select_all">Submit</button>
+                              <button type="submit" class="btn btn-primary" id="select_all" ng-click="validateProductForm()">Submit</button>
                          </div>
                     </div>
                </fieldset>
@@ -79,48 +79,16 @@ var countryMap =${f:convertToJson(dropDownBean.countryMap)};
           <c:import url="addItem.jsp" />
      </div>
      <script type="text/javascript">
-		$(document)
-				.ready(
-						function() {
+		$(document).ready(function() {
 							getCategoryData(0);
 							$('#dp3,#dp13').datepicker();
 							populateSelectedCategoryonRefresh(<c:out value="${productBean.categoryIds}"/>);
 						});
 
-		$(function() {
-			var createAllErrors = function() {
-				var form = $(this);
-				var errorList = $('div.errorMessages', form);
-				var showAllErrorMessages = function() {
-					errorList.empty();
-					//Find all invalid fields within the form.
-					form.find(':invalid').each(
-							function(index, node) {
-								var message = node.title || 'Invalid value.';
-								errorList.show()
-										.append(
-												'<span> * ' + message
-														+ '</span> </br>');
-							});
-					if ($('.errorMessages').text() == '') {
-						$('.errorMessages').hide();
-					}
-				};
-				$('button[type=submit]', form)
-						.on('click', showAllErrorMessages);
-				$('button[type=submit]', form)
-				.on('click', showAllErrorMessages);
-				
-				$('input[type=text]', form).on('keypress', function(event) {
-					//keyCode 13 is Enter
-					if (event.keyCode == 13) {
-						showAllErrorMessages();
-					}
-				});
-			};
-
-			$('form').each(createAllErrors);
-		});
+	   
+	   
+	    
+		
 	</script>
 </body>
 </html>
