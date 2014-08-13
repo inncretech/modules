@@ -1,10 +1,12 @@
 <div id="myModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
 	aria-hidden="true">
+        <form  id="itemBean">
 	<div class="modal-header">
 		<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
 		<h3 id="myModalLabel">Add Items</h3>
 	</div>
 	<div class="modal-body">
+         <%@include file="messages.jsp"%>
 		<div id="rr">
 			<div class="control-group">
 				<label for="item.title" class="control-label">Item Title</label>
@@ -93,10 +95,12 @@
 			</div>
 
 		</div>
+          
 	</div>
 	<div class="modal-footer">
-		<input type="button" ng-click="addItem(item)" value="Add Item" data-dismiss="modal"
+		<input type="button"  ng-click="addItem(item)" value="Add Item" 
 			aria-hidden="true" />
 
 	</div>
+     </form>
 </div>
