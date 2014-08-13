@@ -17,6 +17,7 @@
     <module>bl/CommonLib</module>
     <module>bl/Identity</module>
     <module>ui/merchant-app</module>
+    <module>bl/Cart</module>
   </modules>
 
   <build>
