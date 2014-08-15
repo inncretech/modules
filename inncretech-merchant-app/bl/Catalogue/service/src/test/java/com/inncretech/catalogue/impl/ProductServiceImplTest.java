@@ -135,7 +135,6 @@ public class ProductServiceImplTest {
 	public void getProductByProductId() throws InvalidArgumentException, ProductNotFoundException,
 			InternalServiceException {
 		productRepository.findOne(1l);
-		// Assert.assertNotNull(productService.getProductByProductId(1l));
 	}
 
 	@Test
@@ -191,6 +190,110 @@ public class ProductServiceImplTest {
 	@Test
 	@Transactional
 	@Rollback(false)
+	public void editProductCategories() {
+		List<String> errorCodes = null;
+		ProductDTO productDTO = null;
+		long productId = 57;
+		try {
+			productDTO = productService.getProductByProductId(productId);
+		} catch (InvalidArgumentException e) {
+			errorCodes = e.getErrorCodes();
+		} catch (ProductNotFoundException e) {
+			errorCodes = e.getErrorCodes();
+		} catch (InternalServiceException e) {
+			errorCodes = e.getErrorCodes();
+		}
+		Assert.assertEquals(2, productDTO.getCategoryIds().size());
+		List<Integer> categoriesIds = new ArrayList<Integer>();
+		categoriesIds.add(2);
+		productDTO.setCategoryIds(categoriesIds);
+
+		try {
+			productService.updateProduct(productDTO);
+		} catch (InvalidArgumentException e) {
+			errorCodes = e.getErrorCodes();
+		} catch (ProductNotFoundException e) {
+			errorCodes = e.getErrorCodes();
+		} catch (InternalServiceException e) {
+			errorCodes = e.getErrorCodes();
+		}
+		Assert.assertNull(errorCodes);
+
+		try {
+			productDTO = productService.getProductByProductId(productId);
+		} catch (InvalidArgumentException e) {
+			errorCodes = e.getErrorCodes();
+		} catch (ProductNotFoundException e) {
+			errorCodes = e.getErrorCodes();
+		} catch (InternalServiceException e) {
+			errorCodes = e.getErrorCodes();
+		}
+
+		Assert.assertNull(errorCodes);
+		Assert.assertEquals(1, productDTO.getCategoryIds().size());
+	}
+
+	@Test
+	@Transactional
+	@Rollback(false)
+	public void editProductImages() {
+		List<String> errorCodes = null;
+		ProductDTO productDTO = null;
+
+		try {
+			productDTO = productService.getProductByProductId(53l);
+		} catch (InvalidArgumentException e) {
+			errorCodes = e.getErrorCodes();
+		} catch (ProductNotFoundException e) {
+			errorCodes = e.getErrorCodes();
+		} catch (InternalServiceException e) {
+			errorCodes = e.getErrorCodes();
+		}
+
+		List<ImageDTO> imageDTOs = new ArrayList<ImageDTO>();
+		ImageDTO imageDTO = new ImageDTO();
+		imageDTO.setImageUrl("lastlatestnewEdit.jpg");
+		imageDTO.setIsDefault(true);
+		imageDTOs.add(imageDTO);
+
+		imageDTO = new ImageDTO();
+		imageDTO.setImageId(142l);
+		imageDTO.setImageUrl("actualOriginalValueImage.jpg");
+		imageDTO.setIsDefault(false);
+		imageDTOs.add(imageDTO);
+
+		Assert.assertEquals(4, productDTO.getImageDTOs().size());
+		productDTO.setImageDTOs(imageDTOs);
+
+		try {
+			productService.updateProduct(productDTO);
+		} catch (InvalidArgumentException e) {
+			errorCodes = e.getErrorCodes();
+		} catch (ProductNotFoundException e) {
+			errorCodes = e.getErrorCodes();
+		} catch (InternalServiceException e) {
+			errorCodes = e.getErrorCodes();
+		}
+		Assert.assertNull(errorCodes);
+
+		try {
+			productDTO = productService.getProductByProductId(53l);
+		} catch (InvalidArgumentException e) {
+			errorCodes = e.getErrorCodes();
+		} catch (ProductNotFoundException e) {
+			errorCodes = e.getErrorCodes();
+		} catch (InternalServiceException e) {
+			errorCodes = e.getErrorCodes();
+		}
+
+		Assert.assertNull(errorCodes);
+		Assert.assertEquals(2, productDTO.getImageDTOs().size());
+
+	}
+
+	@Test
+	@Transactional
+	@Rollback(false)
 	public void editProduct() {
 
 		List<String> errorCodes = null;
@@ -198,7 +301,7 @@ public class ProductServiceImplTest {
 
 		String description = "product description edited";
 		try {
-			productDTO = productService.getProductByProductId(productId);
+			productDTO = productService.getProductByProductId(50l);
 		} catch (InvalidArgumentException e) {
 			errorCodes = e.getErrorCodes();
 		} catch (ProductNotFoundException e) {
@@ -211,27 +314,36 @@ public class ProductServiceImplTest {
 
 		List<ItemDTO> itemDTOList = new ArrayList<ItemDTO>();
 		ItemDTO itemDTO = new ItemDTO();
-		itemDTO.setItemTitle("edit another added");
-		itemDTO.setColor("editm color");
-		itemDTO.setQuantity(1);
-		itemDTO.setLength(123.90);
-		itemDTO.setMrp(new BigDecimal(12.12));
-		itemDTO.setHeight(12.4);
-		itemDTO.setWidth(12.45);
-		itemDTO.setRetailPrice(new BigDecimal(89.90));
-		itemDTO.setSku("edi sku");
-		itemDTO.setWeight(34.56);
+		itemDTO.setItemId(195L);
+		itemDTO.setItemTitle("edit defaultTitle");
+		itemDTO.setColor("edit default color");
+		itemDTO.setQuantity(3);
+		itemDTO.setLength(93.90);
+		itemDTO.setMrp(new BigDecimal(112.12));
+		itemDTO.setHeight(112.4);
+		itemDTO.setWidth(112.45);
+		itemDTO.setRetailPrice(new BigDecimal(189.90));
+		itemDTO.setSku("edit defaultsku");
+		itemDTO.setWeight(134.56);
 		itemDTO.setIsActive(true);
 		itemDTOList.add(itemDTO);
-		productDTO.getItemDTOs().add(itemDTO);
-		// productDTO.setItemDTOs(itemDTOList);
-
-		ImageDTO productImage = new ImageDTO();
-		productImage.setImageUrl("edit-new one.jpg");
-		productImage.setIsDefault(true);
 
 		List<ImageDTO> imageDTOs = new ArrayList<ImageDTO>();
+		ImageDTO productImage = new ImageDTO();
+		productImage.setImageId(125L);
+		productImage.setImageUrl("edited-new one.jpg");
+		productImage.setIsDefault(true);
+
 		imageDTOs.add(productImage);
+
+		productDTO.setItemDTOs(itemDTOList);
+
+		productImage = new ImageDTO();
+		productImage.setImageUrl("added new while editing .jpg");
+
+		imageDTOs.add(productImage);
+
+		productDTO.setItemDTOs(itemDTOList);
 
 		for (ImageDTO imageDTO : productDTO.getImageDTOs()) {
 			Assert.assertNotNull(imageDTO.getImageId());
@@ -248,6 +360,8 @@ public class ProductServiceImplTest {
 			errorCodes = e.getErrorCodes();
 		}
 		Assert.assertNull(errorCodes);
+
+		Assert.assertEquals(1, productDTO.getItemDTOs().size());
 	}
 
 	@Test
@@ -258,7 +372,7 @@ public class ProductServiceImplTest {
 		List<String> errorCodes = null;
 		ProductDTO productDTO = null;
 		try {
-			productDTO = productService.getProductByProductId(productId);
+			productDTO = productService.getProductByProductId(48l);
 		} catch (InvalidArgumentException e1) {
 			e1.printStackTrace();
 		} catch (ProductNotFoundException e1) {

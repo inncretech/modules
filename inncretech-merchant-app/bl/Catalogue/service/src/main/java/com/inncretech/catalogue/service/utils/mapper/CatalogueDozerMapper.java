@@ -1,10 +1,8 @@
 package com.inncretech.catalogue.service.utils.mapper;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 import org.dozer.DozerBeanMapper;
@@ -47,29 +45,34 @@ public class CatalogueDozerMapper {
 		}
 	}
 
-	void resetProductCategoryInProductIfPresent(Product product) {
-		if (product.getProductCategories() != null && !product.getProductCategories().isEmpty()) {
-			for (ProductCategory productCategory : product.getProductCategories()) {
-				productCategory.setIsActive(false);
-			}
-		} else {
+	void mapProductCatagoriesToProduct(ProductDTO productDTO, Product product) {
+
+		if (product.getProductCategories() == null) {
 			product.setProductCategories(new HashSet<ProductCategory>());
 		}
-	}
 
-	void mapProductCatagoriesToProduct(ProductDTO productDTO, Product product) {
-		resetProductCategoryInProductIfPresent(product);
-		if (productDTO.getCategoryIds() != null) {
-			for (Integer categoryId : productDTO.getCategoryIds()) {
+		Set<Integer> categoryDBIds = new HashSet<Integer>();
+		Set<Integer> categotyDTOIds = new HashSet<Integer>();
+
+		for (Integer categoryId : productDTO.getCategoryIds()) {
+			categotyDTOIds.add(categoryId.intValue());
+		}
+
+		for (ProductCategory productCategory : product.getProductCategories()) {
+			if (!categotyDTOIds.contains(productCategory.getCategory().getCategoryId().intValue())) {
+				productCategory.setIsActive(false);
+			}
+			categoryDBIds.add(productCategory.getCategory().getCategoryId().intValue());
+		}
+
+		for (Integer categoryId : categotyDTOIds) {
+			if (!categoryDBIds.contains(categoryId.intValue())) {
 				ProductCategory productCategory = new ProductCategory();
 				Category category = new Category();
 				category.setCategoryId(categoryId);
 				productCategory.setCategory(category);
 				productCategory.setIsActive(true);
 				productCategory.setProduct(product);
-				if (product.getProductCategories().contains(productCategory)) {
-					product.getProductCategories().remove(productCategory);
-				}
 				product.getProductCategories().add(productCategory);
 			}
 		}
@@ -78,12 +81,12 @@ public class CatalogueDozerMapper {
 	ProductImage getProductImage(Product product, Long imageId) {
 		if (product.getProductImages() != null) {
 			for (ProductImage productImage : product.getProductImages()) {
-				if (productImage.getImageId() == imageId) {
+				if (productImage.getImageId().longValue() == imageId.longValue()) {
 					return productImage;
 				}
 			}
 		}
-		return new ProductImage();
+		throw new IllegalArgumentException("imageId : " + imageId + " is not avail.");
 	}
 
 	void mapImageDTOToProduct(ProductDTO productDTO, Product product) {
@@ -92,36 +95,42 @@ public class CatalogueDozerMapper {
 			product.setProductImages(new HashSet<ProductImage>());
 		}
 
-		Set<ProductImage> removalProductImages = new HashSet<ProductImage>();
-		if (product.getProductImages() != null) {
-			for (ProductImage productImage : product.getProductImages()) {
-				boolean imageFound = false;
-				for (ImageDTO imageDTO : productDTO.getImageDTOs()) {
-					if (imageDTO.getImageId() == productImage.getImageId()) {
-						imageFound = true;
-					}
-				}
-				if (!imageFound) {
-					removalProductImages.add(productImage);
-				}
-			}
-		}
-		if (removalProductImages != null && !removalProductImages.isEmpty()) {
-			for (ProductImage productImage : removalProductImages) {
-				productImageRepository.delete(productImage.getImageId());
-				product.getProductImages().remove(productImage);
-			}
+		Set<Long> imageDTOIds = new HashSet<Long>();
+		Set<Long> imageDBIds = new HashSet<Long>();
+		Set<ProductImage> newProductImagesSet = new HashSet<ProductImage>();
+		Set<ProductImage> removeProductImageSet = new HashSet<ProductImage>();
+
+		for (ProductImage productImage : product.getProductImages()) {
+			imageDBIds.add(productImage.getImageId().longValue());
 		}
 
 		if (productDTO.getImageDTOs() != null && !productDTO.getImageDTOs().isEmpty()) {
 			for (ImageDTO imageDTO : productDTO.getImageDTOs()) {
-				ProductImage productImage = getProductImage(product, imageDTO.getImageId());
-				productImage.setImageId(imageDTO.getImageId());
+				ProductImage productImage = null;
+				if (imageDTO.getImageId() != null && imageDBIds.contains(imageDTO.getImageId().longValue())) {
+					imageDTOIds.add(imageDTO.getImageId().longValue());
+					productImage = getProductImage(product, imageDTO.getImageId());
+				} else {
+					productImage = new ProductImage();
+					newProductImagesSet.add(productImage);
+				}
 				productImage.setIsDefault(imageDTO.getIsDefault());
 				productImage.setImageUrl(imageDTO.getImageUrl());
 				productImage.setProduct(product);
-				product.getProductImages().add(productImage);
 			}
+		}
+
+		for (ProductImage productImage : product.getProductImages()) {
+			if (!imageDTOIds.contains(productImage.getImageId().longValue())) {
+				removeProductImageSet.add(productImage);
+				productImageRepository.delete(productImage.getImageId().longValue());
+			}
+		}
+		if (!removeProductImageSet.isEmpty()) {
+			product.getProductImages().removeAll(removeProductImageSet);
+		}
+		if (!newProductImagesSet.isEmpty()) {
+			product.getProductImages().addAll(newProductImagesSet);
 		}
 	}
 
@@ -140,37 +149,43 @@ public class CatalogueDozerMapper {
 		item.setIsActive(itemDTO.getIsActive());
 	}
 
-	void resetItemsInProductIfPresent(Product product) {
-		if (product.getItems() != null && !product.getItems().isEmpty()) {
-			for (Item item : product.getItems()) {
-				item.setIsActive(false);
-			}
-		} else {
+	void mapItemDTOToProduct(ProductDTO productDTO, Product product) {
+
+		if (product.getItems() == null) {
 			product.setItems(new HashSet<Item>());
 		}
-	}
 
-	void mapItemDTOToProduct(ProductDTO productDTO, Product product) {
-		resetItemsInProductIfPresent(product);
 		if (productDTO.getItemDTOs() != null && !productDTO.getItemDTOs().isEmpty()) {
-			// put items in hashmap to check uniqueness.
-			Map<Long, Item> itemsMap = new HashMap<Long, Item>();
-			if (product.getItems() == null) {
-				product.setItems(new HashSet<Item>());
-			} else {
-				for (Item item : product.getItems()) {
-					itemsMap.put(item.getItemId(), item);
+			Set<Long> itemDtoIdSet = new HashSet<Long>();
+			for (ItemDTO itemDTO : productDTO.getItemDTOs()) {
+				if (itemDTO.getItemId() != null) {
+					itemDtoIdSet.add(itemDTO.getItemId().longValue());
 				}
 			}
-			// if item is present in map then do changes to that else create new.
-			for (ItemDTO itemDTO : productDTO.getItemDTOs()) {
-				Item item = itemsMap.get(itemDTO.getItemId());
-				if (item == null) {
-					item = new Item();
+
+			if (product.getItems() != null && !product.getItems().isEmpty()) {
+				for (Item item : product.getItems()) {
+					if (!itemDtoIdSet.contains(item.getItemId().longValue())) {
+						item.setIsActive(false);
+					}
 				}
-				convertItemDTOIntoItem(itemDTO, item);
-				item.setProduct(product);
-				product.getItems().add(item);
+			}
+
+			for (ItemDTO itemDTO : productDTO.getItemDTOs()) {
+				Item itemFound = null;
+				for (Item item : product.getItems()) {
+					if (itemDTO.getItemId() != null && item.getItemId() != null
+							&& itemDTO.getItemId().longValue() == item.getItemId().longValue()) {
+						itemFound = item;
+						break;
+					}
+				}
+				if (itemFound == null) {
+					itemFound = new Item();
+					product.getItems().add(itemFound);
+				}
+				convertItemDTOIntoItem(itemDTO, itemFound);
+				itemFound.setProduct(product);
 			}
 		}
 	}
