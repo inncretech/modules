@@ -5,12 +5,12 @@ import java.util.Iterator;
 import java.util.List;
 
 import javax.persistence.EntityNotFoundException;
-import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.inncretech.catalogue.db.beans.Item;
 import com.inncretech.catalogue.db.beans.Product;
@@ -46,13 +46,10 @@ public class ProductServiceImpl implements ProductService {
 	public ProductDTO addProduct(ProductDTO productDTO) throws InvalidArgumentException, InternalServiceException {
 
 		validator.doValidateProductDTO(productDTO);
+
 		Product product = new Product();
 		mapper.mapProductDTOToProduct(productDTO, product);
-		try {
-			productRepository.save(product);
-		} catch (Exception exception) {
-			throw new InternalServiceException();
-		}
+		productRepository.save(product);
 		ProductDTO resultProductDTO = new ProductDTO();
 		mapper.mapProductToProductDTO(product, resultProductDTO);
 		return resultProductDTO;
@@ -62,6 +59,7 @@ public class ProductServiceImpl implements ProductService {
 	@Override
 	public ProductDTO getProductByProductId(Long productId) throws InvalidArgumentException, ProductNotFoundException,
 			InternalServiceException {
+
 		Product product = getProductDBModelByProductId(productId);
 		ProductDTO productDTO = new ProductDTO();
 		mapper.mapProductToProductDTO(product, productDTO);
@@ -70,8 +68,8 @@ public class ProductServiceImpl implements ProductService {
 
 	@Transactional
 	@Override
-	public List<ProductDTO> getActiveProducts(int limit, int offset) throws InvalidArgumentException,
-			InternalServiceException {
+	public List<ProductDTO> getActiveProducts(Integer merchantId, int limit, int offset)
+			throws InvalidArgumentException, InternalServiceException {
 		List<ProductDTO> productList = new ArrayList<ProductDTO>();
 		PageRequest page = new PageRequest((offset / limit), limit);
 		Page<Product> products = productRepository.findAll(page);
@@ -89,20 +87,27 @@ public class ProductServiceImpl implements ProductService {
 	@Override
 	public ProductDTO updateProduct(ProductDTO productDTO) throws InvalidArgumentException, ProductNotFoundException,
 			InternalServiceException {
+
 		validator.doValidateProductDTO(productDTO);
-		// Product product = new Product();
-		// mapper.mapProductDTOToProduct(productDTO, product);
-		//
-		return null;
+
+		Product product = getProductDBModelByProductId(productDTO.getProductId());
+		mapper.mapProductDTOToProduct(productDTO, product);
+		productRepository.save(product);
+		ProductDTO resultantProductDTO = new ProductDTO();
+		mapper.mapProductToProductDTO(product, resultantProductDTO);
+		return resultantProductDTO;
 	}
 
 	@Transactional
 	@Override
 	public ProductDTO addItemToProduct(Long productId, ItemDTO itemDTO) throws InvalidArgumentException,
 			ProductNotFoundException, InternalServiceException {
+
 		validator.doValidateItemDTO(itemDTO);
+
 		Product product = getProductDBModelByProductId(productId);
-		Item item = mapper.convertItemDTOIntoItem(itemDTO);
+		Item item = new Item();
+		mapper.convertItemDTOIntoItem(itemDTO, item);
 		item.setProduct(product);
 		product.getItems().add(item);
 		ProductDTO productDTO = new ProductDTO();
@@ -113,6 +118,7 @@ public class ProductServiceImpl implements ProductService {
 	@Transactional
 	@Override
 	public void deleteItems(List<Long> itemIds) throws InvalidArgumentException, InternalServiceException {
+
 		validator.doValidateListOfLong(itemIds);
 		try {
 			itemRepository.deleteItemsByItemIds(itemIds);

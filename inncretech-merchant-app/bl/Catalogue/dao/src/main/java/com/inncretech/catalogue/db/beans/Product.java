@@ -2,7 +2,7 @@ package com.inncretech.catalogue.db.beans;
 
 import java.io.Serializable;
 import java.util.Date;
-import java.util.List;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -20,6 +20,8 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import org.hibernate.annotations.DynamicInsert;
+import org.hibernate.annotations.DynamicUpdate;
 import org.hibernate.annotations.Type;
 
 import com.inncretech.catalogue.db.enums.Status;
@@ -30,6 +32,8 @@ import com.inncretech.catalogue.db.enums.Status;
  */
 @Entity
 @Table(name = "product")
+@DynamicInsert
+@DynamicUpdate
 @NamedQuery(name = "Product.findAll", query = "SELECT p FROM Product p")
 public class Product extends BaseEntity implements Serializable {
 	private static final long serialVersionUID = 1L;
@@ -67,23 +71,15 @@ public class Product extends BaseEntity implements Serializable {
 	private String title;
 
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "product", fetch = FetchType.LAZY)
-	private List<Item> items;
+	private Set<Item> items;
 
-	@OneToMany(cascade = CascadeType.ALL, targetEntity = ProductImage.class, mappedBy = "product", fetch = FetchType.LAZY)
-	private List<ProductImage> productImages;
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "product", fetch = FetchType.LAZY)
+	private Set<ProductImage> productImages;
 
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "productCategoryCompositeKey.product", fetch = FetchType.LAZY)
-	List<ProductCategory> productCategories;
+	Set<ProductCategory> productCategories;
 
 	public Product() {
-	}
-
-	public List<ProductCategory> getProductCategories() {
-		return productCategories;
-	}
-
-	public void setProductCategories(List<ProductCategory> productCategories) {
-		this.productCategories = productCategories;
 	}
 
 	public Long getProductId() {
@@ -158,26 +154,59 @@ public class Product extends BaseEntity implements Serializable {
 		this.title = title;
 	}
 
-	public List<Item> getItems() {
+	public Set<Item> getItems() {
 		return items;
 	}
 
-	public void setItems(List<Item> items) {
+	public void setItems(Set<Item> items) {
 		this.items = items;
 	}
 
-	public List<ProductImage> getProductImages() {
+	public Set<ProductImage> getProductImages() {
 		return productImages;
 	}
 
-	public void setProductImages(List<ProductImage> productImages) {
+	public void setProductImages(Set<ProductImage> productImages) {
 		this.productImages = productImages;
+	}
+
+	public Set<ProductCategory> getProductCategories() {
+		return productCategories;
+	}
+
+	public void setProductCategories(Set<ProductCategory> productCategories) {
+		this.productCategories = productCategories;
 	}
 
 	@PrePersist
 	protected void onCreate() {
 		super.onCreate();
 		isDeleted = false;
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((productId == null) ? 0 : productId.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Product other = (Product) obj;
+		if (productId == null) {
+			if (other.productId != null)
+				return false;
+		} else if (!productId.equals(other.productId))
+			return false;
+		return true;
 	}
 
 	@Override

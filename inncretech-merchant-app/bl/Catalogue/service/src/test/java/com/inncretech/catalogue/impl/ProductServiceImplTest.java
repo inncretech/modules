@@ -37,13 +37,14 @@ public class ProductServiceImplTest {
 	@Autowired
 	ProductRepository productRepository;
 
-	@Test
-	@Transactional
-	@Rollback(false)
-	public void addProductTest() {
+	static Integer merchantId = 1;
+
+	static Long productId = null;
+
+	ProductDTO createDummyProductDTO() {
 
 		ProductDTO productDTO = new ProductDTO();
-		List<String> errorCodes = null;
+
 		productDTO.setDescription("description");
 		productDTO.setCreateDate(new Date());
 		productDTO.setEndDate(new Date());
@@ -58,28 +59,50 @@ public class ProductServiceImplTest {
 
 		List<ImageDTO> imageDTOList = new ArrayList<ImageDTO>();
 		ImageDTO imageDTO = new ImageDTO();
-		imageDTO.setImageUrl("abc.jpg");
+		imageDTO.setImageUrl("defaultimage.jpg");
+		imageDTO.setIsDefault(true);
 		imageDTOList.add(imageDTO);
+		imageDTO = new ImageDTO();
+		imageDTO.setImageUrl("normalimage.jpg");
 		productDTO.setImageDTOs(imageDTOList);
 
 		List<ItemDTO> itemDTOList = new ArrayList<ItemDTO>();
 		ItemDTO itemDTO = new ItemDTO();
-		itemDTO.setItemTitle("itemTitle 123");
-		itemDTO.setColor("color");
+		itemDTO.setItemTitle("defaultTitle");
+		itemDTO.setColor("default color");
 		itemDTO.setQuantity(1);
 		itemDTO.setLength(123.90);
 		itemDTO.setMrp(new BigDecimal(12.12));
 		itemDTO.setHeight(12.4);
 		itemDTO.setWidth(12.45);
 		itemDTO.setRetailPrice(new BigDecimal(89.90));
-		itemDTO.setSku("sku123");
+		itemDTO.setSku("defaultsku");
 		itemDTO.setWeight(34.56);
 		itemDTO.setIsActive(true);
 		itemDTOList.add(itemDTO);
 
+		itemDTO = new ItemDTO();
+		itemDTO.setItemTitle("simpleTitle");
+		itemDTO.setColor("simpleColor");
+		itemDTO.setQuantity(2);
+		itemDTO.setLength(12.90);
+		itemDTO.setMrp(new BigDecimal(12.10));
+		itemDTO.setHeight(12.94);
+		itemDTO.setWidth(12.5);
+		itemDTO.setRetailPrice(new BigDecimal(9.90));
+		itemDTO.setSku("simpleSku");
+		itemDTO.setWeight(34.6);
+		itemDTO.setIsActive(true);
+
+		itemDTOList.add(itemDTO);
 		productDTO.setItemDTOs(itemDTOList);
 
-		System.out.println("productDTO : " + productDTO);
+		return productDTO;
+	}
+
+	ProductDTO addProductDTO() {
+		List<String> errorCodes = null;
+		ProductDTO productDTO = createDummyProductDTO();
 		try {
 			productDTO = productService.addProduct(productDTO);
 		} catch (InvalidArgumentException e) {
@@ -87,12 +110,25 @@ public class ProductServiceImplTest {
 		} catch (InternalServiceException e) {
 			errorCodes = e.getErrorCodes();
 		}
-
 		Assert.assertNull(errorCodes);
 
-		// Assert.assertNotNull(productDTO);
-		// Assert.assertNotNull(productDTO.getProductId());
+		productId = productDTO.getProductId();
+		Assert.assertNotNull(productDTO.getItemDTOs());
+		Assert.assertEquals(2, productDTO.getItemDTOs().size());
+		for (ItemDTO itemDTO : productDTO.getItemDTOs()) {
+			Assert.assertNotNull(itemDTO);
+			Assert.assertNotNull(itemDTO.getItemId());
+			Assert.assertEquals(true, itemDTO.getIsActive());
+		}
+		return productDTO;
+	}
 
+	@Test
+	@Transactional
+	@Rollback(false)
+	public void addProductTest() {
+		ProductDTO productDTO = addProductDTO();
+		Assert.assertNotNull(productDTO);
 	}
 
 	@Test
@@ -104,7 +140,7 @@ public class ProductServiceImplTest {
 
 	@Test
 	public void getAllProduct() throws InvalidArgumentException, ProductNotFoundException, InternalServiceException {
-		productService.getActiveProducts(1, 10);
+		productService.getActiveProducts(merchantId, 1, 10);
 	}
 
 	@Test
@@ -121,7 +157,7 @@ public class ProductServiceImplTest {
 			Assert.fail(e.getMessage());
 		}
 	}
-	
+
 	@Test
 	@Transactional
 	@Rollback(false)
@@ -136,7 +172,7 @@ public class ProductServiceImplTest {
 			Assert.fail(e.getMessage());
 		}
 	}
-	
+
 	@Test
 	@Transactional
 	@Rollback(false)
@@ -151,5 +187,115 @@ public class ProductServiceImplTest {
 			Assert.fail(e.getMessage());
 		}
 	}
-	
+
+	@Test
+	@Transactional
+	@Rollback(false)
+	public void editProduct() {
+
+		List<String> errorCodes = null;
+		ProductDTO productDTO = null;
+
+		String description = "product description edited";
+		try {
+			productDTO = productService.getProductByProductId(productId);
+		} catch (InvalidArgumentException e) {
+			errorCodes = e.getErrorCodes();
+		} catch (ProductNotFoundException e) {
+			errorCodes = e.getErrorCodes();
+		} catch (InternalServiceException e) {
+			errorCodes = e.getErrorCodes();
+		}
+
+		productDTO.setDescription(description);
+
+		List<ItemDTO> itemDTOList = new ArrayList<ItemDTO>();
+		ItemDTO itemDTO = new ItemDTO();
+		itemDTO.setItemTitle("edit another added");
+		itemDTO.setColor("editm color");
+		itemDTO.setQuantity(1);
+		itemDTO.setLength(123.90);
+		itemDTO.setMrp(new BigDecimal(12.12));
+		itemDTO.setHeight(12.4);
+		itemDTO.setWidth(12.45);
+		itemDTO.setRetailPrice(new BigDecimal(89.90));
+		itemDTO.setSku("edi sku");
+		itemDTO.setWeight(34.56);
+		itemDTO.setIsActive(true);
+		itemDTOList.add(itemDTO);
+		productDTO.getItemDTOs().add(itemDTO);
+		// productDTO.setItemDTOs(itemDTOList);
+
+		ImageDTO productImage = new ImageDTO();
+		productImage.setImageUrl("edit-new one.jpg");
+		productImage.setIsDefault(true);
+
+		List<ImageDTO> imageDTOs = new ArrayList<ImageDTO>();
+		imageDTOs.add(productImage);
+
+		for (ImageDTO imageDTO : productDTO.getImageDTOs()) {
+			Assert.assertNotNull(imageDTO.getImageId());
+		}
+
+		productDTO.setImageDTOs(imageDTOs);
+		try {
+			productService.updateProduct(productDTO);
+		} catch (InvalidArgumentException e) {
+			errorCodes = e.getErrorCodes();
+		} catch (ProductNotFoundException e) {
+			errorCodes = e.getErrorCodes();
+		} catch (InternalServiceException e) {
+			errorCodes = e.getErrorCodes();
+		}
+		Assert.assertNull(errorCodes);
+	}
+
+	@Test
+	@Transactional
+	@Rollback(false)
+	public void editItem() {
+
+		List<String> errorCodes = null;
+		ProductDTO productDTO = null;
+		try {
+			productDTO = productService.getProductByProductId(productId);
+		} catch (InvalidArgumentException e1) {
+			e1.printStackTrace();
+		} catch (ProductNotFoundException e1) {
+			e1.printStackTrace();
+		} catch (InternalServiceException e1) {
+			e1.printStackTrace();
+		}
+		for (ItemDTO itemDTO : productDTO.getItemDTOs()) {
+			itemDTO.setIsActive(true);
+			itemDTO.setItemTitle("This is update call.");
+		}
+
+		productDTO.setDescription("update call");
+		for (ItemDTO itemDTO : productDTO.getItemDTOs()) {
+			Assert.assertEquals(true, itemDTO.getIsActive());
+			Assert.assertEquals("This is update call.", itemDTO.getItemTitle());
+		}
+
+		// List<Integer> pciIntegers = new ArrayList<Integer>();
+		productDTO.getCategoryIds().add(2);
+
+		Assert.assertNotNull(productDTO.getCategoryIds());
+		System.out.println("productDTO.getCategoryIds() >>> " + productDTO.getCategoryIds());
+		try {
+			productService.updateProduct(productDTO);
+		} catch (InvalidArgumentException e) {
+			errorCodes = e.getErrorCodes();
+		} catch (ProductNotFoundException e) {
+			errorCodes = e.getErrorCodes();
+		} catch (InternalServiceException e) {
+			errorCodes = e.getErrorCodes();
+		}
+		System.out.println("errorCodes >>> " + errorCodes);
+		Assert.assertNull(errorCodes);
+
+		Assert.assertEquals(2, productDTO.getCategoryIds().size());
+		Assert.assertEquals(1, productDTO.getCategoryIds().get(0).intValue());
+		Assert.assertEquals(2, productDTO.getCategoryIds().get(1).intValue());
+	}
 }

@@ -152,7 +152,7 @@ public class ItemDTO implements Serializable {
 	public void setIsActive(Boolean isActive) {
 		IsActive = isActive;
 	}
-
+	
 	@Override
 	public String toString() {
 		return "ItemDTO [itemId=" + itemId + ", itemTitle=" + itemTitle + ", mrp=" + mrp + ", retailPrice="

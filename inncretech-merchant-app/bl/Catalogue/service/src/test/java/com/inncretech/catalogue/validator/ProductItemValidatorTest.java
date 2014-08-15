@@ -49,7 +49,7 @@ public class ProductItemValidatorTest {
 		}
 
 		Assert.assertNotNull(errorCodes);
-		//Assert.assertEquals(6, errorCodes.size());
+		// Assert.assertEquals(6, errorCodes.size());
 	}
 
 	@Test
@@ -65,13 +65,13 @@ public class ProductItemValidatorTest {
 		List<Integer> categoriesList = new ArrayList<Integer>();
 		categoriesList.add(1);
 		productDTO.setCategoryIds(categoriesList);
-		
+
 		List<ImageDTO> imageDTOList = new ArrayList<ImageDTO>();
 		ImageDTO imageDTO = new ImageDTO();
 		imageDTO.setImageUrl("abc.jpg");
 		imageDTOList.add(imageDTO);
 		productDTO.setImageDTOs(imageDTOList);
-		
+
 		try {
 			productValidator.doValidateProductDTO(productDTO);
 		} catch (InvalidArgumentException e) {
@@ -79,7 +79,7 @@ public class ProductItemValidatorTest {
 		}
 		Assert.assertNull(errorCodes);
 	}
-	
+
 	@Test
 	public void testItem() {
 		ProductDTO productDTO = new ProductDTO();
@@ -92,7 +92,7 @@ public class ProductItemValidatorTest {
 		productDTO.setTitle("Title");
 		ItemDTO itemDTO = new ItemDTO();
 		itemDTO.setItemTitle("itemTitle");
-		
+
 		List<ItemDTO> itemDTOList = new ArrayList<ItemDTO>();
 		itemDTOList.add(itemDTO);
 		productDTO.setItemDTOs(itemDTOList);
@@ -103,5 +103,5 @@ public class ProductItemValidatorTest {
 		}
 		Assert.assertNotNull(errorCodes);
 	}
-	
+
 }

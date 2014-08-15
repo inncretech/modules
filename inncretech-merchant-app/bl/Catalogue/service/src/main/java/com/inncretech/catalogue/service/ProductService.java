@@ -15,7 +15,8 @@ public interface ProductService {
 	ProductDTO getProductByProductId(Long productId) throws InvalidArgumentException, ProductNotFoundException,
 			InternalServiceException;
 
-	List<ProductDTO> getActiveProducts(int limit, int offset) throws InvalidArgumentException, InternalServiceException;
+	List<ProductDTO> getActiveProducts(Integer merchantId, int limit, int offset) throws InvalidArgumentException,
+			InternalServiceException;
 
 	ProductDTO updateProduct(ProductDTO productDTO) throws InvalidArgumentException, ProductNotFoundException,
 			InternalServiceException;

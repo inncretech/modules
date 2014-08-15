@@ -12,6 +12,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.DynamicInsert;
+import org.hibernate.annotations.DynamicUpdate;
 import org.hibernate.annotations.Type;
 
 /**
@@ -20,6 +22,8 @@ import org.hibernate.annotations.Type;
  */
 @Entity
 @Table(name = "product_images")
+@DynamicInsert
+@DynamicUpdate
 @NamedQuery(name = "ProductImage.findAll", query = "SELECT p FROM ProductImage p")
 public class ProductImage implements Serializable {
 	private static final long serialVersionUID = 1L;
@@ -75,9 +79,4 @@ public class ProductImage implements Serializable {
 		this.product = product;
 	}
 
-	@Override
-	public String toString() {
-		return "ProductImage [imageId=" + imageId + ", imageUrl=" + imageUrl + ", isDefault=" + isDefault
-				+ ", productId=" + product + "]";
-	}
 }

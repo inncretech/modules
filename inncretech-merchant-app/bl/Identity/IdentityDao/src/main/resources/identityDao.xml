@@ -21,7 +21,18 @@
 
 	<bean id="identityDataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource"
 		destroy-method="close">
-		<property name="driverClass" value="${driverClass}" />
+		
+		<property name="driverClass" value="com.mysql.jdbc.Driver" />
+		<property name="jdbcUrl" value="jdbc:mysql://localhost:3306/access?zeroDateTimeBehavior=convertToNull" />
+		<property name="user" value="root" />
+		<property name="password" value="admin" />
+		<!-- <property name="initialPoolSize" value="${identity.initialPoolSize}" />
+		<property name="minPoolSize" value="${identity.minPoolSize}" />
+		<property name="maxPoolSize" value="${identity.maxPoolSize}" />
+		<property name="acquireIncrement" value="${identity.acquireIncrement}" />
+		<property name="maxIdleTime" value="${identity.maxIdleTime}" /> -->
+		
+		<!-- <property name="driverClass" value="${driverClass}" />
 		<property name="jdbcUrl" value="${identity.jdbcUrl}" />
 		<property name="user" value="${identity.user}" />
 		<property name="password" value="${identity.password}" />
@@ -31,13 +42,13 @@
 		<property name="acquireIncrement" value="${identity.acquireIncrement}" />
 		<property name="maxIdleTime" value="${identity.maxIdleTime}" />
 
-		<!-- Recovery from DB outage -->
+		Recovery from DB outage
 		<property name="testConnectionOnCheckin" value="${identity.testConnectionOnCheckin}" />
 		<property name="acquireRetryAttempts" value="${identity.acquireRetryAttempts}" />
 		<property name="acquireRetryDelay" value="${identity.acquireRetryDelay}" />
 		<property name="idleConnectionTestPeriod" value="${identity.idleConnectionTestPeriod}" />
 		<property name="preferredTestQuery" value="select 1" />
-		<property name="maxStatementsPerConnection" value="${identity.maxStatementsPerConnection}" />
+		<property name="maxStatementsPerConnection" value="${identity.maxStatementsPerConnection}" /> -->
 
 	</bean>
 

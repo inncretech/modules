@@ -3,7 +3,7 @@ package com.inncretech.catalogue.constants;
 public enum ErrorCodes {
 
 	INVALID_PRODUCT_ID("invalid product id"), INVALID_LIMIT_OFFSET("invalid limit offset"), INVALID_ITEM_ID(
-			"invalid item id");
+			"invalid item id"), INVALID_MERCHANT_ID("invalid merchant id");
 
 	private ErrorCodes(String status) {
 		this.status = status;

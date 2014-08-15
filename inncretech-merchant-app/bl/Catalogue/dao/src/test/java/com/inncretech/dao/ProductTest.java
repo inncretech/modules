@@ -2,7 +2,9 @@ package com.inncretech.dao;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.transaction.Transactional;
 
@@ -67,7 +69,7 @@ public class ProductTest {
 		product.setStatus(Status.ACTIVE);
 		product.setTitle("Test Title");
 
-		List<ProductCategory> categoriesProductCategories = new ArrayList<ProductCategory>();
+		Set<ProductCategory> categoriesProductCategories = new HashSet<ProductCategory>();
 
 		ProductCategory productCategory = new ProductCategory();
 
@@ -79,7 +81,7 @@ public class ProductTest {
 
 		product.setProductCategories(categoriesProductCategories);
 
-		List<ProductImage> productImagesList = new ArrayList<ProductImage>();
+		Set<ProductImage> productImagesList = new HashSet<ProductImage>();
 
 		ProductImage defaultProductImage = new ProductImage();
 		defaultProductImage.setImageUrl("abc.jpg");
@@ -97,7 +99,7 @@ public class ProductTest {
 		item.setColor("red");
 		item.setIsActive(true);
 		item.setProduct(product);
-		List<Item> itemsList = new ArrayList<Item>();
+		Set<Item> itemsList = new HashSet<Item>();
 		itemsList.add(item);
 
 		product.setItems(itemsList);

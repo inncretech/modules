@@ -46,7 +46,8 @@ public class ProductCategoryCompositeKey implements Serializable {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((category == null) ? 0 : category.getCategoryId().hashCode());
-		result = prime * result + ((product == null) ? 0 : product.hashCode());
+		result = prime * result
+				+ ((product == null || product.getProductId() == null) ? 0 : product.getProductId().hashCode());
 		return result;
 	}
 
@@ -67,8 +68,14 @@ public class ProductCategoryCompositeKey implements Serializable {
 		if (product == null) {
 			if (other.product != null)
 				return false;
-		} else if (!product.equals(other.product))
+		} else if (!product.getProductId().equals(other.product.getProductId()))
 			return false;
 		return true;
+	}
+
+	@Override
+	public String toString() {
+		return "ProductCategoryCompositeKey [product=" + product.getProductId() + ", category="
+				+ category.getCategoryId() + "]";
 	}
 }

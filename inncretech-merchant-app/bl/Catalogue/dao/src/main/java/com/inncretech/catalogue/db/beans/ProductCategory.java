@@ -8,6 +8,8 @@ import javax.persistence.Entity;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.DynamicInsert;
+import org.hibernate.annotations.DynamicUpdate;
 import org.hibernate.annotations.Type;
 
 /**
@@ -16,6 +18,8 @@ import org.hibernate.annotations.Type;
  */
 @Entity
 @Table(name = "product_category")
+@DynamicInsert
+@DynamicUpdate
 @NamedQuery(name = "ProductCategory.findAll", query = "SELECT p FROM ProductCategory p")
 public class ProductCategory extends BaseEntity implements Serializable {
 	private static final long serialVersionUID = 1L;
@@ -61,6 +65,31 @@ public class ProductCategory extends BaseEntity implements Serializable {
 
 	public void setIsActive(Boolean isActive) {
 		this.isActive = isActive;
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((productCategoryCompositeKey == null) ? 0 : productCategoryCompositeKey.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		ProductCategory other = (ProductCategory) obj;
+		if (productCategoryCompositeKey == null) {
+			if (other.productCategoryCompositeKey != null)
+				return false;
+		} else if (!productCategoryCompositeKey.equals(other.productCategoryCompositeKey))
+			return false;
+		return true;
 	}
 
 	@Override

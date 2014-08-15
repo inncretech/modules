@@ -21,6 +21,12 @@ public class ProductServiceValidator {
 	@Autowired
 	Validator validator;
 
+//	public void doValidateMerchantId(Integer merchantId) throws InvalidArgumentException {
+//		if (merchantId == null || merchantId == 0) {
+//			throwInvalidArgumentException(ErrorCodes.INVALID_MERCHANT_ID.getStatus());
+//		}
+//	}
+
 	public void doValidateProductDTO(ProductDTO productDTO) throws InvalidArgumentException {
 		List<String> errorCodes = new ArrayList<String>();
 		Set<ConstraintViolation<ProductDTO>> productConstraintViolations = validator.validate(productDTO);
@@ -59,7 +65,7 @@ public class ProductServiceValidator {
 		}
 	}
 
-	public void doValidateLimitAndOffset(int limit, int offset) throws InvalidArgumentException {
+	public void doValidateLimitAndOffset(Integer merchantId, int limit, int offset) throws InvalidArgumentException {
 		if (limit < 0 || offset < 0) {
 			throwInvalidArgumentException(ErrorCodes.INVALID_LIMIT_OFFSET.getStatus());
 		}
