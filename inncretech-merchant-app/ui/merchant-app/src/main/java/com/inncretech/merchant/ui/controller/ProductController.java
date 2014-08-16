@@ -101,7 +101,7 @@ public class ProductController {
 		} else {
 
 			try {
-				productDTO = catalogueServiceProxy.addProduct(produtDataMapper.mapUIBeanToServiceBean(productBean));
+				productDTO = catalogueServiceProxy.updateProduct(produtDataMapper.mapUIBeanToServiceBean(productBean));
 				productBean = produtDataMapper.mapServiceBeanToUIBean(productDTO);
 				model.addAttribute("productBean", productBean);
 				requestAttributes.setAttribute("success", "product.updated.sucessfully",
@@ -115,6 +115,9 @@ public class ProductController {
 				requestAttributes.setAttribute("errors", message, RequestAttributes.SCOPE_REQUEST);
 			} catch (InternalServiceException e) {
 				requestAttributes.setAttribute("errors", e.getErrorCodes(), RequestAttributes.SCOPE_REQUEST);
+			} catch (ProductNotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
 		}
 		populateDropDownBean(model);

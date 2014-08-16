@@ -4,6 +4,8 @@ import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import com.inncretech.catalogue.constants.Status;
+
 /**
  * Created by avinash on 29/7/14.
  */
@@ -25,6 +27,8 @@ public class ItemBean {
 
 	@Valid
 	private Stock stock = new Stock();
+
+	private Boolean isActive = true;
 
 	public PriceBean getPriceBean() {
 		return priceBean;
@@ -72,6 +76,14 @@ public class ItemBean {
 
 	public void setItemId(Long itemId) {
 		this.itemId = itemId;
+	}
+
+	public Boolean getIsActive() {
+		return isActive;
+	}
+
+	public void setIsActive(Boolean isActive) {
+		this.isActive = isActive;
 	}
 
 }

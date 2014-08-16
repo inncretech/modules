@@ -24,7 +24,7 @@ public class CatalogueServiceProxy {
 
 	public List<ProductDTO> getProducts(int limit, int offset) throws InternalServiceException,
 			InvalidArgumentException {
-		return productService.getActiveProducts(limit, offset);
+		return productService.getActiveProducts(1, limit, offset);
 	}
 
 	public ProductDTO getProductByProductId(Long productId) throws InvalidArgumentException, ProductNotFoundException,

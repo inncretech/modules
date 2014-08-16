@@ -11,6 +11,8 @@ import javax.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import antlr.StringUtils;
+
 import com.inncretech.catalogue.constants.Status;
 import com.inncretech.catalogue.dto.ImageDTO;
 import com.inncretech.catalogue.dto.ItemDTO;
@@ -70,7 +72,7 @@ public class ProdutDataMapper {
 				itemDTO.setRetailPrice(itemBean.getPriceBean().getSellingPrice());
 				itemDTO.setSku(itemBean.getSku());
 				itemDTO.setQuantity(itemBean.getStock().getQuantity());
-				itemDTO.setIsActive(true);
+				itemDTO.setIsActive(itemBean.getIsActive()!=null?itemBean.getIsActive():true);
 				itemDTOs.add(itemDTO);
 			}
 		}
@@ -131,6 +133,7 @@ public class ProdutDataMapper {
 				itemBean.getPriceBean().setSellingPrice(itemDTO.getRetailPrice());
 				itemBean.setSku(itemDTO.getSku());
 				itemBean.getStock().setQuantity(itemDTO.getQuantity());
+				itemBean.setIsActive(itemDTO.getIsActive()); 
 				items.add(itemBean);
 			}
 			productBean.setItems(items);

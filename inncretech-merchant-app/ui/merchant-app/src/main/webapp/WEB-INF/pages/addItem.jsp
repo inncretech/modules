@@ -2,7 +2,7 @@
 	aria-hidden="true">
         <form  id="itemBean">
 	<div class="modal-header">
-		<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+		<button type="button" class="close" data-dismiss="modal" aria-hidden="true" ng-click="clearErrorMessage()">×</button>
 		<h3 id="myModalLabel">Add Items</h3>
 	</div>
 	<div class="modal-body">

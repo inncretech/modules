@@ -1,6 +1,7 @@
-var productApp = angular.module('productApp', []);
+var a=angular.module('productApp', ['productApp.controllers','productApp.services']);
+var productApp = angular.module('productApp.controllers',[]);
 
-productApp.controller('ProductController', function($scope) {
+productApp.controller('ProductController',['$scope','AppService',function($scope,AppService) {
 	$scope.countryMap = countryMap;
 	$scope.product = product;
 
@@ -16,22 +17,33 @@ productApp.controller('ProductController', function($scope) {
 	};
 
 	$scope.editItem = function(index) {
-
-		console.log($scope.product.items[index])
 		$scope.item = $scope.product.items[index];
 	};
+
+	$scope.markActive = function(index) {
+		$scope.product.items[index].isActive = true;
+	};
+
 	$scope.validateProductForm = function() {
 		var form = $("#productBean");
 		createAllErrors(form);
-	}
+	};
 
 	$scope.validateItemForm = function() {
 		var form = $("#itemBean");
 		return createAllErrors(form);
 
-	}
+	};
 
-});
+	$scope.clearErrorMessage = function() {
+		var form = $("#itemBean");
+		var errorList = $('div.errorMessages', form);
+		errorList.empty();
+
+		$('.errorMessages').hide();
+	};
+
+}]);
 
 function createAllErrors(form) {
 	flag = true;

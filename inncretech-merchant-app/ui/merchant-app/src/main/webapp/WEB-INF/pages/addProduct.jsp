@@ -9,6 +9,7 @@
 <html lang="en" ng-app="productApp">
 <jsp:include page="header.jsp" />
 <script type="text/javascript" src="<c:url value="/resources/js/controller.js?<%=new Date()%>"/>"></script>
+<script type="text/javascript" src="<c:url value="/resources/js/service.js?<%=new Date()%>"/>"></script>
 <script type="text/javascript">
 var product=${f:convertToJson(productBean)};
 var countryMap =${f:convertToJson(dropDownBean.countryMap)};

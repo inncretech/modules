@@ -92,7 +92,12 @@
 					ng-value="item.dimensionsAndWeight.height" />
 			</div>
 		</div>
-		<input type="button" ng-click="remove($index)" value="Remove Rows" />
+          <input type="hidden"
+                    name="items[{{$index}}].isActive"
+                    ng-model="item.isActive"
+                    ng-value="item.isActive" />
+          <input type="button" ng-show="item.isActive==false" ng-click="markActive($index)" value="Mark Active" />
+		<input type="button" ng-show="item.isActive==true" ng-click="remove($index)" value="Remove Rows" />
 		<a href="#myModal" class="btn btn-sucess" data-toggle="modal"
 			ng-click="editItem($index)" role="button">Edit Data</a>
 	</div>
