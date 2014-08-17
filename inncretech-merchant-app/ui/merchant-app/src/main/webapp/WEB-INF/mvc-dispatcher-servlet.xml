@@ -40,7 +40,7 @@
 	<context:component-scan base-package="com.inncretech.merchant.ui.controller" />
 	<context:component-scan base-package="com.inncretech.merchant.mapper" />
 	<context:component-scan base-package="com.inncretech.merchant.services.proxy" />
-	
+
 	<import resource="classpath:service.xml" />
 	<import resource="classpath:application-profiles.xml" />
 
@@ -55,6 +55,10 @@
 		<property name="basename" value="messages"></property>
 	</bean>
 
+	<bean id="multipartResolver"
+		class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+		<property name="maxUploadSize" value="10000000" />
+	</bean>
 
 	<bean
 		class="org.springframework.web.servlet.view.InternalResourceViewResolver">

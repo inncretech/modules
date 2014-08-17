@@ -8,8 +8,6 @@
 <%@ taglib prefix="f" uri="http://www.inncretech.com/functions"%>
 <html lang="en" ng-app="productApp">
 <jsp:include page="header.jsp" />
-<script type="text/javascript" src="<c:url value="/resources/js/controller.js?<%=new Date()%>"/>"></script>
-<script type="text/javascript" src="<c:url value="/resources/js/service.js?<%=new Date()%>"/>"></script>
 <script type="text/javascript">
 var product=${f:convertToJson(productBean)};
 var countryMap =${f:convertToJson(dropDownBean.countryMap)};
@@ -66,6 +64,41 @@ var countryMap =${f:convertToJson(dropDownBean.countryMap)};
                               >
                                    <option value="">---Select Origin Country ----</option>
                               </select>
+                         </div>
+                    </div>
+                    <div class="control-group">
+                         <label class="control-label" for="images">Add Images <span style="color: #FF0000;">*</span>:
+                         </label>
+                         <div ng-controller="ImageUploadController" class="controls" style="width: 450px;">
+                              <div ng-show="true" id="imgDiv">
+                                   <div class="row row-choise text-center" style="margin-bottom: 15px;">
+                                        <div id="div{{$index}}" ng-repeat="image in imagePreviewData" class="col-md-4 text-center"
+                                             style="height: 125px"
+                                        >
+                                             <div style="border: 1px solid rgba(0, 0, 0, .1); height: 125px; overflow: hidden">
+                                                  <span class="" ng-click="removeFromTemplate(image)"
+                                                       style="position: absolute; right: 20px; color: red; font-size: 21px; font-weight: bold; line-height: 1; cursor: pointer;"
+                                                  >&times;</span> <img ng-src="{{image.imageUrl}}" style="width: 120%;" index="{{$index}}" />
+                                             </div>
+                                        </div>
+                                        <div class="col-md-4 text-center" ng-repeat="q in imageArray" style="height: 125px;">
+                                             <div style="height: 100%; position: relative; overflow: hidden;">
+                                                  <img ng-src="{{q.imageUrl}}" style="width: 120%; opacity: 0.5" />
+                                                  <div class="spinner"></div>
+                                             </div>
+                                        </div>
+                                        <div class="col-md-4" ng-hide="imagePreviewData.length>=3 || imagePreviewData.length+queue.length >=3">
+                                             <button class="btn btn-add-img btn-lg btn-block" onclick="openUploadFileDialog(this)"
+                                                  title="Choose a file to upload" alt="Choose a file to upload" ng-disabled="imageLoading"
+                                             >
+                                                  <i class="glyphicon glyphicon-plus"></i>
+                                             </button>
+                                        </div>
+                                   </div>
+                              </div>
+                              <input type="file" style="display: none;" id="uploadImageFileId"
+                                   onchange="angular.element(this).scope().uploadCreateImage(this)"
+                              />
                          </div>
                     </div>
                     <c:import url="item.jsp" />

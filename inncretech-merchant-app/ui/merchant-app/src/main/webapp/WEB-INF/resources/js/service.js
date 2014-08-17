@@ -8,11 +8,11 @@ angular.module('productApp.services', []).service('AppService', ['$http', functi
             };
         };
         var formData = new FormData();
-        formData.append("file", file);
+        formData.append("image", file);
 
         $.ajax({
             type: 'POST',
-            url: "/uploadImages",
+            url: "/uploadImage",
             data: formData,
             cache: false,
             contentType: false,
