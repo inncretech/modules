@@ -49,9 +49,6 @@ productApp.controller('ProductController', [ '$scope', 'AppService', function($s
 
 productApp.controller('ImageUploadController', [ '$scope', 'AppService', '$compile', '$q', '$timeout', function($scope, AppService, $compile, $q, $timeout) {
 	$scope.imageArray = [];
-	$scope.$on('postEvent', function(e) {
-		$scope.$parent.imagePreviewData = $scope.imagePreviewData;
-	});
 	$scope.$on('doneEvent', function(e) {
 		$scope.imagePreviewData = [];
 		$scope.showImageDiv = false;
@@ -60,32 +57,17 @@ productApp.controller('ImageUploadController', [ '$scope', 'AppService', '$compi
 	$scope.showImageDiv = false;
 	$scope.imagePreviewData = [];
 
-	$scope.addImageToPreview = function(image) {
-		var img = new Image()
-		img.src = image.imageUrl;
-		img.onload = function() {
-			console.info("Image loaded !");
-			$scope.imagePreviewData.push(image);
-			$scope.showImageDiv = true;
-			$scope.attachNewImage = true;
-			$scope.imageArray.shift();
-			$scope.$apply();
-		}
-	};
 
 	$scope.uploadCreateImage = function(fileObj) {
 		$scope.showImageDiv = true;
 		var loaded = 0;
 		if (fileObj.files && fileObj.files[0]) {
 			var reader = new FileReader();
-
 			reader.onload = function(e) {
 				$scope.imageArray.push({
 					'imageUrl' : e.target.result
 				});
-				console.log($scope.imageArray);
 			}
-
 			reader.readAsDataURL(fileObj.files[0]);
 		}
 
@@ -101,35 +83,25 @@ productApp.controller('ImageUploadController', [ '$scope', 'AppService', '$compi
 			load(event);
 		});
 	};
-	$scope.removeFromTemplate = function(media) {
-		if ($scope.imagePreviewData.length > 0) {
-			var length = $scope.imagePreviewData.length;
-			var newMediaList = [];
-			for (var count = 0; count < length; count++) {
-				if ($scope.imagePreviewData[count].mediaSourceId != media.mediaSourceId) {
-					newMediaList.push($scope.imagePreviewData[count]);
-				}
-			}
-			$scope.imagePreviewData = newMediaList;
-			if (newMediaList.length == 0) {
-				$scope.attachNewImage = false;
-			}
+	
+	$scope.addImageToPreview = function(image) {
+		var img = new Image()
+		img.src = image.imageUrl;
+		img.onload = function() {
+			$scope.imagePreviewData.push(image);
+			$scope.showImageDiv = true;
+			$scope.attachNewImage = true;
+			$scope.imageArray.shift();
+			$scope.$apply();
 		}
+	};
+	
+	$scope.removeFromTemplate = function(index) {
+		$scope.imagePreviewData.splice(index, 1);
 	};
 } ]);
 
 
-appModule.directive('imgLoad', function() {
-	return {
-		link : function(scope, element, attrs) {
-			element.bind("load", function(event) {
-				var num = scope.$eval(attrs.index);
-				console.log("Num " + num);
-				scope.imagePreviewData[num].imgCrop = loadImage(element, 'div' + num, '533', '400');
-			});
-		}
-	}
-});
 
 function createAllErrors(form) {
 	flag = true;

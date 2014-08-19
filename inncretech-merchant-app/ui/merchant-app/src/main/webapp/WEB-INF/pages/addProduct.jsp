@@ -76,7 +76,7 @@ var countryMap =${f:convertToJson(dropDownBean.countryMap)};
                                              style="height: 125px"
                                         >
                                              <div style="border: 1px solid rgba(0, 0, 0, .1); height: 125px; overflow: hidden">
-                                                  <span class="" ng-click="removeFromTemplate(image)"
+                                                  <span class="" ng-click="removeFromTemplate($index)"
                                                        style="position: absolute; right: 20px; color: red; font-size: 21px; font-weight: bold; line-height: 1; cursor: pointer;"
                                                   >&times;</span> <img ng-src="{{image.imageUrl}}" style="width: 120%;" index="{{$index}}" />
                                              </div>
