@@ -69,7 +69,7 @@ var countryMap =${f:convertToJson(dropDownBean.countryMap)};
                     <div class="control-group">
                          <label class="control-label" for="images">Add Images <span style="color: #FF0000;">*</span>:
                          </label>
-                         <div ng-controller="ImageUploadController" class="controls" style="width: 450px;">
+                         <div ng-controller="ImageUploadController" ng-init="init()" class="controls" style="width: 450px;">
                               <div ng-show="true" id="imgDiv">
                                    <div class="row row-choise text-center" style="margin-bottom: 15px;">
                                         <div id="div{{$index}}" ng-repeat="image in imagePreviewData" class="col-md-4 text-center"
@@ -78,7 +78,7 @@ var countryMap =${f:convertToJson(dropDownBean.countryMap)};
                                              <div style="border: 1px solid rgba(0, 0, 0, .1); height: 125px; overflow: hidden">
                                                   <span class="" ng-click="removeFromTemplate($index)"
                                                        style="position: absolute; right: 20px; color: red; font-size: 21px; font-weight: bold; line-height: 1; cursor: pointer;"
-                                                  >&times;</span> <img ng-src="{{image.imageUrl}}" style="width: 120%;" index="{{$index}}" />
+                                                  >&times;</span><input type="hidden"  name="images[{{$index}}].imageUrl" value="{{image.imageUrl}}" ng-model="images.imageUrl" ng-value="image.imageUrl"/> <img ng-src="{{image.imageUrl}}" style="width: 120%;" index="{{$index}}" />
                                              </div>
                                         </div>
                                         <div class="col-md-4 text-center" ng-repeat="q in imageArray" style="height: 125px;">

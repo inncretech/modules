@@ -11,6 +11,15 @@ public class ImageBean implements Serializable {
 
 	private String imageUrl;
 
+	public ImageBean() {
+
+	}
+
+	public ImageBean(String imageUrl) {
+		super();
+		this.imageUrl = imageUrl;
+	}
+
 	public String getImageUrl() {
 		return imageUrl;
 	}

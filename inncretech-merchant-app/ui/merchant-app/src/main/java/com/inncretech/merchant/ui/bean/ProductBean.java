@@ -54,6 +54,10 @@ public class ProductBean implements Serializable {
 	// This is for UI purpose
 	private Map<Integer, List<CategoryBean>> categoryIdToCategoryBeanList;
 
+	@NotNull(message = "product images cann't be null")
+	@Size(min = 1, max = 100, message = "min one product image is required")
+	private List<ImageBean> images=new ArrayList<ImageBean>();
+
 	public Long getProductId() {
 		return productId;
 	}
@@ -156,6 +160,14 @@ public class ProductBean implements Serializable {
 
 	public void setCategoryIdToCategoryBeanList(Map<Integer, List<CategoryBean>> categoryIdToCategoryBeanList) {
 		this.categoryIdToCategoryBeanList = categoryIdToCategoryBeanList;
+	}
+
+	public List<ImageBean> getImages() {
+		return images;
+	}
+
+	public void setImages(List<ImageBean> images) {
+		this.images = images;
 	}
 
 }

@@ -45,18 +45,16 @@ productApp.controller('ProductController', [ '$scope', 'AppService', function($s
 
 } ]);
 
-
-
 productApp.controller('ImageUploadController', [ '$scope', 'AppService', '$compile', '$q', '$timeout', function($scope, AppService, $compile, $q, $timeout) {
 	$scope.imageArray = [];
-	$scope.$on('doneEvent', function(e) {
-		$scope.imagePreviewData = [];
-		$scope.showImageDiv = false;
-	});
-
 	$scope.showImageDiv = false;
 	$scope.imagePreviewData = [];
 
+	$scope.init = function() {
+		$scope.imagePreviewData = $scope.$parent.product.images;
+		console.log($scope.imagePreviewData );
+
+	};
 
 	$scope.uploadCreateImage = function(fileObj) {
 		$scope.showImageDiv = true;
@@ -83,7 +81,7 @@ productApp.controller('ImageUploadController', [ '$scope', 'AppService', '$compi
 			load(event);
 		});
 	};
-	
+
 	$scope.addImageToPreview = function(image) {
 		var img = new Image()
 		img.src = image.imageUrl;
@@ -95,13 +93,11 @@ productApp.controller('ImageUploadController', [ '$scope', 'AppService', '$compi
 			$scope.$apply();
 		}
 	};
-	
+
 	$scope.removeFromTemplate = function(index) {
 		$scope.imagePreviewData.splice(index, 1);
 	};
 } ]);
-
-
 
 function createAllErrors(form) {
 	flag = true;
