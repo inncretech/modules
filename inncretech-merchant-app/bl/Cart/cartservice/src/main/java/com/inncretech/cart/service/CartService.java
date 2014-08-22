@@ -7,8 +7,15 @@ import com.inncretech.cart.dto.CartItemDto;
  * Created by avinash on 10/8/14.
  */
 public interface CartService {
-  CartDto addToCart(CartDto cartDto, CartItemDto cartItemDto);
-  CartDto updateCart(CartDto cartDto, CartItemDto cartItemDto);
-  CartDto delete(CartDto cartDto, Long itemId);
+
+	CartDto getCartBySessionId(String sessionId);
+
+	CartDto getCartByUserId(Long userId);
+
+	CartDto addToCart(String sessionId, Long userId, CartItemDto cartItemDto);
+
+	CartDto updateCart(String sessionId, Long userId, CartItemDto cartItemDto);
+
+	CartDto delete(String sessionId, Long userId, Long itemId);
 
 }
