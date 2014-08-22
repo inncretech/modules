@@ -1,4 +1,4 @@
-package com.inncretech.cart.service.com.inncretech.cart.service.impl;
+package com.inncretech.cart.service.impl;
 
 import com.inncretech.cart.dto.CartDto;
 import com.inncretech.cart.dto.CartItemDto;
