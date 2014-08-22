@@ -88,11 +88,11 @@ var countryMap =${f:convertToJson(dropDownBean.countryMap)};
                                              </div>
                                         </div>
                                         <div class="col-md-4" ng-hide="imagePreviewData.length>=3 || imagePreviewData.length+queue.length >=3">
-                                             <button class="btn btn-add-img btn-lg btn-block" onclick="openUploadFileDialog(this)"
+                                             <a class="btn btn-add-img btn-lg btn-block" onclick="openUploadFileDialog(this)"
                                                   title="Choose a file to upload" alt="Choose a file to upload" ng-disabled="imageLoading"
                                              >
-                                                  <i class="glyphicon glyphicon-plus"></i>
-                                             </button>
+                                                  <i class="glyphicon glyphicon-plus" style="top:45px"></i>
+                                             </a>
                                         </div>
                                    </div>
                               </div>

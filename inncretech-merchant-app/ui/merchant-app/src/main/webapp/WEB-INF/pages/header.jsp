@@ -9,7 +9,7 @@
 <link rel="stylesheet" type="text/css" href="<c:url value="/resources/css/bootstrap-combobox.css"/>" media="screen" />
 <link rel="stylesheet" type="text/css" href="<c:url value="/resources/css/bootstrap-select.css"/>" media="screen" />
 <link href="<c:url value="/resources/css/new_styling.css"/>" rel="stylesheet" type="text/css" />
-<link rel="stylesheet" href="<c:url value="/resources/css/bootstrap.css?<%=new Date()%>"/>" type="text/css">
+<link rel="stylesheet" href="<c:url value="/resources/css/bootstrap.css?1"/>" type="text/css">
 <link rel="stylesheet" href="<c:url value="/resources/css/datepicker.css"/>" type="text/css">
 <script type="text/javascript" src="<c:url value="/resources/js/jquery-1.9.1.min.js"/>"></script>
 <script type="text/javascript" src="<c:url value="/resources/js/bootstrap.js"/>"></script>
@@ -26,12 +26,12 @@
 <script type="text/javascript" src="<c:url value="/resources/js/bootstrap-button.js"/>"></script>
 <script type="text/javascript" src="<c:url value="/resources/js/categorytreecreation.js"/>"></script>
 <script type="text/javascript" src="<c:url value="/resources/js/angular.js"/>"></script>
-<script type="text/javascript" src="<c:url value="/resources/js/imageupload.js?<%=new Date()%>"/>"></script>
-<script type="text/javascript" src="<c:url value="/resources/js/angular-route.min.js?<%=new Date()%>"/>"></script>
-<script type="text/javascript" src="<c:url value="/resources/js/angular-sanitize.min.js?<%=new Date()%>"/>"></script>
-<script type="text/javascript" src="<c:url value="/resources/js/imageCrop.js?<%=new Date()%>"/>"></script>
-<script type="text/javascript" src="<c:url value="/resources/js/application.js?<%=new Date()%>"/>"></script>
-<script type="text/javascript" src="<c:url value="/resources/js/controller.js?<%=new Date()%>"/>"></script>
-<script type="text/javascript" src="<c:url value="/resources/js/service.js?<%=new Date()%>"/>"></script>
+<script type="text/javascript" src="<c:url value="/resources/js/imageupload.js?1"/>"></script>
+<script type="text/javascript" src="<c:url value="/resources/js/angular-route.min.js?1"/>"></script>
+<script type="text/javascript" src="<c:url value="/resources/js/angular-sanitize.min.js?1"/>"></script>
+<script type="text/javascript" src="<c:url value="/resources/js/imageCrop.js?1"/>"></script>
+<script type="text/javascript" src="<c:url value="/resources/js/application.js?121"/>"></script>
+<script type="text/javascript" src="<c:url value="/resources/js/controller.js?1"/>"></script>
+<script type="text/javascript" src="<c:url value="/resources/js/service.js?1"/>"></script>
 <link rel="stylesheet" href="<c:url value="/resources/css/custom.css"/>" type="text/css">
 </head>
