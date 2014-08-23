@@ -1,6 +1,7 @@
 package com.inncretech.cart.service.impl;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -116,9 +117,35 @@ public class CartServiceManager {
 	}
 
 	public CartDto mergeCarts(Long userId, String sessionId) {
-		ShoppingCart shoppingCartBySessionId = shoppingCartRepository.findShoppingCartBySessionId(sessionId);
 		ShoppingCart shoppingCartByUserId = shoppingCartRepository.findShoppingCartByUserId(userId);
-		return null;
+
+		ShoppingCart shoppingCartBySessionId = shoppingCartRepository.findShoppingCartBySessionId(sessionId);
+
+		if (shoppingCartBySessionId != null && shoppingCartByUserId == null) {
+			shoppingCartBySessionId.setUserId(userId);
+			shoppingCartRepository.save(shoppingCartBySessionId);
+			shoppingCartByUserId = shoppingCartBySessionId;
+		} else if (shoppingCartBySessionId != null
+				&& (shoppingCartBySessionId.getShoppingCartItems() != null && !shoppingCartBySessionId
+						.getShoppingCartItems().isEmpty())) {
+			if (shoppingCartByUserId.getShoppingCartItems() == null
+					|| shoppingCartByUserId.getShoppingCartItems().isEmpty()) {
+				shoppingCartByUserId.setShoppingCartItems(new HashSet<ShoppingCartItem>());
+			}
+			for (ShoppingCartItem shoppingCartItem : shoppingCartBySessionId.getShoppingCartItems()) {
+				ShoppingCartItem shoppingCartItemtemp = new ShoppingCartItem();
+				shoppingCartItemtemp.setItemId(shoppingCartItem.getItemId());
+				shoppingCartItemtemp.setMrp(shoppingCartItem.getMrp());
+				shoppingCartItemtemp.setSellingPrice(shoppingCartItem.getSellingPrice());
+				shoppingCartItemtemp.setQuantity(shoppingCartItem.getQuantity());
+				shoppingCartByUserId.getShoppingCartItems().add(shoppingCartItemtemp);
+			}
+
+			shoppingCartItemsRepository.deleteCartIds(shoppingCartBySessionId.getCartId());
+			shoppingCartByUserId.setSessionId(sessionId);
+			shoppingCartRepository.save(shoppingCartByUserId);
+		}
+		return mapDbBeanToDTO(shoppingCartByUserId);
 	}
 
 	@Transactional(value = "cartTransactionManager")

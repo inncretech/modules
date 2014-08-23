@@ -68,7 +68,7 @@ public class CartServiceImpl implements CartService {
 	public CartDto mergeCarts(Long userId, String sessionId) throws InvalidArgumentException {
 		validateSessionId(sessionId);
 		validateUserId(userId);
-		return null;
+		return cartServiceManager.mergeCarts(userId, sessionId);
 	}
 
 	private void validateItemId(Long itemId) throws InvalidArgumentException {
