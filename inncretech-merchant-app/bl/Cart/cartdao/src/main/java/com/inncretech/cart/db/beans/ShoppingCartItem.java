@@ -18,10 +18,10 @@ import org.hibernate.annotations.DynamicUpdate;
 import com.inncretech.db.common.beans.BaseEntity;
 
 @Entity
-@Table(name = "shopping_cart_items")
+@Table(name = "shopping_cart_item")
 @DynamicInsert
 @DynamicUpdate
-public class ShoppingCartItems extends BaseEntity implements Serializable {
+public class ShoppingCartItem extends BaseEntity implements Serializable {
 
 	/**
 	 * 

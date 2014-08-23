@@ -17,7 +17,7 @@ public class CartDto implements Serializable {
 
 	private List<CartItemDto> cartItems;
 
-	private String userId;
+	private Long userId;
 
 	public List<CartItemDto> getCartItems() {
 		return cartItems;
@@ -27,11 +27,11 @@ public class CartDto implements Serializable {
 		this.cartItems = cartItems;
 	}
 
-	public String getUserId() {
+	public Long getUserId() {
 		return userId;
 	}
 
-	public void setUserId(String userId) {
+	public void setUserId(Long userId) {
 		this.userId = userId;
 	}
 

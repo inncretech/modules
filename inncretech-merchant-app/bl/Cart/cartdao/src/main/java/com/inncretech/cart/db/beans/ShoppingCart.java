@@ -41,7 +41,7 @@ public class ShoppingCart extends BaseEntity implements Serializable {
 	private String sessionId;
 
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "shoppingCart", fetch = FetchType.LAZY)
-	private Set<ShoppingCartItems> shoppingCartItems;
+	private Set<ShoppingCartItem> shoppingCartItems;
 
 	public Long getCartId() {
 		return cartId;
@@ -67,11 +67,11 @@ public class ShoppingCart extends BaseEntity implements Serializable {
 		this.sessionId = sessionId;
 	}
 
-	public Set<ShoppingCartItems> getShoppingCartItems() {
+	public Set<ShoppingCartItem> getShoppingCartItems() {
 		return shoppingCartItems;
 	}
 
-	public void setShoppingCartItems(Set<ShoppingCartItems> shoppingCartItems) {
+	public void setShoppingCartItems(Set<ShoppingCartItem> shoppingCartItems) {
 		this.shoppingCartItems = shoppingCartItems;
 	}
 

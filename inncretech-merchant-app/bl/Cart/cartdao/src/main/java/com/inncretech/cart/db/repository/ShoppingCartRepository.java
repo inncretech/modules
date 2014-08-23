@@ -6,7 +6,7 @@ import org.springframework.stereotype.Repository;
 import com.inncretech.cart.db.beans.ShoppingCart;
 
 @Repository
-public interface ShoppingCartRepository extends JpaRepository<ShoppingCart, String> {
+public interface ShoppingCartRepository extends JpaRepository<ShoppingCart, Long> {
 
 	public ShoppingCart findShoppingCartBySessionId(String sessionId);
 

@@ -14,7 +14,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.inncretech.cart.db.beans.ShoppingCart;
-import com.inncretech.cart.db.beans.ShoppingCartItems;
+import com.inncretech.cart.db.beans.ShoppingCartItem;
 import com.inncretech.cart.db.repository.ShoppingCartRepository;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -32,8 +32,8 @@ public class CartTest {
 		ShoppingCart shoppingCart = new ShoppingCart();
 		shoppingCart.setSessionId("SessionId");
 		shoppingCart.setUserId(1l);
-		Set<ShoppingCartItems> shoppingCartItems = new HashSet<ShoppingCartItems>();
-		ShoppingCartItems shoppingCartItem = new ShoppingCartItems();
+		Set<ShoppingCartItem> shoppingCartItems = new HashSet<ShoppingCartItem>();
+		ShoppingCartItem shoppingCartItem = new ShoppingCartItem();
 		shoppingCartItem.setItemId(1l);
 		shoppingCartItem.setMrp(BigDecimal.TEN);
 		shoppingCartItem.setQuantity(1);
