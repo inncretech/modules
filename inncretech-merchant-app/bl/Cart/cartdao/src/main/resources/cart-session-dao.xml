@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:jpa="http://www.springframework.org/schema/data/jpa"
+	xsi:schemaLocation="
+        http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/tx
+        http://www.springframework.org/schema/tx/spring-tx.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context.xsd
+        http://www.springframework.org/schema/aop 
+        http://www.springframework.org/schema/aop/spring-aop.xsd http://www.springframework.org/schema/data/jpa
+         http://www.springframework.org/schema/data/jpa/spring-jpa.xsd">
+
+	<context:annotation-config />
+	<context:component-scan base-package="com.inncretech" />
+	<bean
+		class="org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor" />
+	<bean id="cartDataSourceWrite" class="com.mchange.v2.c3p0.ComboPooledDataSource"
+		destroy-method="close">
+		<property name="driverClass" value="${driverClass}" />
+		<property name="jdbcUrl" value="${cart.write.jdbcUrl}" />
+		<property name="user" value="${cart.write.user}" />
+		<property name="password" value="${cart.write.password}" />
+		<property name="initialPoolSize" value="${cart.write.initialPoolSize}" />
+		<property name="minPoolSize" value="${cart.write.minPoolSize}" />
+		<property name="maxPoolSize" value="${cart.write.maxPoolSize}" />
+		<property name="acquireIncrement" value="${cart.write.acquireIncrement}" />
+		<property name="maxIdleTime" value="${cart.write.maxIdleTime}" />
+
+		<property name="testConnectionOnCheckin" value="${cart.write.testConnectionOnCheckin}" />
+		<property name="acquireRetryAttempts" value="${cart.write.acquireRetryAttempts}" />
+		<property name="acquireRetryDelay" value="${cart.write.acquireRetryDelay}" />
+		<property name="idleConnectionTestPeriod" value="${cart.write.idleConnectionTestPeriod}" />
+		<property name="preferredTestQuery" value="select 1" />
+		<property name="maxStatementsPerConnection" value="${cart.write.maxStatementsPerConnection}" />
+
+	</bean>
+
+
+
+	<bean id="cartEntityManagerFactoryWrite"
+		class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+		<property name="dataSource" ref="cartDataSourceWrite" />
+		<property name="persistenceUnitName" value="cartPersistUnitWrite" />
+		<property name="packagesToScan" value="com.inncretech.cart.db.beans" />
+		<property name="jpaVendorAdapter">
+			<bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">
+				<property name="databasePlatform" value="org.hibernate.dialect.MySQL5Dialect" />
+				<property name="showSql" value="true"></property>
+				<property name="generateDdl" value="true" />
+			</bean>
+		</property>
+	</bean>
+
+
+	<tx:annotation-driven transaction-manager="cartTransactionManager" />
+
+	<jpa:repositories base-package="com.inncretech.cart.db.repository"
+		entity-manager-factory-ref="cartEntityManagerFactoryWrite"
+		transaction-manager-ref="cartTransactionManager">
+	</jpa:repositories>
+
+	<bean id="cartTransactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
+		<property name="entityManagerFactory" ref="cartEntityManagerFactoryWrite" />
+	</bean>
+
+	<bean
+		class="org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor" />
+	<bean id="sessionDataSourceWrite" class="com.mchange.v2.c3p0.ComboPooledDataSource"
+		destroy-method="close">
+		<property name="driverClass" value="${driverClass}" />
+		<property name="jdbcUrl" value="${session.write.jdbcUrl}" />
+		<property name="user" value="${session.write.user}" />
+		<property name="password" value="${session.write.password}" />
+		<property name="initialPoolSize" value="${session.write.initialPoolSize}" />
+		<property name="minPoolSize" value="${session.write.minPoolSize}" />
+		<property name="maxPoolSize" value="${session.write.maxPoolSize}" />
+		<property name="acquireIncrement" value="${session.write.acquireIncrement}" />
+		<property name="maxIdleTime" value="${session.write.maxIdleTime}" />
+
+		<property name="testConnectionOnCheckin" value="${session.write.testConnectionOnCheckin}" />
+		<property name="acquireRetryAttempts" value="${session.write.acquireRetryAttempts}" />
+		<property name="acquireRetryDelay" value="${session.write.acquireRetryDelay}" />
+		<property name="idleConnectionTestPeriod" value="${session.write.idleConnectionTestPeriod}" />
+		<property name="preferredTestQuery" value="select 1" />
+		<property name="maxStatementsPerConnection" value="${session.write.maxStatementsPerConnection}" />
+
+	</bean>
+
+
+
+	<bean id="sessionEntityManagerFactoryWrite"
+		class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+		<property name="dataSource" ref="sessionDataSourceWrite" />
+		<property name="persistenceUnitName" value="sessionPersistUnitWrite" />
+		<property name="packagesToScan" value="com.inncretech.session.db.beans" />
+		<property name="jpaVendorAdapter">
+			<bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">
+				<property name="databasePlatform" value="org.hibernate.dialect.MySQL5Dialect" />
+				<property name="showSql" value="true"></property>
+				<property name="generateDdl" value="true" />
+			</bean>
+		</property>
+	</bean>
+
+
+	<tx:annotation-driven transaction-manager="sessionTransactionManager" />
+
+	<jpa:repositories base-package="com.inncretech.session.db.repository"
+		entity-manager-factory-ref="sessionEntityManagerFactoryWrite"
+		transaction-manager-ref="sessionTransactionManager">
+	</jpa:repositories>
+
+	<bean id="sessionTransactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
+		<property name="entityManagerFactory" ref="sessionEntityManagerFactoryWrite" />
+	</bean>
+</beans>

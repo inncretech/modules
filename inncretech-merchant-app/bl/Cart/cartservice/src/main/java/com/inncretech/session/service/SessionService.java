@@ -1,14 +1,15 @@
 package com.inncretech.session.service;
 
-import com.inncretech.session.dto.Session;
+import com.inncretech.common.exceptions.InvalidArgumentException;
+import com.inncretech.session.dto.SessionBean;
 
 public interface SessionService {
 
-	Session createSession();
-	
-	Session getSession(String sessionId);
-	
-	Boolean markSessionInActive(String sessionId);
-	
-	Boolean attachSessionWithUser(String sessionId,Long userId);
+	SessionBean createSession();
+
+	SessionBean getSession(String sessionId) throws InvalidArgumentException;
+
+	void markSessionInActive(String sessionId) throws InvalidArgumentException;
+
+	void attachSessionWithUser(String sessionId, Long userId) throws InvalidArgumentException;
 }

@@ -11,6 +11,7 @@
     <modules>
         <module>cartdto</module>
         <module>cartservice</module>
+        <module>cartdao</module>
     </modules>
 
 
