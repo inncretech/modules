@@ -3,6 +3,8 @@ package com.inncretech.cart.service.impl;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -20,6 +22,9 @@ public class CartServiceManager {
 
 	public CartDto getCartBySessionId(String sessionId) {
 		ShoppingCart shoppingCart = shoppingCartRepository.findShoppingCartBySessionId(sessionId);
+		if (shoppingCart == null) {
+			shoppingCart = createCartBySessionId(sessionId);
+		}
 
 		return mapDbBeanToDTO(shoppingCart);
 	}
@@ -48,6 +53,9 @@ public class CartServiceManager {
 
 	public CartDto getCartByUserId(Long userId) {
 		ShoppingCart shoppingCart = shoppingCartRepository.findShoppingCartByUserId(userId);
+		if (shoppingCart == null) {
+			shoppingCart = createCartByUserId(userId);
+		}
 		return mapDbBeanToDTO(shoppingCart);
 	}
 
@@ -56,16 +64,33 @@ public class CartServiceManager {
 		return mapDbBeanToDTO(shoppingCart);
 	}
 
-	public CartDto addToCart(String sessionId, Long userId, CartItemDto cartItemDto) {
+	public CartDto addToCart(Long cartId, CartItemDto cartItemDto) {
 		return null;
 	}
 
-	public CartDto updateCart(String sessionId, Long userId, CartItemDto cartItemDto) {
+	public CartDto updateCart(Long cartId, CartItemDto cartItemDto) {
 		return null;
 	}
 
-	public CartDto delete(String sessionId, Long userId, Long itemId) {
+	public CartDto delete(Long cartId, Long itemId) {
 		return null;
 	}
 
+	@Transactional
+	private ShoppingCart createCartBySessionId(String sessionId) {
+		ShoppingCart shoppingCart;
+		shoppingCart = new ShoppingCart();
+		shoppingCart.setSessionId(sessionId);
+		shoppingCartRepository.save(shoppingCart);
+		return shoppingCart;
+	}
+
+	@Transactional
+	private ShoppingCart createCartByUserId(Long userId) {
+		ShoppingCart shoppingCart;
+		shoppingCart = new ShoppingCart();
+		shoppingCart.setUserId(userId);
+		shoppingCartRepository.save(shoppingCart);
+		return shoppingCart;
+	}
 }

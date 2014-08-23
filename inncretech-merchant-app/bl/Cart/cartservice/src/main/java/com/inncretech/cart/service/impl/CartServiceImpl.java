@@ -38,9 +38,8 @@ public class CartServiceImpl implements CartService {
 	}
 
 	@Override
-	public CartDto addToCart(String sessionId, Long userId, CartItemDto cartItemDto) throws InvalidArgumentException {
-		validateSessionId(sessionId);
-		validateUserId(userId);
+	public CartDto addToCart(Long cartId, CartItemDto cartItemDto) throws InvalidArgumentException {
+		vaidateCartId(cartId);
 		validateCartItemDTO(cartItemDto);
 		return null;
 	}
@@ -50,17 +49,22 @@ public class CartServiceImpl implements CartService {
 	}
 
 	@Override
-	public CartDto updateCart(String sessionId, Long userId, CartItemDto cartItemDto) throws InvalidArgumentException {
-		validateSessionId(sessionId);
-		validateUserId(userId);
+	public CartDto updateCart(Long cartId, CartItemDto cartItemDto) throws InvalidArgumentException {
+		vaidateCartId(cartId);
 		return null;
 	}
 
 	@Override
-	public CartDto delete(String sessionId, Long userId, Long itemId) throws InvalidArgumentException {
+	public CartDto delete(Long cartId, Long itemId) throws InvalidArgumentException {
+		vaidateCartId(cartId);
+		validateItemId(itemId);
+		return null;
+	}
+
+	@Override
+	public CartDto mergeCarts(Long userId, String sessionId) throws InvalidArgumentException {
 		validateSessionId(sessionId);
 		validateUserId(userId);
-		validateItemId(itemId);
 		return null;
 	}
 
@@ -89,4 +93,5 @@ public class CartServiceImpl implements CartService {
 			throw new InvalidArgumentException("Cart Id is null or less than Zero");
 		}
 	}
+
 }
