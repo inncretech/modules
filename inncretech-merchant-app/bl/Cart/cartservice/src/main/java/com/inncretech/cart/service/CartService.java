@@ -2,6 +2,7 @@ package com.inncretech.cart.service;
 
 import com.inncretech.cart.dto.CartDto;
 import com.inncretech.cart.dto.CartItemDto;
+import com.inncretech.cart.exception.CartNotFoundException;
 import com.inncretech.common.exceptions.InvalidArgumentException;
 
 /**
@@ -27,11 +28,11 @@ public interface CartService {
 
 	CartDto getCartByCartId(Long cartId) throws InvalidArgumentException;
 
-	CartDto addToCart(Long cartId, CartItemDto cartItemDto) throws InvalidArgumentException;
+	CartDto addToCart(Long cartId, CartItemDto cartItemDto) throws InvalidArgumentException, CartNotFoundException;
 
-	CartDto updateCart(Long cartId, CartItemDto cartItemDto) throws InvalidArgumentException;
+	CartDto updateCart(Long cartId, CartItemDto cartItemDto) throws InvalidArgumentException, CartNotFoundException;
 
-	CartDto delete(Long cartId, Long itemId) throws InvalidArgumentException;
+	CartDto delete(Long cartId, Long itemId) throws InvalidArgumentException, CartNotFoundException;;
 
 	CartDto mergeCarts(Long userId, String sessionId) throws InvalidArgumentException;
 

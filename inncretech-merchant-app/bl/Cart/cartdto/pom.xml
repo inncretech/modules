@@ -11,4 +11,11 @@
     <artifactId>cartdto</artifactId>
 
 
+    <dependencies>
+    	<dependency>
+    		<groupId>com.inncretech</groupId>
+    		<artifactId>CommonLib</artifactId>
+    		<version>0.0.1-SNAPSHOT</version>
+    	</dependency>
+    </dependencies>
 </project>

@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 
 import com.inncretech.cart.dto.CartDto;
 import com.inncretech.cart.dto.CartItemDto;
+import com.inncretech.cart.exception.CartNotFoundException;
 import com.inncretech.cart.service.CartService;
 import com.inncretech.common.exceptions.InvalidArgumentException;
 
@@ -38,10 +39,10 @@ public class CartServiceImpl implements CartService {
 	}
 
 	@Override
-	public CartDto addToCart(Long cartId, CartItemDto cartItemDto) throws InvalidArgumentException {
+	public CartDto addToCart(Long cartId, CartItemDto cartItemDto) throws InvalidArgumentException, CartNotFoundException {
 		vaidateCartId(cartId);
 		validateCartItemDTO(cartItemDto);
-		return null;
+		return cartServiceManager.addToCart(cartId, cartItemDto);
 	}
 
 	private void validateCartItemDTO(CartItemDto cartItemDto) throws InvalidArgumentException {
