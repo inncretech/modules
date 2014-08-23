@@ -13,6 +13,8 @@ public interface CartService {
 
 	CartDto getCartByUserId(Long userId) throws InvalidArgumentException;
 
+	CartDto getCartByCartId(Long cartId) throws InvalidArgumentException;
+
 	CartDto addToCart(String sessionId, Long userId, CartItemDto cartItemDto) throws InvalidArgumentException;
 
 	CartDto updateCart(String sessionId, Long userId, CartItemDto cartItemDto) throws InvalidArgumentException;

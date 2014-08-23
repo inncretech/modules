@@ -51,6 +51,11 @@ public class CartServiceManager {
 		return mapDbBeanToDTO(shoppingCart);
 	}
 
+	public CartDto getCartByCartId(Long cartId) {
+		ShoppingCart shoppingCart = shoppingCartRepository.findOne(cartId);
+		return mapDbBeanToDTO(shoppingCart);
+	}
+
 	public CartDto addToCart(String sessionId, Long userId, CartItemDto cartItemDto) {
 		return null;
 	}

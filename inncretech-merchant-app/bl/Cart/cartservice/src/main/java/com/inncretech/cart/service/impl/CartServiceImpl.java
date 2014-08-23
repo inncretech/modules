@@ -32,6 +32,12 @@ public class CartServiceImpl implements CartService {
 	}
 
 	@Override
+	public CartDto getCartByCartId(Long cartId) throws InvalidArgumentException {
+		vaidateCartId(cartId);
+		return cartServiceManager.getCartByCartId(cartId);
+	}
+
+	@Override
 	public CartDto addToCart(String sessionId, Long userId, CartItemDto cartItemDto) throws InvalidArgumentException {
 		validateSessionId(sessionId);
 		validateUserId(userId);
@@ -78,4 +84,9 @@ public class CartServiceImpl implements CartService {
 
 	}
 
+	private void vaidateCartId(Long cartId) throws InvalidArgumentException {
+		if (cartId == null || cartId < 0) {
+			throw new InvalidArgumentException("Cart Id is null or less than Zero");
+		}
+	}
 }
