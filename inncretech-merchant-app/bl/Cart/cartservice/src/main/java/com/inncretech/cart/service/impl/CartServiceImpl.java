@@ -39,7 +39,8 @@ public class CartServiceImpl implements CartService {
 	}
 
 	@Override
-	public CartDto addToCart(Long cartId, CartItemDto cartItemDto) throws InvalidArgumentException, CartNotFoundException {
+	public CartDto addToCart(Long cartId, CartItemDto cartItemDto) throws InvalidArgumentException,
+			CartNotFoundException {
 		vaidateCartId(cartId);
 		validateCartItemDTO(cartItemDto);
 		return cartServiceManager.addToCart(cartId, cartItemDto);
@@ -50,16 +51,17 @@ public class CartServiceImpl implements CartService {
 	}
 
 	@Override
-	public CartDto updateCart(Long cartId, CartItemDto cartItemDto) throws InvalidArgumentException {
+	public CartDto updateCart(Long cartId, CartItemDto cartItemDto) throws InvalidArgumentException,
+			CartNotFoundException {
 		vaidateCartId(cartId);
-		return null;
+		return cartServiceManager.updateCart(cartId, cartItemDto);
 	}
 
 	@Override
-	public CartDto delete(Long cartId, Long itemId) throws InvalidArgumentException {
+	public CartDto delete(Long cartId, Long itemId) throws InvalidArgumentException, CartNotFoundException {
 		vaidateCartId(cartId);
 		validateItemId(itemId);
-		return null;
+		return cartServiceManager.delete(cartId, itemId);
 	}
 
 	@Override

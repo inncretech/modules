@@ -3,10 +3,9 @@ package com.inncretech.cart.service.impl;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.transaction.Transactional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.inncretech.cart.db.beans.ShoppingCart;
 import com.inncretech.cart.db.beans.ShoppingCartItem;
@@ -21,7 +20,7 @@ public class CartServiceManager {
 
 	@Autowired
 	private ShoppingCartRepository shoppingCartRepository;
-	
+
 	@Autowired
 	private ShoppingCartItemsRepository shoppingCartItemsRepository;
 
@@ -91,15 +90,45 @@ public class CartServiceManager {
 
 	}
 
-	public CartDto updateCart(Long cartId, CartItemDto cartItemDto) {
+	public CartDto updateCart(Long cartId, CartItemDto cartItemDto) throws CartNotFoundException {
+		ShoppingCart shoppingCart = shoppingCartRepository.findOne(cartId);
+
+		if (shoppingCart != null) {
+			for (ShoppingCartItem shoppingCartItem : shoppingCart.getShoppingCartItems()) {
+				if (shoppingCartItem.getItemId().equals(cartItemDto.getItemId())) {
+					shoppingCartItem.setMrp(cartItemDto.getMrp());
+					shoppingCartItem.setSellingPrice(cartItemDto.getUnitPrice());
+					shoppingCartItem.setQuantity(cartItemDto.getQuantity());
+				}
+			}
+			shoppingCartRepository.save(shoppingCart);
+		} else {
+			throw new CartNotFoundException("Cart Not Found");
+		}
+		return mapDbBeanToDTO(shoppingCart);
+	}
+
+	public CartDto delete(Long cartId, Long itemId) throws CartNotFoundException {
+		deleteCartItem(cartId, itemId);
+		ShoppingCart shoppingCart = shoppingCartRepository.findOne(cartId);
+
+		return mapDbBeanToDTO(shoppingCart);
+	}
+
+	public CartDto mergeCarts(Long userId, String sessionId) {
+		ShoppingCart shoppingCartBySessionId = shoppingCartRepository.findShoppingCartBySessionId(sessionId);
+		ShoppingCart shoppingCartByUserId = shoppingCartRepository.findShoppingCartByUserId(userId);
 		return null;
 	}
 
-	public CartDto delete(Long cartId, Long itemId) {
-		return null;
+	@Transactional(value = "cartTransactionManager")
+	private void deleteCartItem(Long cartId, Long itemId) {
+		ShoppingCartItem shoppingCartItem = shoppingCartItemsRepository.findShoppingCartItemByCartIdAndItemId(cartId,
+				itemId);
+		shoppingCartItemsRepository.delete(shoppingCartItem.getItemId());
 	}
 
-	@Transactional
+	@Transactional(value = "cartTransactionManager")
 	private ShoppingCart createCartBySessionId(String sessionId) {
 		ShoppingCart shoppingCart;
 		shoppingCart = new ShoppingCart();
@@ -108,7 +137,7 @@ public class CartServiceManager {
 		return shoppingCart;
 	}
 
-	@Transactional
+	@Transactional(value = "cartTransactionManager")
 	private ShoppingCart createCartByUserId(Long userId) {
 		ShoppingCart shoppingCart;
 		shoppingCart = new ShoppingCart();
