@@ -3,6 +3,7 @@ package com.inncretech.cart.service.impl;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -140,17 +141,23 @@ public class CartServiceManager {
 					|| shoppingCartByUserId.getShoppingCartItems().isEmpty()) {
 				shoppingCartByUserId.setShoppingCartItems(new HashSet<ShoppingCartItem>());
 			}
+			Set<Long> itemIds = new HashSet<Long>();
+			for (ShoppingCartItem shoppingCartItem : shoppingCartByUserId.getShoppingCartItems()) {
+				itemIds.add(shoppingCartItem.getItemId());
+			}
 			for (ShoppingCartItem shoppingCartItem : shoppingCartBySessionId.getShoppingCartItems()) {
-				ShoppingCartItem shoppingCartItemtemp = new ShoppingCartItem();
-				shoppingCartItemtemp.setItemId(shoppingCartItem.getItemId());
-				shoppingCartItemtemp.setMrp(shoppingCartItem.getMrp());
-				shoppingCartItemtemp.setSellingPrice(shoppingCartItem.getSellingPrice());
-				shoppingCartItemtemp.setQuantity(shoppingCartItem.getQuantity());
-				shoppingCartItemtemp.setShoppingCart(shoppingCartByUserId);
-				shoppingCartByUserId.getShoppingCartItems().add(shoppingCartItemtemp);
+				if (!itemIds.contains(shoppingCartItem.getItemId())) {
+					ShoppingCartItem shoppingCartItemtemp = new ShoppingCartItem();
+					shoppingCartItemtemp.setItemId(shoppingCartItem.getItemId());
+					shoppingCartItemtemp.setMrp(shoppingCartItem.getMrp());
+					shoppingCartItemtemp.setSellingPrice(shoppingCartItem.getSellingPrice());
+					shoppingCartItemtemp.setQuantity(shoppingCartItem.getQuantity());
+					shoppingCartItemtemp.setShoppingCart(shoppingCartByUserId);
+					shoppingCartByUserId.getShoppingCartItems().add(shoppingCartItemtemp);
+				}
 			}
 
-			shoppingCartItemsRepository.deleteShoppingCartItemIds(shoppingCartBySessionId.getCartId());
+			// shoppingCartItemsRepository.deleteShoppingCartItemIds(shoppingCartBySessionId.getCartId());
 			shoppingCartRepository.delete(shoppingCartBySessionId.getCartId());
 
 			shoppingCartByUserId.setSessionId(sessionId);

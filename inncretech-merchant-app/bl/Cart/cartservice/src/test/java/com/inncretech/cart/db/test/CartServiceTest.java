@@ -24,7 +24,12 @@ public class CartServiceTest {
 
 	@Test
 	public void testGetCartByCartId() throws InvalidArgumentException {
-		System.out.println(cartService.getCartByCartId(2l).toString());
+		try {
+			System.out.println(cartService.getCartByCartId(2l).toString());
+		} catch (InvalidArgumentException exception) {
+			exception.printStackTrace();
+		}
+
 	}
 
 	@Test
@@ -47,7 +52,18 @@ public class CartServiceTest {
 		cartItemDto.setQuantity(10);
 		System.out.println(cartService.addToCart(cartId, cartItemDto).toString());
 	}
-	
+
+	@Test
+	public void testAddToCart2() throws InvalidArgumentException, CartNotFoundException {
+		Long cartId = 2l;
+		CartItemDto cartItemDto = new CartItemDto();
+		cartItemDto.setItemId(10l);
+		cartItemDto.setMrp(BigDecimal.ONE);
+		cartItemDto.setUnitPrice(BigDecimal.TEN);
+		cartItemDto.setQuantity(10);
+		System.out.println(cartService.addToCart(cartId, cartItemDto).toString());
+	}
+
 	@Test
 	public void testUpdateToCart() throws InvalidArgumentException, CartNotFoundException {
 		Long cartId = 2l;
@@ -58,7 +74,7 @@ public class CartServiceTest {
 		cartItemDto.setQuantity(100);
 		System.out.println(cartService.updateCart(cartId, cartItemDto).toString());
 	}
-	
+
 	@Test
 	public void testMergeCarts() throws InvalidArgumentException, CartNotFoundException {
 		System.out.println(cartService.mergeCarts(1l, "RAdha").toString());
