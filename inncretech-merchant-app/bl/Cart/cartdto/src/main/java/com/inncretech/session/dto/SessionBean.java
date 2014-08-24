@@ -36,4 +36,9 @@ public class SessionBean implements Serializable {
 		this.isActive = isActive;
 	}
 
+	@Override
+	public String toString() {
+		return "SessionBean [sessionId=" + sessionId + ", userId=" + userId + ", isActive=" + isActive + "]";
+	}
+
 }
