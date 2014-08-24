@@ -12,10 +12,10 @@ public interface ShoppingCartItemsRepository extends JpaRepository<ShoppingCartI
 
 	public ShoppingCartItem findShoppingCartItemByItemId(Long itemId);
 
-	public ShoppingCartItem findShoppingCartItemByCartIdAndItemId(Long cartId, Long itemId);
+	public ShoppingCartItem findShoppingCartItemByShoppingCartAndItemId(Long cartId, Long itemId);
 
 	@Modifying
-	@Query(nativeQuery = true, value = "delete from  where cart_id in =?1")
-	public void deleteCartIds(Long cartId);
+	@Query(nativeQuery = true, value = "delete from shopping_cart_item where cart_id =?1")
+	public void deleteShoppingCartItemIds(Long cartId);
 
 }

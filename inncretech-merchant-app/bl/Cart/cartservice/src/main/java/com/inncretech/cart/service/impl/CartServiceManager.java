@@ -25,6 +25,7 @@ public class CartServiceManager {
 	@Autowired
 	private ShoppingCartItemsRepository shoppingCartItemsRepository;
 
+	@Transactional(value = "cartTransactionManager")
 	public CartDto getCartBySessionId(String sessionId) {
 		ShoppingCart shoppingCart = shoppingCartRepository.findShoppingCartBySessionId(sessionId);
 		if (shoppingCart == null) {
@@ -56,6 +57,7 @@ public class CartServiceManager {
 		return cartDto;
 	}
 
+	@Transactional(value = "cartTransactionManager")
 	public CartDto getCartByUserId(Long userId) {
 		ShoppingCart shoppingCart = shoppingCartRepository.findShoppingCartByUserId(userId);
 		if (shoppingCart == null) {
@@ -64,11 +66,13 @@ public class CartServiceManager {
 		return mapDbBeanToDTO(shoppingCart);
 	}
 
+	@Transactional(value = "cartTransactionManager")
 	public CartDto getCartByCartId(Long cartId) {
 		ShoppingCart shoppingCart = shoppingCartRepository.findOne(cartId);
 		return mapDbBeanToDTO(shoppingCart);
 	}
 
+	@Transactional(value = "cartTransactionManager")
 	public CartDto addToCart(Long cartId, CartItemDto cartItemDto) throws CartNotFoundException {
 		ShoppingCart shoppingCart = shoppingCartRepository.findOne(cartId);
 		if (shoppingCart != null) {
@@ -87,10 +91,12 @@ public class CartServiceManager {
 		shoppingCartItem.setItemId(cartItemDto.getItemId());
 		shoppingCartItem.setMrp(cartItemDto.getMrp());
 		shoppingCartItem.setSellingPrice(cartItemDto.getUnitPrice());
+		shoppingCartItem.setQuantity(cartItemDto.getQuantity());
 		return shoppingCartItem;
 
 	}
 
+	@Transactional(value = "cartTransactionManager")
 	public CartDto updateCart(Long cartId, CartItemDto cartItemDto) throws CartNotFoundException {
 		ShoppingCart shoppingCart = shoppingCartRepository.findOne(cartId);
 
@@ -109,6 +115,7 @@ public class CartServiceManager {
 		return mapDbBeanToDTO(shoppingCart);
 	}
 
+	@Transactional(value = "cartTransactionManager")
 	public CartDto delete(Long cartId, Long itemId) throws CartNotFoundException {
 		deleteCartItem(cartId, itemId);
 		ShoppingCart shoppingCart = shoppingCartRepository.findOne(cartId);
@@ -116,6 +123,7 @@ public class CartServiceManager {
 		return mapDbBeanToDTO(shoppingCart);
 	}
 
+	@Transactional(value = "cartTransactionManager")
 	public CartDto mergeCarts(Long userId, String sessionId) {
 		ShoppingCart shoppingCartByUserId = shoppingCartRepository.findShoppingCartByUserId(userId);
 
@@ -138,10 +146,13 @@ public class CartServiceManager {
 				shoppingCartItemtemp.setMrp(shoppingCartItem.getMrp());
 				shoppingCartItemtemp.setSellingPrice(shoppingCartItem.getSellingPrice());
 				shoppingCartItemtemp.setQuantity(shoppingCartItem.getQuantity());
+				shoppingCartItemtemp.setShoppingCart(shoppingCartByUserId);
 				shoppingCartByUserId.getShoppingCartItems().add(shoppingCartItemtemp);
 			}
 
-			shoppingCartItemsRepository.deleteCartIds(shoppingCartBySessionId.getCartId());
+			shoppingCartItemsRepository.deleteShoppingCartItemIds(shoppingCartBySessionId.getCartId());
+			shoppingCartRepository.delete(shoppingCartBySessionId.getCartId());
+
 			shoppingCartByUserId.setSessionId(sessionId);
 			shoppingCartRepository.save(shoppingCartByUserId);
 		}
@@ -150,8 +161,8 @@ public class CartServiceManager {
 
 	@Transactional(value = "cartTransactionManager")
 	private void deleteCartItem(Long cartId, Long itemId) {
-		ShoppingCartItem shoppingCartItem = shoppingCartItemsRepository.findShoppingCartItemByCartIdAndItemId(cartId,
-				itemId);
+		ShoppingCartItem shoppingCartItem = shoppingCartItemsRepository.findShoppingCartItemByShoppingCartAndItemId(
+				cartId, itemId);
 		shoppingCartItemsRepository.delete(shoppingCartItem.getItemId());
 	}
 

@@ -43,4 +43,9 @@ public class CartDto implements Serializable {
 		this.cartId = cartId;
 	}
 
+	@Override
+	public String toString() {
+		return "CartDto [cartId=" + cartId + ", cartItems=" + cartItems + ", userId=" + userId + "]";
+	}
+
 }
