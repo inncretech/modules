@@ -1,0 +1,50 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:security="http://www.springframework.org/schema/security"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="
+	        http://www.springframework.org/schema/context 
+        http://www.springframework.org/schema/context/spring-context.xsd 
+	http://www.springframework.org/schema/beans     
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+http://www.springframework.org/schema/security
+http://www.springframework.org/schema/security/spring-security-3.2.xsd">
+
+	<import resource="classpath://identityService.xml" />
+
+	<bean id="userService"
+		class="com.inncretech.merchant.ui.controller.service.UserService" />
+
+	<security:http auto-config="true" disable-url-rewriting="true"
+		use-expressions="true">
+		<!-- <security:csrf request-matcher-ref="csrfMatcher" /> -->
+		<security:form-login login-page="/login"
+			authentication-failure-url="/login?errors=1" username-parameter="username"
+			password-parameter="password" />
+		<security:logout logout-url="/logout"
+			logout-success-url="/login" />
+		<!-- <security:remember-me services-ref="rememberMeServices" key="remember-me-key" 
+			/> -->
+		<security:intercept-url pattern="/" access="permitAll" />
+		<security:intercept-url pattern="/favicon.ico"
+			access="permitAll" />
+		<security:intercept-url pattern="/resources/**"
+			access="permitAll" />
+		<security:intercept-url pattern="/login"
+			access="permitAll" />
+		<!-- <security:intercept-url pattern="/login" access="permitAll" /> -->
+		<security:intercept-url pattern="/**"
+			access="isAuthenticated()" />
+	</security:http>
+
+	<security:authentication-manager
+		erase-credentials="true">
+		<security:authentication-provider
+			user-service-ref="userService">
+			<security:password-encoder hash="md5" />
+		</security:authentication-provider>
+	</security:authentication-manager>
+
+	<!-- <bean id="csrfMatcher" class="com.inncretech.merchant.security.AppRequestMatcher" /> -->
+	
+</beans>

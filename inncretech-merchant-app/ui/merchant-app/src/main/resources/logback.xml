@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+	<appender name="MerchantAppFileAppender"
+		class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<Append>true</Append>
+		<File>
+			${catalina.base}/var/output/logs/Merchant-App/merchantApp.log
+		</File>
+		<encoder>
+			<pattern>[%d{dd MMM yy HH:mm:ss}] %c %-5p %X{rid} - %m%n</pattern>
+		</encoder>
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<fileNamePattern>
+				${catalina.base}/var/output/logs/Merchant-App/merchantApp.log.%d{yyyy-MM-dd-HH}.gz
+			</fileNamePattern>
+			<maxHistory>480</maxHistory>
+		</rollingPolicy>
+	</appender>
+	<appender name="SQLFileAppender"
+		class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<Append>true</Append>
+		<File>
+			${catalina.base}/var/output/logs/Merchant-App/merchantApp_sql.log
+		</File>
+		<encoder>
+			<pattern>[%d{dd MMM yy HH:mm:ss}] %c %-5p %X{rid} - %m%n</pattern>
+		</encoder>
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<fileNamePattern>
+				${catalina.base}/var/output/logs/Merchant-App/merchantApp_sql.log.%d{yyyy-MM-dd-HH}.gz
+			</fileNamePattern>
+			<maxHistory>480</maxHistory>
+		</rollingPolicy>
+	</appender>
+
+	<root level="DEBUG">
+		<appender-ref ref="MerchantAppFileAppender" />
+	</root>
+
+	<logger name="com.inncretech.merchant" level="DEBUG" additivity="false">
+		<appender-ref ref="MerchantAppFileAppender" />
+	</logger>
+
+	<logger name="org.hibernate" level="DEBUG" additivity="false">
+		<appender-ref ref="MerchantAppFileAppender" />
+	</logger>
+	<logger name="org.springframework" level="DEBUG" additivity="false">
+		<appender-ref ref="MerchantAppFileAppender" />
+	</logger>
+
+	<logger name="org.apache.commons" level="DEBUG" additivity="false">
+		<appender-ref ref="MerchantAppFileAppender" />
+	</logger>
+
+	<logger name="java.sql" level="DEBUG" additivity="false">
+		<appender-ref ref="ActivitiFileAppender" />
+	</logger>
+
+</configuration>
