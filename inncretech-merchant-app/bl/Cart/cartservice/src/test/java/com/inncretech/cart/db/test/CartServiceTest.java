@@ -55,13 +55,17 @@ public class CartServiceTest {
 
 	@Test
 	public void testAddToCart2() throws InvalidArgumentException, CartNotFoundException {
-		Long cartId = 2l;
-		CartItemDto cartItemDto = new CartItemDto();
-		cartItemDto.setItemId(10l);
-		cartItemDto.setMrp(BigDecimal.ONE);
-		cartItemDto.setUnitPrice(BigDecimal.TEN);
-		cartItemDto.setQuantity(10);
-		System.out.println(cartService.addToCart(cartId, cartItemDto).toString());
+		try {
+			Long cartId = 2l;
+			CartItemDto cartItemDto = new CartItemDto();
+			cartItemDto.setItemId(10l);
+			cartItemDto.setMrp(BigDecimal.ONE);
+			// cartItemDto.setUnitPrice(BigDecimal.TEN);
+			cartItemDto.setQuantity(10);
+			System.out.println(cartService.addToCart(cartId, cartItemDto).toString());
+		} catch (InvalidArgumentException exception) {
+			System.out.println(exception.getErrorCodes());
+		}
 	}
 
 	@Test

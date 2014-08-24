@@ -1,6 +1,10 @@
 package com.inncretech.cart.service.impl;
 
-import org.apache.commons.lang3.StringUtils;
+import static com.inncretech.cart.service.validator.CartValidator.vaidateCartId;
+import static com.inncretech.cart.service.validator.CartValidator.validateItemId;
+import static com.inncretech.cart.service.validator.CartValidator.validateSessionId;
+import static com.inncretech.cart.service.validator.CartValidator.validateUserId;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -8,6 +12,7 @@ import com.inncretech.cart.dto.CartDto;
 import com.inncretech.cart.dto.CartItemDto;
 import com.inncretech.cart.exception.CartNotFoundException;
 import com.inncretech.cart.service.CartService;
+import com.inncretech.cart.service.validator.CartValidator;
 import com.inncretech.common.exceptions.InvalidArgumentException;
 
 /**
@@ -19,6 +24,9 @@ public class CartServiceImpl implements CartService {
 
 	@Autowired
 	private CartServiceManager cartServiceManager;
+
+	@Autowired
+	private CartValidator cartValidator;
 
 	@Override
 	public CartDto getCartBySessionId(String sessionId) throws InvalidArgumentException {
@@ -42,18 +50,15 @@ public class CartServiceImpl implements CartService {
 	public CartDto addToCart(Long cartId, CartItemDto cartItemDto) throws InvalidArgumentException,
 			CartNotFoundException {
 		vaidateCartId(cartId);
-		validateCartItemDTO(cartItemDto);
+		cartValidator.validateCartItemDTO(cartItemDto);
 		return cartServiceManager.addToCart(cartId, cartItemDto);
-	}
-
-	private void validateCartItemDTO(CartItemDto cartItemDto) throws InvalidArgumentException {
-
 	}
 
 	@Override
 	public CartDto updateCart(Long cartId, CartItemDto cartItemDto) throws InvalidArgumentException,
 			CartNotFoundException {
 		vaidateCartId(cartId);
+		cartValidator.validateCartItemDTO(cartItemDto);
 		return cartServiceManager.updateCart(cartId, cartItemDto);
 	}
 
@@ -69,32 +74,6 @@ public class CartServiceImpl implements CartService {
 		validateSessionId(sessionId);
 		validateUserId(userId);
 		return cartServiceManager.mergeCarts(userId, sessionId);
-	}
-
-	private void validateItemId(Long itemId) throws InvalidArgumentException {
-		if (itemId == null || itemId < 0) {
-			throw new InvalidArgumentException("Item Id is null or less than Zero");
-		}
-	}
-
-	private void validateSessionId(String sessionId) throws InvalidArgumentException {
-		if (StringUtils.isBlank(sessionId)) {
-			throw new InvalidArgumentException("Session Id is null or Empty");
-		}
-
-	}
-
-	private void validateUserId(Long userId) throws InvalidArgumentException {
-		if (userId == null || userId < 0) {
-			throw new InvalidArgumentException("UserId is null or less than Zero");
-		}
-
-	}
-
-	private void vaidateCartId(Long cartId) throws InvalidArgumentException {
-		if (cartId == null || cartId < 0) {
-			throw new InvalidArgumentException("Cart Id is null or less than Zero");
-		}
 	}
 
 }
