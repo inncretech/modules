@@ -1,28 +1,51 @@
 package com.inncretech.cart.dto;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
  * Created by avinash on 13/8/14.
  */
-public class CartDto {
-  private List<CartItemDto> cartItems;
+public class CartDto implements Serializable {
 
-  private String userId;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 
-  public List<CartItemDto> getCartItems() {
-    return cartItems;
-  }
+	private Long cartId;
 
-  public void setCartItems(List<CartItemDto> cartItems) {
-    this.cartItems = cartItems;
-  }
+	private List<CartItemDto> cartItems;
 
-  public String getUserId() {
-    return userId;
-  }
+	private Long userId;
 
-  public void setUserId(String userId) {
-    this.userId = userId;
-  }
+	public List<CartItemDto> getCartItems() {
+		return cartItems;
+	}
+
+	public void setCartItems(List<CartItemDto> cartItems) {
+		this.cartItems = cartItems;
+	}
+
+	public Long getUserId() {
+		return userId;
+	}
+
+	public void setUserId(Long userId) {
+		this.userId = userId;
+	}
+
+	public Long getCartId() {
+		return cartId;
+	}
+
+	public void setCartId(Long cartId) {
+		this.cartId = cartId;
+	}
+
+	@Override
+	public String toString() {
+		return "CartDto [cartId=" + cartId + ", cartItems=" + cartItems + ", userId=" + userId + "]";
+	}
+
 }

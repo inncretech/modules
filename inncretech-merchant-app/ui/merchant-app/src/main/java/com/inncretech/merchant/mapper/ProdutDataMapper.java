@@ -11,14 +11,13 @@ import javax.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import antlr.StringUtils;
-
 import com.inncretech.catalogue.constants.Status;
 import com.inncretech.catalogue.dto.ImageDTO;
 import com.inncretech.catalogue.dto.ItemDTO;
 import com.inncretech.catalogue.dto.ProductDTO;
 import com.inncretech.merchant.services.proxy.CategoryServiceProxy;
 import com.inncretech.merchant.ui.bean.CategoryBean;
+import com.inncretech.merchant.ui.bean.ImageBean;
 import com.inncretech.merchant.ui.bean.ItemBean;
 import com.inncretech.merchant.ui.bean.OriginCountry;
 import com.inncretech.merchant.ui.bean.ProductBean;
@@ -72,17 +71,23 @@ public class ProdutDataMapper {
 				itemDTO.setRetailPrice(itemBean.getPriceBean().getSellingPrice());
 				itemDTO.setSku(itemBean.getSku());
 				itemDTO.setQuantity(itemBean.getStock().getQuantity());
-				itemDTO.setIsActive(itemBean.getIsActive()!=null?itemBean.getIsActive():true);
+				itemDTO.setIsActive(itemBean.getIsActive() != null ? itemBean.getIsActive() : true);
 				itemDTOs.add(itemDTO);
 			}
+			productDTO.setItemDTOs(itemDTOs);
 		}
 		List<ImageDTO> imageDTOs = new ArrayList<ImageDTO>();
-		ImageDTO imageDTO = new ImageDTO();
-		imageDTO.setImageUrl("test_url");
-		imageDTO.setIsDefault(true);
-		imageDTOs.add(imageDTO);
-		productDTO.setImageDTOs(imageDTOs);
-		productDTO.setItemDTOs(itemDTOs);
+
+		if (productBean.getImages() != null && !productBean.getImages().isEmpty()) {
+			for (ImageBean imageBean : productBean.getImages()) {
+				ImageDTO imageDTO = new ImageDTO();
+				imageDTO.setImageUrl(imageBean.getImageUrl());
+				imageDTO.setIsDefault(true);
+				imageDTOs.add(imageDTO);
+			}
+			productDTO.setImageDTOs(imageDTOs);
+		}
+
 		productDTO.setMerchantId(1l);
 
 		return productDTO;
@@ -133,12 +138,23 @@ public class ProdutDataMapper {
 				itemBean.getPriceBean().setSellingPrice(itemDTO.getRetailPrice());
 				itemBean.setSku(itemDTO.getSku());
 				itemBean.getStock().setQuantity(itemDTO.getQuantity());
-				itemBean.setIsActive(itemDTO.getIsActive()); 
+				itemBean.setIsActive(itemDTO.getIsActive());
 				items.add(itemBean);
 			}
 			productBean.setItems(items);
-		} 
+		}
 		productBean.setMerchantId(productDTO.getMerchantId());
+
+		List<ImageBean> imageBeans = new ArrayList<ImageBean>();
+
+		if (productDTO.getImageDTOs() != null && !productDTO.getImageDTOs().isEmpty()) {
+			for (ImageDTO imageDTO : productDTO.getImageDTOs()) {
+				ImageBean imageBean = new ImageBean();
+				imageBean.setImageUrl(imageDTO.getImageUrl());
+				imageBeans.add(imageBean);
+			}
+			productBean.setImages(imageBeans);
+		}
 
 		return productBean;
 	}

@@ -77,7 +77,8 @@ public class ProductController {
 
 	@RequestMapping(value = UrlConstants.ADD_PRODUCT_PAGE, method = { RequestMethod.GET })
 	public String addProduct(Model model) {
-		model.addAttribute("productBean", new ProductBean());
+		ProductBean productBean = new ProductBean();
+		model.addAttribute("productBean", productBean);
 		populateDropDownBean(model);
 		return null;
 	}
