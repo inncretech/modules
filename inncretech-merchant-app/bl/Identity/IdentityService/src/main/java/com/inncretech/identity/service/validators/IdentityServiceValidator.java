@@ -45,6 +45,12 @@ public class IdentityServiceValidator {
 		}
 	}
 
+	public void doValidateEmailId(String emailId) throws InvalidArgumentException {
+		if (emailId == null || emailId.trim().equals("")) {
+			throwInvalidArgumentException(ErrorCodes.INVALID_EMAIL_ID.toString());
+		}
+	}
+
 	public void doValidateUserName(String userName) throws InvalidArgumentException {
 		if (userName == null || userName.trim().equals("")) {
 			throwInvalidArgumentException(ErrorCodes.INVALID_USER_NAME.toString());

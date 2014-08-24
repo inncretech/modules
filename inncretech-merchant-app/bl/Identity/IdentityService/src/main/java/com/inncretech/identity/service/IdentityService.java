@@ -12,4 +12,7 @@ public interface IdentityService {
 
 	public UserDTO getUserByUserName(String userName) throws InvalidArgumentException, UnknownUserException,
 			InternalServiceException;
+	
+	public UserDTO getUserByEmail(String emailId) throws InvalidArgumentException, UnknownUserException,
+	InternalServiceException;
 }

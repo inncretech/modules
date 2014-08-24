@@ -20,7 +20,6 @@
 	<br />
 </div>
 
-
 <c:choose>
 	<c:when test="${errors ne null}">
 		<div class="alert alert-error" id="errorMessage">

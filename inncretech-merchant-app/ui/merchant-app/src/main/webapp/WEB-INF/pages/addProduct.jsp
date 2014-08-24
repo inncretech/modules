@@ -7,7 +7,7 @@
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring"%>
 <%@ taglib prefix="f" uri="http://www.inncretech.com/functions"%>
 <html lang="en" ng-app="productApp">
-<jsp:include page="header.jsp" />
+<jsp:include page="htmlHeader.jsp" />
 <script type="text/javascript" src="<c:url value="/resources/js/controller.js?<%=new Date()%>"/>"></script>
 <script type="text/javascript" src="<c:url value="/resources/js/service.js?<%=new Date()%>"/>"></script>
 <script type="text/javascript">
@@ -16,6 +16,7 @@ var countryMap =${f:convertToJson(dropDownBean.countryMap)};
 </script>
 <body ng-controller="ProductController">
      <div class="container">
+          <jsp:include page="header.jsp" />
           <jsp:include page="topNav.jsp" />
           <form:form commandName="productBean" cssClass="form-horizontal">
                <%@include file="messages.jsp"%>

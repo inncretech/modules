@@ -225,3 +225,7 @@ textarea {
     cursor: pointer;
     z-index: 1000;
 }
+
+.merchant_logo {
+	width: 130px;
+}

@@ -41,7 +41,7 @@ public class IdentityServiceImplTest {
 	public void testGetUserByUserName() {
 		UserDTO userDTO = null;
 		try {
-			userDTO = identityService.getUserByUserName("test");
+			userDTO = identityService.getUserByUserName("test@gmail.com");
 		} catch (InvalidArgumentException e) {
 			Assert.fail(e.getMessage());
 		} catch (UnknownUserException e) {

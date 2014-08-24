@@ -1,8 +1,7 @@
-<div class="toprow xtra-mar_btm clearfix">
+<!-- <div class="toprow xtra-mar_btm clearfix">
 	<p class="tastetablet_logo float_left"></p>
 	<p class="right_links float_right"></p>
-
-</div>
+</div> -->
 <div class="navbar">
 	<div class="navbar-inner">
 

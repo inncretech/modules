@@ -1,7 +1,7 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:context="http://www.springframework.org/schema/context" xmlns:p="http://www.springframework.org/schema/p"
 	xmlns:util="http://www.springframework.org/schema/util" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:security="http://www.springframework.org/schema/security"
 	xsi:schemaLocation="
         http://www.springframework.org/schema/beans     
         http://www.springframework.org/schema/beans/spring-beans.xsd
@@ -10,7 +10,10 @@
         http://www.springframework.org/schema/context 
         http://www.springframework.org/schema/context/spring-context.xsd 
         http://www.springframework.org/schema/util
-        http://www.springframework.org/schema/util/spring-util.xsd">
+        http://www.springframework.org/schema/util/spring-util.xsd
+        http://www.springframework.org/schema/security
+http://www.springframework.org/schema/security/spring-security-3.2.xsd">
+
 	<bean id="objectMapper"
 		class="org.springframework.http.converter.json.Jackson2ObjectMapperFactoryBean"
 		p:indentOutput="true" p:simpleDateFormat="yyyy-MM-dd'T'HH:mm:ss.SSSZ">
@@ -40,7 +43,7 @@
 	<context:component-scan base-package="com.inncretech.merchant.ui.controller" />
 	<context:component-scan base-package="com.inncretech.merchant.mapper" />
 	<context:component-scan base-package="com.inncretech.merchant.services.proxy" />
-	
+
 	<import resource="classpath:service.xml" />
 	<import resource="classpath:application-profiles.xml" />
 
@@ -67,6 +70,4 @@
 			<value>.jsp</value>
 		</property>
 	</bean>
-
-
 </beans>
