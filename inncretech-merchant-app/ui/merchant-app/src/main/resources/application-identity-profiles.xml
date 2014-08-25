@@ -13,7 +13,7 @@
 			<property name="systemPropertiesModeName" value="SYSTEM_PROPERTIES_MODE_OVERRIDE" />
 			<property name="locations">
 				<list>
-					<value>classpath:local-db.properties</value>
+					<value>classpath:dev-access-db.properties</value>
 				</list>
 			</property>
 			<property name="ignoreUnresolvablePlaceholders" value="true" />
@@ -26,7 +26,7 @@
 			<property name="systemPropertiesModeName" value="SYSTEM_PROPERTIES_MODE_OVERRIDE" />
 			<property name="locations">
 				<list>
-					<value>classpath:properties/dev-db.properties</value>
+					<value>classpath:properties/dev-access-db.properties</value>
 				</list>
 			</property>
 			<property name="ignoreUnresolvablePlaceholders" value="true" />
