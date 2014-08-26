@@ -12,7 +12,18 @@ public interface IdentityService {
 
 	public UserDTO getUserByUserName(String userName) throws InvalidArgumentException, UnknownUserException,
 			InternalServiceException;
-	
+
 	public UserDTO getUserByEmail(String emailId) throws InvalidArgumentException, UnknownUserException,
-	InternalServiceException;
+			InternalServiceException;
+
+	public UserDTO addUser(UserDTO userDTO) throws InvalidArgumentException, InternalServiceException;
+
+	public UserDTO editUser(UserDTO userDTO) throws InvalidArgumentException, UnknownUserException,
+			InternalServiceException;
+
+	public void markInActiveUser(Long userId) throws InvalidArgumentException, UnknownUserException,
+			InternalServiceException;
+
+	public void markActiveUser(Long userId) throws InvalidArgumentException, UnknownUserException,
+			InternalServiceException;
 }

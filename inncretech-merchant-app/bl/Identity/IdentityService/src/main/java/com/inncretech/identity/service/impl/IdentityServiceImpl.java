@@ -36,17 +36,7 @@ public class IdentityServiceImpl implements IdentityService {
 	@Override
 	public UserDTO getUserByUserId(Long userId) throws InvalidArgumentException, UnknownUserException,
 			InternalServiceException {
-		validator.doValidateUserId(userId);
-		User user = null;
-		try {
-			user = userRepository.findOne(userId);
-		} catch (EntityNotFoundException exception) {
-			logger.error("Entity not found for userId : " + userId);
-			throw new UnknownUserException();
-		} catch (Exception exception) {
-			logger.error("Exception occured while retriving user by userId : " + userId, exception);
-			throw new InternalServiceException();
-		}
+		User user = getUser(userId);
 		return mapper.createUserDTOFromUser(user);
 	}
 
@@ -78,7 +68,7 @@ public class IdentityServiceImpl implements IdentityService {
 		try {
 			user = userRepository.findByEmail(emailId);
 		} catch (Exception exception) {
-			logger.error("Exception occured while retriving user by emailId : " + emailId,exception);
+			logger.error("Exception occured while retriving user by emailId : " + emailId, exception);
 			throw new InternalServiceException();
 		}
 		if (user == null) {
@@ -86,5 +76,52 @@ public class IdentityServiceImpl implements IdentityService {
 			throw new UnknownUserException();
 		}
 		return mapper.createUserDTOFromUser(user);
+	}
+
+	@Transactional
+	@Override
+	public UserDTO addUser(UserDTO userDTO) throws InvalidArgumentException, InternalServiceException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Transactional
+	@Override
+	public UserDTO editUser(UserDTO userDTO) throws InvalidArgumentException, UnknownUserException,
+			InternalServiceException {
+		return null;
+	}
+
+	@Transactional
+	@Override
+	public void markInActiveUser(Long userId) throws InvalidArgumentException, UnknownUserException,
+			InternalServiceException {
+		setUserStatus(userId, false);
+	}
+
+	@Transactional
+	@Override
+	public void markActiveUser(Long userId) throws InvalidArgumentException, UnknownUserException,
+			InternalServiceException {
+		setUserStatus(userId, true);
+	}
+
+	void setUserStatus(Long userId, boolean status) throws InvalidArgumentException, UnknownUserException,
+			InternalServiceException {
+		User user = getUser(userId);
+		user.setIsActive(status);
+	}
+
+	User getUser(Long userId) throws InvalidArgumentException, UnknownUserException, InternalServiceException {
+		validator.doValidateUserId(userId);
+		try {
+			return userRepository.findOne(userId);
+		} catch (EntityNotFoundException exception) {
+			logger.error("Entity not found for userId : " + userId);
+			throw new UnknownUserException();
+		} catch (Exception exception) {
+			logger.error("Exception occured while retriving user by userId : " + userId, exception);
+			throw new InternalServiceException();
+		}
 	}
 }

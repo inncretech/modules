@@ -14,6 +14,8 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.Type;
+
 @Entity
 @Table(name = "users")
 public class User implements Serializable {
@@ -43,6 +45,7 @@ public class User implements Serializable {
 	@Column(name = "lastname")
 	private String lastName;
 
+	@Type(type = "org.hibernate.type.NumericBooleanType")
 	@Column(name = "is_active")
 	private Boolean isActive;
 
