@@ -33,6 +33,8 @@ public class UserDTO implements Serializable {
 	@NotNull(message = "last name is compulsory")
 	private String lastName;
 
+	private Boolean isActive;
+
 	@Valid
 	private List<RoleDTO> roles;
 
@@ -82,6 +84,14 @@ public class UserDTO implements Serializable {
 
 	public void setLastName(String lastName) {
 		this.lastName = lastName;
+	}
+
+	public Boolean getIsActive() {
+		return isActive;
+	}
+
+	public void setIsActive(Boolean isActive) {
+		this.isActive = isActive;
 	}
 
 	public List<RoleDTO> getRoles() {
