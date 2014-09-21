@@ -40,16 +40,11 @@ public class IdentityServiceImpl implements IdentityService {
 	@Override
 	public UserDTO getUserByUserId(Long userId) throws InvalidArgumentException, UnknownUserException,
 			InternalServiceException {
-<<<<<<< HEAD
 		validator.doValidateUserId(userId);
 		User user = getUser(userId);
 		UserDTO userDTO = new UserDTO();
 		mapper.mapUserDTOFromUser(user, userDTO);
 		return userDTO;
-=======
-		User user = getUser(userId);
-		return mapper.createUserDTOFromUser(user);
->>>>>>> 297f5dd21af9856f81e7061b8324a0426581ba08
 	}
 
 	@Transactional
@@ -118,19 +113,6 @@ public class IdentityServiceImpl implements IdentityService {
 		setUserStatus(userId, false);
 	}
 
-	@Transactional
-	@Override
-	public void markActiveUser(Long userId) throws InvalidArgumentException, UnknownUserException,
-			InternalServiceException {
-		setUserStatus(userId, true);
-	}
-
-	void setUserStatus(Long userId, boolean status) throws InvalidArgumentException, UnknownUserException,
-			InternalServiceException {
-		User user = getUser(userId);
-		user.setIsActive(status);
-	}
-
 	void checkRoleAvailability(List<RoleDTO> rolesRoleDTOs) throws RoleNotFoundException {
 		if (rolesRoleDTOs != null && !rolesRoleDTOs.isEmpty()) {
 
@@ -165,7 +147,6 @@ public class IdentityServiceImpl implements IdentityService {
 			user = userRepository.findByEmail(emailId);
 		} catch (Exception exception) {
 			logger.error("Exception occured while retriving user by emailId : " + emailId, exception);
-<<<<<<< HEAD
 			throw new InternalServiceException();
 		}
 		throwUserNotFoundExceptionForNullUser(user);
@@ -178,8 +159,6 @@ public class IdentityServiceImpl implements IdentityService {
 			user = userRepository.findByUserName(userName);
 		} catch (Exception exception) {
 			logger.error("Exception occured while retriving user by userName : " + userName, exception);
-=======
->>>>>>> 297f5dd21af9856f81e7061b8324a0426581ba08
 			throw new InternalServiceException();
 		}
 		throwUserNotFoundExceptionForNullUser(user);
@@ -206,27 +185,6 @@ public class IdentityServiceImpl implements IdentityService {
 
 	@Transactional
 	@Override
-	public UserDTO addUser(UserDTO userDTO) throws InvalidArgumentException, InternalServiceException {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Transactional
-	@Override
-	public UserDTO editUser(UserDTO userDTO) throws InvalidArgumentException, UnknownUserException,
-			InternalServiceException {
-		return null;
-	}
-
-	@Transactional
-	@Override
-	public void markInActiveUser(Long userId) throws InvalidArgumentException, UnknownUserException,
-			InternalServiceException {
-		setUserStatus(userId, false);
-	}
-
-	@Transactional
-	@Override
 	public void markActiveUser(Long userId) throws InvalidArgumentException, UnknownUserException,
 			InternalServiceException {
 		setUserStatus(userId, true);
@@ -238,16 +196,4 @@ public class IdentityServiceImpl implements IdentityService {
 		user.setIsActive(status);
 	}
 
-	User getUser(Long userId) throws InvalidArgumentException, UnknownUserException, InternalServiceException {
-		validator.doValidateUserId(userId);
-		try {
-			return userRepository.findOne(userId);
-		} catch (EntityNotFoundException exception) {
-			logger.error("Entity not found for userId : " + userId);
-			throw new UnknownUserException();
-		} catch (Exception exception) {
-			logger.error("Exception occured while retriving user by userId : " + userId, exception);
-			throw new InternalServiceException();
-		}
-	}
 }
