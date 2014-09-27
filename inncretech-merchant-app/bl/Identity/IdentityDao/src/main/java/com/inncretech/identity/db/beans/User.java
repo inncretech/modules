@@ -5,6 +5,8 @@ import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -52,6 +54,9 @@ public class User implements Serializable {
 	@ManyToMany(targetEntity = Role.class, fetch = FetchType.EAGER)
 	@JoinTable(name = "user_roles", joinColumns = { @JoinColumn(name = "username", referencedColumnName = "username") }, inverseJoinColumns = { @JoinColumn(name = "role_name", referencedColumnName = "rolename") })
 	List<Role> roles;
+
+	@Enumerated(EnumType.STRING)
+	private UserIdentifier userIdentifier;
 
 	public Long getUserId() {
 		return userId;
@@ -142,9 +147,12 @@ public class User implements Serializable {
 		return true;
 	}
 
-	@Override
-	public String toString() {
-		return "User [userId=" + userId + ", userName=" + userName + ", password=" + password + ", email=" + email
-				+ ", firstName=" + firstName + ", lastName=" + lastName + ", isActive=" + isActive + "]";
+	public UserIdentifier getUserIdentifier() {
+		return userIdentifier;
 	}
+
+	public void setUserIdentifier(UserIdentifier userIdentifier) {
+		this.userIdentifier = userIdentifier;
+	}
+
 }

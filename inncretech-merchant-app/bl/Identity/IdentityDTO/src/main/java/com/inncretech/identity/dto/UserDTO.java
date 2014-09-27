@@ -38,6 +38,8 @@ public class UserDTO implements Serializable {
 	@Valid
 	private List<RoleDTO> roles;
 
+	private UserIdentifier userIdentifier;
+
 	public Long getUserId() {
 		return userId;
 	}
@@ -102,10 +104,19 @@ public class UserDTO implements Serializable {
 		this.roles = roles;
 	}
 
+	public UserIdentifier getUserIdentifier() {
+		return userIdentifier;
+	}
+
+	public void setUserIdentifier(UserIdentifier userIdentifier) {
+		this.userIdentifier = userIdentifier;
+	}
+
 	@Override
 	public String toString() {
-		return "UserDTO [userId=" + userId + ", userName=" + userName + ", password=" + password + ", roles=" + roles
-				+ "]";
+		return "UserDTO [userId=" + userId + ", userName=" + userName + ", password=" + password + ", email=" + email
+				+ ", firstName=" + firstName + ", lastName=" + lastName + ", isActive=" + isActive + ", roles=" + roles
+				+ ", userIdentifier=" + userIdentifier + "]";
 	}
 
 }
