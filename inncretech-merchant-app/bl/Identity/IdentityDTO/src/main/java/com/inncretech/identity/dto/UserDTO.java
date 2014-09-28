@@ -27,10 +27,8 @@ public class UserDTO implements Serializable {
 	@Email
 	private String email;
 
-	@NotNull(message = "first name is compulsory")
 	private String firstName;
 
-	@NotNull(message = "last name is compulsory")
 	private String lastName;
 
 	private Boolean isActive;

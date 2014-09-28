@@ -56,6 +56,7 @@ public class User implements Serializable {
 	List<Role> roles;
 
 	@Enumerated(EnumType.STRING)
+	@Column(name = "user_identifier")
 	private UserIdentifier userIdentifier;
 
 	public Long getUserId() {
