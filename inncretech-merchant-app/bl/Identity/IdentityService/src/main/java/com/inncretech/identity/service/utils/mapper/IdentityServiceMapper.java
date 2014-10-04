@@ -7,7 +7,6 @@ import org.springframework.stereotype.Component;
 
 import com.inncretech.identity.db.beans.Role;
 import com.inncretech.identity.db.beans.User;
-import com.inncretech.identity.db.beans.UserIdentifier;
 import com.inncretech.identity.dto.RoleDTO;
 import com.inncretech.identity.dto.UserDTO;
 
@@ -30,7 +29,6 @@ public class IdentityServiceMapper {
 		user.setPassword(userDTO.getPassword());
 		user.setUserName(userDTO.getUserName());
 		user.setIsActive(userDTO.getIsActive());
-		user.setUserIdentifier(UserIdentifier.valueOf(userDTO.getUserIdentifier().name()));
 
 		if (userDTO.getRoles() != null && !userDTO.getRoles().isEmpty()) {
 			List<Role> roles = new ArrayList<Role>(userDTO.getRoles().size());
@@ -54,8 +52,6 @@ public class IdentityServiceMapper {
 		userDTO.setLastName(user.getLastName());
 		userDTO.setPassword(user.getPassword());
 		userDTO.setUserName(user.getUserName());
-
-		userDTO.setUserIdentifier(com.inncretech.identity.dto.UserIdentifier.valueOf(user.getUserIdentifier().name()));
 
 		if (user.getRoles() != null && !user.getRoles().isEmpty()) {
 			List<RoleDTO> roleDTOs = new ArrayList<RoleDTO>(user.getRoles().size());
