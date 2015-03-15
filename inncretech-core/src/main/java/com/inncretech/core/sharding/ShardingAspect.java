@@ -40,7 +40,6 @@ public class ShardingAspect extends TransactionAspectSupport {
       commitTransactionAfterReturning(TransactionAspectSupport.currentTransactionInfo());
       return result;
     } catch (Throwable ex) {
-      ex.printStackTrace();
       completeTransactionAfterThrowing(TransactionAspectSupport.currentTransactionInfo(), ex);
       throw ex;
     } finally {
