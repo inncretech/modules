@@ -44,7 +44,7 @@ public class HibernateSessionFactoryManager {
   @Value("${hibernate.hbm2ddl.auto:update}")
   private String hbm2ddlAuto;
 
-  @Value("${hibernate.show_sql:true}")
+  @Value("${hibernate.show_sql:false}")
   private String hibernateShowSql;
 
   @Value("${hibernate.idleConnectionPeriod:7200}")
